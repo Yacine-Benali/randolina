@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "442895412529",
+    "project_id": "randolina-10bf4",
+    "storage_bucket": "randolina-10bf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442895412529:android:fd0d0cb21519c19d919410",
+        "android_client_info": {
+          "package_name": "com.merine.randolina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442895412529-icici9httmistlp14nn1qr1b2suu4brg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7WOqmYOk7n_uWkymtonD08EmN0HgkfQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442895412529-icici9httmistlp14nn1qr1b2suu4brg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
