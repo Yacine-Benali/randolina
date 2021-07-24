@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_bloc.dart';
 import 'package:randolina/app/auth/sign_in/widgets/sign_in_button.dart';
+import 'package:randolina/app/auth/sign_up/sign_up_screen_1.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/validator.dart';
@@ -161,7 +162,17 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) {
+                          return SignUpScreen1();
+                        },
+                      ),
+                    );
+                  },
                   child: Text(
                     'Creat an account Now',
                     style: TextStyle(
