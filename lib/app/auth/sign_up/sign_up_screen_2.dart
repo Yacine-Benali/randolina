@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
+import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
+import 'package:randolina/common_widgets/wilaya_picker.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 
@@ -15,13 +17,13 @@ class SignUpScreen2 extends StatefulWidget {
 class _SignUpScreen2State extends State<SignUpScreen2> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
           child: Column(
         children: [
-          Text('Login'),
+          Text('Login information'),
           Row(children: <Widget>[
             Expanded(
               child: Divider(),
@@ -36,14 +38,76 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
             padding: EdgeInsets.all(16.0),
             child: Form(
                 child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextForm(
-                  title: 'full name',
-                  hintText: 'hintText',
+                  title: 'Full name:',
+                  hintText: 'Name...',
                   maxLength: 5,
                   onChanged: (var t) {},
-                  isEnabled: true,
-                  initialValue: null,
+                  validator: (String? value) {
+                    if (value != null) {
+                      if (value.length > 3) return 'fuck u';
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextForm(
+                  title: 'User Name:',
+                  hintText: 'User Name...',
+                  maxLength: 5,
+                  onChanged: (var t) {},
+                  validator: (String? value) {
+                    if (value != null) {
+                      if (value.length > 3) return 'fuck u';
+                    }
+                    return null;
+                  },
+                ),
+                WilayaPicker(),
+                CustomTextForm(
+                  title: 'Password:',
+                  hintText: 'Password...',
+                  maxLength: 5,
+                  isPassword: true,
+                  onChanged: (var t) {},
+                  validator: (String? value) {
+                    if (value != null) {
+                      if (value.length > 3) return 'fuck u';
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextForm(
+                  title: 'Phone number:',
+                  maxLength: 5,
+                  onChanged: (var t) {},
+                  prefix: Padding(
+                    //padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                    padding: const EdgeInsets.all(0),
+                    child: IntrinsicHeight(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              '+213',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 57,
+                            child: VerticalDivider(
+                              thickness: 1,
+                              width: 20,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   validator: (String? value) {
                     if (value != null) {
                       if (value.length > 3) return 'fuck u';

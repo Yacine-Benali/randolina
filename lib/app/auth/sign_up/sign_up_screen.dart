@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_role_form.dart';
+import 'package:randolina/app/auth/sign_up/role_form/sign_up_role_form.dart';
+import 'package:randolina/app/auth/sign_up/sign_up_screen_2.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
+import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/constants/strings.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -11,48 +14,25 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final PageController _pageController = PageController();
-  late Map<String, dynamic> userInfo;
-
-  @override
-  void initState() {
-    userInfo = {};
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // _pageController.dispose();
-    super.dispose();
-  }
-
+  Role? selectedRole;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        children: <Widget>[
-          SignUpRoleForm(
-            onChanged: (Map<String, dynamic> value) {
-              print(value);
-            },
-            onNextPressed: () {
-              if (_pageController.hasClients) {
-                _pageController.animateToPage(
-                  1,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeInOut,
-                );
-              }
-            },
-          ),
-          Container(
-            color: Colors.pink,
-          )
-        ],
+      body: SignUpRoleForm(
+        onChanged: (Role? value) {
+          selectedRole = value;
+        },
+        onNextPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => SignUpScreen2(
+                role: selectedRole!,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

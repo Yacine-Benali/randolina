@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/services/auth.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Auth auth = Provider.of<Auth>(context, listen: false);
-
+    SizeConfig.init(context);
     return StreamBuilder<AuthUser?>(
       stream: auth.onAuthStateChanged,
       builder: (context, authSnapshot) {

@@ -10,10 +10,11 @@ class CustomElevatedButton extends StatelessWidget {
     required this.minWidth,
   }) : super(key: key);
 
-  final String buttonText;
-  final VoidCallback onPressed;
+  final Widget buttonText;
+  final VoidCallback? onPressed;
   final double minHeight;
   final double minWidth;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +43,7 @@ class CustomElevatedButton extends StatelessWidget {
           minimumSize: MaterialStateProperty.all(Size(minWidth, minHeight)),
           shadowColor: MaterialStateProperty.all(Colors.transparent),
         ),
-        child: Text(buttonText),
+        child: buttonText,
       ),
     );
   }
