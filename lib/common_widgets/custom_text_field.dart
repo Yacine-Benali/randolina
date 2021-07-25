@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:randolina/constants/app_colors.dart';
 
 class CustomTextForm extends StatelessWidget {
   const CustomTextForm({
     Key? key,
     required this.title,
     this.hintText,
-    required this.maxLength,
+    this.maxLength,
     required this.onChanged,
     this.isEnabled = true,
     required this.validator,
@@ -14,23 +15,24 @@ class CustomTextForm extends StatelessWidget {
     this.initialValue,
     this.isPassword = false,
     this.prefix,
+    this.textInputAction,
   }) : super(key: key);
 
   final String title;
   final String? initialValue;
   final String? hintText;
-  final int maxLength;
+  final int? maxLength;
   final bool isPassword;
   final ValueChanged<String> onChanged;
   final bool isPhoneNumber;
   final bool isEnabled;
   final FormFieldValidator<String> validator;
   final Widget? prefix;
-
+  final TextInputAction? textInputAction;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -46,16 +48,8 @@ class CustomTextForm extends StatelessWidget {
           ),
           SizedBox(height: 2),
           Container(
-            // decoration: BoxDecoration(
-            //   boxShadow: [
-            //     BoxShadow(
-            //       color: Colors.grey.withOpacity(0.6),
-            //       offset: Offset(0, 5),
-            //       blurRadius: 15.0,
-            //     )
-            //   ],
-            // ),
             child: TextFormField(
+              textInputAction: textInputAction,
               enabled: isEnabled,
               initialValue: initialValue,
               keyboardType:
@@ -68,17 +62,27 @@ class CustomTextForm extends StatelessWidget {
                 fillColor: Colors.white,
                 filled: true,
                 counterText: '',
+                focusColor: backgroundColor,
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Color.fromRGBO(119, 138, 164, 1),
-                  ),
                   borderRadius: BorderRadius.circular(25.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: Colors.blueGrey,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: Colors.blueGrey,
+                  ),
                 ),
               ),
               obscureText: isPassword,
               onChanged: (value) => onChanged(value),
               validator: validator,
-              autovalidateMode: AutovalidateMode.always,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
             ),
           ),
         ],

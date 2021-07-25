@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/auth/sign_up/role_selector/role_selector_form.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_screen_2.dart';
+import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/constants/app_colors.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends PreferredSize {
   CustomAppBar()
       : super(
-          preferredSize: Size.fromHeight(61),
+          preferredSize: Size.fromHeight(51),
           child: SafeArea(
             child: Column(
               children: [
