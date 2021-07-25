@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/constants/strings.dart';
 
-class SignUpRadio extends StatelessWidget {
-  const SignUpRadio({
+class RoleSelectorRadio extends StatelessWidget {
+  const RoleSelectorRadio({
     Key? key,
     required this.groupValue,
     required this.value,

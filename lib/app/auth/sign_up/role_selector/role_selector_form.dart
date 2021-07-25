@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/auth/sign_up/role_form/sign_up_radio.dart';
+import 'package:randolina/app/auth/sign_up/role_selector/role_selector_radio.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/constants/strings.dart';
 
-class SignUpRoleForm extends StatefulWidget {
-  const SignUpRoleForm({
+class RoleSelectorForm extends StatefulWidget {
+  const RoleSelectorForm({
     Key? key,
     required this.onNextPressed,
     required this.onChanged,
@@ -14,10 +14,10 @@ class SignUpRoleForm extends StatefulWidget {
   final ValueChanged<Role?> onChanged;
 
   @override
-  _SignUpRoleFormState createState() => _SignUpRoleFormState();
+  _RoleSelectorFormState createState() => _RoleSelectorFormState();
 }
 
-class _SignUpRoleFormState extends State<SignUpRoleForm> {
+class _RoleSelectorFormState extends State<RoleSelectorForm> {
   Role? selectedRole;
 
   @override
@@ -32,15 +32,18 @@ class _SignUpRoleFormState extends State<SignUpRoleForm> {
           SizedBox(height: 40),
           Column(
             children: Role.values.map((e) {
-              return SignUpRadio(
-                groupValue: selectedRole,
-                value: e,
-                onChanged: (Role? value) {
-                  setState(() {
-                    selectedRole = value;
-                  });
-                  widget.onChanged(selectedRole);
-                },
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: RoleSelectorRadio(
+                  groupValue: selectedRole,
+                  value: e,
+                  onChanged: (Role? value) {
+                    setState(() {
+                      selectedRole = value;
+                    });
+                    widget.onChanged(selectedRole);
+                  },
+                ),
               );
             }).toList(),
           ),

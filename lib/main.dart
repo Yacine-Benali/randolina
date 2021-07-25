@@ -11,6 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.white,
+    statusBarIconBrightness: Brightness.dark,
   ));
   runApp(MyApp());
 }
@@ -30,11 +31,7 @@ class MyApp extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          appBarTheme: AppBarTheme(
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.pink,
-            ),
-          ),
+          appBarTheme: AppBarTheme(),
         ),
         debugShowCheckedModeBanner: false,
         title: 'randolina',
