@@ -1,1 +1,1 @@
-enum Role { A, B, C, D }
+enum Role { client, club, agency, brand }

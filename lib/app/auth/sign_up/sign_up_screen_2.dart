@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/constants/strings.dart';
 
 class SignUpScreen2 extends StatefulWidget {
   const SignUpScreen2({Key? key, required this.role}) : super(key: key);

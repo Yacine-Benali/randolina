@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_screen_2.dart';
-import 'package:randolina/constants/strings.dart';
+import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
 import 'package:randolina/services/auth.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -17,10 +16,11 @@ class LandingScreen extends StatelessWidget {
         if (authSnapshot.connectionState == ConnectionState.active) {
           final AuthUser? user = authSnapshot.data;
           if (user == null) {
-            return SignUpScreen2(
-              role: Role.A,
-            );
+            // return SignUpScreen2(
+            //   role: Role.A,
+            // );
             //  return  SignInScreen();
+            return SignUpScreen();
           }
           // return HomeScreen(
           //   apiResponse: snapshot.data[0],

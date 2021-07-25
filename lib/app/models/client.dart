@@ -4,6 +4,7 @@ import 'package:randolina/app/models/user.dart';
 class Client extends User {
   Client({
     required String id,
+    required int type,
     required String username,
     required String name,
     required String profilePicture,
@@ -13,7 +14,6 @@ class Client extends User {
     required int following,
     required int wilaya,
     required String phoneNumber,
-
     //
     required this.activity,
     required this.dateOfBirth,
@@ -21,6 +21,7 @@ class Client extends User {
     required this.physicalCondition,
   }) : super(
           id: id,
+          type: type,
           username: username,
           name: name,
           profilePicture: profilePicture,
@@ -42,6 +43,7 @@ class Client extends User {
       throw Error();
     }
     final String id = documentId;
+    final int type = data['type'] as int;
     final String username = data['username'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
@@ -51,7 +53,6 @@ class Client extends User {
     final int following = data['following'] as int;
     final int wilaya = data['wilaya'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
-
     //
     final String activity = data['activity'] as String;
     final Timestamp dateOfBirth = data['dateOfBirth'] as Timestamp;
@@ -60,6 +61,7 @@ class Client extends User {
 
     return Client(
       id: id,
+      type: type,
       username: username,
       name: name,
       profilePicture: profilePicture,

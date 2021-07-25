@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/user.dart';
 
-class Club extends User {
-  Club({
+class Agency extends User {
+  Agency({
     required String id,
     required int type,
     required String username,
@@ -40,7 +40,7 @@ class Club extends User {
   final String email;
   final int members;
 
-  factory Club.fromMap(Map<String, dynamic>? data, String documentId) {
+  factory Agency.fromMap(Map<String, dynamic>? data, String documentId) {
     if (data == null) {
       throw Error();
     }
@@ -62,7 +62,7 @@ class Club extends User {
     final String email = data['email'] as String;
     final int members = data['members'] as int;
 
-    return Club(
+    return Agency(
       id: id,
       type: type,
       username: username,

@@ -1,6 +1,11 @@
+import 'package:randolina/app/models/agency.dart';
+import 'package:randolina/app/models/client.dart';
+import 'package:randolina/app/models/club.dart';
+
 class User {
   User({
     required this.id,
+    required this.type,
     required this.username,
     required this.name,
     required this.profilePicture,
@@ -13,6 +18,7 @@ class User {
   });
 
   final String id;
+  final int type;
   final String username;
   final String name;
   final String profilePicture;
@@ -28,6 +34,7 @@ class User {
       throw Error();
     }
     final String id = documentId;
+    final int type = data['type'] as int;
     final String username = data['username'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
@@ -40,6 +47,7 @@ class User {
 
     return User(
       id: id,
+      type: type,
       username: username,
       name: name,
       profilePicture: profilePicture,
@@ -52,9 +60,26 @@ class User {
     );
   }
 
+  factory User.fromMap2(Map<String, dynamic> data, String documentId) {
+    final int type = data['type'] as int;
+
+    User user = User.fromMap(data, documentId);
+    if (type == 0) {
+      user = Client.fromMap(data, documentId);
+    } else if (type == 1) {
+      user = Club.fromMap(data, documentId);
+    } else if (type == 2) {
+      user = Agency.fromMap(data, documentId);
+    } else if (type == 3) {
+      //? for brand
+    }
+
+    return user;
+  }
+
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'type': type,
       'username': username,
       'name': name,
       'profilePicture': profilePicture,
