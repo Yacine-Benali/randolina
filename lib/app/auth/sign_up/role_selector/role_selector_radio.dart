@@ -20,43 +20,46 @@ class RoleSelectorRadio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomLeft,
-      children: [
-        Image.asset(
-          'assets/$value.png'.replaceAll('Role.', ''),
-          // height: 150,
-        ),
-        Positioned(
-          left: 20,
-          bottom: 5,
-          child: Radio<Role>(
-            activeColor: Colors.green,
-            value: value,
-            groupValue: groupValue,
-            onChanged: onChanged,
+    return GestureDetector(
+      onTap: () => onChanged(value),
+      child: Stack(
+        alignment: Alignment.bottomLeft,
+        children: [
+          Image.asset(
+            'assets/$value.png'.replaceAll('Role.', ''),
+            // height: 150,
           ),
-        ),
-        Positioned(
-          left: 35,
-          top: 8,
-          child: Text(
-            roleToText[value]!,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-              shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(2, -3),
-                  blurRadius: 13.0,
-                  color: Colors.white,
-                ),
-              ],
+          Positioned(
+            left: 20,
+            bottom: 5,
+            child: Radio<Role>(
+              activeColor: Colors.green,
+              value: value,
+              groupValue: groupValue,
+              onChanged: onChanged,
             ),
           ),
-        ),
-      ],
+          Positioned(
+            left: 35,
+            top: 8,
+            child: Text(
+              roleToText[value]!,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.w600,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2, -3),
+                    blurRadius: 13.0,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

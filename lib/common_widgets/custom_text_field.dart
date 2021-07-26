@@ -47,6 +47,8 @@ class CustomTextForm extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2),
+          // because it not redondant
+          // ignore: avoid_unnecessary_containers
           Container(
             child: TextFormField(
               textInputAction: textInputAction,

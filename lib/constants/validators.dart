@@ -24,4 +24,12 @@ class Validators {
       return false;
     }
   }
+
+  static bool isValidVerificationCode(String? value) {
+    if (value != null) {
+      return RegExp(r'^[0-9]{6}$').hasMatch(value);
+    } else {
+      return false;
+    }
+  }
 }

@@ -6,23 +6,31 @@ class AuthUser {
   const AuthUser({
     required this.uid,
     required this.email,
+    required this.isPhoneNumberVerified,
   });
 
   final String uid;
   final String email;
+  final bool isPhoneNumberVerified;
 }
 
 abstract class Auth {
-  Future<AuthUser?> currentUser();
-
-  Future<void> verifyPhoneNumber(
-    String phoneNumber,
-    void Function(FirebaseAuthException) onVerificationFailed,
-    void Function(String, int?) onCodeSent,
-  );
-
-  Future<void> signOut();
+  void init();
+  AuthUser? currentUser();
   Stream<AuthUser?> get onAuthStateChanged;
-
-  Future<AuthUser?> signInWithEmailAndPassword(String email, String password);
+  Future<AuthUser?> createUserWithEmailAndPassword(
+    String email,
+    String password,
+  );
+  Future<void> verifyPhoneNumber({
+    required String phoneNumber,
+    required void Function(FirebaseAuthException) onVerificationFailed,
+    required void Function(PhoneAuthCredential) verificationCompleted,
+    required void Function(String, int?) onCodeSent,
+  });
+  Future<void> linkUserPhoneNumber(
+    String smsCode,
+    String verificationId,
+  );
+  Future<void> signOut();
 }

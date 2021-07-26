@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/landing_screen.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/firebase_auth.dart';
+import 'package:randolina/utils/logger.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,7 @@ Future<void> main() async {
     statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
+  initRootLogger();
   runApp(MyApp());
 }
 
@@ -34,8 +36,8 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(),
         ),
         debugShowCheckedModeBanner: false,
-        title: 'randolina',
-        home: const LandingScreen(),
+        title: 'Randolina',
+        home: LandingScreen(),
       ),
     );
   }

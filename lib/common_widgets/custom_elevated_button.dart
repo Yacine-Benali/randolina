@@ -42,6 +42,7 @@ class CustomElevatedButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
           minimumSize: MaterialStateProperty.all(Size(minWidth, minHeight)),
           shadowColor: MaterialStateProperty.all(Colors.transparent),
+          padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
         ),
         child: buttonText,
       ),
