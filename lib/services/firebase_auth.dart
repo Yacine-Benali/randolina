@@ -25,17 +25,13 @@ class FirebaseAuthService implements Auth {
   }
 
   @override
-  void init() {
-    _firebaseAuth.authStateChanges().listen(
-          (event) => _streamController.sink.add(
-            _userFromFirebase(event),
-          ),
-        );
-  }
+  void init() {}
 
   @override
   Stream<AuthUser?> get onAuthStateChanged {
-    return _streamController.stream;
+    return _firebaseAuth
+        .authStateChanges()
+        .map((event) => _userFromFirebase(event));
   }
 
   @override
@@ -80,8 +76,8 @@ class FirebaseAuthService implements Auth {
     final UserCredential authResult = await _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password);
 
-    _isPhoneNumberVerified = true;
-    _streamController.sink.add(currentUser());
+    //! _isPhoneNumberVerified = true;
+    //! _streamController.sink.add(currentUser());
     _emailPasswordCredential = authResult;
     return _userFromFirebase(authResult.user);
   }
@@ -101,8 +97,8 @@ class FirebaseAuthService implements Auth {
             verificationId: verificationId,
           ),
         );
-        _isPhoneNumberVerified = true;
-        _streamController.sink.add(currentUser());
+        //!  _isPhoneNumberVerified = true;
+        //! _streamController.sink.add(currentUser());
       } else {
         logger.severe('_emailPasswordCredential.user is NULL ');
       }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/auth/sign_up/role_selector/role_selector_radio.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
@@ -10,11 +9,9 @@ import 'package:randolina/constants/strings.dart';
 class RoleSelectorScreen extends StatefulWidget {
   const RoleSelectorScreen({
     Key? key,
-    // required this.onNextPressed,
-    // required this.onChanged,
+    required this.onNextPressed,
   }) : super(key: key);
-  // final VoidCallback onNextPressed;
-  // final ValueChanged<Role?> onChanged;
+  final ValueChanged<Role?> onNextPressed;
   @override
   _RoleSelectorScreenState createState() => _RoleSelectorScreenState();
 }
@@ -29,7 +26,6 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 40),
@@ -46,7 +42,6 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
                       setState(() {
                         selectedRole = value;
                       });
-                      // widget.onChanged(selectedRole);
                     },
                   ),
                 );
@@ -62,13 +57,7 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
                 onPressed: selectedRole == null
                     ? null
                     : () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => SignUpScreen(
-                              selectedRole: selectedRole!,
-                            ),
-                          ),
-                        );
+                        widget.onNextPressed(selectedRole);
                       },
               ),
             ),
