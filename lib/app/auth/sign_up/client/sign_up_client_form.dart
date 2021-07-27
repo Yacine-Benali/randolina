@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/common_widgets/custom_drop_down.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
-import 'package:randolina/common_widgets/wilaya_picker.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/constants/validators.dart';
 
@@ -54,6 +54,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
 
   @override
   Widget build(BuildContext context) {
+    final padding = EdgeInsets.symmetric(vertical: 1);
     return Column(
       children: [
         SizedBox(height: 30),
@@ -68,100 +69,119 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomTextForm(
-                  title: 'Full name:',
-                  hintText: 'Name...',
-                  maxLength: 50,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (var value) {
-                    fullname = value;
-                  },
-                  validator: (String? value) {
-                    if (!Validators.isValidName(value)) {
-                      return wrongNameError;
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: padding,
+                  child: CustomTextForm(
+                    title: 'Full name:',
+                    hintText: 'Name...',
+                    maxLength: 50,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (var value) {
+                      fullname = value;
+                    },
+                    validator: (String? value) {
+                      if (!Validators.isValidName(value)) {
+                        return wrongNameError;
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                CustomTextForm(
-                  title: 'User Name:',
-                  hintText: 'User Name...',
-                  textInputAction: TextInputAction.next,
-                  onChanged: (var value) {
-                    username = value;
-                  },
-                  validator: (String? value) {
-                    if (!Validators.isValidUsername(value)) {
-                      return invalidUsernameSignUpError;
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: padding,
+                  child: CustomTextForm(
+                    title: 'User Name:',
+                    hintText: 'User Name...',
+                    textInputAction: TextInputAction.next,
+                    onChanged: (var value) {
+                      username = value;
+                    },
+                    validator: (String? value) {
+                      if (!Validators.isValidUsername(value)) {
+                        return invalidUsernameSignUpError;
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                WilayaPicker(
-                  //todo this needs validation ?
-                  onChanged: (int? value) {
-                    if (value == null) {
-                    } else {
-                      wilaya = value;
-                    }
-                  },
+                Padding(
+                  padding: padding,
+                  child: CustomDropDown(
+                    //todo this needs validation ?
+                    title: 'Wilaya',
+                    hint: 'Wilaya',
+                    onChanged: (String? value) {
+                      if (value == null) {
+                      } else {
+                        final int? wilayaN = int.tryParse(value[0] + value[1]);
+
+                        wilaya = wilayaN!;
+                      }
+                    },
+                  ),
                 ),
-                CustomTextForm(
-                  title: 'Password:',
-                  hintText: 'Password...',
-                  isPassword: true,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (var t) {
-                    password = t;
-                  },
-                  validator: (String? value) {
-                    if (!Validators.isValidPassword(value)) {
-                      return invalidPasswordError;
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: padding,
+                  child: CustomTextForm(
+                    title: 'Password:',
+                    hintText: 'Password...',
+                    isPassword: true,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (var t) {
+                      password = t;
+                    },
+                    validator: (String? value) {
+                      if (!Validators.isValidPassword(value)) {
+                        return invalidPasswordError;
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                CustomTextForm(
-                  title: 'Phone number:',
-                  maxLength: 10,
-                  isPhoneNumber: true,
-                  onChanged: (var value) {
-                    phoneNumber = value;
-                    phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '');
-                    phoneNumber = '+213$phoneNumber';
-                  },
-                  prefix: Padding(
-                    //padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
-                    padding: const EdgeInsets.all(0),
-                    child: IntrinsicHeight(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              '+213',
-                              style: TextStyle(color: Colors.grey),
+                Padding(
+                  padding: padding,
+                  child: CustomTextForm(
+                    title: 'Phone number:',
+                    maxLength: 10,
+                    isPhoneNumber: true,
+                    onChanged: (var value) {
+                      phoneNumber = value;
+                      phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '');
+                      phoneNumber = '+213$phoneNumber';
+                    },
+                    prefix: Padding(
+                      //padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                      padding: const EdgeInsets.all(0),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                '+213',
+                                style: TextStyle(color: Colors.grey),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 57,
-                            child: VerticalDivider(
-                              thickness: 1,
-                              width: 20,
-                              color: Colors.grey,
+                            SizedBox(
+                              height: 57,
+                              child: VerticalDivider(
+                                thickness: 1,
+                                width: 20,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
+                    validator: (String? value) {
+                      if (value == null || !value.startsWith('0')) {
+                        return invalidPhoneNumberError;
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (String? value) {
-                    if (value == null || !value.startsWith('0')) {
-                      return invalidPhoneNumberError;
-                    }
-                    return null;
-                  },
                 ),
               ],
             ),

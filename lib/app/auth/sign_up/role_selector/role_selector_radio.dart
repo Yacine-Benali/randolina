@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/constants/strings.dart';
+import 'package:randolina/constants/app_constants.dart';
 
 class RoleSelectorRadio extends StatelessWidget {
   const RoleSelectorRadio({

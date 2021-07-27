@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/auth/sign_up/client/sign_up_screen_client.dart';
+import 'package:randolina/app/auth/sign_up/client/sign_up_client_screen.dart';
 import 'package:randolina/app/auth/sign_up/role_selector/role_selector_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:randolina/constants/strings.dart';
+import 'package:randolina/constants/app_constants.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -45,8 +45,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           },
         ),
         if (selectedRole == Role.client) ...[
-          SignUpScreenClient(selectedRole: Role.client),
-        ]
+          SignUpClientScreen(),
+        ],
+        // if (selectedRole == Role.club) ...[
+        //   SignUpClubScreen(),
+        // ],
       ],
     );
   }

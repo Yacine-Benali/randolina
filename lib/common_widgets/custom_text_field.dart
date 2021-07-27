@@ -16,6 +16,7 @@ class CustomTextForm extends StatelessWidget {
     this.isPassword = false,
     this.prefix,
     this.textInputAction,
+    this.lines,
   }) : super(key: key);
 
   final String? title;
@@ -29,6 +30,7 @@ class CustomTextForm extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final Widget? prefix;
   final TextInputAction? textInputAction;
+  final int? lines;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,6 +55,8 @@ class CustomTextForm extends StatelessWidget {
           // ignore: avoid_unnecessary_containers
           Container(
             child: TextFormField(
+              minLines: lines,
+              maxLines: ((lines ?? 0) > 1) ? lines : 1,
               textInputAction: textInputAction,
               enabled: isEnabled,
               initialValue: initialValue,
@@ -61,6 +65,8 @@ class CustomTextForm extends StatelessWidget {
               // inputFormatters: [inputFormatter],
               maxLength: maxLength,
               decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 12),
                 prefixIcon: prefix,
                 hintText: hintText,
                 fillColor: Colors.white,

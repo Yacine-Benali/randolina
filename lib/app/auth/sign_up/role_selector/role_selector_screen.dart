@@ -4,7 +4,7 @@ import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/constants/strings.dart';
+import 'package:randolina/constants/app_constants.dart';
 
 class RoleSelectorScreen extends StatefulWidget {
   const RoleSelectorScreen({

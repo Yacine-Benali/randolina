@@ -44,7 +44,7 @@ class LandingScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         final box = context.read<Box<Map<String, dynamic>>>();
-                        logger.info(box.get(loclUserInfoKey));
+                        logger.info(box.get(localUserInfoKey));
                       },
                       child: Text('getInfo'),
                     ),

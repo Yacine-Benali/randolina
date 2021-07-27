@@ -2,24 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:randolina/constants/algeria_cities.dart';
 import 'package:randolina/constants/strings.dart';
 
-class WilayaPicker extends StatefulWidget {
-  const WilayaPicker({Key? key, required this.onChanged}) : super(key: key);
-  final ValueChanged<int?> onChanged;
+class CustomDropDown extends StatefulWidget {
+  const CustomDropDown({
+    Key? key,
+    required this.onChanged,
+    required this.hint,
+    required this.title,
+    this.options,
+  }) : super(key: key);
+
+  final ValueChanged<String> onChanged;
+  final String hint;
+  final String title;
+  final List<String>? options;
+
   @override
   _WilayaPickerState createState() => _WilayaPickerState();
 }
 
-class _WilayaPickerState extends State<WilayaPicker> {
-  late Set<String> wilayate;
+class _WilayaPickerState extends State<CustomDropDown> {
+  late Set<String> options;
   String? dropdownValue;
   @override
   void initState() {
-    wilayate = algeriaCities
-        .map((e) {
-          return "${e['wilaya_code']} - ${e['wilaya_name_ascii']}";
-        })
-        .toList()
-        .toSet();
+    //! fix this, this is a temp fixs
+    if (widget.options != null) {
+      options = widget.options!.toSet();
+    } else {
+      options = algeriaCities
+          .map((e) {
+            return "${e['wilaya_code']} - ${e['wilaya_name_ascii']}";
+          })
+          .toList()
+          .toSet();
+    }
 
     super.initState();
   }
@@ -32,7 +48,7 @@ class _WilayaPickerState extends State<WilayaPicker> {
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
-            'Wilaya:',
+            widget.title,
             style: TextStyle(
               fontSize: 15,
               color: Color.fromRGBO(0, 0, 0, 0.8),
@@ -51,12 +67,14 @@ class _WilayaPickerState extends State<WilayaPicker> {
           hint: Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: Text(
-              'Wilaya...',
+              widget.hint,
               style: TextStyle(fontSize: 16),
             ),
           ),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 12),
             fillColor: Colors.white,
             filled: true,
             focusedBorder: OutlineInputBorder(
@@ -80,19 +98,15 @@ class _WilayaPickerState extends State<WilayaPicker> {
           ),
           isExpanded: true,
           value: dropdownValue,
-          icon: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.expand_more),
-          ),
+          icon: Icon(Icons.expand_more),
           style: TextStyle(color: Colors.black),
           onChanged: (String? newValue) {
             setState(() => dropdownValue = newValue);
-            if (newValue != null) {
-              final int? wilaya = int.tryParse(newValue[0] + newValue[1]);
-              widget.onChanged(wilaya);
+            if (dropdownValue != null) {
+              widget.onChanged(dropdownValue!);
             }
           },
-          items: wilayate.map<DropdownMenuItem<String>>((String value) {
+          items: options.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Padding(

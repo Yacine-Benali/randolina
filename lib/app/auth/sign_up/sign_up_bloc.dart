@@ -63,8 +63,12 @@ class SignUpBloc {
     }
     // verify phone number and link phone to the user
     await auth.linkUserPhoneNumber(phoneCode, verificationId!);
-    await box.put(loclUserInfoKey, userInfo);
-    AuthUser? user = auth.currentUser();
-    return user == null ? false : true;
+    await box.put(localUserInfoKey, userInfo);
+    final AuthUser? user = auth.currentUser();
+    if (user == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

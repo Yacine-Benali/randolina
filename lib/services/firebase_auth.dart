@@ -8,11 +8,6 @@ class FirebaseAuthService implements Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   UserCredential? _emailPasswordCredential;
 
-  final StreamController<AuthUser?> _streamController =
-      StreamController<AuthUser?>();
-
-  bool _isPhoneNumberVerified = false;
-
   AuthUser? _userFromFirebase(User? user) {
     if (user == null || user.email == null) {
       return null;
@@ -20,7 +15,6 @@ class FirebaseAuthService implements Auth {
     return AuthUser(
       uid: user.uid,
       email: user.email!,
-      isPhoneNumberVerified: _isPhoneNumberVerified,
     );
   }
 

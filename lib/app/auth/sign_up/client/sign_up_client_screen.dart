@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_form.dart';
+import 'package:randolina/app/auth/sign_up/client/sign_up_client_form2.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
@@ -9,21 +10,19 @@ import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/constants/strings.dart';
+import 'package:randolina/constants/app_constants.dart';
 import 'package:randolina/services/auth.dart';
 
-class SignUpScreenClient extends StatefulWidget {
-  const SignUpScreenClient({
+class SignUpClientScreen extends StatefulWidget {
+  const SignUpClientScreen({
     Key? key,
-    required this.selectedRole,
   }) : super(key: key);
-  final Role selectedRole;
 
   @override
   _SignUpScreenClientState createState() => _SignUpScreenClientState();
 }
 
-class _SignUpScreenClientState extends State<SignUpScreenClient> {
+class _SignUpScreenClientState extends State<SignUpClientScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
   late final Box<Map<String, dynamic>> box;
@@ -58,7 +57,7 @@ class _SignUpScreenClientState extends State<SignUpScreenClient> {
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: SizeConfig.screenHeight,
+          height: SizeConfig.screenHeight + 19,
           child: PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
@@ -66,7 +65,7 @@ class _SignUpScreenClientState extends State<SignUpScreenClient> {
               SignUpClientForm(
                 onNextPressed: (Map<String, dynamic> info) async {
                   userInfo.addAll(info);
-                  userInfo.addAll({'type': widget.selectedRole.index});
+                  userInfo.addAll({'type': Role.client});
                   logger.info(userInfo);
                   try {
                     await bloc
@@ -83,13 +82,20 @@ class _SignUpScreenClientState extends State<SignUpScreenClient> {
                 bloc: bloc,
                 onNextPressed: (String code) async {
                   try {
-                    bool tt = await bloc.magic(userInfo, code);
-                    if (tt) {
-                      Navigator.of(context).pop();
+                    final bool isLoggedIn = await bloc.magic(userInfo, code);
+                    if (isLoggedIn) {
+                      swipePage(2);
                     }
                   } on Exception catch (e) {
                     PlatformExceptionAlertDialog(exception: e).show(context);
                   }
+                },
+              ),
+              SignUpClientForm2(
+                onNextPressed: (Map<String, dynamic> info) {
+                  userInfo.addAll(info);
+                  userInfo.addAll({'type': Role.client});
+                  logger.info(userInfo);
                 },
               ),
             ],
