@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_form.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_form2.dart';
@@ -12,6 +11,7 @@ import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/app_constants.dart';
 import 'package:randolina/services/auth.dart';
+import 'package:randolina/services/database.dart';
 
 class SignUpClientScreen extends StatefulWidget {
   const SignUpClientScreen({
@@ -25,15 +25,14 @@ class SignUpClientScreen extends StatefulWidget {
 class _SignUpScreenClientState extends State<SignUpClientScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
-  late final Box<Map<String, dynamic>> box;
   late Map<String, dynamic> userInfo;
 
   @override
   void initState() {
     _pageController = PageController();
     final Auth auth = context.read<Auth>();
-    box = context.read<Box<Map<String, dynamic>>>();
-    bloc = SignUpBloc(auth: auth, box: box);
+    final Database database = context.read<Database>();
+    bloc = SignUpBloc(auth: auth, database: database);
     userInfo = <String, dynamic>{};
 
     super.initState();
@@ -82,7 +81,11 @@ class _SignUpScreenClientState extends State<SignUpClientScreen> {
                 bloc: bloc,
                 onNextPressed: (String code) async {
                   try {
-                    final bool isLoggedIn = await bloc.magic(userInfo, code);
+                    final bool isLoggedIn = await bloc.magic(
+                      userInfo['username'] as String,
+                      userInfo['password'] as String,
+                      code,
+                    );
                     if (isLoggedIn) {
                       swipePage(2);
                     }

@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/auth.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -14,6 +13,15 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Auth auth = context.read<Auth>();
     auth.init();
+    // ignore: avoid_single_cascade_in_expression_statements
+    FirebaseFirestore.instance
+      ..collection('users')
+          .doc('*replae with document id*')
+          .get()
+          .then((value) {
+        logger.severe(value.data().runtimeType);
+        logger.severe(value.data());
+      });
 
     return StreamBuilder<AuthUser?>(
       stream: auth.onAuthStateChanged,
@@ -42,10 +50,7 @@ class LandingScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {
-                        final box = context.read<Box<Map<String, dynamic>>>();
-                        logger.info(box.get(localUserInfoKey));
-                      },
+                      onPressed: () {},
                       child: Text('getInfo'),
                     ),
                   ),
