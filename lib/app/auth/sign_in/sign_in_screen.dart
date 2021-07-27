@@ -5,6 +5,7 @@ import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/constants/validators.dart';
@@ -47,39 +48,43 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  List<Widget> _buildFooter() {
-    return [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          "Don't have an account ?",
-          style: TextStyle(
-            fontSize: 17,
-            color: Color.fromRGBO(41, 67, 107, 1.0),
-          ),
-        ),
-      ),
-      TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (context) {
-                return SignUpScreen();
-              },
+  Widget _buildFooter() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Don't have an account ?",
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w400,
+              color: Color.fromRGBO(41, 67, 107, 1.0),
             ),
-          );
-        },
-        child: Text(
-          'Creat an account Now',
-          style: TextStyle(
-            color: Color.fromRGBO(64, 163, 219, 1.0),
-            decoration: TextDecoration.underline,
           ),
         ),
-      ),
-    ];
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) {
+                  return SignUpScreen();
+                },
+              ),
+            );
+          },
+          child: Text(
+            'Creat an account Now',
+            style: TextStyle(
+              fontSize: 15,
+              color: Color.fromRGBO(64, 163, 219, 1.0),
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildSignInButton() {
@@ -87,11 +92,14 @@ class _SignInScreenState extends State<SignInScreen> {
       buttonText: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'SIGN IN',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Text(
+              'SIGN IN',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
             ),
           ),
           Icon(
@@ -140,50 +148,53 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 180, bottom: 80),
+                child: Image.asset(
                   'assets/logo_2.png',
                   width: 700,
                 ),
-                const SizedBox(
-                  height: 100,
-                ),
-                ..._buildInput(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forgot password ?',
-                      style: TextStyle(color: Colors.blueGrey),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  children: [
+                    ..._buildInput(),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Forgot password ?',
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 60),
+                      child: _buildSignInButton(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 70.0),
+                      child: Divider(
+                        thickness: 1,
+                        color: Color.fromRGBO(41, 67, 107, 1.0),
+                      ),
+                    ),
+                    _buildFooter(),
+                  ],
                 ),
-                _buildSignInButton(),
-                const SizedBox(height: 70),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(
-                    thickness: 1,
-                    color: Color.fromRGBO(41, 67, 107, 1.0),
-                  ),
-                ),
-                ..._buildFooter(),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
