@@ -89,7 +89,6 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                   textInputAction: TextInputAction.next,
                   onChanged: (var value) {
                     username = value;
-                    print(value);
                   },
                   validator: (String? value) {
                     if (!Validators.isValidUsername(value)) {

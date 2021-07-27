@@ -14,7 +14,7 @@ class _WilayaPickerState extends State<WilayaPicker> {
   String? dropdownValue;
   @override
   void initState() {
-    wilayate = algeria_cites
+    wilayate = algeriaCities
         .map((e) {
           return "${e['wilaya_code']} - ${e['wilaya_name_ascii']}";
         })

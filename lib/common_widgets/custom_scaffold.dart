@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/constants/app_colors.dart';
 
 class CustomScaffold extends StatefulWidget {
   const CustomScaffold({
@@ -26,6 +27,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
             SliverAppBar(
               backgroundColor: Colors.transparent,
               flexibleSpace: widget.appBar,
+              iconTheme: IconThemeData(
+                color: gradientEnd, //change your color here
+              ),
             ),
             SliverList(
               // Use a delegate to build items as they're scrolled on screen.

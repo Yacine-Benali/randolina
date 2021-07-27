@@ -64,8 +64,9 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
                     : () {
                         Navigator.of(context).push(
                           MaterialPageRoute<void>(
-                            fullscreenDialog: true,
-                            builder: (_) => SignUpScreen(),
+                            builder: (_) => SignUpScreen(
+                              selectedRole: selectedRole!,
+                            ),
                           ),
                         );
                       },

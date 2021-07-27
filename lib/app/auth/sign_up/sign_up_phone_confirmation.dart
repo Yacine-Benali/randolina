@@ -10,9 +10,12 @@ class SignUpPhoneConfirmation extends StatefulWidget {
     Key? key,
     required this.onNextPressed,
     required this.bloc,
+    required this.userInfo,
   }) : super(key: key);
   final ValueChanged<String> onNextPressed;
   final SignUpBloc bloc;
+  final Map<String, dynamic> userInfo;
+
   @override
   _SignUpPhoneConfirmationState createState() =>
       _SignUpPhoneConfirmationState();
@@ -79,7 +82,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
                   hintText: 'CODE',
                   maxLength: 6,
                   isPhoneNumber: true,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   onChanged: (var value) {
                     code = value;
                   },
@@ -116,7 +119,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
                   ],
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   widget.onNextPressed(code);
                 }

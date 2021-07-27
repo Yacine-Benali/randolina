@@ -51,7 +51,6 @@ void initRootLogger() {
 }
 
 void exampleLogs(Logger logger) {
-  print('example print');
   logger.finest('example finest log entry');
   logger.finer('example finer log entry');
   logger.fine('example fine log entry');

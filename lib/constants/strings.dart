@@ -1,12 +1,12 @@
-enum Role { client, club, agency, brand }
+enum Role { client, club, agency, store }
 //
 const Map<Role, String> roleToText = {
   Role.client: 'User',
   Role.club: 'Club',
   Role.agency: 'Agency',
-  Role.brand: 'Store',
+  Role.store: 'Store',
 };
-
+const String loclUserInfoKey = 'userInfo';
 const String wrongNameError = '*';
 const String invalidUsernameError = '*';
 const String invalidWilayaError = '*';

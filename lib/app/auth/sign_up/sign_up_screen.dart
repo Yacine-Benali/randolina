@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_client_form.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
+import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
@@ -13,24 +15,39 @@ import 'package:randolina/services/auth.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
     Key? key,
+    required this.selectedRole,
   }) : super(key: key);
+  final Role selectedRole;
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late SignUpBloc bloc;
+  late final SignUpBloc bloc;
+  late final PageController _pageController;
+  late final Box<Map<String, dynamic>> box;
   late Map<String, dynamic> userInfo;
-  final PageController _pageController = PageController(initialPage: 0);
-  Role? selectedRole;
 
   @override
   void initState() {
+    _pageController = PageController();
     final Auth auth = context.read<Auth>();
-    bloc = SignUpBloc(auth: auth);
+    box = context.read<Box<Map<String, dynamic>>>();
+    bloc = SignUpBloc(auth: auth, box: box);
     userInfo = <String, dynamic>{};
+
     super.initState();
+  }
+
+  void swipePage(int index) {
+    if (_pageController.hasClients) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -41,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: SizeConfig.screenHeight - 51,
+          height: SizeConfig.screenHeight,
           child: PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
@@ -49,41 +66,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SignUpClientForm(
                 onNextPressed: (Map<String, dynamic> info) async {
                   userInfo.addAll(info);
-                  print(userInfo);
+                  userInfo.addAll({'type': widget.selectedRole.index});
+                  logger.info(userInfo);
                   try {
-                    bloc.verifyPhoneNumber(userInfo['phoneNumber'] as String);
-                    if (_pageController.hasClients) {
-                      _pageController.animateToPage(
-                        1,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  } catch (e) {
+                    await bloc
+                        .verifyPhoneNumber(userInfo['phoneNumber'] as String);
+                    swipePage(1);
+                  } on Exception catch (e) {
                     logger.severe('Error in verifyPhoneNumber');
-                    if (_pageController.hasClients) {
-                      _pageController.animateToPage(
-                        0,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeInOut,
-                      );
-                    }
+                    PlatformExceptionAlertDialog(exception: e).show(context);
                   }
                 },
               ),
               SignUpPhoneConfirmation(
+                userInfo: userInfo,
                 bloc: bloc,
-                onNextPressed: (String code) {
-                  if (bloc.verificationId == null) {
-                    //todo fix this:
-                    logger.info('*pop sms is not sent yet*');
-                  } else {
-                    try {
-                      bloc.magic(userInfo, code);
-                    } catch (e) {
-                      logger.severe('wrong sms bitch');
-                      logger.severe(e);
+                onNextPressed: (String code) async {
+                  try {
+                    bool tt = await bloc.magic(userInfo, code);
+                    if (tt) {
+                      Navigator.of(context).pop();
                     }
+                  } on Exception catch (e) {
+                    PlatformExceptionAlertDialog(exception: e).show(context);
                   }
                 },
               ),

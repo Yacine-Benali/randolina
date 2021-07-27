@@ -80,6 +80,8 @@ class FirebaseAuthService implements Auth {
     final UserCredential authResult = await _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password);
 
+    _isPhoneNumberVerified = true;
+    _streamController.sink.add(currentUser());
     _emailPasswordCredential = authResult;
     return _userFromFirebase(authResult.user);
   }
@@ -93,19 +95,14 @@ class FirebaseAuthService implements Auth {
       //
       if (_emailPasswordCredential!.user != null) {
         //
-        logger.warning('linkUserPhoneNumber called');
-        try {
-          await _emailPasswordCredential!.user!.linkWithCredential(
-            PhoneAuthProvider.credential(
-              smsCode: smsCode,
-              verificationId: verificationId,
-            ),
-          );
-          _isPhoneNumberVerified = true;
-          _streamController.sink.add(currentUser());
-        } on Exception catch (e) {
-          rethrow;
-        }
+        await _emailPasswordCredential!.user!.linkWithCredential(
+          PhoneAuthProvider.credential(
+            smsCode: smsCode,
+            verificationId: verificationId,
+          ),
+        );
+        _isPhoneNumberVerified = true;
+        _streamController.sink.add(currentUser());
       } else {
         logger.severe('_emailPasswordCredential.user is NULL ');
       }
