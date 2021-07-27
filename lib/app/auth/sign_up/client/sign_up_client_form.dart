@@ -92,7 +92,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                   },
                   validator: (String? value) {
                     if (!Validators.isValidUsername(value)) {
-                      return invalidUsernameError;
+                      return invalidUsernameSignUpError;
                     }
                     return null;
                   },

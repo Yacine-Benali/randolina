@@ -56,7 +56,7 @@ class SignUpBloc {
     // sign in the user with email/password
     final bool isAlreadySignedIn = auth.currentUser() != null || false;
     if (!isAlreadySignedIn) {
-      await auth.createUserWithEmailAndPassword(
+      await auth.signUpWithEmailAndPassword(
         email,
         userInfo['password'] as String,
       );

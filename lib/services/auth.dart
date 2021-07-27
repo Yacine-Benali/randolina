@@ -18,10 +18,12 @@ abstract class Auth {
   void init();
   AuthUser? currentUser();
   Stream<AuthUser?> get onAuthStateChanged;
-  Future<AuthUser?> createUserWithEmailAndPassword(
+  Future<AuthUser?> signUpWithEmailAndPassword(
     String email,
     String password,
   );
+
+  Future<AuthUser?> signInWithEmailAndPassword(String email, String password);
   Future<void> verifyPhoneNumber({
     required String phoneNumber,
     required void Function(FirebaseAuthException) onVerificationFailed,
@@ -32,5 +34,6 @@ abstract class Auth {
     String smsCode,
     String verificationId,
   );
+
   Future<void> signOut();
 }

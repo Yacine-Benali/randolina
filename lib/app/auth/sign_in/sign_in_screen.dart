@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_bloc.dart';
-import 'package:randolina/app/auth/sign_in/widgets/sign_in_button.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
+import 'package:randolina/common_widgets/custom_elevated_button.dart';
+import 'package:randolina/common_widgets/custom_text_field.dart';
+import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/constants/strings.dart';
+import 'package:randolina/constants/validators.dart';
 import 'package:randolina/services/auth.dart';
 
 /* 
@@ -20,86 +24,118 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   late final SignInBloc bloc;
-  late final TextEditingController _usernameController;
-  late final TextEditingController _passwordController;
+  String? username;
+  String? password;
   late final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     final Auth auth = context.read<Auth>();
     bloc = SignInBloc(auth: auth);
-    _usernameController = TextEditingController();
-    _passwordController = TextEditingController();
     super.initState();
   }
 
-  void _signIn() {
-    if (_formKey.currentState!.validate()) {
-      // If the form is valid, display a snackbar. In the real world,
-      // you'd often call a server or save the information in a database.
-      final String username = _usernameController.text;
-      final String password = _passwordController.text;
-      bloc.signIn(username, password);
+  Future<void> _signIn() async {
+    if (_formKey.currentState!.validate() &&
+        username != null &&
+        password != null) {
+      try {
+        await bloc.signIn(username!, password!);
+      } on Exception catch (e) {
+        PlatformExceptionAlertDialog(exception: e).show(context);
+      }
     }
   }
 
-  Widget _buildUsernameField() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: TextFormField(
-        controller: _usernameController,
-        textInputAction: TextInputAction.next,
-        validator: (String? value) {
-          // if (value != null) {
-          //   if (!validator.usernameSubmitValidator.isValid(value)) {
-          //     return 'error';
-          //   }
-          // }
-          // return null;
-        },
-        decoration: InputDecoration(
-          hintText: 'User name...',
-          fillColor: fillColor,
-          filled: true,
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: borderColor,
-              width: 0.5,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
+  List<Widget> _buildFooter() {
+    return [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "Don't have an account ?",
+          style: TextStyle(
+            fontSize: 17,
+            color: Color.fromRGBO(41, 67, 107, 1.0),
           ),
         ),
       ),
+      TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (context) {
+                return SignUpScreen();
+              },
+            ),
+          );
+        },
+        child: Text(
+          'Creat an account Now',
+          style: TextStyle(
+            color: Color.fromRGBO(64, 163, 219, 1.0),
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ),
+    ];
+  }
+
+  Widget _buildSignInButton() {
+    return CustomElevatedButton(
+      buttonText: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'SIGN IN',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ),
+          ),
+          Icon(
+            Icons.chevron_right,
+            size: 30,
+          ),
+        ],
+      ),
+      onPressed: _signIn,
+      minHeight: 35,
+      minWidth: 200,
     );
   }
 
-  Widget _buildPasswordField() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: TextFormField(
-        controller: _passwordController,
-        validator: (String? value) {
-          // if (value != null) {
-          //   if (!validator.passwordRegisterSubmitValidator.isValid(value)) {
-          //     return 'error';
-          //   }
-          // }
-          // return null;
+  List<Widget> _buildInput() {
+    return [
+      CustomTextForm(
+        hintText: 'User Name...',
+        textInputAction: TextInputAction.next,
+        onChanged: (var value) {
+          username = value;
         },
-        decoration: InputDecoration(
-          hintText: 'Password...',
-          fillColor: fillColor,
-          filled: true,
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: borderColor,
-              width: 0.5,
-            ),
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-        ),
+        validator: (String? value) {
+          if (!Validators.isValidUsername(value)) {
+            return invalidUsernameSignInError;
+          }
+          return null;
+        },
       ),
-    );
+      CustomTextForm(
+        hintText: 'Password...',
+        isPassword: true,
+        textInputAction: TextInputAction.done,
+        onChanged: (var t) {
+          password = t;
+        },
+        validator: (String? value) {
+          if (!Validators.isValidPassword(value)) {
+            return invalidPasswordError;
+          }
+          return null;
+        },
+      ),
+    ];
   }
 
   @override
@@ -125,8 +161,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 100,
                 ),
-                _buildUsernameField(),
-                _buildPasswordField(),
+                ..._buildInput(),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -137,9 +172,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                SignInButton(
-                  callback: _signIn,
-                ),
+                _buildSignInButton(),
                 const SizedBox(height: 70),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -148,36 +181,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     color: Color.fromRGBO(41, 67, 107, 1.0),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Don't have an account ?",
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Color.fromRGBO(41, 67, 107, 1.0),
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) {
-                          return SignUpScreen();
-                        },
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Creat an account Now',
-                    style: TextStyle(
-                      color: Color.fromRGBO(64, 163, 219, 1.0),
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
+                ..._buildFooter(),
               ],
             ),
           ),

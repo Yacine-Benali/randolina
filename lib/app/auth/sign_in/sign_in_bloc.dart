@@ -7,7 +7,6 @@ class SignInBloc {
 
   Future<void> signIn(String username, String password) async {
     final String email = '$username@randolina-10bf4.firebaseapp.com';
-    //print('$email:$password');
-    //await auth.signInWithEmailAndPassword(email, password);
+    await auth.signInWithEmailAndPassword(email, password);
   }
 }

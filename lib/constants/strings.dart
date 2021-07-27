@@ -8,7 +8,8 @@ const Map<Role, String> roleToText = {
 };
 const String loclUserInfoKey = 'userInfo';
 const String wrongNameError = '*';
-const String invalidUsernameError = '*';
+const String invalidUsernameSignUpError = '*';
+const String invalidUsernameSignInError = '*';
 const String invalidWilayaError = '*';
 const String invalidPasswordError = '*';
 const String invalidPhoneNumberError = '*';

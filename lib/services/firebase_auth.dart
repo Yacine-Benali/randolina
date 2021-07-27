@@ -69,7 +69,7 @@ class FirebaseAuthService implements Auth {
   }
 
   @override
-  Future<AuthUser?> createUserWithEmailAndPassword(
+  Future<AuthUser?> signUpWithEmailAndPassword(
     String email,
     String password,
   ) async {
@@ -78,6 +78,18 @@ class FirebaseAuthService implements Auth {
 
     //! _isPhoneNumberVerified = true;
     //! _streamController.sink.add(currentUser());
+    _emailPasswordCredential = authResult;
+    return _userFromFirebase(authResult.user);
+  }
+
+  @override
+  Future<AuthUser?> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    final UserCredential authResult = await _firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password);
+
     _emailPasswordCredential = authResult;
     return _userFromFirebase(authResult.user);
   }

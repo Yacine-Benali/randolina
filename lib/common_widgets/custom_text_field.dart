@@ -5,7 +5,7 @@ import 'package:randolina/constants/app_colors.dart';
 class CustomTextForm extends StatelessWidget {
   const CustomTextForm({
     Key? key,
-    required this.title,
+    this.title,
     this.hintText,
     this.maxLength,
     required this.onChanged,
@@ -18,7 +18,7 @@ class CustomTextForm extends StatelessWidget {
     this.textInputAction,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final String? initialValue;
   final String? hintText;
   final int? maxLength;
@@ -36,17 +36,19 @@ class CustomTextForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 15,
-                color: Color.fromRGBO(0, 0, 0, 0.8),
+          if (title != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                title!,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Color.fromRGBO(0, 0, 0, 0.8),
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 2),
+            SizedBox(height: 2),
+          ],
           // because it not redondant
           // ignore: avoid_unnecessary_containers
           Container(
