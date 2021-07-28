@@ -1,14 +1,31 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:randolina/services/database.dart';
 
 class FirestoreDatabase implements Database {
-  FirebaseFirestore instance = FirebaseFirestore.instance;
 //! <Map<String, dynamic>>
   @override
   String getUniqueId() {
     final String _randomId =
         FirebaseFirestore.instance.collection(' ').doc().id;
     return _randomId;
+  }
+
+  @override
+  Future<String> uploadFile({
+    required String path,
+    required String filePath,
+  }) async {
+    // Create a Reference to the file
+    final Reference ref = FirebaseStorage.instance.ref(path);
+
+    final UploadTask uploadTask = ref.putFile(File(filePath));
+    final TaskSnapshot storageTaskSnapshot =
+        await uploadTask.whenComplete(() {});
+    final String result = await storageTaskSnapshot.ref.getDownloadURL();
+    return result;
   }
 
   @override

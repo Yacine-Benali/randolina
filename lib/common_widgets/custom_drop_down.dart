@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/constants/algeria_cities.dart';
-import 'package:randolina/constants/strings.dart';
 
 class CustomDropDown extends StatefulWidget {
   const CustomDropDown({
@@ -8,6 +7,7 @@ class CustomDropDown extends StatefulWidget {
     required this.onChanged,
     required this.hint,
     required this.title,
+    this.validator,
     this.options,
   }) : super(key: key);
 
@@ -15,7 +15,7 @@ class CustomDropDown extends StatefulWidget {
   final String hint;
   final String title;
   final List<String>? options;
-
+  final String? Function(String?)? validator;
   @override
   _WilayaPickerState createState() => _WilayaPickerState();
 }
@@ -58,12 +58,7 @@ class _WilayaPickerState extends State<CustomDropDown> {
         SizedBox(height: 2),
         DropdownButtonFormField<String>(
           focusColor: Colors.transparent,
-          validator: (String? value) {
-            if (value == null) {
-              return invalidWilayaError;
-            }
-            return null;
-          },
+          validator: widget.validator,
           hint: Padding(
             padding: const EdgeInsets.only(left: 16.0),
             child: Text(

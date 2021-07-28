@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
+import 'package:randolina/utils/logger.dart';
 
 class FirebaseAuthService implements Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

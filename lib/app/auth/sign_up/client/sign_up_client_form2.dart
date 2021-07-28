@@ -1,28 +1,35 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:randolina/common_widgets/avatar.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
+import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/constants/app_constants.dart';
+import 'package:randolina/constants/strings.dart';
 
 class SignUpClientForm2 extends StatefulWidget {
   const SignUpClientForm2({
     Key? key,
-    required this.onNextPressed,
+    required this.onSaved,
   }) : super(key: key);
-  final ValueChanged<Map<String, dynamic>> onNextPressed;
 
+  final void Function({
+    required File imageFile,
+    required String? bio,
+    required String activity,
+  }) onSaved;
   @override
   _SignUpClientForm2State createState() => _SignUpClientForm2State();
 }
 
 class _SignUpClientForm2State extends State<SignUpClientForm2> {
   late final GlobalKey<FormState> _formKey;
-  String? bio;
-  String? activity;
   File? imageFile;
+  String? bio;
+  late String activity;
 
   @override
   void initState() {
@@ -75,6 +82,10 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                     bottom: 16.0,
                   ),
                   child: Avatar(
+                    placeHolder: Image.asset(
+                      'assets/profile_picture_3.png',
+                      width: 150,
+                    ),
                     onChanged: (File f) {
                       imageFile = f;
                     },
@@ -83,12 +94,19 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                 CustomTextForm(
                   lines: 4,
                   hintText: 'Bio...',
+                  maxLength: 200,
                   onChanged: (String value) {
                     bio = value;
                   },
                   validator: (v) {},
                 ),
                 CustomDropDown(
+                  validator: (String? value) {
+                    if (value == null) {
+                      return invalidActivityError;
+                    }
+                    return null;
+                  },
                   title: 'Activity:',
                   hint: 'Chose...',
                   options: clientActivities,
@@ -102,9 +120,9 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
         ),
         Expanded(
           child: Container(
-            alignment: Alignment.center,
+            alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 30),
+              padding: const EdgeInsets.only(top: 30),
               child: CustomElevatedButton(
                 minHeight: 35,
                 minWidth: 150,
@@ -112,13 +130,22 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // widget.onNextPressed(summery);
-                    Map<String, dynamic> userInfo = {
-                      'bio': bio,
-                      'activity': activity,
-                      'profilePicture': imageFile,
-                    };
-
-                    widget.onNextPressed(userInfo);
+                    try {
+                      if (imageFile != null) {
+                        widget.onSaved(
+                          imageFile: imageFile!,
+                          bio: bio,
+                          activity: activity,
+                        );
+                      } else {
+                        throw PlatformException(
+                          code: 'PROFILE_PICTURE_NULL',
+                          message: 'Profile picture is mandatory',
+                        );
+                      }
+                    } on Exception catch (e) {
+                      PlatformExceptionAlertDialog(exception: e).show(context);
+                    }
                   }
                 },
               ),

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
-
-final logger = Logger('SiteInfoService');
 
 const Color backgroundColor = Color.fromRGBO(244, 249, 255, 1.0);
 const Color fillColor = Color.fromRGBO(244, 249, 255, 1.0);

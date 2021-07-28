@@ -3,6 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class Database {
   String getUniqueId();
 
+  Future<String> uploadFile({
+    required String path,
+    required String filePath,
+  });
+
   Future<T?> fetchDocument<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentID) builder,

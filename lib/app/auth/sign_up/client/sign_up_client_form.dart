@@ -8,9 +8,15 @@ import 'package:randolina/constants/validators.dart';
 class SignUpClientForm extends StatefulWidget {
   const SignUpClientForm({
     Key? key,
-    required this.onNextPressed,
+    required this.onSaved,
   }) : super(key: key);
-  final ValueChanged<Map<String, dynamic>> onNextPressed;
+  final void Function({
+    required String fullname,
+    required String username,
+    required int wilaya,
+    required String password,
+    required String phoneNumber,
+  }) onSaved;
 
   @override
   _SignUpClientFormState createState() => _SignUpClientFormState();
@@ -18,10 +24,11 @@ class SignUpClientForm extends StatefulWidget {
 
 class _SignUpClientFormState extends State<SignUpClientForm> {
   late String fullname;
-  late int wilaya;
   late String username;
+  late int wilaya;
   late String password;
   late String phoneNumber;
+
   late final GlobalKey<FormState> _formKey;
   bool isButtonEnabled = true;
 
@@ -107,9 +114,14 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                 Padding(
                   padding: padding,
                   child: CustomDropDown(
-                    //todo this needs validation ?
                     title: 'Wilaya',
                     hint: 'Wilaya',
+                    validator: (String? value) {
+                      if (value == null) {
+                        return invalidWilayaError;
+                      }
+                      return null;
+                    },
                     onChanged: (String? value) {
                       if (value == null) {
                       } else {
@@ -192,38 +204,34 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
           child: Align(
             alignment: Alignment.centerRight,
             child: CustomElevatedButton(
-              minHeight: 35,
-              minWidth: 150,
-              buttonText: SizedBox(
-                width: 150,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(width: 30),
-                    Text('Next'),
-                    Icon(
-                      Icons.chevron_right,
-                      size: 30,
-                    ),
-                  ],
+                minHeight: 35,
+                minWidth: 150,
+                buttonText: SizedBox(
+                  width: 150,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(width: 30),
+                      Text('Next'),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 30,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              onPressed: isButtonEnabled
-                  ? () async {
-                      if (_formKey.currentState!.validate()) {
-                        final Map<String, dynamic> summery = {
-                          'fullname': fullname,
-                          'wilaya': wilaya,
-                          'username': username,
-                          'phoneNumber': phoneNumber,
-                          'password': password,
-                        };
-                        widget.onNextPressed(summery);
-                      }
-                    }
-                  : null,
-            ),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    widget.onSaved(
+                      fullname: fullname,
+                      username: username,
+                      wilaya: wilaya,
+                      password: password,
+                      phoneNumber: phoneNumber,
+                    );
+                  }
+                }),
           ),
         ),
         SizedBox(

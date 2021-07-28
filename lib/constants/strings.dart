@@ -6,3 +6,4 @@ const String invalidWilayaError = '*';
 const String invalidPasswordError = '*';
 const String invalidPhoneNumberError = '*';
 const String invalidVerificationCodeError = '*';
+const String invalidActivityError = '*';

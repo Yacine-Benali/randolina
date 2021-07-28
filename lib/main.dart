@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +17,13 @@ import 'package:randolina/utils/logger.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8080';
+
+  if (false) {
+    FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
+    FirebaseAuth.instance.useAuthEmulator(host, 9099);
+    FirebaseStorage.instance.useStorageEmulator(host, 9199);
+  }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.white,

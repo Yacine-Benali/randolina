@@ -1,17 +1,22 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_form.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_form2.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/constants/app_constants.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class SignUpClientScreen extends StatefulWidget {
   const SignUpClientScreen({
@@ -25,15 +30,22 @@ class SignUpClientScreen extends StatefulWidget {
 class _SignUpScreenClientState extends State<SignUpClientScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
-  late Map<String, dynamic> userInfo;
+
+  late String _fullname;
+  late String _username;
+  late int _wilaya;
+  late String _password;
+  late String _phoneNumber;
+  late File _imageFile;
+  String? _bio;
+  late String _activity;
 
   @override
   void initState() {
-    _pageController = PageController();
+    _pageController = PageController(initialPage: 0);
     final Auth auth = context.read<Auth>();
     final Database database = context.read<Database>();
     bloc = SignUpBloc(auth: auth, database: database);
-    userInfo = <String, dynamic>{};
 
     super.initState();
   }
@@ -48,6 +60,40 @@ class _SignUpScreenClientState extends State<SignUpClientScreen> {
     }
   }
 
+  Future<void> sendClientInfo() async {
+    // start loading widget
+    try {
+      final ProgressDialog pd = ProgressDialog(context: context);
+      pd.show(max: 100, msg: 'Image uploading...');
+
+      final String profilePictureUrl =
+          await bloc.uploadProfilePicture(_imageFile);
+      final Client client = Client(
+        id: 'id',
+        type: 0,
+        username: _username,
+        name: _fullname,
+        profilePicture: profilePictureUrl,
+        bio: _bio,
+        posts: 0,
+        followers: 0,
+        following: 0,
+        wilaya: _wilaya,
+        phoneNumber: _phoneNumber,
+        activity: _activity,
+        //! todo @high not mentionned in the design
+        dateOfBirth: Timestamp.now(),
+        address: 'not mentionned',
+        physicalCondition: 'physicalCondition',
+      );
+      await bloc.saveClientInfo(client);
+      pd.close();
+      Navigator.of(context).pop();
+    } on Exception catch (e) {
+      PlatformExceptionAlertDialog(exception: e).show(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -56,19 +102,27 @@ class _SignUpScreenClientState extends State<SignUpClientScreen> {
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: SizeConfig.screenHeight + 19,
+          height: SizeConfig.screenHeight + 60,
           child: PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: <Widget>[
               SignUpClientForm(
-                onNextPressed: (Map<String, dynamic> info) async {
-                  userInfo.addAll(info);
-                  userInfo.addAll({'type': Role.client});
-                  logger.info(userInfo);
+                onSaved: ({
+                  required String fullname,
+                  required String password,
+                  required String phoneNumber,
+                  required String username,
+                  required int wilaya,
+                }) async {
                   try {
-                    await bloc
-                        .verifyPhoneNumber(userInfo['phoneNumber'] as String);
+                    _fullname = fullname;
+                    _password = password;
+                    _phoneNumber = phoneNumber;
+                    _username = username;
+                    _wilaya = wilaya;
+
+                    await bloc.verifyPhoneNumber(_phoneNumber);
                     swipePage(1);
                   } on Exception catch (e) {
                     logger.severe('Error in verifyPhoneNumber');
@@ -77,13 +131,12 @@ class _SignUpScreenClientState extends State<SignUpClientScreen> {
                 },
               ),
               SignUpPhoneConfirmation(
-                userInfo: userInfo,
                 bloc: bloc,
                 onNextPressed: (String code) async {
                   try {
                     final bool isLoggedIn = await bloc.magic(
-                      userInfo['username'] as String,
-                      userInfo['password'] as String,
+                      _username,
+                      _password,
                       code,
                     );
                     if (isLoggedIn) {
@@ -95,10 +148,15 @@ class _SignUpScreenClientState extends State<SignUpClientScreen> {
                 },
               ),
               SignUpClientForm2(
-                onNextPressed: (Map<String, dynamic> info) {
-                  userInfo.addAll(info);
-                  userInfo.addAll({'type': Role.client});
-                  logger.info(userInfo);
+                onSaved: ({
+                  required File imageFile,
+                  required String? bio,
+                  required String activity,
+                }) {
+                  _imageFile = imageFile;
+                  _bio = bio;
+                  _activity = activity;
+                  sendClientInfo();
                 },
               ),
             ],

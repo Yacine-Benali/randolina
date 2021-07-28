@@ -8,7 +8,7 @@ class Client extends User {
     required String username,
     required String name,
     required String profilePicture,
-    required String bio,
+    required String? bio,
     required int posts,
     required int followers,
     required int following,
@@ -47,7 +47,7 @@ class Client extends User {
     final String username = data['username'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
-    final String bio = data['bio'] as String;
+    final String? bio = data['bio'] as String?;
     final int posts = data['posts'] as int;
     final int followers = data['followers'] as int;
     final int following = data['following'] as int;

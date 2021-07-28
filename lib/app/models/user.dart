@@ -22,7 +22,7 @@ class User {
   final String username;
   final String name;
   final String profilePicture;
-  final String bio;
+  final String? bio;
   final int posts;
   final int followers;
   final int following;
@@ -38,7 +38,7 @@ class User {
     final String username = data['username'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
-    final String bio = data['bio'] as String;
+    final String? bio = data['bio'] as String?;
     final int posts = int.parse(data['posts'] as String);
     final int followers = int.parse(data['followers'] as String);
     final int following = int.parse(data['following'] as String);

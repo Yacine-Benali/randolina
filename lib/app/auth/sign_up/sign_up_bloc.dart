@@ -1,10 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:randolina/app/models/client.dart';
-import 'package:randolina/constants/app_colors.dart';
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:uuid/uuid.dart';
 
 class SignUpBloc {
   SignUpBloc({
@@ -13,6 +15,8 @@ class SignUpBloc {
   });
   final Auth auth;
   final Database database;
+  final Uuid uuid = Uuid();
+
   String? verificationId;
   late AuthUser _authUser;
 
@@ -21,12 +25,12 @@ class SignUpBloc {
       phoneNumber: phoneNumber,
 
       /// fires automatically if the app reads the sms
-      verificationCompleted: (PhoneAuthCredential credential) {
+      verificationCompleted: (firebase_auth.PhoneAuthCredential credential) {
         logger.warning('****automatic verification');
       },
 
       /// firebase auth returned an error
-      onVerificationFailed: (FirebaseAuthException e) {
+      onVerificationFailed: (firebase_auth.FirebaseAuthException e) {
         throw e;
       },
 
@@ -49,7 +53,7 @@ class SignUpBloc {
   ) async {
     // throws if the code has not been sent yet
     if (verificationId == null) {
-      throw FirebaseAuthException(
+      throw firebase_auth.FirebaseAuthException(
         code: 'CODE_NOT_SENT_YET',
         message: 'verification code has not been sent yet',
       );
@@ -58,7 +62,7 @@ class SignUpBloc {
 
     // sign in the user with email/password
     final AuthUser? authUser = auth.currentUser();
-    if (authUser != null) {
+    if (authUser == null) {
       await auth.signUpWithEmailAndPassword(
         email,
         password,
@@ -75,29 +79,17 @@ class SignUpBloc {
     }
   }
 
-  Future<void> saveUserInfo(Map<String, dynamic> userInfo) async {
-    // upload file
-    final Client client = Client(
-      id: _authUser.uid,
-      type: 0,
-      username: userInfo['username'] as String,
-      name: userInfo['username'] as String,
-      profilePicture: 'profilePicture',
-      bio: 'bio',
-      posts: 0,
-      followers: 0,
-      following: 0,
-      wilaya: 0,
-      phoneNumber: '0',
-      activity: '0',
-      dateOfBirth: Timestamp.now(),
-      address: 'address',
-      physicalCondition: 'physicalCondition',
+  Future<String> uploadProfilePicture(File file) async {
+    return database.uploadFile(
+      path: APIPath.userProfilePicture(_authUser.uid, uuid.v4()),
+      filePath: file.path,
     );
-    //
+  }
+
+  Future<void> saveClientInfo(User user) async {
     await database.setData(
       path: APIPath.userDocument(_authUser.uid),
-      data: client.toMap(),
+      data: user.toMap(),
       merge: false,
     );
   }

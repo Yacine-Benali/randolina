@@ -27,10 +27,11 @@ dependencies:
   provider: ^5.0.0
   cloud_firestore: ^2.4.0
   logging: ^1.0.1
-  # hive: ^2.0.4
-  # hive_flutter: ^1.1.0
   image_picker: ^0.8.2
   firebase_storage: ^10.0.1
+  uuid: 3.0.4
+  sn_progress_dialog: ^1.0.2
+
 
   flutter:
     sdk: flutter

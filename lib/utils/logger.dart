@@ -3,6 +3,8 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 
+final logger = Logger('SiteInfoService');
+
 void initRootLogger() {
   // only enable logging for debug mode
   if (kDebugMode) {
