@@ -104,14 +104,11 @@ class _WilayaPickerState extends State<CustomDropDown> {
           items: options.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    value,
-                    style: TextStyle(fontSize: 16),
-                  ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  value,
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
             );

@@ -32,4 +32,12 @@ class Validators {
       return false;
     }
   }
+
+  static bool isValidNumber(String? value) {
+    if (value != null) {
+      return RegExp(r'^[1-9]\d*$').hasMatch(value);
+    } else {
+      return false;
+    }
+  }
 }

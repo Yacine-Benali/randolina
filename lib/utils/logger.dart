@@ -14,7 +14,7 @@ void initRootLogger() {
   }
   hierarchicalLoggingEnabled = true;
 
-  // specify the levels for lower level loggers, if desired
+  // specify the levels for lower level loggers, if deswired
   // Logger('SiteInfoService').level = Level.ALL;
 
   Logger.root.onRecord.listen((record) {
@@ -28,7 +28,7 @@ void initRootLogger() {
     // colors: https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
     switch (record.level.name) {
       case 'INFO':
-        start = '\x1b[37m';
+        start = '\u001b[32m';
         break;
       case 'WARNING':
         start = '\x1b[93m';

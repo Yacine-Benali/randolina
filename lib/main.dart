@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
+          primaryColor: Colors.blueGrey,
           textTheme: TextTheme(
             bodyText2: TextStyle(
               color: Color.fromRGBO(41, 67, 107, 1),

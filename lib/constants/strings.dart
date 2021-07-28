@@ -7,3 +7,4 @@ const String invalidPasswordError = '*';
 const String invalidPhoneNumberError = '*';
 const String invalidVerificationCodeError = '*';
 const String invalidActivityError = '*';
+const String invalidClubMembersError = '*';

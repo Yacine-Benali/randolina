@@ -8,8 +8,8 @@ import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
-import 'package:randolina/constants/validators.dart';
 import 'package:randolina/services/auth.dart';
+import 'package:randolina/utils/validators.dart';
 
 /* 
   ? todo add focus node and when clicking on next you move to the next field

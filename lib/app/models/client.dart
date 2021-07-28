@@ -17,7 +17,6 @@ class Client extends User {
     //
     required this.activity,
     required this.dateOfBirth,
-    required this.address,
     required this.physicalCondition,
   }) : super(
           id: id,
@@ -35,7 +34,6 @@ class Client extends User {
 
   final String activity;
   final Timestamp dateOfBirth;
-  final String address;
   final String physicalCondition;
 
   factory Client.fromMap(Map<String, dynamic>? data, String documentId) {
@@ -56,7 +54,6 @@ class Client extends User {
     //
     final String activity = data['activity'] as String;
     final Timestamp dateOfBirth = data['dateOfBirth'] as Timestamp;
-    final String address = data['address'] as String;
     final String physicalCondition = data['physicalCondition'] as String;
 
     return Client(
@@ -73,7 +70,6 @@ class Client extends User {
       phoneNumber: phoneNumber,
       activity: activity,
       dateOfBirth: dateOfBirth,
-      address: address,
       physicalCondition: physicalCondition,
     );
   }
@@ -84,7 +80,6 @@ class Client extends User {
     temp.addAll({
       'activity': activity,
       'dateOfBirth': dateOfBirth,
-      'address': address,
       'physicalCondition': physicalCondition,
     });
     return temp;

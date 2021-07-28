@@ -8,11 +8,8 @@ import 'package:randolina/app/auth/sign_up/client/sign_up_client_form2.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/client.dart';
-import 'package:randolina/common_widgets/custom_app_bar.dart';
-import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
@@ -39,6 +36,7 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
   late File _imageFile;
   String? _bio;
   late String _activity;
+  late Timestamp _dateOfBirth;
 
   @override
   void initState() {
@@ -81,10 +79,10 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
         wilaya: _wilaya,
         phoneNumber: _phoneNumber,
         activity: _activity,
-        //! todo @high not mentionned in the design
-        dateOfBirth: Timestamp.now(),
-        address: 'not mentionned',
-        physicalCondition: 'physicalCondition',
+        dateOfBirth: _dateOfBirth,
+
+        // this field is left for future usage
+        physicalCondition: '',
       );
       await bloc.saveClientInfo(client);
       pd.close();
@@ -97,71 +95,67 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return CustomScaffold(
-      backgroundColor: backgroundColor,
-      appBar: CustomAppBar(),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: SizeConfig.screenHeight + 60,
-          child: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            children: <Widget>[
-              SignUpClientForm(
-                onSaved: ({
-                  required String fullname,
-                  required String password,
-                  required String phoneNumber,
-                  required String username,
-                  required int wilaya,
-                }) async {
-                  try {
-                    _fullname = fullname;
-                    _password = password;
-                    _phoneNumber = phoneNumber;
-                    _username = username;
-                    _wilaya = wilaya;
+    return SizedBox(
+      height: SizeConfig.screenHeight,
+      child: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        children: <Widget>[
+          SignUpClientForm(
+            onSaved: ({
+              required String fullname,
+              required String password,
+              required String phoneNumber,
+              required String username,
+              required int wilaya,
+              required Timestamp dateOfBirth,
+            }) async {
+              try {
+                _fullname = fullname;
+                _password = password;
+                _phoneNumber = phoneNumber;
+                _username = username;
+                _wilaya = wilaya;
+                _dateOfBirth = dateOfBirth;
 
-                    await bloc.verifyPhoneNumber(_phoneNumber);
-                    swipePage(1);
-                  } on Exception catch (e) {
-                    logger.severe('Error in verifyPhoneNumber');
-                    PlatformExceptionAlertDialog(exception: e).show(context);
-                  }
-                },
-              ),
-              SignUpPhoneConfirmation(
-                bloc: bloc,
-                onNextPressed: (String code) async {
-                  try {
-                    final bool isLoggedIn = await bloc.magic(
-                      _username,
-                      _password,
-                      code,
-                    );
-                    if (isLoggedIn) {
-                      swipePage(2);
-                    }
-                  } on Exception catch (e) {
-                    PlatformExceptionAlertDialog(exception: e).show(context);
-                  }
-                },
-              ),
-              SignUpClientForm2(
-                onSaved: ({
-                  required File imageFile,
-                  required String? bio,
-                  required String activity,
-                }) {
-                  _imageFile = imageFile;
-                  _bio = bio;
-                  _activity = activity;
-                  sendClientInfo();
-                },
-              ),
-            ],
+                await bloc.verifyPhoneNumber(_phoneNumber);
+                swipePage(1);
+              } on Exception catch (e) {
+                logger.severe('Error in verifyPhoneNumber');
+                PlatformExceptionAlertDialog(exception: e).show(context);
+              }
+            },
           ),
-        ),
+          SignUpPhoneConfirmation(
+            bloc: bloc,
+            onNextPressed: (String code) async {
+              try {
+                final bool isLoggedIn = await bloc.magic(
+                  _username,
+                  _password,
+                  code,
+                );
+                if (isLoggedIn) {
+                  swipePage(2);
+                }
+              } on Exception catch (e) {
+                PlatformExceptionAlertDialog(exception: e).show(context);
+              }
+            },
+          ),
+          SignUpClientForm2(
+            onSaved: ({
+              required File imageFile,
+              required String? bio,
+              required String activity,
+            }) {
+              _imageFile = imageFile;
+              _bio = bio;
+              _activity = activity;
+              sendClientInfo();
+            },
+          ),
+        ],
       ),
     );
   }
