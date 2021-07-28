@@ -24,10 +24,10 @@ class SignUpClientScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SignUpScreenClientState createState() => _SignUpScreenClientState();
+  _SignUpClientScreenState createState() => _SignUpClientScreenState();
 }
 
-class _SignUpScreenClientState extends State<SignUpClientScreen> {
+class _SignUpClientScreenState extends State<SignUpClientScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
 
