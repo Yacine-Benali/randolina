@@ -12,9 +12,9 @@ class Client extends User {
     required int posts,
     required int followers,
     required int following,
-    required int wilaya,
     required String phoneNumber,
     //
+    required this.wilaya,
     required this.activity,
     required this.dateOfBirth,
     required this.physicalCondition,
@@ -28,10 +28,10 @@ class Client extends User {
           posts: posts,
           followers: followers,
           following: following,
-          wilaya: wilaya,
           phoneNumber: phoneNumber,
         );
 
+  final int wilaya;
   final String activity;
   final Timestamp dateOfBirth;
   final String physicalCondition;
@@ -78,6 +78,7 @@ class Client extends User {
   Map<String, dynamic> toMap() {
     final temp = super.toMap();
     temp.addAll({
+      'wilaya': wilaya,
       'activity': activity,
       'dateOfBirth': dateOfBirth,
       'physicalCondition': physicalCondition,

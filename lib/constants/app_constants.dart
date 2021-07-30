@@ -16,3 +16,44 @@ List<String> clientActivities = [
   'Tourist',
   'Other'
 ];
+
+final clubActivities = [
+  {
+    'display': 'Kayak',
+    'value': 'Kayak',
+  },
+  {
+    'display': 'Hiking',
+    'value': 'Hiking',
+  },
+  {
+    'display': 'Voyage OR',
+    'value': 'Voyage OR',
+  },
+  {
+    'display': 'Bivouac',
+    'value': 'Bivouac',
+  },
+  {
+    'display': 'Jet ski',
+    'value': 'Jet ski',
+  },
+  {
+    'display': 'Parachute',
+    'value': 'Parachute',
+  },
+  {
+    'display': 'Diving',
+    'value': 'Diving',
+  },
+  {
+    'display': 'Mountaineering',
+    'value': 'Mountaineering',
+  },
+  {
+    'display': 'Others...',
+    'value': 'Others...',
+  },
+];
+String clubKey = 'display';
+String clubValue = 'value';

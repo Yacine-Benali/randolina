@@ -52,7 +52,7 @@ class FirestoreDatabase implements Database {
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,
-    required bool merge,
+    bool merge = true,
   }) async {
     final dcumentReference = FirebaseFirestore.instance.doc(path);
     print('set $path: $data');

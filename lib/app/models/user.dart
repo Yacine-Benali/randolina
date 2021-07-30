@@ -1,4 +1,3 @@
-import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/club.dart';
 
@@ -13,7 +12,6 @@ class User {
     required this.posts,
     required this.followers,
     required this.following,
-    required this.wilaya,
     required this.phoneNumber,
   });
 
@@ -26,7 +24,6 @@ class User {
   final int posts;
   final int followers;
   final int following;
-  final int wilaya;
   final String phoneNumber;
 
   factory User.fromMap(Map<String, dynamic>? data, String documentId) {
@@ -42,7 +39,6 @@ class User {
     final int posts = int.parse(data['posts'] as String);
     final int followers = int.parse(data['followers'] as String);
     final int following = int.parse(data['following'] as String);
-    final int wilaya = data['wilaya'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
 
     return User(
@@ -55,7 +51,6 @@ class User {
       posts: posts,
       followers: followers,
       following: following,
-      wilaya: wilaya,
       phoneNumber: phoneNumber,
     );
   }
@@ -69,7 +64,7 @@ class User {
     } else if (type == 1) {
       user = Club.fromMap(data, documentId);
     } else if (type == 2) {
-      user = Agency.fromMap(data, documentId);
+      // user = Agency.fromMap(data, documentId);
     } else if (type == 3) {
       //? for brand
     }
@@ -87,7 +82,6 @@ class User {
       'posts': posts,
       'followers': followers,
       'following': following,
-      'wilaya': wilaya,
       'phoneNumber': phoneNumber,
     };
   }

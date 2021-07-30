@@ -8,3 +8,5 @@ const String invalidPhoneNumberError = '*';
 const String invalidVerificationCodeError = '*';
 const String invalidActivityError = '*';
 const String invalidClubMembersError = '*';
+const String invalidEmailError = '*';
+const String invalidClubActivitiesError = '*';

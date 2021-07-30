@@ -250,7 +250,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         if (dateOfBirth == null) {
-                          PlatformException e = PlatformException(
+                          final PlatformException e = PlatformException(
                             code: 'BIRTHDAY_NULL',
                             message: 'You must select a birthday',
                           );

@@ -12,9 +12,9 @@ class Club extends User {
     required int posts,
     required int followers,
     required int following,
-    required int wilaya,
     required String phoneNumber,
     //
+    required this.address,
     required this.activities,
     required this.presidentName,
     required this.creationDate,
@@ -30,10 +30,9 @@ class Club extends User {
           posts: posts,
           followers: followers,
           following: following,
-          wilaya: wilaya,
           phoneNumber: phoneNumber,
         );
-
+  final String address;
   final List<String> activities;
   final String presidentName;
   final Timestamp creationDate;
@@ -56,6 +55,7 @@ class Club extends User {
     final int wilaya = data['wilaya'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
     //
+    final String address = data['address'] as String;
     final List<String> activities = data['activities'] as List<String>;
     final String presidentName = data['presidentName'] as String;
     final Timestamp creationDate = data['creationDate'] as Timestamp;
@@ -72,7 +72,7 @@ class Club extends User {
       posts: posts,
       followers: followers,
       following: following,
-      wilaya: wilaya,
+      address: address,
       phoneNumber: phoneNumber,
       //
       activities: activities,

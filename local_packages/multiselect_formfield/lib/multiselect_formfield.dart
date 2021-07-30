@@ -1,0 +1,172 @@
+library multiselect_formfield;
+
+import 'package:flutter/material.dart';
+import 'package:multiselect_formfield/multiselect_dialog.dart';
+
+class MultiSelectFormField extends FormField<dynamic> {
+  final String title;
+  final Widget hintWidget;
+  final bool required;
+  final String errorText;
+  final List? dataSource;
+  final String? textField;
+  final String? valueField;
+  final Function? change;
+  final Function? open;
+  final Function? close;
+  final Widget? leading;
+  final Widget? trailing;
+  final String okButtonLabel;
+  final String cancelButtonLabel;
+  final Color? fillColor;
+  final InputBorder? border;
+  final TextStyle? chipLabelStyle;
+  final Color? chipBackGroundColor;
+  final TextStyle dialogTextStyle;
+  final ShapeBorder dialogShapeBorder;
+  final Color? checkBoxCheckColor;
+  final Color? checkBoxActiveColor;
+  final bool enabled;
+
+  MultiSelectFormField({
+    FormFieldSetter<dynamic>? onSaved,
+    FormFieldValidator<dynamic>? validator,
+    dynamic initialValue,
+    AutovalidateMode? autovalidateMode,
+    required this.title,
+    this.hintWidget = const Text('Tap to select one or more'),
+    this.required = false,
+    this.errorText = 'Please select one or more options',
+    this.leading,
+    this.dataSource,
+    this.textField,
+    this.valueField,
+    this.change,
+    this.open,
+    this.close,
+    this.okButtonLabel = 'OK',
+    this.cancelButtonLabel = 'CANCEL',
+    this.fillColor,
+    this.border,
+    this.trailing,
+    this.chipLabelStyle,
+    this.enabled = true,
+    this.chipBackGroundColor,
+    this.dialogTextStyle = const TextStyle(),
+    this.dialogShapeBorder = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(0.0)),
+    ),
+    this.checkBoxActiveColor,
+    this.checkBoxCheckColor,
+  }) : super(
+          onSaved: onSaved,
+          validator: validator,
+          initialValue: initialValue,
+          autovalidateMode: autovalidateMode,
+          builder: (FormFieldState<dynamic> state) {
+            List<Widget> _buildSelectedOptions(state) {
+              List<Widget> selectedOptions = [];
+
+              if (state.value != null) {
+                state.value.forEach((item) {
+                  var existingItem = dataSource!.singleWhere(
+                      ((itm) => itm[valueField] == item),
+                      orElse: () => null);
+                  selectedOptions.add(Chip(
+                    labelStyle: chipLabelStyle,
+                    backgroundColor: chipBackGroundColor,
+                    label: Text(
+                      existingItem[textField],
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ));
+                });
+              }
+
+              return selectedOptions;
+            }
+
+            return InkWell(
+              onTap: !enabled
+                  ? null
+                  : () async {
+                      List? initialSelected = state.value;
+                      if (initialSelected == null) {
+                        initialSelected = [];
+                      }
+
+                      final items = <MultiSelectDialogItem<dynamic>>[];
+                      dataSource!.forEach((item) {
+                        items.add(MultiSelectDialogItem(
+                            item[valueField], item[textField]));
+                      });
+
+                      List? selectedValues = await showDialog<List>(
+                        context: state.context,
+                        builder: (BuildContext context) {
+                          return MultiSelectDialog(
+                            okButtonLabel: okButtonLabel,
+                            cancelButtonLabel: cancelButtonLabel,
+                            items: items,
+                            initialSelectedValues: initialSelected,
+                            labelStyle: dialogTextStyle,
+                            dialogShapeBorder: dialogShapeBorder,
+                            checkBoxActiveColor: checkBoxActiveColor,
+                            checkBoxCheckColor: checkBoxCheckColor,
+                          );
+                        },
+                      );
+
+                      if (selectedValues != null) {
+                        state.didChange(selectedValues);
+                        state.save();
+                      }
+                    },
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromRGBO(0, 0, 0, 0.8),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  InputDecorator(
+                    decoration: InputDecoration(
+                      filled: true,
+                      errorText: state.hasError ? state.errorText : null,
+                      errorMaxLines: 4,
+                      fillColor:
+                          fillColor ?? Theme.of(state.context).canvasColor,
+                      border: border ?? UnderlineInputBorder(),
+                    ),
+                    isEmpty: state.value == null || state.value == '',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        state.value != null && state.value.length > 0
+                            ? Wrap(
+                                spacing: 8.0,
+                                runSpacing: 0.0,
+                                children: _buildSelectedOptions(state),
+                              )
+                            : new Container(
+                                padding: EdgeInsets.only(top: 4),
+                                child: hintWidget,
+                              )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+}

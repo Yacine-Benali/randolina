@@ -25,7 +25,7 @@ abstract class Database {
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,
-    required bool merge,
+    bool merge = true,
   });
 
   Future<void> addDocument({

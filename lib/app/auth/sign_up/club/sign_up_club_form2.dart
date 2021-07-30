@@ -1,42 +1,36 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
-import 'package:randolina/common_widgets/date_picker.dart';
-import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
 
-class SignUpClubForm extends StatefulWidget {
-  const SignUpClubForm({
+class SignUpClubForm2 extends StatefulWidget {
+  const SignUpClubForm2({
     Key? key,
     required this.onSaved,
   }) : super(key: key);
   final void Function({
-    required String fullname,
-    required String clubname,
-    required Timestamp creationDate,
-    required String address,
-    required int members,
+    required String username,
+    required String email,
+    required String password,
+    required String phoneNumber,
   }) onSaved;
 
   @override
-  _SignUpClubFormState createState() => _SignUpClubFormState();
+  _SignUpClubForm2State createState() => _SignUpClubForm2State();
 }
 
-class _SignUpClubFormState extends State<SignUpClubForm> {
-  late String fullname;
-  late String clubname;
-  Timestamp? creationDate;
-  late String address;
-  late int members;
+class _SignUpClubForm2State extends State<SignUpClubForm2> {
+  late String username;
+  late String email;
+  late String password;
+  late String phoneNumber;
 
   late final GlobalKey<FormState> _formKey;
-  bool isButtonEnabled = true;
 
   @override
   void initState() {
@@ -54,7 +48,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
           ),
         ),
         Image.asset(
-          'assets/club_signup/1.png',
+          'assets/club_signup/2.png',
         ),
         Expanded(
           flex: 10,
@@ -90,58 +84,15 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Full name:',
-                      hintText: 'Name...',
+                      title: 'Use name:',
+                      hintText: 'User name...',
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
-                        fullname = value;
+                        username = value;
                       },
                       validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
-                          return wrongNameError;
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: padding,
-                    child: CustomTextForm(
-                      title: 'Club name:',
-                      hintText: 'Club name...',
-                      textInputAction: TextInputAction.next,
-                      onChanged: (var value) {
-                        clubname = value;
-                      },
-                      validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
-                          return invalidUsernameSignUpError;
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  DatePicker(
-                    labelText: 'date of birth',
-                    selectedDate: creationDate,
-                    onSelectedDate: (Timestamp date) {
-                      setState(() {
-                        creationDate = date;
-                      });
-                    },
-                  ),
-                  Padding(
-                    padding: padding,
-                    child: CustomTextForm(
-                      title: 'Localisation:',
-                      hintText: 'localisation...',
-                      textInputAction: TextInputAction.next,
-                      onChanged: (var value) {
-                        address = value;
-                      },
-                      validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
+                        if (!Validators.isValidUsername(value)) {
                           return invalidUsernameSignUpError;
                         }
                         return null;
@@ -151,16 +102,79 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Number of members:',
-                      hintText: 'Number of members:',
-                      maxLength: 6,
+                      title: 'Email',
+                      hintText: 'Examle@gmail.co...',
+                      textInputAction: TextInputAction.next,
+                      onChanged: (var value) {
+                        email = value;
+                      },
+                      validator: (String? value) {
+                        if (!Validators.isValidEmail(value)) {
+                          return invalidEmailError;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: padding,
+                    child: CustomTextForm(
+                      title: 'Password:',
+                      hintText: 'Password...',
+                      isPassword: true,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (var t) {
+                        password = t;
+                      },
+                      validator: (String? value) {
+                        if (!Validators.isValidPassword(value)) {
+                          return invalidPasswordError;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: padding,
+                    child: CustomTextForm(
+                      title: 'Phone number:',
+                      maxLength: 10,
+                      textInputAction: TextInputAction.done,
                       isPhoneNumber: true,
                       onChanged: (var value) {
-                        members = int.parse(value);
+                        phoneNumber = value;
+                        phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '');
+                        phoneNumber = '+213$phoneNumber';
                       },
+                      prefix: Padding(
+                        //padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                        padding: const EdgeInsets.all(0),
+                        child: IntrinsicHeight(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  '+213',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 57,
+                                child: VerticalDivider(
+                                  thickness: 1,
+                                  width: 20,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       validator: (String? value) {
-                        if (!Validators.isValidNumber(value)) {
-                          return invalidClubMembersError;
+                        if (value == null || !value.startsWith('0')) {
+                          return invalidPhoneNumberError;
                         }
                         return null;
                       },
@@ -194,22 +208,12 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      if (creationDate == null) {
-                        final PlatformException e = PlatformException(
-                          code: 'BIRTHDAY_NULL',
-                          message: 'You must select a birthday',
-                        );
-                        PlatformExceptionAlertDialog(exception: e)
-                            .show(context);
-                      } else {
-                        widget.onSaved(
-                          fullname: fullname,
-                          clubname: clubname,
-                          creationDate: creationDate!,
-                          address: address,
-                          members: members,
-                        );
-                      }
+                      widget.onSaved(
+                        username: username,
+                        email: email,
+                        password: password,
+                        phoneNumber: phoneNumber,
+                      );
                     }
                   }),
             ),

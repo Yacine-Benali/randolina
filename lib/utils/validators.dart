@@ -40,4 +40,12 @@ class Validators {
       return false;
     }
   }
+
+  static bool isValidEmail(String? value) {
+    if (value != null) {
+      return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value);
+    } else {
+      return false;
+    }
+  }
 }
