@@ -11,8 +11,8 @@ import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
 
-class SignUpClubForm extends StatefulWidget {
-  const SignUpClubForm({
+class SignUpAgencyForm extends StatefulWidget {
+  const SignUpAgencyForm({
     Key? key,
     required this.onSaved,
   }) : super(key: key);
@@ -21,19 +21,17 @@ class SignUpClubForm extends StatefulWidget {
     required String clubname,
     required Timestamp creationDate,
     required String address,
-    required int members,
   }) onSaved;
 
   @override
-  _SignUpClubFormState createState() => _SignUpClubFormState();
+  _SignUpAgencyFormState createState() => _SignUpAgencyFormState();
 }
 
-class _SignUpClubFormState extends State<SignUpClubForm> {
+class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
   late String fullname;
-  late String clubname;
+  late String agencyname;
   Timestamp? creationDate;
   late String address;
-  late int members;
 
   late final GlobalKey<FormState> _formKey;
   bool isButtonEnabled = true;
@@ -108,11 +106,11 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Club name:',
-                      hintText: 'Club name...',
+                      title: 'Agency name:',
+                      hintText: 'Agency name...',
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
-                        clubname = value;
+                        agencyname = value;
                       },
                       validator: (String? value) {
                         if (!Validators.isValidName(value)) {
@@ -144,24 +142,6 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                       validator: (String? value) {
                         if (!Validators.isValidName(value)) {
                           return invalidUsernameSignUpError;
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: padding,
-                    child: CustomTextForm(
-                      title: 'Number of members:',
-                      hintText: 'Number of members:',
-                      maxLength: 6,
-                      isPhoneNumber: true,
-                      onChanged: (var value) {
-                        members = int.parse(value);
-                      },
-                      validator: (String? value) {
-                        if (!Validators.isValidNumber(value)) {
-                          return invalidClubMembersError;
                         }
                         return null;
                       },
@@ -205,10 +185,9 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                       } else {
                         widget.onSaved(
                           fullname: fullname,
-                          clubname: clubname,
+                          clubname: agencyname,
                           creationDate: creationDate!,
                           address: address,
-                          members: members,
                         );
                       }
                     }

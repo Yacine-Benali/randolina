@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_screen.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_screen.dart';
 import 'package:randolina/app/auth/sign_up/club/sign_up_club_screen.dart';
 import 'package:randolina/app/auth/sign_up/role_selector/role_selector_screen.dart';
@@ -50,6 +51,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
         if (selectedRole == Role.club) ...[
           SignUpClubScreen(),
+        ],
+        if (selectedRole == Role.agency) ...[
+          SignUpAgencyScreen(),
         ],
       ],
     );

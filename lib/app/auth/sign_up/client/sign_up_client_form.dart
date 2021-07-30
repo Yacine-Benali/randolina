@@ -148,7 +148,8 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: DatePicker(
-                        labelText: 'date of birth',
+                        title: 'date of birth',
+                        hintText: 'DD/MM/YYYY',
                         selectedDate: dateOfBirth,
                         onSelectedDate: (Timestamp date) {
                           setState(() {

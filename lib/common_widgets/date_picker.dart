@@ -8,12 +8,14 @@ import 'package:randolina/common_widgets/input_dropdown.dart';
 class DatePicker extends StatelessWidget {
   const DatePicker({
     Key? key,
-    required this.labelText,
+    required this.title,
     required this.selectedDate,
     required this.onSelectedDate,
+    required this.hintText,
   }) : super(key: key);
 
-  final String labelText;
+  final String hintText;
+  final String title;
   final Timestamp? selectedDate;
   final ValueChanged<Timestamp> onSelectedDate;
 
@@ -52,10 +54,10 @@ class DatePicker extends StatelessWidget {
         Expanded(
           flex: 5,
           child: InputDropdown(
-            title: labelText,
+            title: title,
             valueText: selectedDate != null
                 ? Text(date(selectedDate!.toDate()), style: on)
-                : Text('Birthday...', style: off),
+                : Text(hintText, style: off),
             onPressed: () => _selectDate(context),
           ),
         ),

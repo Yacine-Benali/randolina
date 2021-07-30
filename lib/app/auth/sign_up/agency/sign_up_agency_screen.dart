@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/auth/sign_up/club/sign_up_club_form.dart';
-import 'package:randolina/app/auth/sign_up/club/sign_up_club_form2.dart';
-import 'package:randolina/app/auth/sign_up/club/sign_up_club_form3.dart';
+import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_form.dart';
+import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_form2.dart';
+import 'package:randolina/app/auth/sign_up/agency/sign_up_club_form3.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
-import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/services/auth.dart';
@@ -16,31 +16,29 @@ import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class SignUpClubScreen extends StatefulWidget {
-  const SignUpClubScreen({
+class SignUpAgencyScreen extends StatefulWidget {
+  const SignUpAgencyScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SignUpClubScreenState createState() => _SignUpClubScreenState();
+  _SignUpAgencyScreenState createState() => _SignUpAgencyScreenState();
 }
 
-class _SignUpClubScreenState extends State<SignUpClubScreen> {
+class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
 
   late String _fullname;
-  late String _clubname;
+  late String _agencyName;
   late Timestamp _creationDate;
   late String _address;
-  late int _members;
   late String _username;
   late String _email;
   late String _password;
   late String _phoneNumber;
   late File _imageFile;
   late String? _bio;
-  late List<String> _clubActivities;
 
   @override
   void initState() {
@@ -71,25 +69,23 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
       final String profilePictureUrl =
           await bloc.uploadProfilePicture(_imageFile);
       // creat club account
-      Club club = Club(
+      Agency agency = Agency(
         id: '',
-        type: 1,
+        type: 2,
         username: _username,
-        name: _clubname,
+        name: _agencyName,
         profilePicture: profilePictureUrl,
         bio: _bio,
         posts: 0,
         followers: 0,
         following: 0,
-        address: _address,
         phoneNumber: _phoneNumber,
-        activities: _clubActivities,
+        address: _address,
         presidentName: _fullname,
         creationDate: _creationDate,
         email: _email,
-        members: _members,
       );
-      await bloc.saveClientInfo(club);
+      await bloc.saveClientInfo(agency);
       pd.close();
       Navigator.of(context).pop();
     } on Exception catch (e) {
@@ -104,23 +100,21 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
       physics: NeverScrollableScrollPhysics(),
       controller: _pageController,
       children: <Widget>[
-        SignUpClubForm(
+        SignUpAgencyForm(
           onSaved: ({
             required String fullname,
             required String clubname,
             required Timestamp creationDate,
             required String address,
-            required int members,
           }) {
             _fullname = fullname;
-            _clubname = clubname;
+            _agencyName = clubname;
             _creationDate = creationDate;
             _address = address;
-            _members = members;
             swipePage(1);
           },
         ),
-        SignUpClubForm2(
+        SignUpAgencyForm2(
           onSaved: ({
             required String username,
             required String email,
@@ -158,15 +152,13 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
             }
           },
         ),
-        SignUpClubForm3(
+        SignUpAgencyForm3(
           onSaved: ({
             required File imageFile,
             required String? bio,
-            required List<String> clubActivities,
           }) {
             _imageFile = imageFile;
             _bio = bio;
-            _clubActivities = clubActivities;
 
             sendClubInfo();
           },
