@@ -13,14 +13,14 @@ abstract class Database {
     required T Function(Map<String, dynamic> data, String documentID) builder,
   });
 
-  // Stream<T> streamDocument<T>({
-  //   required String path,
-  //   required T Function(
-  //     Map<String, dynamic> data,
-  //     String documentID,
-  //   )
-  //       builder,
-  // });
+  Stream<T?> streamDocument<T>({
+    required String path,
+    required T Function(
+      Map<String, dynamic> data,
+      String documentID,
+    )
+        builder,
+  });
 
   Future<void> setData({
     required String path,

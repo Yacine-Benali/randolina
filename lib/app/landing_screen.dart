@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_screen.dart';
+import 'package:randolina/app/home/base_screen.dart';
+import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/services/auth.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -21,40 +23,12 @@ class LandingScreen extends StatelessWidget {
           if (user == null) {
             return SignInScreen();
           }
-          return Scaffold(
-            appBar: AppBar(),
-            body: Container(
-              color: Colors.red,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        auth.signOut();
-                      },
-                      child: Text('signout'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text('getInfo'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          return Provider.value(
+            value: user,
+            child: BaseScreen(),
           );
         }
-        return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(
-              color: Colors.red,
-            ),
-          ),
-        );
+        return LoadingScreen();
       },
     );
   }

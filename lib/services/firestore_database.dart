@@ -49,6 +49,20 @@ class FirestoreDatabase implements Database {
   }
 
   @override
+  Stream<T?> streamDocument<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data, String id) builder,
+  }) {
+    final DocumentReference<Map<String, dynamic>> reference =
+        FirebaseFirestore.instance.doc(path);
+    final Stream<DocumentSnapshot<Map<String, dynamic>>> snapshots =
+        reference.snapshots();
+    return snapshots.map((DocumentSnapshot<Map<String, dynamic>> snapshot) {
+      return builder(snapshot.data()!, snapshot.id);
+    });
+  }
+
+  @override
   Future<void> setData({
     required String path,
     required Map<String, dynamic> data,
@@ -125,16 +139,6 @@ class FirestoreDatabase implements Database {
       return result;
     });
   }
-
-  // @override
-  // Stream<T> documentStream<T>({
-  //   required String path,
-  //   required T Function(Map<String, dynamic> data, String id) builder,
-  // }) {
-  //   final DocumentReference reference = FirebaseFirestore.instance.doc(path);
-  //   final Stream<DocumentSnapshot> snapshots = reference.snapshots();
-  //   return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
-  // }
 
   // @override
   // Future<T> fetchQueryDocument<T>({

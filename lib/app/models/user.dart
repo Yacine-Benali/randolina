@@ -36,9 +36,9 @@ class User {
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
     final String? bio = data['bio'] as String?;
-    final int posts = int.parse(data['posts'] as String);
-    final int followers = int.parse(data['followers'] as String);
-    final int following = int.parse(data['following'] as String);
+    final int posts = data['posts'] as int;
+    final int followers = data['followers'] as int;
+    final int following = data['following'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
 
     return User(

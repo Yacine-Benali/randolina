@@ -33,6 +33,8 @@ dependencies:
   sn_progress_dialog: ^1.0.2
   multiselect_formfield: 
     path: ./local_packages/multiselect_formfield
+  font_awesome_flutter: ^9.1.0
+  
 
 
   flutter:
