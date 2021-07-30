@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/services/auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _lastSelected = 'TAB: 0';
   int index = 0;
   List<Widget> screens = [
     Container(color: Colors.red),
@@ -29,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<Auth>().signOut();
+            },
             backgroundColor: darkBlue,
             tooltip: 'Increment',
             elevation: 2.0,
@@ -46,12 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedColor: darkBlue,
         notchedShape: CircularNotchedRectangle(),
         onTabSelected: (int index) {
-          setState(() {
-            this.index = index;
-          });
+          setState(() => this.index = index);
         },
         items: [
-          FABBottomAppBarItem(iconData: Icons.chat, notification: 5),
+          FABBottomAppBarItem(iconData: Icons.chat, notification: 0),
           FABBottomAppBarItem(iconData: Icons.store, notification: 0),
           FABBottomAppBarItem(iconData: Icons.favorite, notification: 0),
           FABBottomAppBarItem(

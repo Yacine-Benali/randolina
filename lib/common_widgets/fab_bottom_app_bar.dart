@@ -101,29 +101,31 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
                     color: color,
                     size: widget.iconSize,
                   ),
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 12,
-                        minHeight: 12,
-                      ),
-                      child: Text(
-                        item.notification.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
+                  if (item.notification != 0) ...[
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        textAlign: TextAlign.center,
+                        constraints: BoxConstraints(
+                          minWidth: 12,
+                          minHeight: 12,
+                        ),
+                        child: Text(
+                          item.notification.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                  )
+                  ],
                 ],
               ),
             ),
