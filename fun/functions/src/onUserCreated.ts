@@ -12,9 +12,9 @@ const client = algoliasearch(appId, adminAPIKEY);
 const index = client.initIndex('users_search');
 
 
-export const onUserCreated = functions.firestore.document('users/{userId}').onUpdate(
+export const onUserCreated = functions.firestore.document('users/{userId}').onCreate(
     async (snapshot, context) => {
-        const data = snapshot.after.data();
+        const data = snapshot.data();
         let uid: String = context.params.userId;
 
 
