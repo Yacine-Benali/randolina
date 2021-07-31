@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_title.dart';
-import 'package:randolina/app/auth/sign_up/signup_divider.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
+import 'package:randolina/common_widgets/sign_up_title.dart';
+import 'package:randolina/common_widgets/signup_divider.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
@@ -48,7 +48,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
           SignUpTitle(title: 'confirmation of number'),
           SizedBox(height: 30),
           SignUpDivider(
-            imagePath: 'assets/sign_up_mini_icons/phone_confirmation_icon.png',
+            imagePath: 'assets/phone_confirmation_logo.png',
             start: 1,
             end: 1,
           ),

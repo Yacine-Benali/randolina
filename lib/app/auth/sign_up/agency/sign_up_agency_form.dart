@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_title.dart';
-import 'package:randolina/app/auth/sign_up/signup_divider.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/date_picker.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/common_widgets/sign_up_title.dart';
+import 'package:randolina/common_widgets/signup_divider.dart';
 import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';

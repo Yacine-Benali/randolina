@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_title.dart';
-import 'package:randolina/app/auth/sign_up/signup_divider.dart';
 import 'package:randolina/common_widgets/avatar.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
@@ -11,6 +9,8 @@ import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/common_widgets/sign_up_title.dart';
+import 'package:randolina/common_widgets/signup_divider.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/app_constants.dart';
 import 'package:randolina/constants/assets_constants.dart';
