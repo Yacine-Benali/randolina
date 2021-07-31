@@ -35,6 +35,7 @@ dependencies:
     path: ./local_packages/multiselect_formfield
   font_awesome_flutter: ^9.1.0
   bordered_text: ^2.0.0
+  algolia: ^1.0.1
   
 
 

@@ -19,7 +19,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8080';
 
-  if (false) {
+  if (true) {
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
     FirebaseAuth.instance.useAuthEmulator(host, 9099);
     FirebaseStorage.instance.useStorageEmulator(host, 9199);
