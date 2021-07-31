@@ -82,4 +82,13 @@ class User {
       'phoneNumber': phoneNumber,
     };
   }
+
+  Map<String, dynamic> toMiniUserMap() {
+    return {
+      'id': id,
+      'username': username,
+      'name': name,
+      'profilePicture': profilePicture,
+    };
+  }
 }

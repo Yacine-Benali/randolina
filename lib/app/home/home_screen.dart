@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home/feed/feed_screen.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/constants/app_colors.dart';
@@ -13,9 +14,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int index = 3;
+  int index = 0;
   List<Widget> screens = [
-    Container(color: Colors.red),
+    FeedScreen(),
     Container(color: Colors.green),
     Container(color: Colors.blue),
     ProfileScreen(),
