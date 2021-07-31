@@ -12,14 +12,20 @@ const client = algoliasearch(appId, adminAPIKEY);
 const index = client.initIndex('users_search');
 
 
-export const onUserCreated = functions.firestore.document('users/{userId}').onCreate(
+export const onUserCreated = functions.firestore.document('users/{userId}').onUpdate(
     async (snapshot, context) => {
-        const data = snapshot.data();
+        const data = snapshot.after.data();
         let uid: String = context.params.userId;
 
 
 
-
+        let miniUser =
+        {
+            id: uid,
+            name: data.name,
+            username: data.username,
+            profilePicture: data.profilePicture
+        }
         //  create subscription doc if type is 1,2,3
         let type: number = data.type;
         if (type == 1 || type == 2 || type == 3) {
@@ -34,7 +40,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}').onCr
         // create user_followers_posts
         await db.doc(`user_followers_posts/${uid}`).set(
             {
-                'userId': uid,
+                'miniUser': miniUser,
                 'lastPostTimestamp': null,
                 'followers': [],
                 'postsIds': [],
@@ -45,15 +51,16 @@ export const onUserCreated = functions.firestore.document('users/{userId}').onCr
         // create user_followers_stories
         await db.doc(`user_followers_stories/${uid}`).set(
             {
-                'userId': uid,
+                'miniUser': miniUser,
                 'lastPostTimestamp': null,
                 'followers': [],
                 'storiesIds': [],
 
             }
         );
-
-        if (true) {
+        
+        //todo remove this line when in prod
+        if (false) {
             // add mini user to algolia for full-text-search
             const records = [
                 {
