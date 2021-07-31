@@ -10,6 +10,7 @@ import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
@@ -128,6 +129,7 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
           ),
           SignUpPhoneConfirmation(
             bloc: bloc,
+            backgroundImagePath: clientBackgroundImage,
             onNextPressed: (String code) async {
               try {
                 final bool isLoggedIn = await bloc.magic(

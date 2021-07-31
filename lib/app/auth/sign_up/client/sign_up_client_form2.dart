@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:randolina/app/auth/sign_up/custom_sign_up_title.dart';
 import 'package:randolina/common_widgets/avatar.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
@@ -11,6 +12,7 @@ import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/app_constants.dart';
+import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/constants/strings.dart';
 
 class SignUpClientForm2 extends StatefulWidget {
@@ -67,11 +69,12 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       backgroundColor: backgroundColor,
+      backgroundImagePath: clientBackgroundImage,
       appBar: CustomAppBar(),
       body: Column(
         children: [
           SizedBox(height: 30),
-          Text('Complete the registration'),
+          CustomSignUpTitle(title: 'Complete the registration'),
           SizedBox(height: 30),
           buildDivider(),
           SizedBox(height: 30),

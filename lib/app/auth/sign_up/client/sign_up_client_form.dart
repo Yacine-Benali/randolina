@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:randolina/app/auth/sign_up/custom_sign_up_title.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
@@ -8,7 +9,7 @@ import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/date_picker.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
 
@@ -71,13 +72,13 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(vertical: 1);
     return CustomScaffold(
-      backgroundColor: backgroundColor,
+      backgroundImagePath: clientBackgroundImage,
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 30),
-            Text('Login information'),
+            CustomSignUpTitle(title: 'Login information'),
             SizedBox(height: 30),
             buildDivider(),
             SizedBox(height: 30),

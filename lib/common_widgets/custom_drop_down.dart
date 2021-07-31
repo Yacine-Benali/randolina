@@ -1,3 +1,4 @@
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/constants/algeria_cities.dart';
 
@@ -47,11 +48,15 @@ class _WilayaPickerState extends State<CustomDropDown> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Text(
-            widget.title,
-            style: TextStyle(
-              fontSize: 15,
-              color: Color.fromRGBO(0, 0, 0, 0.8),
+          child: BorderedText(
+            strokeColor: Colors.black,
+            strokeWidth: 3.0,
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

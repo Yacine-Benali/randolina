@@ -71,6 +71,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(vertical: 1);
     return CustomScaffold(
+      backgroundImagePath: 'assets/sign_up_background/club_background.png',
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(),
       body: Column(

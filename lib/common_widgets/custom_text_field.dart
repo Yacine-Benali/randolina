@@ -1,3 +1,4 @@
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:randolina/constants/app_colors.dart';
@@ -6,6 +7,7 @@ class CustomTextForm extends StatelessWidget {
   const CustomTextForm({
     Key? key,
     this.title,
+    this.titleStyle,
     this.hintText,
     this.maxLength,
     required this.onChanged,
@@ -20,6 +22,7 @@ class CustomTextForm extends StatelessWidget {
   }) : super(key: key);
 
   final String? title;
+  final TextStyle? titleStyle;
   final String? initialValue;
   final String? hintText;
   final int? maxLength;
@@ -41,11 +44,15 @@ class CustomTextForm extends StatelessWidget {
           if (title != null) ...[
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                title!,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Color.fromRGBO(0, 0, 0, 0.8),
+              child: BorderedText(
+                strokeColor: Colors.black,
+                strokeWidth: 3.0,
+                child: Text(
+                  title!,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

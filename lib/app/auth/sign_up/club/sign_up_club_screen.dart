@@ -142,6 +142,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
           },
         ),
         SignUpPhoneConfirmation(
+          backgroundImagePath: 'assets/sign_up_background/club_background.png',
           bloc: bloc,
           onNextPressed: (String code) async {
             try {

@@ -136,6 +136,8 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
           },
         ),
         SignUpPhoneConfirmation(
+          backgroundImagePath:
+              'assets/sign_up_background/agency_background.png',
           bloc: bloc,
           onNextPressed: (String code) async {
             try {

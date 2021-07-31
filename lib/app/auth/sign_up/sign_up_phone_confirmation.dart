@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/auth/sign_up/custom_sign_up_title.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
@@ -13,9 +14,11 @@ class SignUpPhoneConfirmation extends StatefulWidget {
     Key? key,
     required this.onNextPressed,
     required this.bloc,
+    required this.backgroundImagePath,
   }) : super(key: key);
   final ValueChanged<String> onNextPressed;
   final SignUpBloc bloc;
+  final String backgroundImagePath;
 
   @override
   _SignUpPhoneConfirmationState createState() =>
@@ -55,12 +58,13 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      backgroundImagePath: widget.backgroundImagePath,
       appBar: CustomAppBar(),
       backgroundColor: backgroundColor,
       body: Column(
         children: [
           SizedBox(height: 30),
-          Text('Login information'),
+          CustomSignUpTitle(title: 'confirmation of number'),
           SizedBox(height: 30),
           buildDivider(),
           SizedBox(height: 30),
@@ -78,7 +82,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
                       'to confirm your number, enter the SMS code here:',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 0.5),
+                        color: Colors.white70,
                       ),
                     ),
                   ),
