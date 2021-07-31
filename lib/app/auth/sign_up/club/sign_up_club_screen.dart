@@ -45,7 +45,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 3);
+    _pageController = PageController(initialPage: 0);
     final Auth auth = context.read<Auth>();
     final Database database = context.read<Database>();
     bloc = SignUpBloc(auth: auth, database: database);

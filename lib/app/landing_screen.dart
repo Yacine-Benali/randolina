@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_screen.dart';
 import 'package:randolina/app/home/base_screen.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
-import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/services/auth.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -12,7 +11,6 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig.init(context);
     final Auth auth = context.read<Auth>();
     auth.init();
 

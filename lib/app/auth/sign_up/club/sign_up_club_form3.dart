@@ -73,7 +73,7 @@ class _SignUpClubForm3State extends State<SignUpClubForm3> {
                     ),
                     child: Avatar(
                       placeHolder: Image.asset(
-                        'assets/client_upload_picture.png',
+                        'assets/club_upload_picture.png',
                         width: 150,
                       ),
                       onChanged: (File f) {

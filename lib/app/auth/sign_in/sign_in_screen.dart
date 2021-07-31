@@ -5,16 +5,10 @@ import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/utils/validators.dart';
-
-/* 
-  ? todo add focus node and when clicking on next you move to the next field
-  ? add input validation as the user types 
-*/
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -148,7 +142,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig.init(context);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -157,6 +150,7 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              //! todo @high fix image quality
               Padding(
                 padding: const EdgeInsets.only(top: 180, bottom: 80),
                 child: Image.asset(

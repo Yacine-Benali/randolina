@@ -5,7 +5,6 @@ import 'package:randolina/app/auth/sign_up/club/sign_up_club_screen.dart';
 import 'package:randolina/app/auth/sign_up/role_selector/role_selector_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_constants.dart';
-import 'package:randolina/utils/logger.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -17,22 +16,22 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   late final PageController _pageController;
   Role? selectedRole;
-  late Image myImage;
+  late Image userBackground;
 
   @override
   void initState() {
     _pageController = PageController();
+
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     precacheImage(
-        AssetImage('assets/sign_up_background/user_background.png'), context,
-        onError: (object, stackTrace) {
-      logger.severe('Error precaching the image');
-      logger.severe(stackTrace);
-    });
+        AssetImage('assets/sign_up_background/user_background.png'), context);
+    precacheImage(
+        AssetImage('assets/sign_up_background/club_background.png'), context);
+
     super.didChangeDependencies();
   }
 
