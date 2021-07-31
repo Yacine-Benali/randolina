@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:randolina/app/auth/sign_up/sign_up_title.dart';
+import 'package:randolina/app/auth/sign_up/signup_divider.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
@@ -45,29 +47,6 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
     super.initState();
   }
 
-  Widget buildDivider() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-        ),
-        Image.asset(
-          'assets/club_signup/1.png',
-        ),
-        Expanded(
-          flex: 10,
-          child: Divider(
-            thickness: 1,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(vertical: 1);
@@ -78,9 +57,10 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          Text('Login information'),
+          SignUpTitle(title: 'Login information'),
           SizedBox(height: 30),
-          buildDivider(),
+          SignUpDivider(
+              imagePath: 'assets/club_signup/1.png', start: 1, end: 10),
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),

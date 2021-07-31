@@ -67,6 +67,8 @@ flutter:
     - assets/
     - assets/club_signup/
     - assets/sign_up_background/
+    - assets/sign_up_tiles/
+    - assets/sign_up_mini_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

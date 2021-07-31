@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multiselect_formfield/multiselect_dialog.dart';
 
 class MultiSelectFormField extends FormField<dynamic> {
-  final String title;
+  final Widget title;
   final Widget hintWidget;
   final bool required;
   final String errorText;
@@ -128,13 +128,7 @@ class MultiSelectFormField extends FormField<dynamic> {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromRGBO(0, 0, 0, 0.8),
-                        ),
-                      ),
+                      child: title,
                     ),
                   ),
                   SizedBox(height: 2),

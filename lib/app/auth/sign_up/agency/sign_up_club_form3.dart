@@ -46,7 +46,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
           ),
         ),
         Image.asset(
-          'assets/correct_icon.png',
+          'assets/sign_up_mini_icons/correct_icon.png',
         ),
         Expanded(
           child: Divider(
@@ -84,7 +84,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
                     ),
                     child: Avatar(
                       placeHolder: Image.asset(
-                        'assets/profile_picture_3.png',
+                        'assets/client_upload_picture.png',
                         width: 150,
                       ),
                       onChanged: (File f) {

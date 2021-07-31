@@ -26,7 +26,7 @@ class RoleSelectorRadio extends StatelessWidget {
         alignment: Alignment.bottomLeft,
         children: [
           Image.asset(
-            'assets/$value.png'.replaceAll('Role.', ''),
+            'assets/sign_up_tiles/$value.png'.replaceAll('Role.', ''),
             // height: 150,
           ),
           Positioned(

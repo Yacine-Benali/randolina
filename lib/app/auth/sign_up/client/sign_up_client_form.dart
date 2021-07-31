@@ -61,7 +61,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
             SignUpTitle(title: 'Login information'),
             SizedBox(height: 30),
             SignUpDivider(
-              imagePath: 'assets/account.png',
+              imagePath: 'assets/sign_up_mini_icons/account.png',
               end: 10,
               start: 1,
             ),

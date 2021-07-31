@@ -11,6 +11,7 @@ import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
@@ -44,7 +45,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(initialPage: 3);
     final Auth auth = context.read<Auth>();
     final Database database = context.read<Database>();
     bloc = SignUpBloc(auth: auth, database: database);
@@ -142,7 +143,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
           },
         ),
         SignUpPhoneConfirmation(
-          backgroundImagePath: 'assets/sign_up_background/club_background.png',
+          backgroundImagePath: clubBackgroundImage,
           bloc: bloc,
           onNextPressed: (String code) async {
             try {
