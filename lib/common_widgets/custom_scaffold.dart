@@ -41,7 +41,9 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                 backgroundColor: Colors.transparent,
                 flexibleSpace: widget.appBar,
                 iconTheme: IconThemeData(
-                  color: gradientEnd,
+                  color: widget.backgroundImagePath != null
+                      ? Colors.white
+                      : gradientStart,
                 ),
               ),
               SliverList(

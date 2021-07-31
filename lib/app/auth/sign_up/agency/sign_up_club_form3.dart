@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:randolina/app/auth/sign_up/signup_divider.dart';
 import 'package:randolina/common_widgets/avatar.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/constants/assets_constants.dart';
 
 class SignUpAgencyForm3 extends StatefulWidget {
   const SignUpAgencyForm3({
@@ -35,40 +36,21 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
     super.initState();
   }
 
-  Widget buildDivider() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          flex: 10,
-          child: Divider(
-            thickness: 1,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-        ),
-        Image.asset(
-          'assets/sign_up_mini_icons/correct_icon.png',
-        ),
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      backgroundColor: backgroundColor,
+      backgroundImagePath: agencyBackgroundImage,
       appBar: CustomAppBar(),
       body: Column(
         children: [
           SizedBox(height: 30),
           Text('Complete the registration'),
           SizedBox(height: 30),
-          buildDivider(),
+          SignUpDivider(
+            imagePath: 'assets/sign_up_mini_icons/correct_icon.png',
+            start: 10,
+            end: 1,
+          ),
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),
@@ -84,7 +66,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
                     ),
                     child: Avatar(
                       placeHolder: Image.asset(
-                        'assets/client_upload_picture.png',
+                        'assets/club_upload_picture.png',
                         width: 150,
                       ),
                       onChanged: (File f) {

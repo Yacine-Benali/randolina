@@ -11,6 +11,7 @@ import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
@@ -136,8 +137,7 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
           },
         ),
         SignUpPhoneConfirmation(
-          backgroundImagePath:
-              'assets/sign_up_background/agency_background.png',
+          backgroundImagePath: agencyBackgroundImage,
           bloc: bloc,
           onNextPressed: (String code) async {
             try {
