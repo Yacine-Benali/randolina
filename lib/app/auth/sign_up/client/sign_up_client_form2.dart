@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:randolina/app/auth/sign_up/custom_sign_up_title.dart';
+import 'package:randolina/app/auth/sign_up/sign_up_title.dart';
+import 'package:randolina/app/auth/sign_up/signup_divider.dart';
 import 'package:randolina/common_widgets/avatar.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
@@ -42,29 +43,6 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
     super.initState();
   }
 
-  Widget buildDivider() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          flex: 10,
-          child: Divider(
-            thickness: 1,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-        ),
-        Image.asset(
-          'assets/correct_icon.png',
-        ),
-        Expanded(
-          child: Divider(
-            thickness: 1,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -74,9 +52,10 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          CustomSignUpTitle(title: 'Complete the registration'),
+          SignUpTitle(title: 'Complete the registration'),
           SizedBox(height: 30),
-          buildDivider(),
+          SignUpDivider(
+              imagePath: 'assets/correct_icon.png', start: 10, end: 1),
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),

@@ -8,6 +8,7 @@ import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/date_picker.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
 
@@ -71,7 +72,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(vertical: 1);
     return CustomScaffold(
-      backgroundImagePath: 'assets/sign_up_background/club_background.png',
+      backgroundImagePath: clubBackgroundImage,
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(),
       body: Column(

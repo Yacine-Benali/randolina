@@ -1,8 +1,8 @@
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 
-class CustomSignUpTitle extends StatelessWidget {
-  const CustomSignUpTitle({Key? key, required this.title}) : super(key: key);
+class SignUpTitle extends StatelessWidget {
+  const SignUpTitle({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
