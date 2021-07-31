@@ -1,42 +1,38 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
-import 'package:randolina/common_widgets/date_picker.dart';
-import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/sign_up_title.dart';
 import 'package:randolina/common_widgets/signup_divider.dart';
 import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
 
-class SignUpAgencyForm extends StatefulWidget {
-  const SignUpAgencyForm({
+class SignUpStoreForm2 extends StatefulWidget {
+  const SignUpStoreForm2({
     Key? key,
     required this.onSaved,
   }) : super(key: key);
   final void Function({
-    required String fullname,
-    required String clubname,
-    required Timestamp creationDate,
-    required String address,
+    required String username,
+    required String email,
+    required String password,
+    required String phoneNumber,
   }) onSaved;
 
   @override
-  _SignUpAgencyFormState createState() => _SignUpAgencyFormState();
+  _SignUpStoreForm2State createState() => _SignUpStoreForm2State();
 }
 
-class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
-  late String fullname;
-  late String agencyname;
-  Timestamp? creationDate;
-  late String address;
+class _SignUpStoreForm2State extends State<SignUpStoreForm2> {
+  late String username;
+  late String email;
+  late String password;
+  late String phoneNumber;
 
   late final GlobalKey<FormState> _formKey;
-  bool isButtonEnabled = true;
 
   @override
   void initState() {
@@ -48,7 +44,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(vertical: 1);
     return CustomScaffold(
-      backgroundImagePath: agencyBackgroundImage,
+      backgroundImagePath: storeBackgroundImage,
       appBar: CustomAppBar(),
       body: Column(
         children: [
@@ -56,7 +52,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
           SignUpTitle(title: 'Login information'),
           SizedBox(height: 30),
           SignUpDivider(
-              imagePath: 'assets/club_signup/1.png', start: 1, end: 10),
+              imagePath: 'assets/club_signup/2.png', start: 1, end: 10),
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),
@@ -68,16 +64,16 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Full name:',
-                      hintText: 'Name...',
+                      title: 'Use name:',
+                      hintText: 'User name...',
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
-                        fullname = value;
+                        username = value;
                       },
                       validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
-                          return wrongNameError;
+                        if (!Validators.isValidUsername(value)) {
+                          return invalidUsernameSignUpError;
                         }
                         return null;
                       },
@@ -86,42 +82,79 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Agency name:',
-                      hintText: 'Agency name...',
+                      title: 'Email',
+                      hintText: 'Examle@gmail.co...',
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
-                        agencyname = value;
+                        email = value;
                       },
                       validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
-                          return invalidUsernameSignUpError;
+                        if (!Validators.isValidEmail(value)) {
+                          return invalidEmailError;
                         }
                         return null;
                       },
                     ),
                   ),
-                  DatePicker(
-                    title: 'creation date',
-                    hintText: 'DD/MM/YYYY',
-                    selectedDate: creationDate,
-                    onSelectedDate: (Timestamp date) {
-                      setState(() {
-                        creationDate = date;
-                      });
-                    },
+                  Padding(
+                    padding: padding,
+                    child: CustomTextForm(
+                      title: 'Password:',
+                      hintText: 'Password...',
+                      isPassword: true,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (var t) {
+                        password = t;
+                      },
+                      validator: (String? value) {
+                        if (!Validators.isValidPassword(value)) {
+                          return invalidPasswordError;
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Localisation:',
-                      hintText: 'Oran,Alger...',
-                      textInputAction: TextInputAction.next,
+                      title: 'Phone number:',
+                      maxLength: 10,
+                      textInputAction: TextInputAction.done,
+                      isPhoneNumber: true,
                       onChanged: (var value) {
-                        address = value;
+                        phoneNumber = value;
+                        phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '');
+                        phoneNumber = '+213$phoneNumber';
                       },
+                      prefix: Padding(
+                        //padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                        padding: const EdgeInsets.all(0),
+                        child: IntrinsicHeight(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  '+213',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 57,
+                                child: VerticalDivider(
+                                  thickness: 1,
+                                  width: 20,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
-                          return invalidUsernameSignUpError;
+                        if (value == null || !value.startsWith('0')) {
+                          return invalidPhoneNumberError;
                         }
                         return null;
                       },
@@ -155,21 +188,12 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      if (creationDate == null) {
-                        final PlatformException e = PlatformException(
-                          code: 'BIRTHDAY_NULL',
-                          message: 'You must select a birthday',
-                        );
-                        PlatformExceptionAlertDialog(exception: e)
-                            .show(context);
-                      } else {
-                        widget.onSaved(
-                          fullname: fullname,
-                          clubname: agencyname,
-                          creationDate: creationDate!,
-                          address: address,
-                        );
-                      }
+                      widget.onSaved(
+                        username: username,
+                        email: email,
+                        password: password,
+                        phoneNumber: phoneNumber,
+                      );
                     }
                   }),
             ),

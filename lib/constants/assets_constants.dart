@@ -4,3 +4,5 @@ const String clubBackgroundImage =
     'assets/sign_up_background/club_background.png';
 const String agencyBackgroundImage =
     'assets/sign_up_background/agency_background.png';
+const String storeBackgroundImage =
+    'assets/sign_up_background/store_background.png';

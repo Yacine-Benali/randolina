@@ -8,6 +8,7 @@ import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/common_widgets/sign_up_title.dart';
 import 'package:randolina/common_widgets/signup_divider.dart';
 import 'package:randolina/constants/assets_constants.dart';
 
@@ -44,7 +45,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          Text('Complete the registration'),
+          SignUpTitle(title: 'Complete the registration'),
           SizedBox(height: 30),
           SignUpDivider(
             imagePath: 'assets/sign_up_mini_icons/correct_icon.png',

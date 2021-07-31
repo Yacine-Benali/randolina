@@ -36,10 +36,7 @@ class Agency extends User {
   final Timestamp creationDate;
   final String email;
 
-  factory Agency.fromMap(Map<String, dynamic>? data, String documentId) {
-    if (data == null) {
-      throw Error();
-    }
+  factory Agency.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
     final int type = data['type'] as int;
     final String username = data['username'] as String;

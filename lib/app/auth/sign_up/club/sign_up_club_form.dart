@@ -105,7 +105,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                     ),
                   ),
                   DatePicker(
-                    title: 'date of birth',
+                    title: 'creation date',
                     hintText: 'DD/MM/YYYY',
                     selectedDate: creationDate,
                     onSelectedDate: (Timestamp date) {

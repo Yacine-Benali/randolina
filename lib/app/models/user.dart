@@ -26,10 +26,7 @@ class User {
   final int following;
   final String phoneNumber;
 
-  factory User.fromMap(Map<String, dynamic>? data, String documentId) {
-    if (data == null) {
-      throw Error();
-    }
+  factory User.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
     final int type = data['type'] as int;
     final String username = data['username'] as String;

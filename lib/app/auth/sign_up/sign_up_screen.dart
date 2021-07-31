@@ -3,6 +3,7 @@ import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_screen.dart';
 import 'package:randolina/app/auth/sign_up/client/sign_up_client_screen.dart';
 import 'package:randolina/app/auth/sign_up/club/sign_up_club_screen.dart';
 import 'package:randolina/app/auth/sign_up/role_selector/role_selector_screen.dart';
+import 'package:randolina/app/auth/sign_up/store/sign_up_store_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_constants.dart';
 
@@ -66,6 +67,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
         if (selectedRole == Role.agency) ...[
           SignUpAgencyScreen(),
+        ],
+        if (selectedRole == Role.store) ...[
+          SignUpStoreScreen(),
         ],
       ],
     );

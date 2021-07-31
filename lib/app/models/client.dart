@@ -36,10 +36,7 @@ class Client extends User {
   final Timestamp dateOfBirth;
   final String physicalCondition;
 
-  factory Client.fromMap(Map<String, dynamic>? data, String documentId) {
-    if (data == null) {
-      throw Error();
-    }
+  factory Client.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
     final int type = data['type'] as int;
     final String username = data['username'] as String;

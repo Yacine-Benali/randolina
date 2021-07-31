@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_form.dart';
-import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_form2.dart';
-import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_form3.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
-import 'package:randolina/app/models/agency.dart';
+import 'package:randolina/app/auth/sign_up/store/sign_up_store_form.dart';
+import 'package:randolina/app/auth/sign_up/store/sign_up_store_form2.dart';
+import 'package:randolina/app/auth/sign_up/store/sign_up_store_form3.dart';
+import 'package:randolina/app/models/store.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/assets_constants.dart';
@@ -17,22 +16,21 @@ import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class SignUpAgencyScreen extends StatefulWidget {
-  const SignUpAgencyScreen({
+class SignUpStoreScreen extends StatefulWidget {
+  const SignUpStoreScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SignUpAgencyScreenState createState() => _SignUpAgencyScreenState();
+  _SignUpStoreScreenState createState() => _SignUpStoreScreenState();
 }
 
-class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
+class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
 
   late String _fullname;
-  late String _agencyName;
-  late Timestamp _creationDate;
+  late String _storeName;
   late String _address;
   late String _username;
   late String _email;
@@ -69,12 +67,12 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
 
       final String profilePictureUrl =
           await bloc.uploadProfilePicture(_imageFile);
-      // creat club account
-      Agency agency = Agency(
+      // creat store account
+      final Store store = Store(
         id: '',
-        type: 2,
+        type: 3,
         username: _username,
-        name: _agencyName,
+        ownerName: _fullname,
         profilePicture: profilePictureUrl,
         bio: _bio,
         posts: 0,
@@ -82,11 +80,10 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
         following: 0,
         phoneNumber: _phoneNumber,
         address: _address,
-        presidentName: _fullname,
-        creationDate: _creationDate,
+        name: _storeName,
         email: _email,
       );
-      await bloc.saveClientInfo(agency);
+      await bloc.saveClientInfo(store);
       pd.close();
       Navigator.of(context).pop();
     } on Exception catch (e) {
@@ -101,21 +98,19 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
       physics: NeverScrollableScrollPhysics(),
       controller: _pageController,
       children: <Widget>[
-        SignUpAgencyForm(
+        SignUpStoreForm(
           onSaved: ({
             required String fullname,
             required String clubname,
-            required Timestamp creationDate,
             required String address,
           }) {
             _fullname = fullname;
-            _agencyName = clubname;
-            _creationDate = creationDate;
+            _storeName = clubname;
             _address = address;
             swipePage(1);
           },
         ),
-        SignUpAgencyForm2(
+        SignUpStoreForm2(
           onSaved: ({
             required String username,
             required String email,
@@ -137,7 +132,7 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
           },
         ),
         SignUpPhoneConfirmation(
-          backgroundImagePath: agencyBackgroundImage,
+          backgroundImagePath: storeBackgroundImage,
           bloc: bloc,
           onNextPressed: (String code) async {
             try {
@@ -154,7 +149,7 @@ class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
             }
           },
         ),
-        SignUpAgencyForm3(
+        SignUpStoreForm3(
           onSaved: ({
             required File imageFile,
             required String? bio,

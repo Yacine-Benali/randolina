@@ -1,38 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
-import 'package:randolina/common_widgets/date_picker.dart';
-import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/sign_up_title.dart';
 import 'package:randolina/common_widgets/signup_divider.dart';
 import 'package:randolina/constants/assets_constants.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/utils/validators.dart';
 
-class SignUpAgencyForm extends StatefulWidget {
-  const SignUpAgencyForm({
+class SignUpStoreForm extends StatefulWidget {
+  const SignUpStoreForm({
     Key? key,
     required this.onSaved,
   }) : super(key: key);
   final void Function({
     required String fullname,
     required String clubname,
-    required Timestamp creationDate,
     required String address,
   }) onSaved;
 
   @override
-  _SignUpAgencyFormState createState() => _SignUpAgencyFormState();
+  _SignUpStoreFormState createState() => _SignUpStoreFormState();
 }
 
-class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
+class _SignUpStoreFormState extends State<SignUpStoreForm> {
   late String fullname;
   late String agencyname;
-  Timestamp? creationDate;
+  // Timestamp? creationDate;
   late String address;
 
   late final GlobalKey<FormState> _formKey;
@@ -48,7 +44,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(vertical: 1);
     return CustomScaffold(
-      backgroundImagePath: agencyBackgroundImage,
+      backgroundImagePath: storeBackgroundImage,
       appBar: CustomAppBar(),
       body: Column(
         children: [
@@ -86,8 +82,8 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
-                      title: 'Agency name:',
-                      hintText: 'Agency name...',
+                      title: 'Store name:',
+                      hintText: 'Store name...',
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
                         agencyname = value;
@@ -99,16 +95,6 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                         return null;
                       },
                     ),
-                  ),
-                  DatePicker(
-                    title: 'creation date',
-                    hintText: 'DD/MM/YYYY',
-                    selectedDate: creationDate,
-                    onSelectedDate: (Timestamp date) {
-                      setState(() {
-                        creationDate = date;
-                      });
-                    },
                   ),
                   Padding(
                     padding: padding,
@@ -155,21 +141,11 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      if (creationDate == null) {
-                        final PlatformException e = PlatformException(
-                          code: 'BIRTHDAY_NULL',
-                          message: 'You must select a birthday',
-                        );
-                        PlatformExceptionAlertDialog(exception: e)
-                            .show(context);
-                      } else {
-                        widget.onSaved(
-                          fullname: fullname,
-                          clubname: agencyname,
-                          creationDate: creationDate!,
-                          address: address,
-                        );
-                      }
+                      widget.onSaved(
+                        fullname: fullname,
+                        clubname: agencyname,
+                        address: address,
+                      );
                     }
                   }),
             ),

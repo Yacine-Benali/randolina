@@ -30,11 +30,13 @@ class _CustomScaffoldState extends State<CustomScaffold> {
         ),
       );
     }
-    return Scaffold(
-      backgroundColor: widget.backgroundColor,
-      body: SafeArea(
-        child: Container(
-          decoration: backgroundImageDecoration,
+    return Container(
+      decoration: backgroundImageDecoration,
+      child: Scaffold(
+        backgroundColor: backgroundImageDecoration != null
+            ? Colors.transparent
+            : widget.backgroundColor,
+        body: SafeArea(
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
