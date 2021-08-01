@@ -8,14 +8,18 @@ class CustomDropDown extends StatefulWidget {
     required this.onChanged,
     required this.hint,
     required this.title,
+    this.titleStyle,
     this.validator,
     this.options,
+    this.initialValue,
   }) : super(key: key);
 
   final ValueChanged<String> onChanged;
   final String hint;
   final String title;
+  final TextStyle? titleStyle;
   final List<String>? options;
+  final String? initialValue;
   final String? Function(String?)? validator;
   @override
   _WilayaPickerState createState() => _WilayaPickerState();
@@ -24,8 +28,10 @@ class CustomDropDown extends StatefulWidget {
 class _WilayaPickerState extends State<CustomDropDown> {
   late Set<String> options;
   String? dropdownValue;
+
   @override
   void initState() {
+    dropdownValue = widget.initialValue;
     //! fix this, this is a temp fixs
     if (widget.options != null) {
       options = widget.options!.toSet();
@@ -48,17 +54,19 @@ class _WilayaPickerState extends State<CustomDropDown> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: BorderedText(
-            strokeColor: Colors.black,
-            strokeWidth: 3.0,
-            child: Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          child: widget.titleStyle != null
+              ? Text(widget.title, style: widget.titleStyle)
+              : BorderedText(
+                  strokeColor: Colors.black,
+                  strokeWidth: 3.0,
+                  child: Text(
+                    widget.title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
         ),
         SizedBox(height: 2),
         DropdownButtonFormField<String>(

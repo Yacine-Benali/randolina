@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/profile/header/header_bottom_part/description.dart';
-import 'package:randolina/app/home/profile/header/header_bottom_part/followers_header.dart';
-import 'package:randolina/app/home/profile/header/header_top_part/header_top_part.dart';
-import 'package:randolina/app/home/profile/header/image_profile.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/description.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/followers_header.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/header_top_part.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/image_profile.dart';
 
-class Header extends StatefulWidget {
-  const Header({Key? key}) : super(key: key);
+class ClientHeader extends StatefulWidget {
+  const ClientHeader({Key? key}) : super(key: key);
 
   @override
-  _HeaderState createState() => _HeaderState();
+  _ClientHeaderState createState() => _ClientHeaderState();
 }
 
-class _HeaderState extends State<Header> {
+class _ClientHeaderState extends State<ClientHeader> {
   bool isExpanded = false;
 
   @override
@@ -23,7 +23,7 @@ class _HeaderState extends State<Header> {
           height: isExpanded ? 207 : 191,
           child: Column(
             children: [
-              HeaderTopPart(),
+              ClientHeaderTopPart(),
               Description(
                 isExpanded: isExpanded,
                 onExpanded: (bool isExpanded) {
@@ -37,7 +37,7 @@ class _HeaderState extends State<Header> {
         FollowersHeader(
           isExpanded: isExpanded,
         ),
-        ImageProfileHeader(isExpanded: isExpanded),
+        ImageProfile(isExpanded: isExpanded),
       ],
     );
   }

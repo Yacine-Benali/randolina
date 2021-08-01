@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/profile/header/header_top_part/pop_menu_header.dart';
-import 'package:randolina/app/home/profile/header/header_top_part/type_of_user.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/pop_menu_header.dart';
 import 'package:randolina/app/models/user.dart';
 
-class HeaderTopPart extends StatelessWidget {
-  const HeaderTopPart({Key? key}) : super(key: key);
+class ClientHeaderTopPart extends StatelessWidget {
+  const ClientHeaderTopPart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +47,17 @@ class HeaderTopPart extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      PopMenuHeader(),
+                      PopMenuClientHeader(),
                     ],
                   ),
-                  TypeOfUser(),
+                  Text(
+                    'Vloger',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF40A3DB),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ],
               ),
             ),

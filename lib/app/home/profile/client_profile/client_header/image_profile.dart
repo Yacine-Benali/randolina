@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/models/user.dart';
 
 // ignore: must_be_immutable
-class ImageProfileHeader extends StatelessWidget {
+class ImageProfile extends StatelessWidget {
   bool isExpanded;
-  ImageProfileHeader({required this.isExpanded});
+  ImageProfile({required this.isExpanded});
 
   @override
   Widget build(BuildContext context) {

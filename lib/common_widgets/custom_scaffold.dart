@@ -4,14 +4,14 @@ import 'package:randolina/constants/app_colors.dart';
 class CustomScaffold extends StatefulWidget {
   const CustomScaffold({
     Key? key,
-    required this.appBar,
+    this.appBar,
     required this.body,
     this.backgroundColor,
     this.backgroundImagePath,
   }) : super(key: key);
 
   final Color? backgroundColor;
-  final Widget appBar;
+  final Widget? appBar;
   final Widget body;
   final String? backgroundImagePath;
   @override
@@ -39,15 +39,17 @@ class _CustomScaffoldState extends State<CustomScaffold> {
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
-              SliverAppBar(
-                backgroundColor: Colors.transparent,
-                flexibleSpace: widget.appBar,
-                iconTheme: IconThemeData(
-                  color: widget.backgroundImagePath != null
-                      ? Colors.white
-                      : gradientStart,
+              if (widget.appBar != null) ...[
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  flexibleSpace: widget.appBar,
+                  iconTheme: IconThemeData(
+                    color: widget.backgroundImagePath != null
+                        ? Colors.white
+                        : gradientStart,
+                  ),
                 ),
-              ),
+              ],
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => widget.body,

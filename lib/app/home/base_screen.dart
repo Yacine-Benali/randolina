@@ -17,6 +17,7 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   late final Database database;
   late final AuthUser authUser;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -36,7 +37,15 @@ class _BaseScreenState extends State<BaseScreen> {
           final User user = snapshot.data!;
           return Provider<User>.value(
             value: user,
-            child: HomeScreen(),
+            child: Provider.value(
+              value: user,
+              child: Navigator(
+                key: navigatorKey,
+                onGenerateRoute: (routeSettings) {
+                  return MaterialPageRoute(builder: (context) => HomeScreen());
+                },
+              ),
+            ),
           );
         }
         return LoadingScreen();

@@ -17,16 +17,17 @@ import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class SignUpAgencyScreen extends StatefulWidget {
-  const SignUpAgencyScreen({
+class SignUpClubProfileScreen extends StatefulWidget {
+  const SignUpClubProfileScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SignUpAgencyScreenState createState() => _SignUpAgencyScreenState();
+  _SignUpClubProfileScreenState createState() =>
+      _SignUpClubProfileScreenState();
 }
 
-class _SignUpAgencyScreenState extends State<SignUpAgencyScreen> {
+class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
   late final SignUpBloc bloc;
   late final PageController _pageController;
 

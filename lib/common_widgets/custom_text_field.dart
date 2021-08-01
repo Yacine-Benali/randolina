@@ -44,17 +44,19 @@ class CustomTextForm extends StatelessWidget {
           if (title != null) ...[
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: BorderedText(
-                strokeColor: Colors.black,
-                strokeWidth: 3.0,
-                child: Text(
-                  title!,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              child: titleStyle != null
+                  ? Text(title!, style: titleStyle)
+                  : BorderedText(
+                      strokeColor: Colors.black,
+                      strokeWidth: 3.0,
+                      child: Text(
+                        title!,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
             ),
             SizedBox(height: 2),
           ],

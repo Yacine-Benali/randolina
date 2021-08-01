@@ -1,34 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
+import 'package:randolina/services/auth.dart';
 
 enum FilterOptions {
   editprofile,
   singout,
 }
 
-class PopMenuHeader extends StatefulWidget {
-  const PopMenuHeader({Key? key}) : super(key: key);
+class PopMenuClientHeader extends StatefulWidget {
+  const PopMenuClientHeader({Key? key}) : super(key: key);
 
   @override
-  _PopMenuHeaderState createState() => _PopMenuHeaderState();
+  _PopMenuClientHeaderState createState() => _PopMenuClientHeaderState();
 }
 
-class _PopMenuHeaderState extends State<PopMenuHeader> {
+class _PopMenuClientHeaderState extends State<PopMenuClientHeader> {
   late bool showPopMenu;
 
   @override
   Widget build(BuildContext context) {
+    final Auth auth = context.read<Auth>();
+
     return PopupMenuButton(
       onSelected: (FilterOptions selectedValue) {
         setState(() {
           if (selectedValue == FilterOptions.editprofile) {
-            showPopMenu = true;
-          } else {
-            showPopMenu = false;
-          }
-          if (selectedValue == FilterOptions.singout) {
-            showPopMenu = true;
-          } else {
-            showPopMenu = false;
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ClientProfileEditScreen(),
+              ),
+            );
+          } else if (selectedValue == FilterOptions.singout) {
+            auth.signOut();
           }
         });
       },

@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           SignUpClubScreen(),
         ],
         if (selectedRole == Role.agency) ...[
-          SignUpAgencyScreen(),
+          SignUpClubProfileScreen(),
         ],
         if (selectedRole == Role.store) ...[
           SignUpStoreScreen(),
