@@ -68,14 +68,9 @@ class _PopMenuClientHeaderState extends State<PopMenuClientHeader> {
           ),
         ),
       ],
-      child: Container(
-        height: 15,
-        width: 15,
-        alignment: Alignment.center,
-        child: Icon(
-          Icons.keyboard_arrow_down,
-          size: 15,
-        ),
+      child: Icon(
+        Icons.keyboard_arrow_down,
+        size: 25,
       ),
     );
   }

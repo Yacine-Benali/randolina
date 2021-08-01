@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/profile/club_profile/club_header.dart';
+import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
 
 class ClubProfileScreen extends StatefulWidget {
   ClubProfileScreen({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
         color: Color(0xFFE5E5E5),
         child: Column(
           children: [
-            HeaderAgence(),
+            ClubHeader(),
           ],
         ),
       ),

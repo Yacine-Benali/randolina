@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/models/user.dart';
 
-class ImageProfile extends StatelessWidget {
-  const ImageProfile({Key? key}) : super(key: key);
+class FollowersHeader extends StatelessWidget {
+  const FollowersHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User user = context.read<User>();
+
     return Positioned(
       left: 110,
       bottom: 0,
@@ -28,28 +32,24 @@ class ImageProfile extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  '243',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Lato-Black',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
+            child: RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: user.followers.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Text(
-                  'Followers',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    //fontFamily: 'Lato-Black',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
+                  TextSpan(
+                    text: ' Followers',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

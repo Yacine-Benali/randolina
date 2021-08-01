@@ -54,7 +54,6 @@ class Club extends User {
     final String phoneNumber = data['phoneNumber'] as String;
     //
     final String address = data['address'] as String;
-
     final List<String> activities =
         (data['activities'] as List<dynamic>).map((e) => e as String).toList();
 

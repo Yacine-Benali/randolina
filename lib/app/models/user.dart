@@ -54,19 +54,15 @@ class User {
 
   factory User.fromMap2(Map<String, dynamic> data, String documentId) {
     final int type = data['type'] as int;
-
-    User user = User.fromMap(data, documentId);
+    User user;
     if (type == 0) {
-      user = Client.fromMap(data, documentId);
+      return Client.fromMap(data, documentId);
     } else if (type == 1) {
-      user = Club.fromMap(data, documentId);
+      return Club.fromMap(data, documentId);
     } else if (type == 2) {
       // user = Agency.fromMap(data, documentId);
-    } else if (type == 3) {
-      //? for brand
-    }
-
-    return user;
+    } else {}
+    return User.fromMap(data, documentId);
   }
 
   Map<String, dynamic> toMap() {

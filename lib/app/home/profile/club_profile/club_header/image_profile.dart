@@ -1,10 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/models/user.dart';
 
-class NumFollowers extends StatelessWidget {
-  const NumFollowers({Key? key}) : super(key: key);
+class ImageProfile extends StatelessWidget {
+  const ImageProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User user = context.read<User>();
+
     return Positioned(
       left: 18,
       bottom: 6,
@@ -19,21 +24,6 @@ class NumFollowers extends StatelessWidget {
                 width: 5,
                 color: Color(0xFFE5E5E5),
               ),
-              // Border(
-              //   top: BorderSide(
-              //     width: 5,
-              //     color: Color(0xFFE5E5E5),
-              //   ),
-              //   left: BorderSide(
-              //     width: 5,
-              //     color: Color(0xFFE5E5E5),
-              //   ),
-              //   right: BorderSide(
-              //     width: 5,
-              //     color: Color(0xFFE5E5E5),
-              //   ),
-
-              // ),
               borderRadius: BorderRadius.circular(70),
               boxShadow: [
                 BoxShadow(
@@ -42,12 +32,14 @@ class NumFollowers extends StatelessWidget {
                   color: Color(0xFF334D73).withOpacity(0.20),
                 ),
               ],
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/Ellipse 10.png',
-                ),
-                fit: BoxFit.cover,
+            ),
+            child: CachedNetworkImage(
+              imageUrl: user.profilePicture,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                backgroundImage: imageProvider,
               ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
         ],
