@@ -16,8 +16,8 @@ class ImageProfile extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: 110,
-            height: 110,
+            width: 100,
+            height: 100,
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(

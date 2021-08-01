@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/services/auth.dart';
 
 enum FilterOptions {
@@ -9,8 +8,11 @@ enum FilterOptions {
 }
 
 class PopMenuClientHeader extends StatefulWidget {
-  const PopMenuClientHeader({Key? key}) : super(key: key);
-
+  const PopMenuClientHeader({
+    Key? key,
+    required this.onEditPressed,
+  }) : super(key: key);
+  final VoidCallback onEditPressed;
   @override
   _PopMenuClientHeaderState createState() => _PopMenuClientHeaderState();
 }
@@ -26,11 +28,7 @@ class _PopMenuClientHeaderState extends State<PopMenuClientHeader> {
       onSelected: (FilterOptions selectedValue) {
         setState(() {
           if (selectedValue == FilterOptions.editprofile) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ClientProfileEditScreen(),
-              ),
-            );
+            widget.onEditPressed();
           } else if (selectedValue == FilterOptions.singout) {
             auth.signOut();
           }

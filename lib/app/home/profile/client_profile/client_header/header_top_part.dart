@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/pop_menu_header.dart';
 import 'package:randolina/app/models/user.dart';
 
@@ -47,7 +48,15 @@ class ClientHeaderTopPart extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      PopMenuClientHeader(),
+                      PopMenuClientHeader(
+                        onEditPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ClientProfileEditScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                   Text(
