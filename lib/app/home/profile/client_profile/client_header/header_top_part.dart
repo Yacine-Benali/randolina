@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/profile/client_profile/client_header/pop_menu_header.dart';
+import 'package:randolina/app/home/profile/pop_menu_header.dart';
 import 'package:randolina/app/models/user.dart';
 
 class ClientHeaderTopPart extends StatelessWidget {
