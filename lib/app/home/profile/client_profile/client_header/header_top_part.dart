@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/pop_menu_header.dart';
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/app/models/user.dart';
 
 class ClientHeaderTopPart extends StatelessWidget {
   const ClientHeaderTopPart({
@@ -12,6 +14,7 @@ class ClientHeaderTopPart extends StatelessWidget {
   // clean up to show or hide the edit button
   @override
   Widget build(BuildContext context) {
+    final User user = context.read<User>();
     return Container(
       height: 82 - 20,
       decoration: BoxDecoration(
@@ -35,38 +38,48 @@ class ClientHeaderTopPart extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 14, left: 60),
+              padding: const EdgeInsets.only(top: 14, left: 90),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        client.name,
-                        style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
+                      Container(
+                        //  color: Colors.green[100],
+                        width: (client.name.length > 10) ? 150 : null,
+                        child: Text(
+                          client.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      PopMenuClientHeader(
-                        onEditPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ClientProfileEditScreen(),
-                            ),
-                          );
-                        },
-                      ),
+                      if (user.id == client.id) ...[
+                        PopMenuClientHeader(
+                          onEditPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ClientProfileEditScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ],
                   ),
-                  Text(
-                    client.activity,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF40A3DB),
-                      fontWeight: FontWeight.w400,
+                  Container(
+                    color: Colors.yellow[100],
+                    child: Text(
+                      client.activity,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF40A3DB),
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ],

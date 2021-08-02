@@ -60,7 +60,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}').onCr
         );
         
         //todo remove this line when in prod
-        if (false) {
+        if (true) {
             // add mini user to algolia for full-text-search
             const records = [
                 {

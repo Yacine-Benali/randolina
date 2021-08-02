@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/services/algolia_service.dart';
 
@@ -44,6 +45,13 @@ class DataSearch extends SearchDelegate<String> {
               leading: Image.network(f.profilePicture),
               title: Text(f.name),
               subtitle: Text(f.username),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (builder) => MiniuserToProfile(miniUser: f),
+                  ),
+                );
+              },
             );
           }).toList();
 

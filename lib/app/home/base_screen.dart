@@ -6,6 +6,7 @@ import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -30,9 +31,12 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: database.streamDocument(
-        path: APIPath.userDocument(authUser.uid),
-        builder: (data, documentId) => User.fromMap2(data, documentId),
-      ),
+          path: APIPath.userDocument(authUser.uid),
+          builder: (data, documentId) {
+            logger.warning(documentId + data.toString());
+            var data2 = User.fromMap2(data, documentId);
+            return data2;
+          }),
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.hasData && (snapshot.data != null)) {
           final User user = snapshot.data!;
