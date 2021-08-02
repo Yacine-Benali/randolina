@@ -46,8 +46,7 @@ class ClientHeaderTopPart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        //  color: Colors.green[100],
-                        width: (client.name.length > 10) ? 150 : null,
+                        width: (client.name.length > 15) ? 150 : null,
                         child: Text(
                           client.name,
                           overflow: TextOverflow.ellipsis,
