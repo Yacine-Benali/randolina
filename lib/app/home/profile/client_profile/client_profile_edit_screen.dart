@@ -43,6 +43,8 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Client client = context.read<User>() as Client;
+
     return SafeArea(
       child: CustomScaffold(
         backgroundColor: backgroundColor,
@@ -50,7 +52,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
           children: [
             Stack(
               children: [
-                ClientHeader(),
+                ClientHeader(client: client),
                 Positioned(
                   top: 5,
                   left: 8,

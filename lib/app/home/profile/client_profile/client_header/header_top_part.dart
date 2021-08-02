@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/pop_menu_header.dart';
-import 'package:randolina/app/models/user.dart';
+import 'package:randolina/app/models/client.dart';
 
 class ClientHeaderTopPart extends StatelessWidget {
-  const ClientHeaderTopPart({Key? key}) : super(key: key);
-
+  const ClientHeaderTopPart({
+    Key? key,
+    required this.client,
+  }) : super(key: key);
+  final Client client;
+  // clean up to show or hide the edit button
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
     return Container(
       height: 82 - 20,
       decoration: BoxDecoration(
@@ -41,7 +43,7 @@ class ClientHeaderTopPart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        user.name,
+                        client.name,
                         style: TextStyle(
                           fontSize: 19,
                           color: Colors.black,
@@ -60,7 +62,7 @@ class ClientHeaderTopPart extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Vloger',
+                    client.activity,
                     style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF40A3DB),

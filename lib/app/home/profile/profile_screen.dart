@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
     final User user = context.read<User>();
 
     if (user is Client) {
-      return ClientProfileScreen();
+      return ClientProfileScreen(client: user);
     } else {
       return ClubProfileScreen();
     }

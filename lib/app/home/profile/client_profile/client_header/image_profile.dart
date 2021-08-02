@@ -1,16 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:randolina/app/models/user.dart';
+import 'package:randolina/app/models/client.dart';
 
 // ignore: must_be_immutable
 class ImageProfile extends StatelessWidget {
   bool isExpanded;
-  ImageProfile({required this.isExpanded});
+  ImageProfile({
+    required this.isExpanded,
+    required this.client,
+  });
+  final Client client;
 
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
     return Positioned(
       bottom: isExpanded ? (58 + 30) : (42 + 30),
       left: 16,
@@ -32,7 +34,7 @@ class ImageProfile extends StatelessWidget {
           ],
         ),
         child: CachedNetworkImage(
-          imageUrl: user.profilePicture,
+          imageUrl: client.profilePicture,
           imageBuilder: (context, imageProvider) => CircleAvatar(
             backgroundImage: imageProvider,
           ),

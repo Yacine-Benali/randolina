@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:randolina/app/models/user.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:readmore/readmore.dart';
 
@@ -9,13 +8,14 @@ class Description extends StatelessWidget {
     Key? key,
     required this.onExpanded,
     required this.isExpanded,
+    required this.client,
   }) : super(key: key);
   final ValueChanged<bool> onExpanded;
   final bool isExpanded;
+  final Client client;
 
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
     return Container(
       height: isExpanded ? 115 : 87,
       width: SizeConfig.screenWidth,
@@ -42,7 +42,7 @@ class Description extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: ReadMoreText(
-          user.bio ?? '',
+          client.bio ?? '',
           trimLines: 3,
           trimMode: TrimMode.Line,
           trimCollapsedText: ' More',

@@ -3,9 +3,11 @@ import 'package:randolina/app/home/profile/client_profile/client_header/descript
 import 'package:randolina/app/home/profile/client_profile/client_header/followers_header.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/header_top_part.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/image_profile.dart';
+import 'package:randolina/app/models/client.dart';
 
 class ClientHeader extends StatefulWidget {
-  const ClientHeader({Key? key}) : super(key: key);
+  const ClientHeader({Key? key, required this.client}) : super(key: key);
+  final Client client;
 
   @override
   _ClientHeaderState createState() => _ClientHeaderState();
@@ -23,8 +25,9 @@ class _ClientHeaderState extends State<ClientHeader> {
           height: isExpanded ? 207 : 191,
           child: Column(
             children: [
-              ClientHeaderTopPart(),
+              ClientHeaderTopPart(client: widget.client),
               Description(
+                client: widget.client,
                 isExpanded: isExpanded,
                 onExpanded: (bool isExpanded) {
                   this.isExpanded = isExpanded;
@@ -36,8 +39,10 @@ class _ClientHeaderState extends State<ClientHeader> {
         ),
         FollowersHeader(
           isExpanded: isExpanded,
+          following: widget.client.following,
+          followers: widget.client.followers,
         ),
-        ImageProfile(isExpanded: isExpanded),
+        ImageProfile(client: widget.client, isExpanded: isExpanded),
       ],
     );
   }
