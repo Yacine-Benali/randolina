@@ -119,7 +119,8 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    onPressed: () => widget.bloc.saveChanges(bio, activity),
+                    onPressed: () =>
+                        widget.bloc.saveClientProfile(bio, activity),
                     minHeight: 30,
                     minWidth: 130,
                   )

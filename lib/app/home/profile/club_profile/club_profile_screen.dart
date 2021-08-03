@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_edit_screen.dart';
+import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/services/database.dart';
 
 class ClubProfileScreen extends StatefulWidget {
   ClubProfileScreen({
@@ -21,10 +23,15 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
   late final User currentUser;
   late final bool showProfileAsOther;
   Future<bool>? isFollowingOther;
+  late final ProfileBloc bloc;
   @override
   void initState() {
     currentUser = context.read<User>();
-
+    bloc = ProfileBloc(
+      database: context.read<Database>(),
+      currentUser: currentUser,
+      otherUser: widget.clubOrAgency,
+    );
     if (currentUser.id != widget.clubOrAgency.id) {
       showProfileAsOther = true;
       // isFollowingOther = bloc.isFollowing();
@@ -50,6 +57,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
                   MaterialPageRoute(
                     builder: (context) => ClubProfileEditScreen(
                       clubOrAgency: widget.clubOrAgency,
+                      bloc: bloc,
                     ),
                   ),
                 );

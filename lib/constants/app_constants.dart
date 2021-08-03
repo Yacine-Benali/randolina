@@ -17,7 +17,7 @@ List<String> clientActivities = [
   'Other'
 ];
 
-final clubActivities = [
+List<dynamic> clubActivities = [
   {
     'display': 'Kayak',
     'value': 'Kayak',

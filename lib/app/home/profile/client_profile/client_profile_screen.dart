@@ -29,7 +29,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
     bloc = ProfileBloc(
       database: context.read<Database>(),
       currentUser: currentUser,
-      otherClient: widget.client,
+      otherUser: widget.client,
     );
     if (currentUser.id != widget.client.id) {
       showProfileAsOther = true;

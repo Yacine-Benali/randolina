@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
+import 'package:randolina/app/home/profile/profile_bloc.dart';
+import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
@@ -11,12 +13,13 @@ import 'package:randolina/constants/app_constants.dart';
 import 'package:randolina/constants/strings.dart';
 
 class ClubProfileEditScreen extends StatefulWidget {
-  ClubProfileEditScreen({
+  const ClubProfileEditScreen({
     Key? key,
     required this.clubOrAgency,
+    required this.bloc,
   }) : super(key: key);
-  User clubOrAgency;
-
+  final User clubOrAgency;
+  final ProfileBloc bloc;
   @override
   _ClubProfileEditScreenState createState() => _ClubProfileEditScreenState();
 }
@@ -109,44 +112,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                         checkBoxActiveColor: Colors.blue,
                         checkBoxCheckColor: Colors.white,
                         title: Text('Choose activities', style: titleStyle),
-                        dataSource: [
-                          {
-                            'display': 'Kayak',
-                            'value': 'Kayak',
-                          },
-                          {
-                            'display': 'Hiking',
-                            'value': 'Hiking',
-                          },
-                          {
-                            'display': 'Voyage OR',
-                            'value': 'Voyage OR',
-                          },
-                          {
-                            'display': 'Bivouac',
-                            'value': 'Bivouac',
-                          },
-                          {
-                            'display': 'Jet ski',
-                            'value': 'Jet ski',
-                          },
-                          {
-                            'display': 'Parachute',
-                            'value': 'Parachute',
-                          },
-                          {
-                            'display': 'Diving',
-                            'value': 'Diving',
-                          },
-                          {
-                            'display': 'Mountaineering',
-                            'value': 'Mountaineering',
-                          },
-                          {
-                            'display': 'Others...',
-                            'value': 'Others...',
-                          },
-                        ],
+                        dataSource: clubActivities,
                         textField: clubKey,
                         valueField: clubValue,
                         hintWidget: Text(
@@ -177,7 +143,13 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (widget.clubOrAgency is Club && activities != null) {
+                        widget.bloc.saveClubProfile(bio, activities!);
+                      } else if (widget.clubOrAgency is Agency) {
+                        widget.bloc.saveAgencyProfile(bio);
+                      }
+                    },
                     minHeight: 30,
                     minWidth: 130,
                   )
