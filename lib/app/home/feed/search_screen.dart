@@ -46,6 +46,7 @@ class DataSearch extends SearchDelegate<String> {
               title: Text(f.name),
               subtitle: Text(f.username),
               onTap: () {
+                //! todo @high you cant search and click on yourself
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (builder) => MiniuserToProfile(miniUser: f),

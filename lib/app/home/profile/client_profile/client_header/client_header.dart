@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/description.dart';
-import 'package:randolina/app/home/profile/client_profile/client_header/followers_header.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/header_top_part.dart';
-import 'package:randolina/app/home/profile/client_profile/client_header/image_profile.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/visit_followers_header.dart';
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/common_widgets/followers_header.dart';
+import 'package:randolina/common_widgets/image_profile.dart';
 
 class ClientHeader extends StatefulWidget {
   const ClientHeader({
@@ -52,10 +52,13 @@ class _ClientHeaderState extends State<ClientHeader> {
           ),
         ),
         if (!widget.showProfileAsOther) ...[
-          FollowersHeader(
-            isExpanded: isExpanded,
-            following: widget.client.following,
-            followers: widget.client.followers,
+          Positioned(
+            right: 30,
+            bottom: isExpanded ? 20 : 30,
+            child: FollowersHeader(
+              following: widget.client.following,
+              followers: widget.client.followers,
+            ),
           ),
         ],
         if (widget.showProfileAsOther && widget.isFollowingOther != null) ...[
@@ -65,7 +68,13 @@ class _ClientHeaderState extends State<ClientHeader> {
             followers: widget.client.followers,
           ),
         ],
-        ImageProfile(client: widget.client, isExpanded: isExpanded),
+        Positioned(
+          bottom: isExpanded ? (58 + 30) : (42 + 30),
+          left: 16,
+          child: ImageProfile(
+            url: widget.client.profilePicture,
+          ),
+        ),
       ],
     );
   }

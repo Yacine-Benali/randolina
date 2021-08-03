@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_bloc.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 
+//todo make this widget common between client and others
 class VisitFollowersHeader extends StatefulWidget {
   const VisitFollowersHeader({
     Key? key,

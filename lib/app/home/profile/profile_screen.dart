@@ -11,8 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (user is Client) {
-      Client client = user as Client;
-      return Material(child: ClientProfileScreen(client: client));
+      return Material(child: ClientProfileScreen(client: user as Client));
     } else {
       return ClubProfileScreen();
     }

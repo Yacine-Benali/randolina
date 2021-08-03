@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
-import 'package:randolina/app/home/profile/club_profile/club_header/followers_header.dart';
-import 'package:randolina/app/home/profile/club_profile/club_header/image_profile.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/followers_header.dart';
+import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:readmore/readmore.dart';
 
 class ClubHeader extends StatelessWidget {
@@ -40,14 +40,13 @@ class ClubHeader extends StatelessWidget {
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 110 + 18,
                     ),
                     Expanded(
                       child: ReadMoreText(
-                        user.bio ?? '',
+                        (user.bio ?? ''),
                         trimLines: 3,
                         trimMode: TrimMode.Line,
                         trimCollapsedText: ' More',
@@ -91,8 +90,19 @@ class ClubHeader extends StatelessWidget {
             ],
           ),
         ),
-        FollowersHeader(),
-        ImageProfile(),
+        Positioned(
+          left: 110,
+          bottom: 0,
+          child: FollowersHeader(
+            followers: 0,
+            following: 0,
+          ),
+        ),
+        Positioned(
+          left: 18,
+          bottom: 6,
+          child: ImageProfile(url: user.profilePicture),
+        ),
       ],
     );
   }
