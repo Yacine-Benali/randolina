@@ -43,6 +43,8 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // todo @high remove this line and use the given object or choose but not
+    // both
     final Client client = context.read<User>() as Client;
 
     return SafeArea(

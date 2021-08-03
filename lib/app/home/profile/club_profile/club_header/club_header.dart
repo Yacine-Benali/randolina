@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
@@ -7,12 +6,18 @@ import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:readmore/readmore.dart';
 
 class ClubHeader extends StatelessWidget {
-  const ClubHeader({Key? key}) : super(key: key);
+  const ClubHeader({
+    Key? key,
+    required this.clubOrAgency,
+    required this.showProfileAsOther,
+    required this.onEditPressed,
+  }) : super(key: key);
+  final User clubOrAgency;
+  final bool showProfileAsOther;
+  final VoidCallback onEditPressed;
 
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
-
     return Stack(
       alignment: Alignment.bottomLeft,
       children: [
@@ -36,7 +41,10 @@ class ClubHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              ClubTopHeader(),
+              ClubTopHeader(
+                onEditPressed: onEditPressed,
+                showEditButton: !showProfileAsOther,
+              ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +54,7 @@ class ClubHeader extends StatelessWidget {
                     ),
                     Expanded(
                       child: ReadMoreText(
-                        (user.bio ?? ''),
+                        clubOrAgency.bio ?? '',
                         trimLines: 3,
                         trimMode: TrimMode.Line,
                         trimCollapsedText: ' More',
@@ -101,7 +109,7 @@ class ClubHeader extends StatelessWidget {
         Positioned(
           left: 18,
           bottom: 6,
-          child: ImageProfile(url: user.profilePicture),
+          child: ImageProfile(url: clubOrAgency.profilePicture),
         ),
       ],
     );

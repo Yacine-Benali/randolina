@@ -6,18 +6,20 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
 
 class ClubTopHeader extends StatelessWidget {
-  const ClubTopHeader({Key? key}) : super(key: key);
-
+  const ClubTopHeader({
+    Key? key,
+    required this.showEditButton,
+    required this.onEditPressed,
+  }) : super(key: key);
+  final bool showEditButton;
+  final VoidCallback onEditPressed;
   @override
   Widget build(BuildContext context) {
     final User user = context.read<User>();
-    late String address;
     late String subtitle;
     if (user is Club) {
-      address = user.address;
       subtitle = 'Club de Randonnée';
     } else if (user is Agency) {
-      address = user.address;
       subtitle = 'Agence de Voyage';
     }
 
@@ -26,7 +28,7 @@ class ClubTopHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 23),
+          margin: const EdgeInsets.only(left: 50),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,9 +42,11 @@ class ClubTopHeader extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  ProfileEditPopUp(
-                    onEditPressed: () {},
-                  ),
+                  if (showEditButton) ...[
+                    ProfileEditPopUp(
+                      onEditPressed: onEditPressed,
+                    ),
+                  ]
                 ],
               ),
               Text(
@@ -51,14 +55,6 @@ class ClubTopHeader extends StatelessWidget {
                   fontSize: 14,
                   color: Color(0xFF40A3DB),
                   fontWeight: FontWeight.w400,
-                ),
-              ),
-              Text(
-                address,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black.withOpacity(0.87),
                 ),
               ),
             ],

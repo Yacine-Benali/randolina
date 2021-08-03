@@ -45,62 +45,65 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   Widget build(BuildContext context) {
     return Provider<ClientProfileBloc>.value(
       value: bloc,
-      child: FutureBuilder<bool>(
-          future: isFollowingOther,
-          builder: (context, snapshot) {
-            if (snapshot.hasData || showProfileAsOther == false) {
-              return SafeArea(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ClientHeader(
-                            client: widget.client,
-                            isFollowingOther: snapshot.data,
-                            showProfileAsOther: showProfileAsOther,
-                            onEditPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ClientProfileEditScreen(
-                                    currentClient: currentUser as Client,
-                                    bloc: bloc,
+      child: Material(
+        child: FutureBuilder<bool>(
+            future: isFollowingOther,
+            builder: (context, snapshot) {
+              if (snapshot.hasData || showProfileAsOther == false) {
+                return SafeArea(
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ClientHeader(
+                              client: widget.client,
+                              isFollowingOther: snapshot.data,
+                              showProfileAsOther: showProfileAsOther,
+                              onEditPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ClientProfileEditScreen(
+                                      currentClient: currentUser as Client,
+                                      bloc: bloc,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Column(
-                              children: [],
+                                );
+                              },
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (showProfileAsOther) ...[
-                      Positioned(
-                        top: 5,
-                        left: 8,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.black87,
-                            size: 30,
-                          ),
-                          onPressed: () => Navigator.of(context).pop(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24.0),
+                              child: Column(
+                                children: [],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      if (showProfileAsOther) ...[
+                        Positioned(
+                          top: 5,
+                          left: 8,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.black87,
+                              size: 30,
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-              );
-            }
-            return LoadingScreen();
-          }),
+                  ),
+                );
+              }
+              return LoadingScreen();
+            }),
+      ),
     );
   }
 }
