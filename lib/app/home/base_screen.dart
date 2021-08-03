@@ -32,7 +32,7 @@ class _BaseScreenState extends State<BaseScreen> {
       stream: database.streamDocument(
           path: APIPath.userDocument(authUser.uid),
           builder: (data, documentId) {
-            var data2 = User.fromMap2(data, documentId);
+            final data2 = User.fromMap2(data, documentId);
             return data2;
           }),
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {

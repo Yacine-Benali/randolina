@@ -3,7 +3,7 @@ import 'package:randolina/app/home/feed/feed_screen.dart';
 import 'package:randolina/app/home/feed/temp.dart';
 
 class PostWidget extends StatefulWidget {
-  PostWidget({Key? key}) : super(key: key);
+  const PostWidget({Key? key}) : super(key: key);
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
@@ -25,8 +25,6 @@ class _PostWidgetState extends State<PostWidget> {
         boxShadow: [
           BoxShadow(
             color: Color(0xFF334D73).withOpacity(0.20),
-            spreadRadius: 0,
-            blurRadius: 0,
             offset: Offset(0, 4),
           ),
         ],
@@ -34,12 +32,12 @@ class _PostWidgetState extends State<PostWidget> {
       margin: const EdgeInsets.only(top: 4, left: 25, right: 25),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 78,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
+                SizedBox(
                   child: Row(
                     children: [
                       Container(
@@ -86,7 +84,7 @@ class _PostWidgetState extends State<PostWidget> {
                   itemBuilder: (_) => [
                     PopupMenuItem(
                       value: FilterOptions.Report_this_post,
-                      child: Container(
+                      child: SizedBox(
                         width: 191,
                         height: 60,
                         child: Column(
@@ -102,44 +100,41 @@ class _PostWidgetState extends State<PostWidget> {
                             SizedBox(
                               height: 5,
                             ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Rport this post',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black.withOpacity(0.85),
-                                      fontFamily: 'Lato-Light',
-                                    ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Rport this post',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black.withOpacity(0.85),
+                                    fontFamily: 'Lato-Light',
                                   ),
-                                  Container(
-                                    width: 22,
-                                    height: 22,
-                                    child: Stack(
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/Vector 4.png',
-                                        ),
-                                        Positioned(
-                                          top: 7,
-                                          left: 7,
-                                          child: Container(
-                                            width: 5,
-                                            height: 5,
-                                            child: Image.asset(
-                                              'assets/icons/Vector 5.png',
-                                            ),
+                                ),
+                                SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: Stack(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/Vector 4.png',
+                                      ),
+                                      Positioned(
+                                        top: 7,
+                                        left: 7,
+                                        child: SizedBox(
+                                          width: 5,
+                                          height: 5,
+                                          child: Image.asset(
+                                            'assets/icons/Vector 5.png',
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 5,
@@ -176,7 +171,7 @@ class _PostWidgetState extends State<PostWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
+                SizedBox(
                   child: Row(
                     children: [
                       GestureDetector(

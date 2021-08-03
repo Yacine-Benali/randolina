@@ -16,13 +16,13 @@ class MiniuserToProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Database database = context.read<Database>();
+    final Database database = context.read<Database>();
 
     return FutureBuilder<User?>(
       future: database.fetchDocument(
         path: APIPath.userDocument(miniUser.id),
         builder: (data, documentId) {
-          var data2 = User.fromMap2(data, documentId);
+          final data2 = User.fromMap2(data, documentId);
           return data2;
         },
       ),

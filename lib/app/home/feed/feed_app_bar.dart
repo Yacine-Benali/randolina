@@ -17,14 +17,13 @@ class FeedAppBar extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Color(0xFF000000).withOpacity(0.25),
-            spreadRadius: 0,
             blurRadius: 1,
             offset: Offset(0, 4),
           ),
         ],
       ),
       child: Container(
-        padding: const EdgeInsets.only(top: 0),
+        padding: const EdgeInsets.only(),
         height: 90,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

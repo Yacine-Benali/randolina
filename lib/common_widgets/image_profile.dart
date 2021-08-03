@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ImageProfile extends StatelessWidget {
-  ImageProfile({
+  const ImageProfile({
     required this.url,
   });
   final String url;

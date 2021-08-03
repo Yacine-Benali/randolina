@@ -54,7 +54,6 @@ class User {
 
   factory User.fromMap2(Map<String, dynamic> data, String documentId) {
     final int type = data['type'] as int;
-    User user;
     if (type == 0) {
       return Client.fromMap(data, documentId);
     } else if (type == 1) {
