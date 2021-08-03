@@ -29,9 +29,41 @@ class DataSearch extends SearchDelegate<String> {
     );
   }
 
+  //todo @average refactor this remove duplication
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return FutureBuilder<List<MiniUser>>(
+      future: algoliaService.performUserQuery(text: query),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          final movies = snapshot.data!.map((f) {
+            return ListTile(
+              leading: Image.network(f.profilePicture),
+              title: Text(f.name),
+              subtitle: Text(f.username),
+              onTap: () {
+                //! todo @high you cant search and click on yourself
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (builder) => MiniuserToProfile(miniUser: f),
+                  ),
+                );
+              },
+            );
+          }).toList();
+
+          return ListView(children: movies);
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 
   @override

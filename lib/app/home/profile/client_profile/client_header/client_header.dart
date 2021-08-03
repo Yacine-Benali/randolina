@@ -62,10 +62,14 @@ class _ClientHeaderState extends State<ClientHeader> {
           ),
         ],
         if (widget.showProfileAsOther && widget.isFollowingOther != null) ...[
-          VisitFollowersHeader(
-            isExpanded: isExpanded,
-            isFollowing: widget.isFollowingOther!,
-            followers: widget.client.followers,
+          Positioned(
+            right: 30,
+            bottom: isExpanded ? 20 : 30,
+            child: VisitFollowersHeader(
+              isExpanded: isExpanded,
+              isFollowing: widget.isFollowingOther!,
+              followers: widget.client.followers,
+            ),
           ),
         ],
         Positioned(

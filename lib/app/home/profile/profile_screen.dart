@@ -17,9 +17,7 @@ class ProfileScreen extends StatelessWidget {
     } else if (user is Club) {
       return ClubProfileScreen(clubOrAgency: user);
     } else if (user is Agency) {
-      return ClubProfileScreen(
-        clubOrAgency: user,
-      );
+      return ClubProfileScreen(clubOrAgency: user);
     }
     return Container();
   }

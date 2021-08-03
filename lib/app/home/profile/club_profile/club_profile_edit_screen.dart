@@ -54,6 +54,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                   clubOrAgency: widget.clubOrAgency,
                   showProfileAsOther: false,
                   onEditPressed: () {},
+                  isFollowingOther: false,
                 ),
                 Positioned(
                   top: 5,

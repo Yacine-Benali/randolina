@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/visit_followers_header.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
@@ -11,8 +12,10 @@ class ClubHeader extends StatelessWidget {
     required this.clubOrAgency,
     required this.showProfileAsOther,
     required this.onEditPressed,
+    required this.isFollowingOther,
   }) : super(key: key);
   final User clubOrAgency;
+  final bool? isFollowingOther;
   final bool showProfileAsOther;
   final VoidCallback onEditPressed;
 
@@ -98,14 +101,27 @@ class ClubHeader extends StatelessWidget {
             ],
           ),
         ),
-        Positioned(
-          left: 110,
-          bottom: 0,
-          child: FollowersHeader(
-            followers: 0,
-            following: 0,
+        if (!showProfileAsOther) ...[
+          Positioned(
+            left: 110,
+            bottom: 0,
+            child: FollowersHeader(
+              followers: 0,
+              following: 0,
+            ),
           ),
-        ),
+        ],
+        if (showProfileAsOther && isFollowingOther != null) ...[
+          Positioned(
+            left: 110,
+            bottom: 0,
+            child: VisitFollowersHeader(
+              isExpanded: false,
+              isFollowing: isFollowingOther!,
+              followers: clubOrAgency.followers,
+            ),
+          ),
+        ],
         Positioned(
           left: 18,
           bottom: 6,
