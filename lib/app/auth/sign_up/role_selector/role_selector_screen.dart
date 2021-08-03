@@ -5,6 +5,7 @@ import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/app_constants.dart';
+import 'package:randolina/constants/temp.dart';
 
 class RoleSelectorScreen extends StatefulWidget {
   const RoleSelectorScreen({
@@ -29,7 +30,10 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 40),
-            Text('Click on the correct option to choose'),
+            Text(
+              'Click on the correct option to choose',
+              style: customBodyText2,
+            ),
             SizedBox(height: 40),
             Column(
               children: Role.values.map((e) {

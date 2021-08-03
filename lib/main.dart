@@ -48,12 +48,12 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blueGrey,
           //fontFamily: 'Lato-Black',
           textTheme: TextTheme(
-            bodyText2: TextStyle(
-              color: Color.fromRGBO(41, 67, 107, 1),
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-            ),
-          ),
+              // bodyText2: TextStyle(
+              //   color: Color.fromRGBO(41, 67, 107, 1),
+              //   fontWeight: FontWeight.w500,
+              //   fontSize: 16,
+              // ),
+              ),
           appBarTheme: AppBarTheme(),
         ),
         debugShowCheckedModeBanner: false,
