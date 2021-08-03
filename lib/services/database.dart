@@ -28,11 +28,17 @@ abstract class Database {
     bool merge = true,
   });
 
+  Future<void> updateData({
+    required String path,
+    required Map<String, dynamic> data,
+  });
+
   Future<void> addDocument({
     required String path,
     required Map<String, dynamic> data,
   });
 
+  /// fetches a firestore collection in case its empty it returns an empty list
   Future<List<T>> fetchCollection<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentID) builder,

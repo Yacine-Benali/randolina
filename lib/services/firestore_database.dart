@@ -74,6 +74,16 @@ class FirestoreDatabase implements Database {
   }
 
   @override
+  Future<void> updateData({
+    required String path,
+    required Map<String, dynamic> data,
+  }) async {
+    final dcumentReference = FirebaseFirestore.instance.doc(path);
+    print('set $path: $data');
+    await dcumentReference.update(data);
+  }
+
+  @override
   Future<void> addDocument({
     required String path,
     required Map<String, dynamic> data,

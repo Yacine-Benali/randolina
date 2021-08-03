@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/pop_menu_header.dart';
 import 'package:randolina/app/models/client.dart';
-import 'package:randolina/app/models/user.dart';
 
 class ClientHeaderTopPart extends StatelessWidget {
   const ClientHeaderTopPart({
     Key? key,
     required this.client,
+    required this.showEditButton,
+    required this.onEditPressed,
   }) : super(key: key);
   final Client client;
-  // clean up to show or hide the edit button
+  final bool showEditButton;
+  final VoidCallback onEditPressed;
+
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
     return Container(
       height: 82 - 20,
       decoration: BoxDecoration(
@@ -45,8 +45,8 @@ class ClientHeaderTopPart extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: (client.name.length > 15) ? 150 : null,
+                      SizedBox(
+                        width: (client.name.length > 15) ? 120 : null,
                         child: Text(
                           client.name,
                           overflow: TextOverflow.ellipsis,
@@ -57,28 +57,17 @@ class ClientHeaderTopPart extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (user.id == client.id) ...[
-                        PopMenuClientHeader(
-                          onEditPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ClientProfileEditScreen(),
-                              ),
-                            );
-                          },
-                        ),
+                      if (showEditButton) ...[
+                        PopMenuClientHeader(onEditPressed: onEditPressed),
                       ],
                     ],
                   ),
-                  Container(
-                    color: Colors.yellow[100],
-                    child: Text(
-                      client.activity,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF40A3DB),
-                        fontWeight: FontWeight.w400,
-                      ),
+                  Text(
+                    client.activity,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF40A3DB),
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],

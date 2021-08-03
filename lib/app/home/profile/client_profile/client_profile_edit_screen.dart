@@ -11,11 +11,16 @@ import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/app_constants.dart';
 import 'package:randolina/constants/strings.dart';
-import 'package:randolina/services/database.dart';
 
 class ClientProfileEditScreen extends StatefulWidget {
-  const ClientProfileEditScreen({Key? key}) : super(key: key);
+  const ClientProfileEditScreen({
+    Key? key,
+    required this.currentClient,
+    required this.bloc,
+  }) : super(key: key);
 
+  final Client currentClient;
+  final ClientProfileBloc bloc;
   @override
   _ClientProfileEditScreenState createState() =>
       _ClientProfileEditScreenState();
@@ -23,21 +28,16 @@ class ClientProfileEditScreen extends StatefulWidget {
 
 class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
   late final TextStyle titleStyle;
-  late Client client;
-  late ClientProfileBloc bloc;
   String? bio;
   late String activity;
 
   @override
   void initState() {
-    client = context.read<User>() as Client;
-    final Database database = context.read<Database>();
-    bloc = ClientProfileBloc(database: database, client: client);
     titleStyle = TextStyle(
       color: Colors.grey,
       fontSize: 14,
     );
-    activity = client.activity;
+    activity = widget.currentClient.activity;
     super.initState();
   }
 
@@ -52,7 +52,12 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
           children: [
             Stack(
               children: [
-                ClientHeader(client: client),
+                ClientHeader(
+                  client: client,
+                  isFollowingOther: false,
+                  onEditPressed: () {},
+                  showProfileAsOther: false,
+                ),
                 Positioned(
                   top: 5,
                   left: 8,
@@ -112,7 +117,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    onPressed: () => bloc.saveChanges(bio, activity),
+                    onPressed: () => widget.bloc.saveChanges(bio, activity),
                     minHeight: 30,
                     minWidth: 130,
                   )

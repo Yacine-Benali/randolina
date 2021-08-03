@@ -3,11 +3,21 @@ import 'package:randolina/app/home/profile/client_profile/client_header/descript
 import 'package:randolina/app/home/profile/client_profile/client_header/followers_header.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/header_top_part.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/image_profile.dart';
+import 'package:randolina/app/home/profile/client_profile/client_header/visit_followers_header.dart';
 import 'package:randolina/app/models/client.dart';
 
 class ClientHeader extends StatefulWidget {
-  const ClientHeader({Key? key, required this.client}) : super(key: key);
+  const ClientHeader({
+    Key? key,
+    required this.client,
+    required this.showProfileAsOther,
+    required this.isFollowingOther,
+    required this.onEditPressed,
+  }) : super(key: key);
   final Client client;
+  final bool showProfileAsOther;
+  final bool? isFollowingOther;
+  final VoidCallback onEditPressed;
 
   @override
   _ClientHeaderState createState() => _ClientHeaderState();
@@ -25,7 +35,11 @@ class _ClientHeaderState extends State<ClientHeader> {
           height: isExpanded ? 207 : 191,
           child: Column(
             children: [
-              ClientHeaderTopPart(client: widget.client),
+              ClientHeaderTopPart(
+                client: widget.client,
+                showEditButton: !widget.showProfileAsOther,
+                onEditPressed: widget.onEditPressed,
+              ),
               Description(
                 client: widget.client,
                 isExpanded: isExpanded,
@@ -37,11 +51,20 @@ class _ClientHeaderState extends State<ClientHeader> {
             ],
           ),
         ),
-        FollowersHeader(
-          isExpanded: isExpanded,
-          following: widget.client.following,
-          followers: widget.client.followers,
-        ),
+        if (!widget.showProfileAsOther) ...[
+          FollowersHeader(
+            isExpanded: isExpanded,
+            following: widget.client.following,
+            followers: widget.client.followers,
+          ),
+        ],
+        if (widget.showProfileAsOther && widget.isFollowingOther != null) ...[
+          VisitFollowersHeader(
+            isExpanded: isExpanded,
+            isFollowing: widget.isFollowingOther!,
+            followers: widget.client.followers,
+          ),
+        ],
         ImageProfile(client: widget.client, isExpanded: isExpanded),
       ],
     );

@@ -8,12 +8,14 @@ class CustomElevatedButton extends StatelessWidget {
     required this.onPressed,
     required this.minHeight,
     required this.minWidth,
+    this.color,
   }) : super(key: key);
 
   final Widget buttonText;
   final VoidCallback? onPressed;
   final double minHeight;
   final double minWidth;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +29,15 @@ class CustomElevatedButton extends StatelessWidget {
             blurRadius: 5.0,
           )
         ],
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: const [0, 1],
-          colors: [gradientStart, gradientEnd],
-        ),
-        color: Colors.deepPurple.shade300,
+        gradient: color == null
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: const [0, 1],
+                colors: [gradientStart, gradientEnd],
+              )
+            : null,
+        color: color ?? Colors.deepPurple.shade300,
         borderRadius: BorderRadius.circular(60),
       ),
       child: ElevatedButton(

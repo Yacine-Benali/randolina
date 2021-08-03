@@ -37,6 +37,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}').onCr
                 }
             );
         }
+        //todo add isFull attribute
         // create user_followers_posts
         await db.doc(`user_followers_posts/${uid}`).set(
             {
@@ -52,7 +53,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}').onCr
         await db.doc(`user_followers_stories/${uid}`).set(
             {
                 'miniUser': miniUser,
-                'lastPostTimestamp': null,
+                'lastStoryTimestamp': null,
                 'followers': [],
                 'storiesIds': [],
 
