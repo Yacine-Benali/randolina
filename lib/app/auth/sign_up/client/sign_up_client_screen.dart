@@ -41,7 +41,7 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController();
     final Auth auth = context.read<Auth>();
     final Database database = context.read<Database>();
     bloc = SignUpBloc(auth: auth, database: database);

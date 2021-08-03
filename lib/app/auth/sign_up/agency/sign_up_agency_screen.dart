@@ -44,7 +44,7 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController();
     final Auth auth = context.read<Auth>();
     final Database database = context.read<Database>();
     bloc = SignUpBloc(auth: auth, database: database);
@@ -71,7 +71,7 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
       final String profilePictureUrl =
           await bloc.uploadProfilePicture(_imageFile);
       // creat club account
-      Agency agency = Agency(
+      final Agency agency = Agency(
         id: '',
         type: 2,
         username: _username,
