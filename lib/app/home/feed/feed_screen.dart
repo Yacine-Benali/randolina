@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/feed/feed_app_bar.dart';
-import 'package:randolina/app/home/feed/post_widget.dart';
 import 'package:randolina/app/home/feed/stories_widget.dart';
-import 'package:randolina/app/home/feed/temp.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 enum FilterOptions {
@@ -29,14 +27,14 @@ class _FeedScreenState extends State<FeedScreen> {
             children: [
               FeedAppBar(),
               StoriesWidget(),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: post.length,
-                itemBuilder: (context, index) {
-                  return PostWidget();
-                },
-              ),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   physics: NeverScrollableScrollPhysics(),
+              //   itemCount: post.length,
+              //   itemBuilder: (context, index) {
+              //     return PostWidget();
+              //   },
+              // ),
             ],
           ),
         ),

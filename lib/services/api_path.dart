@@ -12,4 +12,5 @@ class APIPath {
   static String userFollowerPostsCollection() => 'user_followers_posts';
 
   static String userFollowerStoriesCollection() => 'user_followers_stories/';
+  static String postsCollection() => 'posts/';
 }

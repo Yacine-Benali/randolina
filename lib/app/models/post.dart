@@ -14,7 +14,7 @@ class Post {
   final String id;
   final int type;
   final String description;
-  final String content;
+  final List<String> content;
   final Timestamp createdAt;
   final int numberOfLikes;
   final MiniUser miniUser;
@@ -23,7 +23,9 @@ class Post {
     final String id = documentId;
     final int type = data['type'] as int;
     final String description = data['description'] as String;
-    final String content = data['content'] as String;
+    final List<String> content =
+        (data['content'] as List<dynamic>).map((e) => e as String).toList();
+
     final Timestamp createdAt = data['createdAt'] as Timestamp;
     final int numberOfLikes = data['numberOfLikes'] as int;
     final MiniUser miniUser =
