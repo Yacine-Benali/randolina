@@ -13,38 +13,36 @@ class ClientProfileScreen extends StatelessWidget {
     required this.bloc,
   }) : super(key: key);
   final Client client;
-  final bool isFollowingOther;
+  final bool? isFollowingOther;
   final bool showProfileAsOther;
   final ProfileBloc bloc;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: [
-          ClientHeader(
-            client: client,
-            isFollowingOther: isFollowingOther,
-            showProfileAsOther: showProfileAsOther,
-            onEditPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ClientProfileEditScreen(
-                    currentClient: client,
-                    bloc: bloc,
-                  ),
+    return Column(
+      children: [
+        ClientHeader(
+          client: client,
+          isFollowingOther: isFollowingOther,
+          showProfileAsOther: showProfileAsOther,
+          onEditPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ClientProfileEditScreen(
+                  currentClient: client,
+                  bloc: bloc,
                 ),
-              );
-            },
+              ),
+            );
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            children: [],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              children: [],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

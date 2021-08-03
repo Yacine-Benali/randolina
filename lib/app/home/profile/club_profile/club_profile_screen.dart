@@ -17,33 +17,28 @@ class ClubProfileScreen extends StatelessWidget {
   final User clubOrAgency;
   final ProfileBloc bloc;
   final bool showProfileAsOther;
-  final bool isFollowingOther;
+  final bool? isFollowingOther;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: Color(0xFFE5E5E5),
-        child: Column(
-          children: [
-            ClubHeader(
-              clubOrAgency: clubOrAgency,
-              showProfileAsOther: showProfileAsOther,
-              onEditPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ClubProfileEditScreen(
-                      clubOrAgency: clubOrAgency,
-                      bloc: bloc,
-                    ),
-                  ),
-                );
-              },
-              isFollowingOther: null,
-            ),
-          ],
+    return Column(
+      children: [
+        ClubHeader(
+          clubOrAgency: clubOrAgency,
+          showProfileAsOther: showProfileAsOther,
+          onEditPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ClubProfileEditScreen(
+                  clubOrAgency: clubOrAgency,
+                  bloc: bloc,
+                ),
+              ),
+            );
+          },
+          isFollowingOther: isFollowingOther,
         ),
-      ),
+      ],
     );
   }
 }
