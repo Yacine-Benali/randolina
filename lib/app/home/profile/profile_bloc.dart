@@ -7,8 +7,8 @@ import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 
-class ClientProfileBloc {
-  ClientProfileBloc({
+class ProfileBloc {
+  ProfileBloc({
     required this.database,
     required this.currentUser,
     required this.otherClient,

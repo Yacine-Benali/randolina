@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
-import 'package:randolina/app/home/profile/client_profile/client_profile_bloc.dart';
+import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
@@ -20,7 +20,7 @@ class ClientProfileEditScreen extends StatefulWidget {
   }) : super(key: key);
 
   final Client currentClient;
-  final ClientProfileBloc bloc;
+  final ProfileBloc bloc;
   @override
   _ClientProfileEditScreenState createState() =>
       _ClientProfileEditScreenState();

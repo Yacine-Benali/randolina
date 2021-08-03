@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
-import 'package:randolina/app/home/profile/client_profile/client_profile_bloc.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
+import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
@@ -18,7 +18,7 @@ class ClientProfileScreen extends StatefulWidget {
 
 class _ClientProfileScreenState extends State<ClientProfileScreen> {
   late final User currentUser;
-  late final ClientProfileBloc bloc;
+  late final ProfileBloc bloc;
   late final bool showProfileAsOther;
   Future<bool>? isFollowingOther;
 
@@ -26,7 +26,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   void initState() {
     currentUser = context.read<User>();
 
-    bloc = ClientProfileBloc(
+    bloc = ProfileBloc(
       database: context.read<Database>(),
       currentUser: currentUser,
       otherClient: widget.client,
@@ -43,7 +43,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<ClientProfileBloc>.value(
+    return Provider<ProfileBloc>.value(
       value: bloc,
       child: Material(
         child: FutureBuilder<bool>(
