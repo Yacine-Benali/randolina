@@ -7,17 +7,17 @@ enum FilterOptions {
   singout,
 }
 
-class PopMenuClientHeader extends StatefulWidget {
-  const PopMenuClientHeader({
+class ProfileEditPopUp extends StatefulWidget {
+  const ProfileEditPopUp({
     Key? key,
     required this.onEditPressed,
   }) : super(key: key);
   final VoidCallback onEditPressed;
   @override
-  _PopMenuClientHeaderState createState() => _PopMenuClientHeaderState();
+  _ProfileEditPopUpState createState() => _ProfileEditPopUpState();
 }
 
-class _PopMenuClientHeaderState extends State<PopMenuClientHeader> {
+class _ProfileEditPopUpState extends State<ProfileEditPopUp> {
   late bool showPopMenu;
 
   @override

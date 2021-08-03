@@ -57,6 +57,7 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Follow'),
+                  // todo @average change the icons to the ones in the design
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Icon(Icons.add),

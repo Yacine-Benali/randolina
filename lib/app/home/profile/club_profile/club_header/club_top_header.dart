@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/profile/pop_menu_header.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
 
 class ClubTopHeader extends StatelessWidget {
   const ClubTopHeader({Key? key}) : super(key: key);
@@ -40,7 +40,7 @@ class ClubTopHeader extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  PopMenuClientHeader(
+                  ProfileEditPopUp(
                     onEditPressed: () {},
                   ),
                 ],

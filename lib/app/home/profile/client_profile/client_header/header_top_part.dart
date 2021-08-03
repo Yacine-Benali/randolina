@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/profile/pop_menu_header.dart';
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
 
 class ClientHeaderTopPart extends StatelessWidget {
   const ClientHeaderTopPart({
@@ -58,7 +58,7 @@ class ClientHeaderTopPart extends StatelessWidget {
                         ),
                       ),
                       if (showEditButton) ...[
-                        PopMenuClientHeader(onEditPressed: onEditPressed),
+                        ProfileEditPopUp(onEditPressed: onEditPressed),
                       ],
                     ],
                   ),
