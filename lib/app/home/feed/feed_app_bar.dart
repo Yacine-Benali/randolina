@@ -55,10 +55,14 @@ class FeedAppBar extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              width: 158,
+              height: 53,
               child: Image.asset(
-                'assets/icons/RandoLina (13) 1.png',
-                fit: BoxFit.cover,
+                'assets/home_logo.png',
               ),
             ),
             Expanded(
