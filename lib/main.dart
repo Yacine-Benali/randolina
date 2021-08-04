@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
     FirebaseAuth.instance.useAuthEmulator(host, 9099);
     FirebaseStorage.instance.useStorageEmulator(host, 9199);
+    FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
   }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

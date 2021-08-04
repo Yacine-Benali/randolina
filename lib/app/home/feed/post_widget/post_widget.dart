@@ -1,6 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:randolina/app/home/feed/post_widget/post_action_bar.dart';
+import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
 import 'package:randolina/app/home/feed/post_widget/post_widget_image_loader.dart';
 import 'package:randolina/app/home/feed/post_widget/post_widget_popup.dart';
 import 'package:randolina/app/models/post.dart';
@@ -9,15 +13,26 @@ class PostWidget extends StatefulWidget {
   const PostWidget({
     Key? key,
     required this.post,
+    required this.postBloc,
   }) : super(key: key);
   final Post post;
+  final PostBloc postBloc;
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  final index = 0;
+  final FlareControls flareControls = FlareControls();
+  bool isLiked = false;
+  late final Future<bool> isLikedFuture;
+  PostBloc get postBloc => widget.postBloc;
+
+  @override
+  void initState() {
+    // isLikedFuture = postBloc.isLiked(widget.post);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,52 +94,38 @@ class _PostWidgetState extends State<PostWidget> {
             ),
             SizedBox(
               height: 245,
-              child: PostWidgetImageLoader(
-                imageList: widget.post.content,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
                 children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 17, right: 20),
-                          child: Image.asset('assets/icons/Vector 1.png'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 17, right: 5),
-                          child: Image.asset('assets/icons/Vector 2.png'),
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    onDoubleTap: () {
+                      // todo @low do the double tap to like later
+                      // logger.severe('clicked');
+                      // setState(() {
+                      //   isLiked = !isLiked;
+                      // });
+                      // flareControls.play("like");
+                    },
+                    child: PostWidgetImageLoader(
+                      imageList: widget.post.content,
+                    ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 17, right: 5),
-                    child: Image.asset('assets/icons/Vector 3.png'),
+                  Center(
+                    child: SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: FlareActor(
+                        'assets/flare/instagram_like.flr',
+                        controller: flareControls,
+                        animation: 'idle',
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 9.0, left: 10.0, bottom: 4),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                '${widget.post.numberOfLikes} likes',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.center,
-              ),
+            PostActionBar(
+              post: widget.post,
+              postBloc: postBloc,
             ),
             Container(
               //  height: 42,

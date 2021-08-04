@@ -43,7 +43,7 @@ class CustomAppBar extends PreferredSize {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
-                          'assets/logo.png',
+                          'assets/home_logo.png',
                         ),
                       ),
                     ),

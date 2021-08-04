@@ -12,5 +12,13 @@ class APIPath {
   static String userFollowerPostsCollection() => 'user_followers_posts';
 
   static String userFollowerStoriesCollection() => 'user_followers_stories/';
+
   static String postsCollection() => 'posts/';
+
+  static String postDocument(String postId) => 'posts/$postId';
+
+  static String likesCollection(String postId) => 'posts/$postId/likes';
+
+  static String likesDocument(String postId, String likeId) =>
+      'posts/$postId/likes/$likeId';
 }

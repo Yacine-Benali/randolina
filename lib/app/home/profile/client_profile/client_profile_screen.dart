@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
 import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
@@ -7,6 +8,7 @@ import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/home/profile/profile_posts.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
@@ -34,11 +36,24 @@ class ClientProfileScreen extends StatefulWidget {
 class _ClientProfileScreenState extends State<ClientProfileScreen> {
   int max = 0;
   late List<Post> posts;
+  late final PostBloc postBloc;
+
+  @override
+  void initState() {
+    postBloc = PostBloc(
+      currentUser: context.read<User>(),
+      database: context.read<Database>(),
+    );
+    super.initState();
+  }
 
   List<Widget> buildList() {
-    logger.info("**************");
-
-    List<Widget> list2 = posts.map((e) => PostWidget(post: e)).toList();
+    List<Widget> list2 = posts
+        .map((e) => PostWidget(
+              post: e,
+              postBloc: postBloc,
+            ))
+        .toList();
 
     return list2;
   }

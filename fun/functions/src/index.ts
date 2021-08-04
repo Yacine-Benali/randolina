@@ -1,2 +1,3 @@
 
-export { onUserCreated } from './onUserCreated'
+export { onUserCreated } from './onUserCreated';
+export { likePost } from './likePost'
