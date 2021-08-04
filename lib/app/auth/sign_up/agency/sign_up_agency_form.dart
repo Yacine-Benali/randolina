@@ -56,7 +56,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
           SignUpTitle(title: 'Login information'),
           SizedBox(height: 30),
           SignUpDivider(
-              imagePath: 'assets/club_signup/1.png', start: 1, end: 10),
+              imagePath: 'assets/sign_up/icons/1.png', start: 1, end: 10),
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),

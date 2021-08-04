@@ -55,7 +55,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
           SignUpTitle(title: 'Complete the registration'),
           SizedBox(height: 30),
           SignUpDivider(
-              imagePath: 'assets/sign_up_mini_icons/correct_icon.png',
+              imagePath: 'assets/sign_up/icons/correct_icon.png',
               start: 10,
               end: 1),
           SizedBox(height: 30),
@@ -73,7 +73,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                     ),
                     child: Avatar(
                       placeHolder: Image.asset(
-                        'assets/client_upload_picture.png',
+                        'assets/sign_up/client_upload_picture.png',
                         width: 150,
                       ),
                       onChanged: (File f) {

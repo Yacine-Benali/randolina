@@ -29,9 +29,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void didChangeDependencies() {
     precacheImage(
-        AssetImage('assets/sign_up_background/user_background.png'), context);
+        AssetImage('assets/sign_up/backgrounds/user_background.png'), context);
     precacheImage(
-        AssetImage('assets/sign_up_background/club_background.png'), context);
+        AssetImage('assets/sign_up/backgrounds/club_background.png'), context);
 
     super.didChangeDependencies();
   }

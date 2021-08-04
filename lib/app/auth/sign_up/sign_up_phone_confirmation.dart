@@ -48,7 +48,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
           SignUpTitle(title: 'confirmation of number'),
           SizedBox(height: 30),
           SignUpDivider(
-            imagePath: 'assets/sign_up_mini_icons/phone_confirmation_icon.png',
+            imagePath: 'assets/sign_up/icons/phone_confirmation_icon.png',
             start: 1,
             end: 1,
           ),

@@ -152,10 +152,15 @@ class _SignInScreenState extends State<SignInScreen> {
             children: [
               //! todo @high fix image quality
               Padding(
-                padding: const EdgeInsets.only(top: 180, bottom: 80),
+                padding: const EdgeInsets.only(
+                  top: 180,
+                  bottom: 100,
+                  right: 50,
+                  left: 50,
+                ),
                 child: Image.asset(
-                  'assets/logo_2.png',
-                  width: 700,
+                  'assets/logo.png',
+                  width: 213,
                 ),
               ),
               Padding(

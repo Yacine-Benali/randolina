@@ -55,7 +55,7 @@ class _SignUpClubForm3State extends State<SignUpClubForm3> {
           SignUpTitle(title: 'Complete the registration'),
           SizedBox(height: 30),
           SignUpDivider(
-              imagePath: 'assets/sign_up_mini_icons/correct_icon.png',
+              imagePath: 'assets/sign_up/icons/correct_icon.png',
               start: 1,
               end: 10),
           SizedBox(height: 30),
@@ -73,7 +73,7 @@ class _SignUpClubForm3State extends State<SignUpClubForm3> {
                     ),
                     child: Avatar(
                       placeHolder: Image.asset(
-                        'assets/club_upload_picture.png',
+                        'assets/sign_up/club_upload_picture.png',
                         width: 150,
                       ),
                       onChanged: (File f) {

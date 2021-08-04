@@ -52,7 +52,7 @@ class _SignUpStoreForm2State extends State<SignUpStoreForm2> {
           SignUpTitle(title: 'Login information'),
           SizedBox(height: 30),
           SignUpDivider(
-              imagePath: 'assets/club_signup/2.png', start: 1, end: 10),
+              imagePath: 'assets/sign_up/icons/2.png', start: 1, end: 10),
           SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 35.0),

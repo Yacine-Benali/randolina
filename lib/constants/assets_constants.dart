@@ -1,8 +1,8 @@
 const String clientBackgroundImage =
-    'assets/sign_up_background/user_background.png';
+    'assets/sign_up/backgrounds/user_background.png';
 const String clubBackgroundImage =
-    'assets/sign_up_background/club_background.png';
+    'assets/sign_up/backgrounds/club_background.png';
 const String agencyBackgroundImage =
-    'assets/sign_up_background/agency_background.png';
+    'assets/sign_up/backgrounds/agency_background.png';
 const String storeBackgroundImage =
-    'assets/sign_up_background/store_background.png';
+    'assets/sign_up/backgrounds/store_background.png';
