@@ -25,7 +25,6 @@ class _PostActionBarState extends State<PostActionBar> {
   void initState() {
     numberOfLikes = widget.post.numberOfLikes;
     widget.postBloc.isLiked(widget.post).then((value) {
-      logger.info('future complete $value');
       remoteisLiked = value;
       setState(() {});
     });
@@ -49,6 +48,7 @@ class _PostActionBarState extends State<PostActionBar> {
                     iconSize: 30,
                     icon: Icon(
                       remoteisLiked ? Icons.favorite : Icons.favorite_border,
+                      color: remoteisLiked ? Colors.red : Colors.black,
                     ),
                     onPressed: () {
                       if (remoteisLiked == false) {
