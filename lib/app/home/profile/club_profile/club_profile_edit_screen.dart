@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/agency.dart';
@@ -15,10 +16,8 @@ import 'package:randolina/constants/strings.dart';
 class ClubProfileEditScreen extends StatefulWidget {
   const ClubProfileEditScreen({
     Key? key,
-    required this.clubOrAgency,
     required this.bloc,
   }) : super(key: key);
-  final User clubOrAgency;
   final ProfileBloc bloc;
   @override
   _ClubProfileEditScreenState createState() => _ClubProfileEditScreenState();
@@ -28,21 +27,25 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
   late final TextStyle titleStyle;
   String? bio;
   late List<String>? activities;
+  late User clubOrAgency;
 
   @override
   void initState() {
+    clubOrAgency = context.read<User>();
     titleStyle = TextStyle(
       color: Colors.grey,
       fontSize: 14,
     );
-    if (widget.clubOrAgency is Club) {
-      activities = (widget.clubOrAgency as Club).activities;
+    if (clubOrAgency is Club) {
+      activities = (clubOrAgency as Club).activities;
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    clubOrAgency = context.read<User>();
+
     return SafeArea(
       child: CustomScaffold(
         backgroundColor: backgroundColor,
@@ -51,7 +54,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
             Stack(
               children: [
                 ClubHeader(
-                  clubOrAgency: widget.clubOrAgency,
+                  clubOrAgency: clubOrAgency,
                   showProfileAsOther: false,
                   onEditPressed: () {},
                   isFollowingOther: false,
@@ -76,7 +79,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
               child: Column(
                 children: [
                   CustomTextForm(
-                    initialValue: widget.clubOrAgency.bio,
+                    initialValue: clubOrAgency.bio,
                     title: 'Bio:',
                     titleStyle: titleStyle,
                     lines: 4,
@@ -145,9 +148,9 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                       ),
                     ),
                     onPressed: () {
-                      if (widget.clubOrAgency is Club && activities != null) {
+                      if (clubOrAgency is Club && activities != null) {
                         widget.bloc.saveClubProfile(bio, activities!);
-                      } else if (widget.clubOrAgency is Agency) {
+                      } else if (clubOrAgency is Agency) {
                         widget.bloc.saveAgencyProfile(bio);
                       }
                     },

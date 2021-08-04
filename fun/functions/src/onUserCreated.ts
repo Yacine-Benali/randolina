@@ -41,7 +41,6 @@ export const onUserCreated = functions.firestore.document('users/{userId}').onCr
         // create user_followers_posts
         await db.doc(`user_followers_posts/${uid}`).set(
             {
-                'miniUser': miniUser,
                 'isFull':false,
                 'lastPostTimestamp': null,
                 'followers': [],

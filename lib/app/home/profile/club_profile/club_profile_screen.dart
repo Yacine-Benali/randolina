@@ -30,7 +30,6 @@ class ClubProfileScreen extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => ClubProfileEditScreen(
-                  clubOrAgency: clubOrAgency,
                   bloc: bloc,
                 ),
               ),

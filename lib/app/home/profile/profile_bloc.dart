@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/app/models/user_followers_posts.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
@@ -16,7 +17,7 @@ class ProfileBloc {
   final User currentUser;
   final User otherUser;
 
-  //! todo @high add a provider and refactor
+  //! todo @average add a provider and refactor
   // after doing the agency/club profile
 
   Future<void> saveClientProfile(String? bio, String activity) async {
@@ -161,6 +162,15 @@ class ProfileBloc {
       data: {
         'followers': FieldValue.arrayRemove([currentUser.id])
       },
+    );
+  }
+
+  Future<List<Post>> getPosts() async {
+    return database.fetchCollection(
+      path: APIPath.postsCollection(),
+      queryBuilder: (query) =>
+          query.where('miniUser.id', isEqualTo: otherUser.id),
+      builder: (data, id) => Post.fromMap(data, id),
     );
   }
 }

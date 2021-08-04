@@ -15,11 +15,9 @@ import 'package:randolina/constants/strings.dart';
 class ClientProfileEditScreen extends StatefulWidget {
   const ClientProfileEditScreen({
     Key? key,
-    required this.currentClient,
     required this.bloc,
   }) : super(key: key);
 
-  final Client currentClient;
   final ProfileBloc bloc;
   @override
   _ClientProfileEditScreenState createState() =>
@@ -30,6 +28,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
   late final TextStyle titleStyle;
   String? bio;
   late String activity;
+  late Client currentClient;
 
   @override
   void initState() {
@@ -37,16 +36,14 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
       color: Colors.grey,
       fontSize: 14,
     );
-    activity = widget.currentClient.activity;
+    currentClient = context.read<User>() as Client;
+    activity = currentClient.activity;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // todo @high remove this line and use the given object or choose but not
-    // both
-    final Client client = context.read<User>() as Client;
-
+    currentClient = context.read<User>() as Client;
     return SafeArea(
       child: CustomScaffold(
         backgroundColor: backgroundColor,
@@ -55,7 +52,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
             Stack(
               children: [
                 ClientHeader(
-                  client: client,
+                  client: currentClient,
                   isFollowingOther: false,
                   onEditPressed: () {},
                   showProfileAsOther: false,
@@ -80,7 +77,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
               child: Column(
                 children: [
                   CustomTextForm(
-                    initialValue: client.bio,
+                    initialValue: currentClient.bio,
                     title: 'Bio:',
                     titleStyle: titleStyle,
                     lines: 4,
@@ -95,7 +92,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: CustomDropDown(
                       titleStyle: titleStyle,
-                      initialValue: client.activity,
+                      initialValue: currentClient.activity,
                       validator: (String? value) {
                         if (value == null) {
                           return invalidActivityError;

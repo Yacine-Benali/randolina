@@ -12,7 +12,6 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 
@@ -61,10 +60,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Post>>(
-      future: context.read<Database>().fetchCollection(
-            path: APIPath.postsCollection(),
-            builder: (data, id) => Post.fromMap(data, id),
-          ),
+      future: widget.bloc.getPosts(),
       builder: (context, snapshot) {
         if (snapshot.hasData && (snapshot.data != null)) {
           posts = snapshot.data!;
@@ -82,7 +78,6 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ClientProfileEditScreen(
-                            currentClient: widget.client,
                             bloc: widget.bloc,
                           ),
                         ),
@@ -103,7 +98,9 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
           );
         }
         return SizedBox(
-            height: SizeConfig.screenHeight, child: LoadingScreen());
+          height: SizeConfig.screenHeight,
+          child: LoadingScreen(),
+        );
       },
     );
   }
