@@ -21,4 +21,6 @@ class APIPath {
 
   static String likesDocument(String postId, String likeId) =>
       'posts/$postId/likes/$likeId';
+
+  static String commentsCollection(String postId) => 'posts/$postId/comments';
 }

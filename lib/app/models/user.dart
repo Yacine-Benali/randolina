@@ -1,5 +1,6 @@
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/mini_user.dart';
 
 class User {
   User({
@@ -78,12 +79,12 @@ class User {
     };
   }
 
-  Map<String, dynamic> toMiniUserMap() {
-    return {
-      'id': id,
-      'username': username,
-      'name': name,
-      'profilePicture': profilePicture,
-    };
+  MiniUser toMiniUser() {
+    return MiniUser(
+      id: id,
+      username: username,
+      name: name,
+      profilePicture: profilePicture,
+    );
   }
 }

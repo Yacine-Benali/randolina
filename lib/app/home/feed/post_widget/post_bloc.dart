@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:randolina/app/models/comment.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
@@ -47,5 +48,19 @@ class PostBloc {
         'numberOfLikes': FieldValue.increment(-1),
       });
     }
+  }
+
+  //! make a comment bloc ?
+  Future<void> publishComment(Post post, String content) async {
+    final comment = Comment(
+      miniUser: currentUser.toMiniUser(),
+      content: content,
+      createdAt: Timestamp.now(),
+    );
+
+    await database.addDocument(
+      path: APIPath.commentsCollection(post.id),
+      data: comment.toMap(),
+    );
   }
 }

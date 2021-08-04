@@ -150,7 +150,6 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //! todo @high fix image quality
               Padding(
                 padding: const EdgeInsets.only(
                   top: 180,

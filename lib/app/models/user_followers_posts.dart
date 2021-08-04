@@ -7,14 +7,15 @@ class UserFollowersPosts {
     required this.id,
     required this.lastPostTimestamp,
     // required this.isFull,
-    required this.miniUser,
+    //! todo @high whats the point of a miniUser here ?
+    //  required this.miniUser,
     required this.followers,
     required this.postsIds,
   });
   String id;
   Timestamp? lastPostTimestamp;
   // bool isFull;
-  MiniUser miniUser;
+  // MiniUser miniUser;
   List<String> followers;
   List<MiniPost> postsIds;
 
@@ -37,7 +38,7 @@ class UserFollowersPosts {
       id: id,
       lastPostTimestamp: lastPostTimestamp,
       // isFull: isFull,
-      miniUser: miniUser,
+      //  miniUser: miniUser,
       followers: followers,
       postsIds: postsIds,
     );
@@ -47,7 +48,7 @@ class UserFollowersPosts {
     return {
       'lastPostTimestamp': lastPostTimestamp,
       // isFull: isFull,
-      'miniUser': miniUser,
+      // 'miniUser': miniUser,
       'followers': followers,
       'postsIds': postsIds,
     };

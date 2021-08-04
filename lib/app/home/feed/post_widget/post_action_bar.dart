@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/feed/post_widget/comments/comments_screen.dart';
 import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/utils/logger.dart';
@@ -70,6 +71,14 @@ class _PostActionBarState extends State<PostActionBar> {
                     icon: Icon(Icons.chat_bubble_outline),
                     onPressed: () {
                       logger.info('open comments screen');
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CommentScreen(
+                            postBloc: widget.postBloc,
+                            post: widget.post,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ],
