@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:randolina/app/home/feed/post_widget/content/post_content_loader.dart';
 import 'package:randolina/app/home/feed/post_widget/post_action_bar.dart';
 import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
-import 'package:randolina/app/home/feed/post_widget/post_widget_image_loader.dart';
 import 'package:randolina/app/home/feed/post_widget/post_widget_popup.dart';
 import 'package:randolina/app/models/post.dart';
 
@@ -36,6 +35,8 @@ class _PostWidgetState extends State<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
+    late Widget child;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
       child: Container(
@@ -94,33 +95,9 @@ class _PostWidgetState extends State<PostWidget> {
             ),
             SizedBox(
               height: 245,
-              child: Stack(
-                children: [
-                  GestureDetector(
-                    onDoubleTap: () {
-                      // todo @low do the double tap to like later
-                      // logger.severe('clicked');
-                      // setState(() {
-                      //   isLiked = !isLiked;
-                      // });
-                      // flareControls.play("like");
-                    },
-                    child: PostWidgetImageLoader(
-                      imageList: widget.post.content,
-                    ),
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 80,
-                      height: 80,
-                      child: FlareActor(
-                        'assets/flare/instagram_like.flr',
-                        controller: flareControls,
-                        animation: 'idle',
-                      ),
-                    ),
-                  ),
-                ],
+              child: PostContentLoader(
+                type: widget.post.type,
+                content: widget.post.content,
               ),
             ),
             PostActionBar(

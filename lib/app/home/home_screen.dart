@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/feed/feed_screen.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
+import 'package:randolina/app/home/test.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/common_widgets/size_config.dart';
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     screens = [
       FeedScreen(),
       Container(color: Colors.blue),
-      Container(color: Colors.blue),
+      Test(),
       ProfileScreen(user: user),
     ];
   }
