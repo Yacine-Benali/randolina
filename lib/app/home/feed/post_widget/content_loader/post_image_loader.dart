@@ -19,7 +19,6 @@ class _PostImageLoaderState extends State<PostImageLoader> {
     return CachedNetworkImage(
       imageUrl: widget.image,
       imageBuilder: (context, imageProvider) => Container(
-        margin: const EdgeInsets.only(left: 7, right: 7),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(19),
           image: DecorationImage(

@@ -24,12 +24,10 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   final FlareControls flareControls = FlareControls();
   bool isLiked = false;
-  late final Future<bool> isLikedFuture;
   PostBloc get postBloc => widget.postBloc;
 
   @override
   void initState() {
-    // isLikedFuture = postBloc.isLiked(widget.post);
     super.initState();
   }
 
@@ -54,7 +52,7 @@ class _PostWidgetState extends State<PostWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 78,
+              height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

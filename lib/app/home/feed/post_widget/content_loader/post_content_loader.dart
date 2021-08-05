@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/feed/post_widget/content_loader/post_image_loader.dart';
 import 'package:randolina/app/home/feed/post_widget/content_loader/post_video_loader.dart';
+import 'package:randolina/app/home/feed/post_widget/content_loader/post_ytvideo_loader.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class PostContentLoader extends StatefulWidget {
@@ -33,6 +34,10 @@ class _PostContentLoaderState extends State<PostContentLoader> {
       case 1:
         children =
             widget.content.map((url) => PostVideoLoader(url: url)).toList();
+        break;
+      case 2:
+        children =
+            widget.content.map((url) => PostYTVideoLoader(url: url)).toList();
         break;
       default:
     }
@@ -67,7 +72,7 @@ class _PostContentLoaderState extends State<PostContentLoader> {
               child: Container(
                 width: 8.0,
                 height: 8.0,
-                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin: EdgeInsets.symmetric(horizontal: 4.0),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: (Theme.of(context).brightness == Brightness.dark
