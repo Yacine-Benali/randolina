@@ -50,7 +50,7 @@ class StoriesWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
-                          store[index]['nom']! + '*****',
+                          '${store[index]['nom']!}*****',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 10, color: Colors.black),
                         ),

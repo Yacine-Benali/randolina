@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class ProfilePosts extends StatefulWidget {
-  ProfilePosts({
+  const ProfilePosts({
     Key? key,
     required this.onTabChanged,
   }) : super(key: key);

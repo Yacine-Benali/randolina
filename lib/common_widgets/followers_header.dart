@@ -10,7 +10,9 @@ class FollowersHeader extends StatelessWidget {
   final int following;
   final int followers;
 
+  // ignore: avoid_field_initializers_in_const_classes
   final double height = 26;
+  // ignore: avoid_field_initializers_in_const_classes
   final double width = 110;
   @override
   Widget build(BuildContext context) {

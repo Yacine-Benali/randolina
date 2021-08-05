@@ -10,7 +10,7 @@ class FABBottomAppBarItem {
 }
 
 class FABBottomAppBar extends StatefulWidget {
-  FABBottomAppBar({
+  const FABBottomAppBar({
     required this.items,
     required this.centerItemText,
     this.height = 60.0,
@@ -20,9 +20,7 @@ class FABBottomAppBar extends StatefulWidget {
     required this.selectedColor,
     required this.notchedShape,
     required this.onTabSelected,
-  }) {
-    assert(items.length == 2 || items.length == 4);
-  }
+  });
   final List<FABBottomAppBarItem> items;
   final String centerItemText;
   final double height;
