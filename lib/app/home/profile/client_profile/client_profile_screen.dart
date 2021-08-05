@@ -11,9 +11,7 @@ import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class ClientProfileScreen extends StatefulWidget {
   const ClientProfileScreen({
@@ -33,12 +31,16 @@ class ClientProfileScreen extends StatefulWidget {
 }
 
 class _ClientProfileScreenState extends State<ClientProfileScreen> {
-  int max = 0;
+  int type = 0;
   late List<Post> posts;
   late final PostBloc postBloc;
+  late final List<Widget> list2;
+  late final Future<List<Post>> postsFuture;
 
   @override
   void initState() {
+    list2 = [];
+    postsFuture = widget.bloc.getPosts();
     postBloc = PostBloc(
       currentUser: context.read<User>(),
       database: context.read<Database>(),
@@ -47,12 +49,30 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   }
 
   List<Widget> buildList() {
-    List<Widget> list2 = posts
-        .map((e) => PostWidget(
-              post: e,
-              postBloc: postBloc,
-            ))
-        .toList();
+    list2.clear();
+    for (final Post post in posts) {
+      switch (type) {
+        case 0:
+          final PostWidget w =
+              PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
+          list2.add(w);
+          break;
+        case 1:
+          if (post.type == 0) {
+            final PostWidget w =
+                PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
+            list2.add(w);
+          }
+          break;
+        case 2:
+          if (post.type > 0) {
+            final PostWidget w =
+                PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
+            list2.add(w);
+          }
+          break;
+      }
+    }
 
     return list2;
   }
@@ -60,40 +80,48 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Post>>(
-      future: widget.bloc.getPosts(),
+      future: postsFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData && (snapshot.data != null)) {
           posts = snapshot.data!;
-          return Container(
-            color: backgroundColor,
-            child: DefaultTabController(
-              length: 3,
-              child: Column(
-                children: [
-                  ClientHeader(
-                    client: widget.client,
-                    isFollowingOther: widget.isFollowingOther,
-                    showProfileAsOther: widget.showProfileAsOther,
-                    onEditPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ClientProfileEditScreen(
-                            bloc: widget.bloc,
-                          ),
+          return DefaultTabController(
+            length: 3,
+            child: Column(
+              children: [
+                ClientHeader(
+                  client: widget.client,
+                  isFollowingOther: widget.isFollowingOther,
+                  showProfileAsOther: widget.showProfileAsOther,
+                  onEditPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ClientProfileEditScreen(
+                          bloc: widget.bloc,
                         ),
-                      );
-                    },
-                  ),
-                  ProfilePosts(
-                    onTabChanged: (t) {
-                      logger.severe(t);
-                      max = 2;
-                      setState(() {});
-                    },
-                  ),
-                  ...buildList(),
-                ],
-              ),
+                      ),
+                    );
+                  },
+                ),
+                ProfilePosts(
+                  onTabChanged: (t) {
+                    type = t;
+                    setState(() {});
+                  },
+                ),
+                FutureBuilder(
+                    future: Future.delayed(Duration(milliseconds: 500)),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Column(
+                          children: buildList(),
+                        );
+                      } else {
+                        return CircularProgressIndicator(
+                          color: Colors.grey,
+                        );
+                      }
+                    }),
+              ],
             ),
           );
         }

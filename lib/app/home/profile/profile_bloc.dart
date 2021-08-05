@@ -168,8 +168,9 @@ class ProfileBloc {
   Future<List<Post>> getPosts() async {
     return database.fetchCollection(
       path: APIPath.postsCollection(),
-      queryBuilder: (query) =>
-          query.where('miniUser.id', isEqualTo: otherUser.id),
+      queryBuilder: (query) => query
+          .where('miniUser.id', isEqualTo: otherUser.id)
+          .orderBy('createdAt', descending: true),
       builder: (data, id) => Post.fromMap(data, id),
     );
   }

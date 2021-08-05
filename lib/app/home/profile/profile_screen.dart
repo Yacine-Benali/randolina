@@ -8,6 +8,7 @@ import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
+import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 
@@ -51,6 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Provider<ProfileBloc>.value(
       value: bloc,
       child: Scaffold(
+        backgroundColor: backgroundColor,
         body: FutureBuilder<bool>(
           future: isFollowingOther,
           builder: (context, snapshot) {
