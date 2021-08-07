@@ -23,4 +23,9 @@ class APIPath {
       'posts/$postId/likes/$likeId';
 
   static String commentsCollection(String postId) => 'posts/$postId/comments';
+
+  static String savedPostsDocument(String uid) =>
+      'users/$uid/savedPosts/savedPosts';
+
+  static String savedPostsCollection(String uid) => 'users/$uid/savedPosts';
 }

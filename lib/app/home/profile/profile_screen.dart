@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late final ProfileBloc bloc;
   late final bool showProfileAsOther;
   Future<bool>? isFollowingOther;
+
   @override
   void initState() {
     currentUser = context.read<User>();
@@ -48,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  void _requestPermission() async {
+  Future<void> _requestPermission() async {
     final bool isGranted = await Permission.storage.status.isGranted;
     if (!isGranted) {
       Map<Permission, PermissionStatus> statuses = await [
@@ -56,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ].request();
 
       final info = statuses[Permission.storage].toString();
-      Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_SHORT);
     }
   }
 

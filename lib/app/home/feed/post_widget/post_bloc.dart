@@ -5,6 +5,7 @@ import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class PostBloc {
   PostBloc({
@@ -50,7 +51,6 @@ class PostBloc {
     }
   }
 
-  //! make a comment bloc ?
   Future<void> publishComment(Post post, String content) async {
     final comment = Comment(
       miniUser: currentUser.toMiniUser(),
@@ -61,6 +61,37 @@ class PostBloc {
     await database.addDocument(
       path: APIPath.commentsCollection(post.id),
       data: comment.toMap(),
+    );
+  }
+
+  Future<void> savePost(Post post) async {
+    await database.setData(
+      path: APIPath.savedPostsDocument(currentUser.id),
+      data: {
+        'savedPosts': FieldValue.arrayUnion([post.id])
+      },
+    );
+  }
+
+  Future<bool> isSaved(Post post) async {
+    final List<String> list = await database.fetchCollection(
+      path: APIPath.savedPostsCollection(currentUser.id),
+      queryBuilder: (query) =>
+          query.where('savedPosts', arrayContains: post.id),
+      builder: (data, id) => id,
+    );
+    logger.info(list);
+    logger.info('isaved ${list.isNotEmpty}');
+
+    return list.isNotEmpty;
+  }
+
+  Future<void> unsavePost(Post post) async {
+    await database.setData(
+      path: APIPath.savedPostsDocument(currentUser.id),
+      data: {
+        'savedPosts': FieldValue.arrayRemove([post.id])
+      },
     );
   }
 }

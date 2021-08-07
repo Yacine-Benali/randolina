@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randolina/app/home/feed/post_widget/comments/comments_screen.dart';
 import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
 import 'package:randolina/app/models/post.dart';
@@ -18,15 +19,20 @@ class PostActionBar extends StatefulWidget {
 }
 
 class _PostActionBarState extends State<PostActionBar> {
-  late bool remoteisLiked = false;
-  late Future<bool> isLikedFuture;
+  late bool isLiked = false;
+  late bool isSaved = false;
   late int numberOfLikes;
 
   @override
   void initState() {
     numberOfLikes = widget.post.numberOfLikes;
     widget.postBloc.isLiked(widget.post).then((value) {
-      remoteisLiked = value;
+      isLiked = value;
+      setState(() {});
+    });
+
+    widget.postBloc.isSaved(widget.post).then((value) {
+      isSaved = value;
       setState(() {});
     });
     super.initState();
@@ -48,19 +54,19 @@ class _PostActionBarState extends State<PostActionBar> {
                   IconButton(
                     iconSize: 30,
                     icon: Icon(
-                      remoteisLiked ? Icons.favorite : Icons.favorite_border,
-                      color: remoteisLiked ? Colors.red : Colors.black,
+                      isLiked ? Icons.favorite : Icons.favorite_border,
+                      color: isLiked ? Colors.red : Colors.black,
                     ),
                     onPressed: () {
-                      if (remoteisLiked == false) {
+                      if (isLiked == false) {
                         logger.info('like this post ${widget.post.id}');
                         widget.postBloc.like(widget.post);
-                        remoteisLiked = true;
+                        isLiked = true;
                         numberOfLikes++;
                       } else {
                         logger.info('unlike this post ${widget.post.id}');
                         widget.postBloc.unlike(widget.post);
-                        remoteisLiked = false;
+                        isLiked = false;
                         numberOfLikes--;
                       }
                       setState(() {});
@@ -85,9 +91,23 @@ class _PostActionBarState extends State<PostActionBar> {
               ),
               IconButton(
                 iconSize: 30,
-                icon: Icon(Icons.bookmark_border),
-                onPressed: () {
-                  logger.info('bookmark this post');
+                icon: Icon(
+                    isSaved ? Icons.bookmark : Icons.bookmark_border_outlined),
+                color: Colors.black,
+                onPressed: () async {
+                  if (isSaved == false) {
+                    await widget.postBloc.savePost(widget.post);
+                    Fluttertoast.showToast(
+                      msg: 'Post saved successfully',
+                      toastLength: Toast.LENGTH_SHORT,
+                    );
+                    isSaved = true;
+                  } else {
+                    logger.info('unsave this post ${widget.post.id}');
+                    widget.postBloc.unsavePost(widget.post);
+                    isSaved = false;
+                  }
+                  setState(() {});
                 },
               ),
             ],
