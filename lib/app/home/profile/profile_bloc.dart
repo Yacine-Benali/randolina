@@ -74,6 +74,7 @@ class ProfileBloc {
     }
   }
 
+  // todo @low this is bad for security
   Future<void> followOtherUser() async {
     // call an api that gets user_followers_posts document that is not full
     // and do the following operations on it
@@ -104,21 +105,31 @@ class ProfileBloc {
     ))
             .first;
 
-    await database.updateData(
-      path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
-      data: {
-        'followers': FieldValue.arrayUnion([currentUser.id])
-      },
-    );
-
-    await database.updateData(
-      path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
-      data: {
-        'followers': FieldValue.arrayUnion([currentUser.id])
-      },
-    );
+    await Future.wait([
+      database.updateData(
+        path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
+        data: {
+          'followers': FieldValue.arrayUnion([currentUser.id])
+        },
+      ),
+      database.updateData(
+        path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
+        data: {
+          'followers': FieldValue.arrayUnion([currentUser.id])
+        },
+      ),
+      database.updateData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {'following': FieldValue.increment(1)},
+      ),
+      database.updateData(
+        path: APIPath.userDocument(otherUser.id),
+        data: {'followers': FieldValue.increment(1)},
+      ),
+    ]);
   }
 
+  // same as above
   Future<void> unfollowOtherUser() async {
     // call an api that gets user_followers_posts document that is not full
     // and do the following operations on it
@@ -150,19 +161,28 @@ class ProfileBloc {
     ))
             .first;
 
-    await database.updateData(
-      path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
-      data: {
-        'followers': FieldValue.arrayRemove([currentUser.id])
-      },
-    );
-
-    await database.updateData(
-      path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
-      data: {
-        'followers': FieldValue.arrayRemove([currentUser.id])
-      },
-    );
+    await Future.wait([
+      database.updateData(
+        path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
+        data: {
+          'followers': FieldValue.arrayRemove([currentUser.id])
+        },
+      ),
+      database.updateData(
+        path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
+        data: {
+          'followers': FieldValue.arrayRemove([currentUser.id])
+        },
+      ),
+      database.updateData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {'following': FieldValue.increment(-1)},
+      ),
+      database.updateData(
+        path: APIPath.userDocument(otherUser.id),
+        data: {'followers': FieldValue.increment(-1)},
+      ),
+    ]);
   }
 
   Future<List<Post>> getPosts() async {
