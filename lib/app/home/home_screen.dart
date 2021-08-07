@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final User user;
-  int index = 3;
+  int index = 0;
   late List<Widget> screens;
 
   @override
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: [
           // todo @average change the icons to the ones in the design
-          FABBottomAppBarItem(iconData: Icons.chat, notification: 0),
+          FABBottomAppBarItem(iconData: Icons.home, notification: 0),
           FABBottomAppBarItem(iconData: Icons.store, notification: 0),
           FABBottomAppBarItem(iconData: Icons.favorite, notification: 0),
           FABBottomAppBarItem(

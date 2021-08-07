@@ -29,11 +29,13 @@ class _PostImageLoaderState extends State<PostImageLoader> {
       ),
       placeholder: (context, url) => Padding(
         padding: const EdgeInsets.all(20.0),
-        child: SizedBox(
-          height: 200.0,
-          width: 200.0,
-          child: CircularProgressIndicator(
-            color: darkBlue,
+        child: Center(
+          child: SizedBox(
+            height: 60.0,
+            width: 60.0,
+            child: CircularProgressIndicator(
+              color: darkBlue,
+            ),
           ),
         ),
       ),

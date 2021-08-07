@@ -96,8 +96,7 @@ class ProfileBloc {
     final UserFollowersPosts lastVisitedUserPosts =
         (await database.fetchCollection(
       path: APIPath.userFollowerPostsCollection(),
-      queryBuilder: (query) =>
-          query.where('miniUser.id', isEqualTo: otherUser.id),
+      queryBuilder: (query) => query.where('id', isEqualTo: otherUser.id),
       builder: (data, documentId) => UserFollowersPosts.fromMap(
         data,
         documentId,
@@ -109,13 +108,15 @@ class ProfileBloc {
       database.updateData(
         path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
         data: {
-          'followers': FieldValue.arrayUnion([currentUser.id])
+          'followers': FieldValue.arrayUnion([currentUser.id]),
+          'length': FieldValue.increment(1),
         },
       ),
       database.updateData(
         path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
         data: {
-          'followers': FieldValue.arrayUnion([currentUser.id])
+          'followers': FieldValue.arrayUnion([currentUser.id]),
+          'length': FieldValue.increment(1),
         },
       ),
       database.updateData(
@@ -152,8 +153,7 @@ class ProfileBloc {
     final UserFollowersPosts lastVisitedUserPosts =
         (await database.fetchCollection(
       path: APIPath.userFollowerPostsCollection(),
-      queryBuilder: (query) =>
-          query.where('miniUser.id', isEqualTo: otherUser.id),
+      queryBuilder: (query) => query.where('id', isEqualTo: otherUser.id),
       builder: (data, documentId) => UserFollowersPosts.fromMap(
         data,
         documentId,
@@ -165,13 +165,15 @@ class ProfileBloc {
       database.updateData(
         path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
         data: {
-          'followers': FieldValue.arrayRemove([currentUser.id])
+          'followers': FieldValue.arrayRemove([currentUser.id]),
+          'length': FieldValue.increment(1),
         },
       ),
       database.updateData(
         path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
         data: {
-          'followers': FieldValue.arrayRemove([currentUser.id])
+          'followers': FieldValue.arrayRemove([currentUser.id]),
+          'length': FieldValue.increment(-1),
         },
       ),
       database.updateData(

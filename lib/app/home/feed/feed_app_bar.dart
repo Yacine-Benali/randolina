@@ -29,31 +29,17 @@ class FeedAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        size: 30,
-                      ),
-                      color: Colors.blue[900],
-                      onPressed: () {
-                        showSearch(context: context, delegate: DataSearch());
-                      },
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.calendar_today,
-                      size: 26,
-                    ),
-                    color: darkBlue,
-                    onPressed: () {},
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                icon: Icon(
+                  Icons.search,
+                  size: 30,
+                ),
+                color: darkBlue,
+                onPressed: () {
+                  showSearch(context: context, delegate: DataSearch());
+                },
               ),
             ),
             Container(
@@ -66,13 +52,14 @@ class FeedAppBar extends StatelessWidget {
                 'assets/home_logo.png',
               ),
             ),
-            Expanded(
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
               child: IconButton(
                 icon: Icon(
-                  Icons.turned_in_not,
+                  Icons.chat_bubble_outline,
                   size: 30,
                 ),
-                color: Colors.blue[900],
+                color: darkBlue,
                 onPressed: () {},
               ),
             ),
