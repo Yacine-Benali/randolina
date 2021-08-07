@@ -32,63 +32,61 @@ class _ClubProfileEventSliderState extends State<ClubProfileEventSlider> {
                   letterSpacing: 1.0,
                 ),
                 textDirection: TextDirection.ltr,
-                child: Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/sign_up/tiles/club.png',
-                        ),
-                        fit: BoxFit.cover,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/sign_up/tiles/club.png',
                       ),
+                      fit: BoxFit.cover,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(9),
-                                color: Colors.blueGrey[100],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Text(
-                                  "14 Jul",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: -0.33,
-                                    color: Colors.black,
-                                  ),
-                                  textAlign: TextAlign.center,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(9),
+                              color: Colors.blueGrey[100],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                "14 Jul",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: -0.33,
+                                  color: Colors.black,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Text(
-                              "Montange tikajda",
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: -0.33,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            "Montange tikajda",
+                            style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.33,
+                              color: Colors.white,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
