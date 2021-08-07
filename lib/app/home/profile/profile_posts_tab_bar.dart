@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/constants/app_colors.dart';
 
-class ProfilePosts extends StatefulWidget {
-  const ProfilePosts({
+class ProfilePostsTabBar extends StatefulWidget {
+  const ProfilePostsTabBar({
     Key? key,
     required this.onTabChanged,
   }) : super(key: key);
@@ -12,7 +12,7 @@ class ProfilePosts extends StatefulWidget {
   _ProfilePostsState createState() => _ProfilePostsState();
 }
 
-class _ProfilePostsState extends State<ProfilePosts>
+class _ProfilePostsState extends State<ProfilePostsTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 

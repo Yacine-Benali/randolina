@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _requestPermission() async {
     final bool isGranted = await Permission.storage.status.isGranted;
     if (!isGranted) {
-      Map<Permission, PermissionStatus> statuses = await [
+      final Map<Permission, PermissionStatus> statuses = await [
         Permission.storage,
       ].request();
 

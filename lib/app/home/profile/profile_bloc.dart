@@ -174,4 +174,28 @@ class ProfileBloc {
       builder: (data, id) => Post.fromMap(data, id),
     );
   }
+
+  List<Post> sortPost(List<Post> posts, int type) {
+    final List<Post> list = [];
+
+    for (final Post post in posts) {
+      switch (type) {
+        case 0:
+          list.add(post);
+          break;
+        case 1:
+          if (post.type == 0) {
+            list.add(post);
+          }
+          break;
+        case 2:
+          if (post.type > 0) {
+            list.add(post);
+          }
+          break;
+      }
+    }
+
+    return list;
+  }
 }

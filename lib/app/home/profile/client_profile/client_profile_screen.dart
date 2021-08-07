@@ -5,7 +5,7 @@ import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
-import 'package:randolina/app/home/profile/profile_posts.dart';
+import 'package:randolina/app/home/profile/profile_posts_tab_bar.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
@@ -33,13 +33,14 @@ class ClientProfileScreen extends StatefulWidget {
 class _ClientProfileScreenState extends State<ClientProfileScreen> {
   int type = 0;
   late List<Post> posts;
+  late List<Post> sortedPosts;
   late final PostBloc postBloc;
-  late final List<Widget> list2;
+  late final List<Widget> postsWidget;
   late final Future<List<Post>> postsFuture;
 
   @override
   void initState() {
-    list2 = [];
+    postsWidget = [];
     postsFuture = widget.bloc.getPosts();
     postBloc = PostBloc(
       currentUser: context.read<User>(),
@@ -49,32 +50,12 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   }
 
   List<Widget> buildList() {
-    list2.clear();
-    for (final Post post in posts) {
-      switch (type) {
-        case 0:
-          final PostWidget w =
-              PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
-          list2.add(w);
-          break;
-        case 1:
-          if (post.type == 0) {
-            final PostWidget w =
-                PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
-            list2.add(w);
-          }
-          break;
-        case 2:
-          if (post.type > 0) {
-            final PostWidget w =
-                PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
-            list2.add(w);
-          }
-          break;
-      }
-    }
-
-    return list2;
+    postsWidget.clear();
+    sortedPosts = widget.bloc.sortPost(posts, type);
+    return sortedPosts
+        .map((post) =>
+            PostWidget(key: UniqueKey(), post: post, postBloc: postBloc))
+        .toList();
   }
 
   @override
@@ -102,25 +83,26 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                     );
                   },
                 ),
-                ProfilePosts(
+                ProfilePostsTabBar(
                   onTabChanged: (t) {
                     type = t;
                     setState(() {});
                   },
                 ),
                 FutureBuilder(
-                    future: Future.delayed(Duration(milliseconds: 500)),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Column(
-                          children: buildList(),
-                        );
-                      } else {
-                        return CircularProgressIndicator(
-                          color: Colors.grey,
-                        );
-                      }
-                    }),
+                  future: Future.delayed(Duration(milliseconds: 500)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Column(
+                        children: buildList(),
+                      );
+                    } else {
+                      return CircularProgressIndicator(
+                        color: Colors.grey,
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           );
