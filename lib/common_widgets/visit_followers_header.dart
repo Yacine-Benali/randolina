@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
+import 'package:randolina/constants/app_colors.dart';
 
 //todo make this widget common between client and others
 class VisitFollowersHeader extends StatefulWidget {
@@ -50,18 +51,42 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
             ],
           ),
           child: CustomElevatedButton(
-            color: isFollowing ? Colors.grey : null,
-            buttonText: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Follow'),
-                // todo @average change the icons to the ones in the design
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Icon(Icons.add),
-                )
-              ],
-            ),
+            // todo @low fix witth to be same as ui design and color
+            minHeight: 26,
+            minWidth: 120,
+            color: isFollowing ? Colors.blueGrey[200] : null,
+
+            buttonText: isFollowing
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Follow', style: TextStyle(color: darkBlue)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: Image.asset(
+                              'assets/icons_final/user_already_followed.png'),
+                        ),
+                      )
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Follow'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: Image.asset(
+                              'assets/icons_final/user_not_followed.png'),
+                        ),
+                      )
+                    ],
+                  ),
             onPressed: () {
               if (isFollowing) {
                 isFollowing = false;
@@ -75,8 +100,6 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
 
               setState(() {});
             },
-            minHeight: 26,
-            minWidth: 120,
           ),
         ),
         Container(

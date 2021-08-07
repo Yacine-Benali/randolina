@@ -91,6 +91,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/flare/
+    - assets/icons_final/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
