@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
+import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_edit_screen.dart';
+import 'package:randolina/app/home/profile/club_profile/club_profile_events_slider.dart';
+import 'package:randolina/app/home/profile/common/profile_posts_tab_bar.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
+import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/loading_screen.dart';
+import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/services/database.dart';
 
-class ClubProfileScreen extends StatelessWidget {
+class ClubProfileScreen extends StatefulWidget {
   const ClubProfileScreen({
     Key? key,
     required this.clubOrAgency,
@@ -20,24 +29,91 @@ class ClubProfileScreen extends StatelessWidget {
   final bool? isFollowingOther;
 
   @override
+  _ClubProfileScreenState createState() => _ClubProfileScreenState();
+}
+
+class _ClubProfileScreenState extends State<ClubProfileScreen> {
+  int type = 0;
+  late List<Post> posts;
+  late List<Post> sortedPosts;
+  late final PostBloc postBloc;
+  late final List<Widget> postsWidget;
+  late final Future<List<Post>> postsFuture;
+
+  @override
+  void initState() {
+    postsWidget = [];
+    postsFuture = widget.bloc.getPosts();
+    postBloc = PostBloc(
+      currentUser: context.read<User>(),
+      database: context.read<Database>(),
+    );
+    super.initState();
+  }
+
+  List<Widget> buildList() {
+    postsWidget.clear();
+    sortedPosts = widget.bloc.sortPost(posts, type);
+    return sortedPosts.map((post) {
+      return PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
+    }).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ClubHeader(
-          clubOrAgency: clubOrAgency,
-          showProfileAsOther: showProfileAsOther,
-          onEditPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ClubProfileEditScreen(
-                  bloc: bloc,
+    return FutureBuilder<List<Post>>(
+      future: postsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && (snapshot.data != null)) {
+          posts = snapshot.data!;
+          return DefaultTabController(
+            length: 3,
+            child: Column(
+              children: [
+                ClubHeader(
+                  clubOrAgency: widget.clubOrAgency,
+                  showProfileAsOther: widget.showProfileAsOther,
+                  onEditPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ClubProfileEditScreen(
+                          bloc: widget.bloc,
+                        ),
+                      ),
+                    );
+                  },
+                  isFollowingOther: widget.isFollowingOther,
                 ),
-              ),
-            );
-          },
-          isFollowingOther: isFollowingOther,
-        ),
-      ],
+                ClubProfileEventSlider(),
+                ProfilePostsTabBar(
+                  onTabChanged: (t) {
+                    type = t;
+                    setState(() {});
+                  },
+                ),
+                FutureBuilder(
+                  future: Future.delayed(Duration(milliseconds: 500)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Column(
+                        children: buildList(),
+                      );
+                    } else {
+                      return CircularProgressIndicator(
+                        color: Colors.grey,
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+        return SizedBox(
+          height: SizeConfig.screenHeight,
+          child: LoadingScreen(),
+        );
+      },
     );
   }
 }

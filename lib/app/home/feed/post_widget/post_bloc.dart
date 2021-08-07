@@ -5,7 +5,6 @@ import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class PostBloc {
   PostBloc({
@@ -80,8 +79,6 @@ class PostBloc {
           query.where('savedPosts', arrayContains: post.id),
       builder: (data, id) => id,
     );
-    logger.info(list);
-    logger.info('isaved ${list.isNotEmpty}');
 
     return list.isNotEmpty;
   }

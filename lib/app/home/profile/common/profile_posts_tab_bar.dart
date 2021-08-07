@@ -41,7 +41,7 @@ class _ProfilePostsState extends State<ProfilePostsTabBar>
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: PreferredSize(
-        preferredSize: Size.fromHeight(35.0), // here the desired height
+        preferredSize: Size.fromHeight(0.0),
         child: Material(
           color: Colors.blueGrey[100],
           elevation: 1,
@@ -53,7 +53,7 @@ class _ProfilePostsState extends State<ProfilePostsTabBar>
             unselectedLabelColor: Colors.black,
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(25),
               color: Colors.white,
             ),
             indicatorColor: Colors.blue[900],
