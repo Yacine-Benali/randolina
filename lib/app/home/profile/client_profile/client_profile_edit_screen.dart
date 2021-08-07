@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
+import 'package:randolina/app/home/profile/common/saved_posts_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
-import 'package:randolina/app/home/profile/saved_posts_screen.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/custom_drop_down.dart';
