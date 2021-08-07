@@ -40,7 +40,7 @@ class _ClientHeaderState extends State<ClientHeader> {
               ClientHeaderTopPart(
                 onSavePressed: widget.onSavePressed,
                 client: widget.client,
-                showEditButton: !widget.showProfileAsOther,
+                showProfileAsOther: widget.showProfileAsOther,
                 onEditPressed: widget.onEditPressed,
               ),
               Description(

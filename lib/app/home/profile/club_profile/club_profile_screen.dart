@@ -59,6 +59,33 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
     }).toList();
   }
 
+  List<Widget> buildMiddleText() {
+    return [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextButton(
+          onPressed: () {},
+          child: Text(
+            'See all events',
+            style: TextStyle(
+              color: Colors.blue,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 24.0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text('recent events...'),
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Post>>(
@@ -84,6 +111,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
                   },
                   isFollowingOther: widget.isFollowingOther,
                 ),
+                ...buildMiddleText(),
                 ClubProfileEventSlider(),
                 ProfilePostsTabBar(
                   onTabChanged: (t) {

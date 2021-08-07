@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/feed/search_screen.dart';
+import 'package:randolina/constants/app_colors.dart';
 
 class FeedAppBar extends StatelessWidget {
   const FeedAppBar({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class FeedAppBar extends StatelessWidget {
                       Icons.calendar_today,
                       size: 26,
                     ),
-                    color: Colors.blue[900],
+                    color: darkBlue,
                     onPressed: () {},
                   ),
                 ],

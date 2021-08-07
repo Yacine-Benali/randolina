@@ -8,11 +8,12 @@ import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
 class ClubTopHeader extends StatelessWidget {
   const ClubTopHeader({
     Key? key,
-    required this.showEditButton,
     required this.onEditPressed,
+    required this.showProfileAsOther,
   }) : super(key: key);
-  final bool showEditButton;
   final VoidCallback onEditPressed;
+  final bool showProfileAsOther;
+
   @override
   Widget build(BuildContext context) {
     final User user = context.read<User>();
@@ -27,8 +28,19 @@ class ClubTopHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: const EdgeInsets.only(left: 50),
+        if (showProfileAsOther) ...[
+          IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.close,
+              color: Colors.black87,
+              size: 30,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,7 +54,7 @@ class ClubTopHeader extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  if (showEditButton) ...[
+                  if (!showProfileAsOther) ...[
                     ProfileEditPopUp(
                       onEditPressed: onEditPressed,
                     ),

@@ -45,8 +45,8 @@ class ClubHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ClubTopHeader(
+                showProfileAsOther: showProfileAsOther,
                 onEditPressed: onEditPressed,
-                showEditButton: !showProfileAsOther,
               ),
               Expanded(
                 child: Row(

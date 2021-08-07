@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ClubProfileEventSlider extends StatefulWidget {
-  ClubProfileEventSlider({Key? key}) : super(key: key);
+  const ClubProfileEventSlider({Key? key}) : super(key: key);
 
   @override
   _ClubProfileEventSliderState createState() => _ClubProfileEventSliderState();

@@ -89,27 +89,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // child = ClubProfileScreen(clubOrAgency: otherUser);
               }
               return SafeArea(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: child,
-                    ),
-                    if (showProfileAsOther) ...[
-                      Positioned(
-                        top: 5,
-                        left: 8,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.black87,
-                            size: 30,
-                          ),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                    ],
-                  ],
+                child: SingleChildScrollView(
+                  child: child,
                 ),
               );
             }

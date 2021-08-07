@@ -6,12 +6,12 @@ class ClientHeaderTopPart extends StatelessWidget {
   const ClientHeaderTopPart({
     Key? key,
     required this.client,
-    required this.showEditButton,
+    required this.showProfileAsOther,
     required this.onEditPressed,
     required this.onSavePressed,
   }) : super(key: key);
   final Client client;
-  final bool showEditButton;
+  final bool showProfileAsOther;
   final VoidCallback onEditPressed;
   final VoidCallback onSavePressed;
 
@@ -38,6 +38,17 @@ class ClientHeaderTopPart extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (showProfileAsOther) ...[
+            IconButton(
+              padding: EdgeInsets.zero,
+              icon: Icon(
+                Icons.close,
+                color: Colors.black87,
+                size: 30,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 14, left: 90),
@@ -59,7 +70,7 @@ class ClientHeaderTopPart extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (showEditButton) ...[
+                      if (!showProfileAsOther) ...[
                         ProfileEditPopUp(onEditPressed: onEditPressed),
                       ],
                     ],
