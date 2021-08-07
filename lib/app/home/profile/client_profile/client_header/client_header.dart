@@ -13,11 +13,13 @@ class ClientHeader extends StatefulWidget {
     required this.showProfileAsOther,
     required this.isFollowingOther,
     required this.onEditPressed,
+    required this.onSavePressed,
   }) : super(key: key);
   final Client client;
   final bool showProfileAsOther;
   final bool? isFollowingOther;
   final VoidCallback onEditPressed;
+  final VoidCallback onSavePressed;
 
   @override
   _ClientHeaderState createState() => _ClientHeaderState();
@@ -36,6 +38,7 @@ class _ClientHeaderState extends State<ClientHeader> {
           child: Column(
             children: [
               ClientHeaderTopPart(
+                onSavePressed: widget.onSavePressed,
                 client: widget.client,
                 showEditButton: !widget.showProfileAsOther,
                 onEditPressed: widget.onEditPressed,

@@ -8,10 +8,12 @@ class ClientHeaderTopPart extends StatelessWidget {
     required this.client,
     required this.showEditButton,
     required this.onEditPressed,
+    required this.onSavePressed,
   }) : super(key: key);
   final Client client;
   final bool showEditButton;
   final VoidCallback onEditPressed;
+  final VoidCallback onSavePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -75,22 +77,10 @@ class ClientHeaderTopPart extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.search,
-                    size: 30,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.turned_in_not, size: 30),
-                ),
-              ],
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(Icons.turned_in_not, size: 30),
+              onPressed: onSavePressed,
             ),
           ),
         ],

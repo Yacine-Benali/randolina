@@ -198,4 +198,34 @@ class ProfileBloc {
 
     return list;
   }
+
+  Future<List<Post>> getSavedPosts() async {
+    final Map<String, dynamic>? data = await database.fetchDocument(
+      path: APIPath.savedPostsDocument(currentUser.id),
+      builder: (data, id) => data,
+    );
+
+    final List<Future<Post?>> futures = [];
+
+    if (data != null && data.containsKey('savedPosts')) {
+      final List<String> savedPostIds = (data['savedPosts'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList();
+
+      for (final String postId in savedPostIds) {
+        final Future<Post?> futurePost = database.fetchDocument(
+          path: APIPath.postDocument(postId),
+          builder: (data, documentId) => Post.fromMap(data, documentId),
+        );
+        futures.add(futurePost);
+      }
+
+      final List<Post?> p = (await Future.wait(futures)).toList();
+      final List<Post> pp = List.from(p.where((element) => element != null));
+      pp.sort((a, b) => a.createdAt.compareTo(b.createdAt) * -1);
+      return pp;
+    } else {
+      return [];
+    }
+  }
 }

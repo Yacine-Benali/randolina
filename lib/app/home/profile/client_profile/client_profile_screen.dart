@@ -6,6 +6,7 @@ import 'package:randolina/app/home/profile/client_profile/client_header/client_h
 import 'package:randolina/app/home/profile/client_profile/client_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/home/profile/profile_posts_tab_bar.dart';
+import 'package:randolina/app/home/profile/saved_posts_screen.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
@@ -52,10 +53,9 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   List<Widget> buildList() {
     postsWidget.clear();
     sortedPosts = widget.bloc.sortPost(posts, type);
-    return sortedPosts
-        .map((post) =>
-            PostWidget(key: UniqueKey(), post: post, postBloc: postBloc))
-        .toList();
+    return sortedPosts.map((post) {
+      return PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
+    }).toList();
   }
 
   @override
@@ -70,6 +70,14 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
             child: Column(
               children: [
                 ClientHeader(
+                  onSavePressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SavedPostsScreen(bloc: widget.bloc),
+                      ),
+                    );
+                  },
                   client: widget.client,
                   isFollowingOther: widget.isFollowingOther,
                   showProfileAsOther: widget.showProfileAsOther,
