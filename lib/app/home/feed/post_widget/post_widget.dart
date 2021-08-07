@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:randolina/app/home/feed/post_widget/content_loader/post_content_loader.dart';
@@ -22,14 +21,8 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  final FlareControls flareControls = FlareControls();
-  bool isLiked = false;
   PostBloc get postBloc => widget.postBloc;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  int contentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +78,10 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                     ],
                   ),
-                  PostWidgetPopUp(),
+                  PostWidgetPopUp(
+                    post: widget.post,
+                    contentIndex: contentIndex,
+                  ),
                 ],
               ),
             ),
@@ -94,6 +90,11 @@ class _PostWidgetState extends State<PostWidget> {
               child: PostContentLoader(
                 type: widget.post.type,
                 content: widget.post.content,
+                onIndexChanged: (int index) {
+                  setState(() {
+                    contentIndex = index;
+                  });
+                },
               ),
             ),
             PostActionBar(

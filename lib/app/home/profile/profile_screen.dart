@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_screen.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_screen.dart';
@@ -42,7 +44,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       showProfileAsOther = false;
       isFollowingOther = null;
     }
+    _requestPermission();
     super.initState();
+  }
+
+  void _requestPermission() async {
+    final bool isGranted = await Permission.storage.status.isGranted;
+    if (!isGranted) {
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.storage,
+      ].request();
+
+      final info = statuses[Permission.storage].toString();
+      Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
+    }
   }
 
   @override

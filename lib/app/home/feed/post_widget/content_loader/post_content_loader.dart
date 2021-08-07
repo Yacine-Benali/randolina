@@ -10,9 +10,11 @@ class PostContentLoader extends StatefulWidget {
     Key? key,
     required this.content,
     required this.type,
+    required this.onIndexChanged,
   }) : super(key: key);
   final List<String> content;
   final int type;
+  final ValueChanged<int> onIndexChanged;
 
   @override
   _PostContentLoaderState createState() => _PostContentLoaderState();
@@ -59,6 +61,7 @@ class _PostContentLoaderState extends State<PostContentLoader> {
               onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;
+                  widget.onIndexChanged(_current);
                 });
               },
             ),
