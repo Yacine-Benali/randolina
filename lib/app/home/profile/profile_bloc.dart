@@ -104,30 +104,34 @@ class ProfileBloc {
     ))
             .first;
 
-    await Future.wait([
-      database.updateData(
-        path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
-        data: {
-          'followers': FieldValue.arrayUnion([currentUser.id]),
-          'length': FieldValue.increment(1),
-        },
-      ),
-      database.updateData(
-        path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
-        data: {
-          'followers': FieldValue.arrayUnion([currentUser.id]),
-          'length': FieldValue.increment(1),
-        },
-      ),
-      database.updateData(
-        path: APIPath.userDocument(currentUser.id),
-        data: {'following': FieldValue.increment(1)},
-      ),
-      database.updateData(
-        path: APIPath.userDocument(otherUser.id),
-        data: {'followers': FieldValue.increment(1)},
-      ),
-    ]);
+    final batch = FirebaseFirestore.instance.batch();
+
+    batch.update(
+      FirebaseFirestore.instance
+          .doc(APIPath.userFollowerPostsDocument(lastVisitedUserStories.id)),
+      {
+        'followers': FieldValue.arrayUnion([currentUser.id]),
+        'length': FieldValue.increment(1),
+      },
+    );
+
+    batch.update(
+      FirebaseFirestore.instance
+          .doc(APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id)),
+      {
+        'followers': FieldValue.arrayUnion([currentUser.id]),
+        'length': FieldValue.increment(1),
+      },
+    );
+    batch.update(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(currentUser.id)),
+        {'following': FieldValue.increment(1)});
+    //
+    batch.update(
+        FirebaseFirestore.instance.doc(APIPath.userDocument(otherUser.id)),
+        {'followers': FieldValue.increment(1)});
+
+    await batch.commit();
   }
 
   // same as above
@@ -161,30 +165,34 @@ class ProfileBloc {
     ))
             .first;
 
-    await Future.wait([
-      database.updateData(
-        path: APIPath.userFollowerPostsDocument(lastVisitedUserStories.id),
-        data: {
-          'followers': FieldValue.arrayRemove([currentUser.id]),
-          'length': FieldValue.increment(1),
-        },
-      ),
-      database.updateData(
-        path: APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id),
-        data: {
-          'followers': FieldValue.arrayRemove([currentUser.id]),
-          'length': FieldValue.increment(-1),
-        },
-      ),
-      database.updateData(
-        path: APIPath.userDocument(currentUser.id),
-        data: {'following': FieldValue.increment(-1)},
-      ),
-      database.updateData(
-        path: APIPath.userDocument(otherUser.id),
-        data: {'followers': FieldValue.increment(-1)},
-      ),
-    ]);
+    final batch = FirebaseFirestore.instance.batch();
+
+    batch.update(
+      FirebaseFirestore.instance
+          .doc(APIPath.userFollowerPostsDocument(lastVisitedUserStories.id)),
+      {
+        'followers': FieldValue.arrayRemove([currentUser.id]),
+        'length': FieldValue.increment(1),
+      },
+    );
+    batch.update(
+      FirebaseFirestore.instance
+          .doc(APIPath.userFollowerStoriesDocument(lastVisitedUserPosts.id)),
+      {
+        'followers': FieldValue.arrayRemove([currentUser.id]),
+        'length': FieldValue.increment(-1),
+      },
+    );
+    batch.update(
+      FirebaseFirestore.instance.doc(APIPath.userDocument(currentUser.id)),
+      {'following': FieldValue.increment(-1)},
+    );
+    batch.update(
+      FirebaseFirestore.instance.doc(APIPath.userDocument(otherUser.id)),
+      {'followers': FieldValue.increment(-1)},
+    );
+
+    await batch.commit();
   }
 
   Future<List<Post>> getPosts() async {
