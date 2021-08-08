@@ -29,7 +29,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   void initState() {
-    logger.severe('REBUILD');
     isLoadingNextMessages = false;
     bloc = FeedBloc(
       currentUser: context.read<User>(),

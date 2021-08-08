@@ -47,7 +47,7 @@ abstract class Database {
     int Function(T lhs, T rhs)? sort,
   });
 
-  Stream<List<T?>> streamCollection<T>({
+  Stream<List<T>> streamCollection<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentID) builder,
     Query<Map<String, dynamic>> Function(Query<Map<String, dynamic>> query)?

@@ -126,7 +126,6 @@ class ClubHeader extends StatelessWidget {
               isExpanded: false,
               isFollowing: isFollowingOther!,
               followers: clubOrAgency.followers,
-              bloc: bloc,
             ),
           ),
         ],

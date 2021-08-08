@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ImageProfile extends StatelessWidget {
-  const ImageProfile({
-    required this.url,
-  });
+  const ImageProfile({required this.url, this.height = 95, this.width = 95});
   final String url;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 95,
-      height: 95,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(47),
         border: Border.all(

@@ -67,9 +67,7 @@ class _ClientHeaderState extends State<ClientHeader> {
             ),
           ),
         ],
-        if (widget.showProfileAsOther &&
-            widget.isFollowingOther != null &&
-            widget.profileBloc != null) ...[
+        if (widget.showProfileAsOther && widget.isFollowingOther != null) ...[
           Positioned(
             right: 30,
             bottom: isExpanded ? 20 : 30,
@@ -77,7 +75,6 @@ class _ClientHeaderState extends State<ClientHeader> {
               isExpanded: isExpanded,
               isFollowing: widget.isFollowingOther!,
               followers: widget.client.followers,
-              bloc: widget.profileBloc!,
             ),
           ),
         ],

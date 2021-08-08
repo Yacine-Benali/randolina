@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/constants/app_colors.dart';
 
-//todo make this widget common between client and others
 class VisitFollowersHeader extends StatefulWidget {
   const VisitFollowersHeader({
     Key? key,
     required this.isExpanded,
     required this.followers,
     required this.isFollowing,
-    required this.bloc,
   }) : super(key: key);
 
   final bool isExpanded;
   final bool isFollowing;
   final int followers;
-  final ProfileBloc bloc;
 
   @override
   _VisitFollowersHeaderState createState() => _VisitFollowersHeaderState();
@@ -28,7 +26,8 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
 
   @override
   void initState() {
-    bloc = widget.bloc;
+    bloc = context.read<ProfileBloc>();
+
     isFollowing = widget.isFollowing;
     super.initState();
   }

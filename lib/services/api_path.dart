@@ -29,4 +29,6 @@ class APIPath {
 
   static String savedPostsCollection(String uid) => 'users/$uid/savedPosts';
   static String storyDocument(String uid) => 'stories/$uid/';
+  static String conversationsCollection() => 'conversations/';
+  static String conversationDocument(String uid) => 'conversations/$uid';
 }

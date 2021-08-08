@@ -110,19 +110,23 @@ class FirestoreDatabase implements Database {
     }
     final QuerySnapshot<Map<String, dynamic>> snapshot = await query.get();
 
-    final List<T> result = snapshot.docs
-        .map((snapshot) => builder(snapshot.data(), snapshot.id))
-        .toList();
+    if (snapshot.docs.isNotEmpty) {
+      final List<T> result = snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
+          .toList();
 
-    if (sort != null) {
-      result.sort(sort);
+      if (sort != null) {
+        result.sort(sort);
+      }
+
+      return result;
+    } else {
+      return [];
     }
-
-    return result;
   }
 
   @override
-  Stream<List<T?>> streamCollection<T>({
+  Stream<List<T>> streamCollection<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentID) builder,
     Query<Map<String, dynamic>> Function(Query<Map<String, dynamic>> query)?

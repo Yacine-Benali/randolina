@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/conversation/conversation_screen.dart';
 import 'package:randolina/app/home/feed/search_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
 
@@ -60,7 +61,12 @@ class FeedAppBar extends StatelessWidget {
                   size: 30,
                 ),
                 color: darkBlue,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (builder) => ConversationScreen()),
+                  );
+                },
               ),
             ),
           ],
