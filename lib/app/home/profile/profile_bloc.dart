@@ -68,7 +68,7 @@ class ProfileBloc {
     } else if (list1.isNotEmpty) {
       return true;
     } else {
-      logger.severe('BIG FUCKING ERROR');
+      logger.severe('Error FUCKING ERROR');
       logger.severe(list1);
       return false;
     }

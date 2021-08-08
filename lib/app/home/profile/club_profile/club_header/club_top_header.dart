@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
@@ -10,17 +9,18 @@ class ClubTopHeader extends StatelessWidget {
     Key? key,
     required this.onEditPressed,
     required this.showProfileAsOther,
+    required this.clubOrAgency,
   }) : super(key: key);
   final VoidCallback onEditPressed;
   final bool showProfileAsOther;
+  final User clubOrAgency;
 
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
     late String subtitle;
-    if (user is Club) {
+    if (clubOrAgency is Club) {
       subtitle = 'Club de Randonnée';
-    } else if (user is Agency) {
+    } else if (clubOrAgency is Agency) {
       subtitle = 'Agence de Voyage';
     }
 
@@ -47,7 +47,7 @@ class ClubTopHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    user.name,
+                    clubOrAgency.name,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,

@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
-import 'package:randolina/app/home/feed/post_widget/content_loader/post_content_loader.dart';
-import 'package:randolina/app/home/feed/post_widget/post_action_bar.dart';
-import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
-import 'package:randolina/app/home/feed/post_widget/post_widget_popup.dart';
+import 'package:randolina/app/home/feed/posts/content_loader/post_content_loader.dart';
+import 'package:randolina/app/home/feed/posts/post_action_bar.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
+import 'package:randolina/app/home/feed/posts/post_widget_popup.dart';
 import 'package:randolina/app/models/post.dart';
 
 class PostWidget extends StatefulWidget {

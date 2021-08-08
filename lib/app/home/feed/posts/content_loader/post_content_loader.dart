@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/feed/post_widget/content_loader/post_image_loader.dart';
-import 'package:randolina/app/home/feed/post_widget/content_loader/post_video_loader.dart';
-import 'package:randolina/app/home/feed/post_widget/content_loader/post_ytvideo_loader.dart';
+import 'package:randolina/app/home/feed/posts/content_loader/post_image_loader.dart';
+import 'package:randolina/app/home/feed/posts/content_loader/post_video_loader.dart';
+import 'package:randolina/app/home/feed/posts/content_loader/post_ytvideo_loader.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class PostContentLoader extends StatefulWidget {

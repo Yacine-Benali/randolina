@@ -25,7 +25,7 @@ class DataSearch extends SearchDelegate<String> {
       icon: AnimatedIcon(
           icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
       onPressed: () {
-        close(context, '');
+        close(context, 'value');
       },
     );
   }

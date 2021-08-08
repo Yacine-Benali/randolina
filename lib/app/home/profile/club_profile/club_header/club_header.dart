@@ -47,6 +47,7 @@ class ClubHeader extends StatelessWidget {
               ClubTopHeader(
                 showProfileAsOther: showProfileAsOther,
                 onEditPressed: onEditPressed,
+                clubOrAgency: clubOrAgency,
               ),
               Expanded(
                 child: Row(

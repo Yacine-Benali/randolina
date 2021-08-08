@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:randolina/app/home/feed/post_widget/comments/comments_screen.dart';
-import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
+import 'package:randolina/app/home/feed/posts/comments/comments_screen.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/utils/logger.dart';
 

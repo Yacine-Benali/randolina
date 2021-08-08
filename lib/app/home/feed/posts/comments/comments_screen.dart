@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:randolina/app/home/feed/post_widget/comments/comment_input.dart';
-import 'package:randolina/app/home/feed/post_widget/comments/comment_widget.dart';
-import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
+import 'package:randolina/app/home/feed/posts/comments/comment_input.dart';
+import 'package:randolina/app/home/feed/posts/comments/comment_widget.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/models/comment.dart';
 import 'package:randolina/app/models/post.dart';
 

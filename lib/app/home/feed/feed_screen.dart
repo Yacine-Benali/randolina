@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/feed/feed_app_bar.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
-import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
-import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
+import 'package:randolina/app/home/feed/posts/post_widget.dart';
 import 'package:randolina/app/home/feed/stories/stories_widget.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
@@ -29,6 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   void initState() {
+    logger.severe('REBUILD');
     isLoadingNextMessages = false;
     bloc = FeedBloc(
       currentUser: context.read<User>(),

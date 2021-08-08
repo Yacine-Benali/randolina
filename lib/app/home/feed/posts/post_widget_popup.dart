@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:uuid/uuid.dart';
 
 enum PopUpOptions {
@@ -112,8 +111,6 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
         bottomRight: Radius.circular(10),
       )),
       onSelected: (PopUpOptions selectedValue) async {
-        logger.severe(selectedValue);
-
         if (selectedValue == PopUpOptions.reportPost) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: const Text('Post reported to admins')));
@@ -123,7 +120,6 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
           try {
             downloadPhoto();
           } on Exception catch (e) {
-            logger.severe(e);
             PlatformExceptionAlertDialog(exception: e).show(context);
           }
         }

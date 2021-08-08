@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
-import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
+import 'package:randolina/app/home/feed/posts/post_widget.dart';
 import 'package:randolina/app/home/profile/common/profile_posts_tab_bar.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/post.dart';

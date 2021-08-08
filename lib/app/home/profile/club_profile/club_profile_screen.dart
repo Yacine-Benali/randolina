@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
-import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
+import 'package:randolina/app/home/feed/posts/post_widget.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_events_slider.dart';

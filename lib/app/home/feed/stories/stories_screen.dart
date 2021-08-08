@@ -6,7 +6,6 @@ import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/story.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:story/story_page_view/story_page_view.dart';
 
 class StoriesScreen extends StatefulWidget {
@@ -40,7 +39,6 @@ class _StoriesScreenState extends State<StoriesScreen> {
   }
 
   Widget buildStoryView(Story story) {
-    logger.warning('indicatorAnimationController PAUSED');
     indicatorAnimationController.value = IndicatorAnimationCommand.pause;
 
     if (story.type == 0) {
@@ -48,13 +46,20 @@ class _StoriesScreenState extends State<StoriesScreen> {
         child: CachedNetworkImage(
           imageUrl: story.content,
           imageBuilder: (context, imageProvider) {
+            indicatorAnimationController.value =
+                IndicatorAnimationCommand.resume;
+
             return Container(
               decoration: BoxDecoration(
                 image: DecorationImage(image: imageProvider),
               ),
             );
           },
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          errorWidget: (context, url, error) {
+            indicatorAnimationController.value =
+                IndicatorAnimationCommand.resume;
+            return Text('Unable to load story');
+          },
         ),
       );
     } else if (story.type == 1) {
@@ -125,7 +130,6 @@ class _StoriesScreenState extends State<StoriesScreen> {
                 FutureBuilder<Story?>(
                   future: widget.feedBloc.getStory(miniStory),
                   builder: (context, snapshot) {
-                    logger.severe(snapshot);
                     if (snapshot.hasData && (snapshot.data != null)) {
                       final Story story = snapshot.data!;
                       return buildStoryView(story);
