@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/chat/chat_screen.dart';
 import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
@@ -74,6 +75,17 @@ class _ConversationTileState extends State<ConversationTile> {
                 width: SizeConfig.safeBlockHorizontal * 4,
                 height: SizeConfig.safeBlockVertical * 1.87,
               ),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ChatScreen(
+                conversation: widget.conversation,
+                currentUser: widget.currentUser,
+                otherUser: otherUser,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
