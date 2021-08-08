@@ -117,7 +117,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
         }
         return SizedBox(
           height: SizeConfig.screenHeight,
-          child: LoadingScreen(),
+          child: LoadingScreen(showAppBar: false),
         );
       },
     );

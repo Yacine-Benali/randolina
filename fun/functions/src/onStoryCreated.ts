@@ -26,7 +26,7 @@ functions.firestore.document("stories/{storyId}").onCreate(
                 "createdAt": data.createdAt,
               }
           ),
-          "lastPostTimestamp": data.createdAt,
+          "lastStoryTimestamp": data.createdAt,
         });
       } else {
         return null;

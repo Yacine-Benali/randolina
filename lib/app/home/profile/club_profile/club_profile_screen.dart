@@ -151,7 +151,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
         }
         return SizedBox(
           height: SizeConfig.screenHeight,
-          child: LoadingScreen(),
+          child: LoadingScreen(showAppBar: false),
         );
       },
     );

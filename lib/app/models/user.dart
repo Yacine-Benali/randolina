@@ -1,3 +1,4 @@
+import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/mini_user.dart';
@@ -60,7 +61,7 @@ class User {
     } else if (type == 1) {
       return Club.fromMap(data, documentId);
     } else if (type == 2) {
-      // user = Agency.fromMap(data, documentId);
+      return Agency.fromMap(data, documentId);
     } else {}
     return User.fromMap(data, documentId);
   }

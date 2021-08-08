@@ -26,8 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     screens = [
       FeedScreen(),
-      Container(color: Colors.blue),
-      Container(color: Colors.blue),
+      Container(color: backgroundColor),
+      Container(color: backgroundColor),
       ProfileScreen(user: user),
     ];
   }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
@@ -44,7 +45,24 @@ class DataSearch extends SearchDelegate<String> {
           final List<Widget> userTile = snapshot.data!.map((f) {
             if (currentUser.id != f.id) {
               return ListTile(
-                leading: Image.network(f.profilePicture),
+                leading: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(47),
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: f.profilePicture,
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      backgroundImage: imageProvider,
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                ),
                 title: Text(f.name),
                 subtitle: Text(f.username),
                 onTap: () {

@@ -17,8 +17,8 @@ export const onPostCreated =
             await db.collection("user_followers_posts").where("id", "==", uid).
                 where("length", "<", 10000).get();
 
+          const postId: string = context.params.postId;
           if (querySnapshot.docs.length > 0) {
-            const postId: string = context.params.postId;
             return querySnapshot.docs[0].ref.update({
               "postsIds": admin.firestore.FieldValue.arrayUnion(
                   {
@@ -36,7 +36,8 @@ export const onPostCreated =
                   "id": uid,
                   "lastPostTimestamp": null,
                   "length": 0,
-                  "postsIds": data["postsIds"],
+                  // todo @high error add previous posts also
+                  "postsIds": [postId],
 
                 }
             );

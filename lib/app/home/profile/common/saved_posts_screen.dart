@@ -8,6 +8,7 @@ import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
 
 class SavedPostsScreen extends StatefulWidget {
@@ -64,29 +65,33 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
             body: DefaultTabController(
               length: 3,
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ProfilePostsTabBar(
-                      onTabChanged: (t) {
-                        type = t;
-                        setState(() {});
-                      },
-                    ),
-                    FutureBuilder(
-                      future: Future.delayed(Duration(milliseconds: 500)),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return Column(
-                            children: buildList(),
-                          );
-                        } else {
-                          return CircularProgressIndicator(
-                            color: Colors.grey,
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                child: Material(
+                  color: backgroundColor,
+                  child: Column(
+                    children: [
+                      ProfilePostsTabBar(
+                        onTabChanged: (t) {
+                          type = t;
+                          setState(() {});
+                        },
+                      ),
+                      FutureBuilder(
+                        future: Future.delayed(Duration(milliseconds: 500)),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return Column(
+                              children: buildList(),
+                            );
+                          } else {
+                            return CircularProgressIndicator(
+                              color: Colors.grey,
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

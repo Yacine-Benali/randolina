@@ -38,13 +38,15 @@ class FeedBloc {
         builder: (data, documentId) =>
             UserFollowersPosts.fromMap(data, documentId));
 
-    final List<MiniPost> data2 = data
-        .map((e) => e.postsIds)
-        .toList()
-        .expand((element) => element)
-        .toList();
+    final List<List<MiniPost>> data2 = data.map((e) {
+      logger.info(e.userId);
+      logger.info(e.postsIds);
+      return e.postsIds;
+    }).toList();
 
-    postsIds = data2.map((e) => e.postId).toList();
+    final List<MiniPost> data3 = data2.expand((element) => element).toList();
+
+    postsIds = data3.map((e) => e.postId).toList();
   }
 
   Future<List<UserFollowersStories>> getStoriesIdsAndUsers() async {

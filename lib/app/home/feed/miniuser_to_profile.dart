@@ -31,7 +31,7 @@ class MiniuserToProfile extends StatelessWidget {
           final User user = snapshot.data!;
           return ProfileScreen(user: user);
         }
-        return LoadingScreen();
+        return LoadingScreen(showAppBar: false);
       },
     );
   }
