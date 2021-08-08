@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             }
-            return LoadingScreen();
+            return LoadingScreen(showAppBar: false);
           },
         ),
       ),

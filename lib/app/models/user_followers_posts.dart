@@ -7,16 +7,22 @@ class UserFollowersPosts {
     required this.lastPostTimestamp,
     required this.followers,
     required this.postsIds,
+    required this.userId,
+    required this.length,
   });
   String id;
   Timestamp? lastPostTimestamp;
-
+  String userId;
+  int length;
   List<String> followers;
   List<MiniPost> postsIds;
 
   factory UserFollowersPosts.fromMap(
       Map<String, dynamic> data, String documentId) {
     final String id = documentId;
+    final String userId = data['id'] as String;
+    final int length = data['length'] as int;
+
     final Timestamp? lastPostTimestamp =
         data['lastPostTimestamp'] as Timestamp?;
 
@@ -29,6 +35,8 @@ class UserFollowersPosts {
 
     return UserFollowersPosts(
       id: id,
+      length: length,
+      userId: userId,
       lastPostTimestamp: lastPostTimestamp,
       followers: followers,
       postsIds: postsIds,
@@ -40,6 +48,8 @@ class UserFollowersPosts {
       'lastPostTimestamp': lastPostTimestamp,
       'followers': followers,
       'postsIds': postsIds,
+      'length': length,
+      'userId': userId,
     };
   }
 }

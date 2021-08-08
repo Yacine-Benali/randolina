@@ -6,14 +6,12 @@ class UserFollowersStories {
   UserFollowersStories({
     required this.id,
     required this.lastStoryTimestamp,
-    // required this.isFull,
     required this.miniUser,
     required this.followers,
     required this.storiesIds,
   });
   String id;
   Timestamp? lastStoryTimestamp;
-  // bool isFull;
   MiniUser miniUser;
   List<String> followers;
   List<MiniStory> storiesIds;
@@ -23,7 +21,6 @@ class UserFollowersStories {
     final String id = documentId;
     final Timestamp? lastStoryTimestamp =
         data['lastStoryTimestamp'] as Timestamp?;
-    // final bool isFull = data['isFull'] as bool;
     final MiniUser miniUser =
         MiniUser.fromMap(data['miniUser'] as Map<String, dynamic>);
     final List<String> followers =
@@ -46,7 +43,6 @@ class UserFollowersStories {
   Map<String, dynamic> toMap() {
     return {
       'lastStoryTimestamp': lastStoryTimestamp,
-      // isFull: isFull,
       'miniUser': miniUser,
       'followers': followers,
       'storiesIds': storiesIds,

@@ -4,7 +4,7 @@ import 'package:randolina/app/home/feed/feed_app_bar.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
 import 'package:randolina/app/home/feed/post_widget/post_bloc.dart';
 import 'package:randolina/app/home/feed/post_widget/post_widget.dart';
-import 'package:randolina/app/home/feed/stories_widget.dart';
+import 'package:randolina/app/home/feed/stories/stories_widget.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
@@ -34,7 +34,6 @@ class _FeedScreenState extends State<FeedScreen> {
       currentUser: context.read<User>(),
       database: context.read<Database>(),
     );
-
     bloc.fetch10Posts();
     postsStream = bloc.postsStream;
     postBloc = PostBloc(
@@ -91,7 +90,9 @@ class _FeedScreenState extends State<FeedScreen> {
                       if (index == 0) {
                         return FeedAppBar();
                       } else if (index == 1) {
-                        return StoriesWidget();
+                        return StoriesWidget(
+                          feedBloc: bloc,
+                        );
                       }
                       if (index == posts.length + 2) {
                         return _buildProgressIndicator();
@@ -107,9 +108,15 @@ class _FeedScreenState extends State<FeedScreen> {
                     controller: listScrollController,
                   );
                 } else {
-                  return EmptyContent(
-                    title: 'feed is empty',
-                    message: '',
+                  return Column(
+                    children: [
+                      FeedAppBar(),
+                      StoriesWidget(feedBloc: bloc),
+                      EmptyContent(
+                        title: 'feed is empty',
+                        message: '',
+                      ),
+                    ],
                   );
                 }
               } else if (snapshot.hasError) {
@@ -121,7 +128,8 @@ class _FeedScreenState extends State<FeedScreen> {
                 return Column(
                   children: [
                     FeedAppBar(),
-                    StoriesWidget(),
+                    StoriesWidget(feedBloc: bloc),
+                    CircularProgressIndicator(),
                   ],
                 );
               }

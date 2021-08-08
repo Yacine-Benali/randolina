@@ -1,5 +1,11 @@
+import 'package:randolina/app/models/mini_post.dart';
+import 'package:randolina/app/models/mini_story.dart';
+import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/story.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/app/models/user_followers_posts.dart';
+import 'package:randolina/app/models/user_followers_stories.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
@@ -14,6 +20,7 @@ class FeedBloc {
   final User currentUser;
 
   List<String> postsIds = [];
+  List<UserFollowersStories> storiesList = [];
 
   List<Post> postsList = [];
   BehaviorSubject<List<Post>> postsListController =
@@ -24,33 +31,66 @@ class FeedBloc {
   int index = 0;
 
   Future<void> getPostsIds() async {
-    final List<List<Map<String, dynamic>>> data =
-        await database.fetchCollection(
-      path: APIPath.userFollowerPostsCollection(),
-      queryBuilder: (query) =>
-          query.where('followers', arrayContains: currentUser.id),
-      builder: (data, documentId) => (data['postsIds'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
-    );
+    final List<UserFollowersPosts> data = await database.fetchCollection(
+        path: APIPath.userFollowerPostsCollection(),
+        queryBuilder: (query) =>
+            query.where('followers', arrayContains: currentUser.id),
+        builder: (data, documentId) =>
+            UserFollowersPosts.fromMap(data, documentId));
 
-    final List<Map<String, dynamic>> data2 =
-        data.expand((element) => element).toList();
+    final List<MiniPost> data2 = data
+        .map((e) => e.postsIds)
+        .toList()
+        .expand((element) => element)
+        .toList();
 
-    postsIds = data2.map((e) => e['postId'] as String).toList();
-
-    //  logger.info('there are a total of ' + postsIds.length.toString() + 'posts');
+    postsIds = data2.map((e) => e.postId).toList();
   }
 
-  void fetchFirstPosts() {}
+  Future<List<UserFollowersStories>> getStoriesIdsAndUsers() async {
+    final List<UserFollowersStories> data = await database.fetchCollection(
+      path: APIPath.userFollowerStoriesCollection(),
+      queryBuilder: (query) =>
+          query.where('followers', arrayContains: currentUser.id),
+      builder: (data, documentId) =>
+          UserFollowersStories.fromMap(data, documentId),
+    );
+    storiesList = data;
+
+    return data;
+  }
+
+  bool openStories(MiniUser miniUser) {
+    final UserFollowersStories data2 =
+        storiesList.firstWhere((element) => element.miniUser.id == miniUser.id);
+    if (data2.storiesIds.isNotEmpty) {
+      logger.severe('user  have stories');
+      return true;
+    } else {
+      logger.severe('user dont have stories');
+      return false;
+    }
+  }
+
+  Future<Story?> getStory(MiniStory miniStory) {
+    return database.fetchDocument(
+      path: APIPath.storyDocument(miniStory.storyId),
+      builder: (data, documentId) => Story.fromMap(data, documentId),
+    );
+  }
 
   Future<bool> fetch10Posts() async {
     if (postsIds.isEmpty) {
       await getPostsIds();
     }
+    if (postsIds.isEmpty) {
+      if (!postsListController.isClosed) {
+        postsListController.sink.add([]);
+      }
+    }
     final List<String> postIdsSublit = [];
 
-    logger.info('postsIds: ${postsIds.length}\t index: $index');
+    // logger.info('postsIds: ${postsIds.length}\t index: $index');
     if (index == postsIds.length) {
       return true;
     } else if ((postsIds.length - index) < 10) {
@@ -62,7 +102,6 @@ class FeedBloc {
       postIdsSublit.addAll(postsIds.sublist(index, index + 10));
       index += 10;
     }
-    logger.info('postIdsSublit: ${postIdsSublit.length}\t index: $index');
 
     final List<Post> morePosts = await database.fetchCollection(
       path: APIPath.postsCollection(),
@@ -76,7 +115,7 @@ class FeedBloc {
     postsList.addAll(morePosts);
     if (!postsListController.isClosed) {
       postsListController.sink.add(postsList);
-    } else {}
+    }
     return true;
   }
 }

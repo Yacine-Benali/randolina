@@ -8,6 +8,7 @@ class LoadingScreen extends StatelessWidget {
     this.showAppBar = true,
   }) : super(key: key);
   final bool showAppBar;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

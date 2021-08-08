@@ -18,7 +18,7 @@ import 'package:randolina/utils/logger.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8080';
+  final String host = Platform.isAndroid ? '192.168.1.3' : 'localhost:8080';
 
   if (true) {
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);

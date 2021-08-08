@@ -603,7 +603,7 @@ packages:
       name: rxdart
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.27.1"
+    version: "0.26.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -644,6 +644,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.10.0"
+  story:
+    dependency: "direct main"
+    description:
+      path: "local_packages/story"
+      relative: true
+    source: path
+    version: "0.5.1"
   stream_channel:
     dependency: transitive
     description:
