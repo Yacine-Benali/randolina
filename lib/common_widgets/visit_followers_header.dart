@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/constants/app_colors.dart';
@@ -11,11 +10,13 @@ class VisitFollowersHeader extends StatefulWidget {
     required this.isExpanded,
     required this.followers,
     required this.isFollowing,
+    required this.bloc,
   }) : super(key: key);
 
   final bool isExpanded;
   final bool isFollowing;
   final int followers;
+  final ProfileBloc bloc;
 
   @override
   _VisitFollowersHeaderState createState() => _VisitFollowersHeaderState();
@@ -27,7 +28,7 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
 
   @override
   void initState() {
-    bloc = context.read<ProfileBloc>();
+    bloc = widget.bloc;
     isFollowing = widget.isFollowing;
     super.initState();
   }

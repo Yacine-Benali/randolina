@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
+import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
@@ -12,12 +13,16 @@ class ClubHeader extends StatelessWidget {
     required this.clubOrAgency,
     required this.showProfileAsOther,
     required this.onEditPressed,
+    required this.onMoreInfoPressed,
     required this.isFollowingOther,
+    required this.bloc,
   }) : super(key: key);
   final User clubOrAgency;
   final bool? isFollowingOther;
   final bool showProfileAsOther;
   final VoidCallback onEditPressed;
+  final VoidCallback onMoreInfoPressed;
+  final ProfileBloc bloc;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,7 @@ class ClubHeader extends StatelessWidget {
                 showProfileAsOther: showProfileAsOther,
                 onEditPressed: onEditPressed,
                 clubOrAgency: clubOrAgency,
+                onMoreInfoPressed: onMoreInfoPressed,
               ),
               Expanded(
                 child: Row(
@@ -120,6 +126,7 @@ class ClubHeader extends StatelessWidget {
               isExpanded: false,
               isFollowing: isFollowingOther!,
               followers: clubOrAgency.followers,
+              bloc: bloc,
             ),
           ),
         ],

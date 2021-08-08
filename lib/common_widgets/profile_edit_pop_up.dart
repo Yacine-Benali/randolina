@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/services/auth.dart';
 
-enum FilterOptions {
+enum Options {
   editprofile,
   singout,
 }
@@ -25,18 +25,18 @@ class _ProfileEditPopUpState extends State<ProfileEditPopUp> {
     final Auth auth = context.read<Auth>();
 
     return PopupMenuButton(
-      onSelected: (FilterOptions selectedValue) {
+      onSelected: (Options selectedValue) {
         setState(() {
-          if (selectedValue == FilterOptions.editprofile) {
+          if (selectedValue == Options.editprofile) {
             widget.onEditPressed();
-          } else if (selectedValue == FilterOptions.singout) {
+          } else if (selectedValue == Options.singout) {
             auth.signOut();
           }
         });
       },
       itemBuilder: (_) => [
         PopupMenuItem(
-          value: FilterOptions.editprofile,
+          value: Options.editprofile,
           child: Text(
             'Edit profil',
             style: TextStyle(
@@ -48,14 +48,14 @@ class _ProfileEditPopUpState extends State<ProfileEditPopUp> {
         ),
         PopupMenuItem(
           height: 5,
-          value: FilterOptions.editprofile,
+          value: Options.editprofile,
           child: Divider(
             height: 3,
             color: Colors.black,
           ),
         ),
         PopupMenuItem(
-          value: FilterOptions.singout,
+          value: Options.singout,
           child: Text(
             'Sign out',
             style: TextStyle(

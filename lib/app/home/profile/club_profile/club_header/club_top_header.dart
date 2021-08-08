@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
 class ClubTopHeader extends StatelessWidget {
   const ClubTopHeader({
@@ -10,11 +12,12 @@ class ClubTopHeader extends StatelessWidget {
     required this.onEditPressed,
     required this.showProfileAsOther,
     required this.clubOrAgency,
+    required this.onMoreInfoPressed,
   }) : super(key: key);
   final VoidCallback onEditPressed;
   final bool showProfileAsOther;
   final User clubOrAgency;
-
+  final VoidCallback onMoreInfoPressed;
   @override
   Widget build(BuildContext context) {
     late String subtitle;
@@ -40,26 +43,32 @@ class ClubTopHeader extends StatelessWidget {
           ),
         ],
         Padding(
-          padding: const EdgeInsets.only(left: 16.0),
+          padding: EdgeInsets.only(left: showProfileAsOther == true ? 0 : 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Text(
-                    clubOrAgency.name,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
+              SizedBox(
+                width: SizeConfig.screenWidth - 180,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AutoSizeText(
+                        clubOrAgency.name,
+                        minFontSize: 22,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  ),
-                  if (!showProfileAsOther) ...[
-                    ProfileEditPopUp(
-                      onEditPressed: onEditPressed,
-                    ),
-                  ]
-                ],
+                    if (!showProfileAsOther) ...[
+                      ProfileEditPopUp(
+                        onEditPressed: onEditPressed,
+                      ),
+                    ]
+                  ],
+                ),
               ),
               Text(
                 subtitle,
@@ -72,14 +81,21 @@ class ClubTopHeader extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(right: 26),
-            alignment: Alignment.topRight,
-            child: Icon(
-              Icons.turned_in_not,
-              size: 30,
-            ),
+        if (showProfileAsOther) ...[
+          // Container(
+          //   margin: const EdgeInsets.only(right: 8),
+          //   alignment: Alignment.topRight,
+          //   child: MoreInfoPopUp(
+          //     onMoreInfoPressed: onMoreInfoPressed,
+          //   ),
+          // ),
+        ],
+        Container(
+          margin: const EdgeInsets.only(right: 26),
+          alignment: Alignment.topRight,
+          child: Icon(
+            Icons.turned_in_not,
+            size: 30,
           ),
         ),
       ],

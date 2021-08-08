@@ -100,6 +100,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
                 ClubHeader(
                   clubOrAgency: widget.clubOrAgency,
                   showProfileAsOther: widget.showProfileAsOther,
+                  bloc: widget.bloc,
                   onEditPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -108,6 +109,17 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
                         ),
                       ),
                     );
+                  },
+                  onMoreInfoPressed: () {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ClubMoreInfoScreen(
+                    //       clubOrAgency: widget.clubOrAgency,
+                    //       bloc: widget.bloc,
+                    //       isFollowingOther: widget.isFollowingOther!,
+                    //     ),
+                    //   ),
+                    // );
                   },
                   isFollowingOther: widget.isFollowingOther,
                 ),

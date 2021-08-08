@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/description.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/header_top_part.dart';
+import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
@@ -14,12 +15,14 @@ class ClientHeader extends StatefulWidget {
     required this.isFollowingOther,
     required this.onEditPressed,
     required this.onSavePressed,
+    this.profileBloc,
   }) : super(key: key);
   final Client client;
   final bool showProfileAsOther;
   final bool? isFollowingOther;
   final VoidCallback onEditPressed;
   final VoidCallback onSavePressed;
+  final ProfileBloc? profileBloc;
 
   @override
   _ClientHeaderState createState() => _ClientHeaderState();
@@ -64,7 +67,9 @@ class _ClientHeaderState extends State<ClientHeader> {
             ),
           ),
         ],
-        if (widget.showProfileAsOther && widget.isFollowingOther != null) ...[
+        if (widget.showProfileAsOther &&
+            widget.isFollowingOther != null &&
+            widget.profileBloc != null) ...[
           Positioned(
             right: 30,
             bottom: isExpanded ? 20 : 30,
@@ -72,6 +77,7 @@ class _ClientHeaderState extends State<ClientHeader> {
               isExpanded: isExpanded,
               isFollowing: widget.isFollowingOther!,
               followers: widget.client.followers,
+              bloc: widget.profileBloc!,
             ),
           ),
         ],
