@@ -12,7 +12,7 @@ class AlgoliaService {
   );
 
   AlgoliaIndexReference get _moviesIndex =>
-      _algolia.instance.index('users_search');
+      _algolia.instance.index('dev_users_search');
 
   Future<List<MiniUser>> performUserQuery({required String text}) async {
     final query = _moviesIndex.query(text);

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ImageFullScreen extends StatelessWidget {
   final String url;
   final String tag;
-  ImageFullScreen(this.tag,this.url);
+  const ImageFullScreen(this.tag, this.url);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,9 @@ class ImageFullScreen extends StatelessWidget {
       color: Colors.black,
       child: Hero(
           tag: tag,
-          child: CachedNetworkImage(imageUrl: url,)),
+          child: CachedNetworkImage(
+            imageUrl: url,
+          )),
     );
   }
 }

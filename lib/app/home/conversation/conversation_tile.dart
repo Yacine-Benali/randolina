@@ -71,7 +71,7 @@ class _ConversationTileState extends State<ConversationTile> {
                   shape: BoxShape.circle,
                 ),
               )
-            : Container(
+            : SizedBox(
                 width: SizeConfig.safeBlockHorizontal * 4,
                 height: SizeConfig.safeBlockVertical * 1.87,
               ),

@@ -83,7 +83,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
 
   /// called on pressing the photo button
   /// calls image_picker package to chose image from gallery
-  void sendImageMessage() async {
+  Future<void> sendImageMessage() async {
     // imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     // // print('image file: ');
     // // print(imageFile);
