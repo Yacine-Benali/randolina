@@ -15,6 +15,7 @@ class SignUpTitle extends StatelessWidget {
         style: TextStyle(
           color: Color.fromRGBO(255, 255, 255, 0.72),
           fontWeight: FontWeight.w700,
+          fontSize: 16,
           shadows: <Shadow>[
             Shadow(
               offset: Offset(2, -3),

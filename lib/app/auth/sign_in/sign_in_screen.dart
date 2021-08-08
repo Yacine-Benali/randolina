@@ -182,7 +182,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: _buildSignInButton(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 70.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
                       child: Divider(
                         thickness: 1,
                         color: Color.fromRGBO(41, 67, 107, 1.0),
