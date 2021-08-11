@@ -18,6 +18,11 @@ Map<PopUpOptions, String> popOptionsText = {
   PopUpOptions.downloadPhoto: 'download photo',
 };
 
+Map<PopUpOptions, Icon> popOptionsIcon = {
+  PopUpOptions.reportPost: Icon(Icons.report_gmailerrorred_outlined),
+  PopUpOptions.downloadPhoto: Icon(Icons.download_outlined),
+};
+
 //? should i stop passing values to widget and just use provider ?
 class PostWidgetPopUp extends StatefulWidget {
   const PostWidgetPopUp({
@@ -68,7 +73,7 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
                   child: SizedBox(
                     width: 5,
                     height: 5,
-                    child: Icon(Icons.report_gmailerrorred_outlined),
+                    child: popOptionsIcon[value]!,
                   ),
                 ),
               ],
