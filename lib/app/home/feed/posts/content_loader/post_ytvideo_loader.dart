@@ -21,7 +21,7 @@ class _PostYTVideoLoaderState extends State<PostYTVideoLoader> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'adB9_iRaldM',
+      initialVideoId: YoutubePlayerController.convertUrlToId(widget.url) ?? '',
       params: YoutubePlayerParams(
         playlist: [],
         showFullscreenButton: true,

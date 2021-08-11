@@ -75,7 +75,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('rebuilding feed');
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,

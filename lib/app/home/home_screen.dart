@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig.init(context);
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
@@ -63,29 +63,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: getScreen(index),
-      bottomNavigationBar: Container(
-        color: Colors.transparent,
-        child: FABBottomAppBar(
-          height: 55,
-          iconSize: 32,
-          centerItemText: '',
-          color: Colors.grey,
-          selectedColor: darkBlue,
-          notchedShape: CircularNotchedRectangle(),
-          onTabSelected: (int index) {
-            setState(() => this.index = index);
-          },
-          items: [
-            // todo @average change the icons to the ones in the design
-            FABBottomAppBarItem(iconData: Icons.home, notification: 0),
-            FABBottomAppBarItem(iconData: Icons.store, notification: 0),
-            FABBottomAppBarItem(
-                iconData: Icons.calendar_today, notification: 0),
-            FABBottomAppBarItem(
-                iconData: Icons.account_circle_outlined, notification: 0),
-          ],
-          backgroundColor: Colors.white,
-        ),
+      bottomNavigationBar: FABBottomAppBar(
+        height: 55,
+        iconSize: 32,
+        centerItemText: '',
+        color: Colors.grey,
+        selectedColor: darkBlue,
+        notchedShape: CircularNotchedRectangle(),
+        onTabSelected: (int index) {
+          setState(() => this.index = index);
+        },
+        items: [
+          // todo @average change the icons to the ones in the design
+          FABBottomAppBarItem(iconData: Icons.home, notification: 0),
+          FABBottomAppBarItem(iconData: Icons.store, notification: 0),
+          FABBottomAppBarItem(iconData: Icons.calendar_today, notification: 0),
+          FABBottomAppBarItem(
+              iconData: Icons.account_circle_outlined, notification: 0),
+        ],
+        backgroundColor: Colors.white,
       ),
     );
   }

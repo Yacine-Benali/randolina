@@ -107,17 +107,15 @@ class _PostWidgetState extends State<PostWidget> {
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 45,
-              child: Container(
-                child: PostContentLoader(
-                  type: widget.post.type,
-                  content: widget.post.content,
-                  onIndexChanged: (int index) {
-                    setState(() {
-                      contentIndex = index;
-                    });
-                  },
-                ),
+              height: SizeConfig.blockSizeVertical * 48,
+              child: PostContentLoader(
+                type: widget.post.type,
+                content: widget.post.content,
+                onIndexChanged: (int index) {
+                  setState(() {
+                    contentIndex = index;
+                  });
+                },
               ),
             ),
             PostActionBar(
