@@ -8,7 +8,6 @@ import 'package:randolina/app/models/user_followers_posts.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FeedBloc {
@@ -62,14 +61,12 @@ class FeedBloc {
     return data;
   }
 
-  bool openStories(MiniUser miniUser) {
+  bool haveStories(MiniUser miniUser) {
     final UserFollowersStories data2 =
         storiesList.firstWhere((element) => element.miniUser.id == miniUser.id);
     if (data2.storiesIds.isNotEmpty) {
-      logger.severe('user  have stories');
       return true;
     } else {
-      logger.severe('user dont have stories');
       return false;
     }
   }

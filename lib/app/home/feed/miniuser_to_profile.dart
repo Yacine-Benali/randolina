@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
@@ -30,6 +31,11 @@ class MiniuserToProfile extends StatelessWidget {
         if (snapshot.hasData && (snapshot.data != null)) {
           final User user = snapshot.data!;
           return ProfileScreen(user: user);
+        } else if (snapshot.hasError) {
+          EmptyContent(
+            title: '',
+            message: snapshot.error.toString(),
+          );
         }
         return LoadingScreen(showAppBar: false);
       },

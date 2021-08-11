@@ -13,6 +13,50 @@ class StoriesWidget extends StatelessWidget {
   }) : super(key: key);
   final FeedBloc feedBloc;
 
+  Widget buildStoryAvatar(
+    BuildContext context,
+    MiniUser user,
+    List<UserFollowersStories> list,
+    int index,
+  ) {
+    return Column(
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => StoriesScreen(
+                  usersStories: list,
+                  initialPage: index,
+                  feedBloc: feedBloc,
+                ),
+              ),
+            );
+          },
+          child: SizedBox(
+            width: SizeConfig.blockSizeHorizontal * 16,
+            height: SizeConfig.blockSizeHorizontal * 16,
+            child: CachedNetworkImage(
+              imageUrl: user.profilePicture,
+              imageBuilder: (context, imageProvider) =>
+                  CircleAvatar(backgroundImage: imageProvider),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            user.username,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 10, color: Colors.black),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,48 +89,12 @@ class StoriesWidget extends StatelessWidget {
                       itemCount: usersStories.length,
                       itemBuilder: (context, index) {
                         final MiniUser user = usersStories[index].miniUser;
-                        return Column(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                if (feedBloc.openStories(user)) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => StoriesScreen(
-                                        usersStories: usersStories,
-                                        initialPage: index,
-                                        feedBloc: feedBloc,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: SizedBox(
-                                width: SizeConfig.blockSizeHorizontal * 16,
-                                height: SizeConfig.blockSizeHorizontal * 16,
-                                child: CachedNetworkImage(
-                                  imageUrl: user.profilePicture,
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                          backgroundImage: imageProvider),
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                user.username,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.black),
-                              ),
-                            ),
-                          ],
-                        );
+
+                        if (feedBloc.haveStories(user)) {
+                          return buildStoryAvatar(
+                              context, user, snapshot.data!, index);
+                        }
+                        return Container();
                       },
                     ),
                   ),

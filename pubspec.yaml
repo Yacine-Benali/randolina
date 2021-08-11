@@ -55,6 +55,7 @@ dependencies:
   fluttertoast: ^8.0.1-nullsafety.0
   story:
     path: ./local_packages/story
+  photo_view: ^0.12.0
 
   
 

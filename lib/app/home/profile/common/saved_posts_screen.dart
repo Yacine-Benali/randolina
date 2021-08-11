@@ -57,6 +57,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
         if (snapshot.hasData && (snapshot.data != null)) {
           posts = snapshot.data!;
           return Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.black),
               title: Text('Saved posts', style: TextStyle(color: Colors.black)),

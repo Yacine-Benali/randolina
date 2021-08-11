@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
 class ClientHeaderTopPart extends StatelessWidget {
   const ClientHeaderTopPart({
@@ -17,6 +18,13 @@ class ClientHeaderTopPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late final double textRowWidth;
+    if (showProfileAsOther) {
+      textRowWidth = SizeConfig.screenWidth - 90 - 55 - 8 - 30;
+    } else {
+      textRowWidth = SizeConfig.screenWidth - 90 - 55 - 8 - 30;
+    }
+
     return Container(
       height: 82 - 20,
       decoration: BoxDecoration(
@@ -38,17 +46,6 @@ class ClientHeaderTopPart extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (showProfileAsOther) ...[
-            // IconButton(
-            //   padding: EdgeInsets.zero,
-            //   icon: Icon(
-            //     Icons.close,
-            //     color: Colors.black87,
-            //     size: 30,
-            //   ),
-            //   onPressed: () => Navigator.of(context).pop(),
-            // ),
-          ],
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 14, left: 90),
@@ -58,15 +55,18 @@ class ClientHeaderTopPart extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: (client.name.length > 15) ? 120 : null,
-                        child: Text(
-                          client.name,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
+                      Container(
+                        color: Colors.red[200],
+                        width: textRowWidth,
+                        child: Center(
+                          child: Text(
+                            client.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -87,13 +87,18 @@ class ClientHeaderTopPart extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: Icon(Icons.turned_in_not, size: 30),
-              onPressed: onSavePressed,
+          if (!showProfileAsOther) ...[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.turned_in_not, size: 30),
+                onPressed: onSavePressed,
+              ),
             ),
-          ),
+          ],
+          if (!showProfileAsOther) ...[
+            SizedBox(width: 90),
+          ],
         ],
       ),
     );

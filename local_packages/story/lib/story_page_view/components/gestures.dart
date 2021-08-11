@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:story/story_page_view/story_page_view.dart';
 
 import '../story_stack_controller.dart';
 
@@ -7,9 +8,11 @@ class Gestures extends StatelessWidget {
   const Gestures({
     Key? key,
     required this.animationController,
+    required this.indicatorAnimationController,
   }) : super(key: key);
 
   final AnimationController? animationController;
+  final ValueNotifier<IndicatorAnimationCommand> indicatorAnimationController;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,13 @@ class Gestures extends StatelessWidget {
                 context.read<StoryStackController>().decrement();
               },
               onLongPress: () {
+                indicatorAnimationController.value =
+                    IndicatorAnimationCommand.pause;
                 animationController!.stop();
               },
               onLongPressUp: () {
+                indicatorAnimationController.value =
+                    IndicatorAnimationCommand.resume;
                 animationController!.forward();
               },
             ),
@@ -44,9 +51,13 @@ class Gestures extends StatelessWidget {
                     );
               },
               onLongPress: () {
+                indicatorAnimationController.value =
+                    IndicatorAnimationCommand.pause;
                 animationController!.stop();
               },
               onLongPressUp: () {
+                indicatorAnimationController.value =
+                    IndicatorAnimationCommand.resume;
                 animationController!.forward();
               },
             ),

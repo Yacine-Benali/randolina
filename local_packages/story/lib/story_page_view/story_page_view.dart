@@ -293,6 +293,7 @@ class _StoryPageFrameState extends State<_StoryPageFrame>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return Stack(
       fit: StackFit.loose,
       alignment: Alignment.topLeft,
@@ -330,6 +331,7 @@ class _StoryPageFrameState extends State<_StoryPageFrame>
         ),
         Gestures(
           animationController: animationController,
+          indicatorAnimationController: widget.indicatorAnimationController!,
         ),
         Positioned.fill(
           child: widget.gestureItemBuilder?.call(

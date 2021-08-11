@@ -68,6 +68,7 @@ class _PostContentLoaderState extends State<PostContentLoader> {
             ),
           ),
         ),
+        SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: widget.content.asMap().entries.map((entry) {

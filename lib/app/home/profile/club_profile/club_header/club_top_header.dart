@@ -27,7 +27,7 @@ class ClubTopHeader extends StatelessWidget {
       subtitle = 'Agence de Voyage';
     }
     //logger.info(SizeConfig.screenWidth - 180);
-    late double textRowWidth;
+    late final double textRowWidth;
     if (showProfileAsOther) {
       textRowWidth = SizeConfig.screenWidth - 8 - 55 - 16;
     } else {

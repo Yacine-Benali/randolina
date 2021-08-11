@@ -1,7 +1,7 @@
-import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
+import 'package:randolina/app/home/feed/stories/story_video_loader.dart';
 import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/story.dart';
@@ -63,35 +63,9 @@ class _StoriesScreenState extends State<StoriesScreen> {
         ),
       );
     } else if (story.type == 1) {
-      final BetterPlayerConfiguration betterPlayerConfiguration =
-          BetterPlayerConfiguration(
-        autoPlay: true,
-        fit: BoxFit.cover,
-        controlsConfiguration: BetterPlayerControlsConfiguration(
-          enableProgressText: false,
-          enableSkips: false,
-          showControlsOnInitialize: false,
-          showControls: false,
-          enableSubtitles: false,
-          enableMute: false,
-          enableAudioTracks: false,
-        ),
-      );
-      final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        story.content,
-      );
-
-      final BetterPlayerController _controller =
-          BetterPlayerController(betterPlayerConfiguration);
-      _controller.setupDataSource(dataSource);
-      _controller.addEventsListener((BetterPlayerEvent b) {
-        if (b.betterPlayerEventType == BetterPlayerEventType.play) {
-          indicatorAnimationController.value = IndicatorAnimationCommand.resume;
-        }
-      });
-      return Positioned.fill(
-        child: BetterPlayer(controller: _controller),
+      return StoryVideoLoader(
+        indicatorAnimationController: indicatorAnimationController,
+        url: story.content,
       );
     } else {
       return Container();
