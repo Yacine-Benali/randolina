@@ -26,79 +26,84 @@ class ClubTopHeader extends StatelessWidget {
     } else if (clubOrAgency is Agency) {
       subtitle = 'Agence de Voyage';
     }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (showProfileAsOther) ...[
-          IconButton(
-            padding: EdgeInsets.zero,
-            icon: Icon(
-              Icons.close,
-              color: Colors.black87,
-              size: 30,
+    //logger.info(SizeConfig.screenWidth - 180);
+    late double textRowWidth;
+    if (showProfileAsOther) {
+      textRowWidth = SizeConfig.screenWidth - 8 - 55 - 16;
+    } else {
+      textRowWidth = 300;
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          if (showProfileAsOther) ...[
+            IconButton(
+              padding: EdgeInsets.zero,
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black87,
+                size: 30,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
-        Padding(
-          padding: EdgeInsets.only(left: showProfileAsOther == true ? 0 : 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: SizeConfig.screenWidth - 180,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AutoSizeText(
-                        clubOrAgency.name,
-                        minFontSize: 22,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
+          ],
+          Padding(
+            padding:
+                EdgeInsets.only(left: showProfileAsOther == true ? 0 : 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: textRowWidth,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AutoSizeText(
+                          clubOrAgency.name,
+                          minFontSize: 22,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
-                    ),
-                    if (!showProfileAsOther) ...[
-                      ProfileEditPopUp(
-                        onEditPressed: onEditPressed,
-                      ),
-                    ]
-                  ],
+                      if (!showProfileAsOther) ...[
+                        ProfileEditPopUp(
+                          onEditPressed: onEditPressed,
+                        ),
+                      ]
+                    ],
+                  ),
                 ),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF40A3DB),
-                  fontWeight: FontWeight.w400,
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF40A3DB),
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        if (showProfileAsOther) ...[
-          // Container(
-          //   margin: const EdgeInsets.only(right: 8),
-          //   alignment: Alignment.topRight,
-          //   child: MoreInfoPopUp(
-          //     onMoreInfoPressed: onMoreInfoPressed,
-          //   ),
-          // ),
+          if (!showProfileAsOther) ...[
+            Container(
+              color: Colors.yellow[200],
+              //width: 50,
+              margin: const EdgeInsets.only(right: 26),
+              alignment: Alignment.topRight,
+              child: SizedBox(
+                child: Icon(
+                  Icons.turned_in_not,
+                  size: 30,
+                ),
+              ),
+            ),
+          ],
         ],
-        Container(
-          margin: const EdgeInsets.only(right: 26),
-          alignment: Alignment.topRight,
-          child: Icon(
-            Icons.turned_in_not,
-            size: 30,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

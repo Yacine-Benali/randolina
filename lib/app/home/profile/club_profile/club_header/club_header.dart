@@ -4,6 +4,7 @@ import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/common_widgets/visit_followers_header.dart';
 import 'package:readmore/readmore.dart';
 
@@ -30,8 +31,8 @@ class ClubHeader extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       children: [
         Container(
-          height: 150,
-          margin: const EdgeInsets.only(bottom: 20),
+          height: SizeConfig.blockSizeVertical * 19,
+          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2.0),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -110,7 +111,7 @@ class ClubHeader extends StatelessWidget {
         ),
         if (!showProfileAsOther) ...[
           Positioned(
-            left: 110,
+            left: SizeConfig.blockSizeHorizontal * 28,
             bottom: 0,
             child: FollowersHeader(
               followers: 0,
@@ -120,7 +121,7 @@ class ClubHeader extends StatelessWidget {
         ],
         if (showProfileAsOther && isFollowingOther != null) ...[
           Positioned(
-            left: 110,
+            left: SizeConfig.blockSizeHorizontal * 28,
             bottom: 0,
             child: VisitFollowersHeader(
               isExpanded: false,

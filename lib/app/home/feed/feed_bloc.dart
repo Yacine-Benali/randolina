@@ -39,8 +39,8 @@ class FeedBloc {
             UserFollowersPosts.fromMap(data, documentId));
 
     final List<List<MiniPost>> data2 = data.map((e) {
-      logger.info(e.userId);
-      logger.info(e.postsIds);
+      // logger.info(e.userId);
+      // logger.info(e.postsIds);
       return e.postsIds;
     }).toList();
 

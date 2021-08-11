@@ -4,7 +4,6 @@ import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
-import 'package:randolina/common_widgets/size_config.dart';
 
 class ConversationTile extends StatefulWidget {
   const ConversationTile({
@@ -64,17 +63,17 @@ class _ConversationTileState extends State<ConversationTile> {
         subtitle: Text(widget.conversation.latestMessage.content),
         trailing: notification
             ? Container(
-                width: SizeConfig.safeBlockHorizontal * 4,
-                height: SizeConfig.safeBlockVertical * 1.87,
+                // width: SizeConfig.safeBlockHorizontal * 4,
+                // height: SizeConfig.safeBlockVertical * 1.87,
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   shape: BoxShape.circle,
                 ),
               )
             : SizedBox(
-                width: SizeConfig.safeBlockHorizontal * 4,
-                height: SizeConfig.safeBlockVertical * 1.87,
-              ),
+                // width: SizeConfig.safeBlockHorizontal * 4,
+                // height: SizeConfig.safeBlockVertical * 1.87,
+                ),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(

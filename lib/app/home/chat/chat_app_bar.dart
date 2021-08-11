@@ -33,8 +33,8 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                   )
                 : CachedNetworkImage(
                     placeholder: (context, url) => Container(
-                      width: SizeConfig.safeBlockHorizontal * 8.5,
-                      height: SizeConfig.safeBlockHorizontal * 8.5,
+                      // width: SizeConfig.safeBlockHorizontal * 8.5,
+                      // height: SizeConfig.safeBlockHorizontal * 8.5,
                       padding: EdgeInsets.all(10.0),
                       child: CircularProgressIndicator(
                         strokeWidth: 1.0,

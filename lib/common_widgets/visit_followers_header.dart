@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class VisitFollowersHeader extends StatefulWidget {
@@ -37,9 +38,8 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
     return Row(
       children: [
         Container(
-          width: 120,
-          height: 26,
-          margin: EdgeInsets.only(right: 20),
+          width: SizeConfig.blockSizeHorizontal * 31,
+          height: SizeConfig.blockSizeVertical * 3.2,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
             boxShadow: [
@@ -51,11 +51,9 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
             ],
           ),
           child: CustomElevatedButton(
-            // todo @low fix witth to be same as ui design and color
             minHeight: 26,
             minWidth: 120,
             color: isFollowing ? Colors.blueGrey[200] : null,
-
             buttonText: isFollowing
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,9 +100,10 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
             },
           ),
         ),
+        SizedBox(width: 20),
         Container(
-          width: 120,
-          height: 26,
+          width: SizeConfig.blockSizeHorizontal * 31,
+          height: SizeConfig.blockSizeVertical * 3.2,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(11),
