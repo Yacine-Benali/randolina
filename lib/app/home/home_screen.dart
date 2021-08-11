@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Container(color: backgroundColor);
 
       case 3:
-        return ProfileScreen(user: context.read<User>());
+        return ProfileScreen(user: user);
     }
     return Container();
   }

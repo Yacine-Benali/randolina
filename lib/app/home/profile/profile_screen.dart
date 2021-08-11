@@ -22,8 +22,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late final User currentUser;
-  late final User otherUser;
+  late User currentUser;
+  late User otherUser;
   late final ProfileBloc bloc;
   late final bool showProfileAsOther;
   Future<bool>? isFollowingOther;
@@ -62,6 +62,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    currentUser = context.read<User>();
+    if (otherUser.id == currentUser.id) {
+      otherUser = currentUser;
+    }
+
     return Provider<ProfileBloc>.value(
       value: bloc,
       child: Scaffold(

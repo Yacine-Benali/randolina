@@ -44,7 +44,6 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    currentClient = context.read<User>() as Client;
     return SafeArea(
       child: CustomScaffold(
         backgroundColor: backgroundColor,
