@@ -18,9 +18,11 @@ class CustomTextForm extends StatelessWidget {
     this.isPassword = false,
     this.prefix,
     this.textInputAction,
+    this.textInputType = TextInputType.text,
     this.lines,
   }) : super(key: key);
 
+  final TextInputType textInputType;
   final String? title;
   final TextStyle? titleStyle;
   final String? initialValue;
@@ -69,9 +71,7 @@ class CustomTextForm extends StatelessWidget {
               textInputAction: textInputAction,
               enabled: isEnabled,
               initialValue: initialValue,
-              keyboardType:
-                  isPhoneNumber ? TextInputType.phone : TextInputType.text,
-              // inputFormatters: [inputFormatter],
+              keyboardType: isPhoneNumber ? TextInputType.phone : textInputType,
               maxLength: maxLength,
               decoration: InputDecoration(
                 isDense: true,

@@ -67,12 +67,14 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
               child: Column(
                 children: [
                   CustomTextForm(
+                    textInputAction: TextInputAction.newline,
+                    textInputType: TextInputType.multiline,
+                    lines: 3,
+                    maxLength: 100,
                     initialValue: currentClient.bio,
                     title: 'Bio:',
                     titleStyle: titleStyle,
-                    lines: 4,
                     hintText: 'Bio...',
-                    maxLength: 200,
                     onChanged: (String value) {
                       bio = value;
                     },
