@@ -51,48 +51,46 @@ class _PostContentLoaderState extends State<PostContentLoader> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: CarouselSlider(
-              items: children,
-              carouselController: _controller,
-              options: CarouselOptions(
-                aspectRatio: 1 / 1,
-                enableInfiniteScroll: false,
-                viewportFraction: 1.0,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                    widget.onIndexChanged(_current);
-                  });
-                },
-              ),
+    return Column(
+      children: [
+        Expanded(
+          child: CarouselSlider(
+            items: children,
+            carouselController: _controller,
+            options: CarouselOptions(
+              aspectRatio: 1 / 1,
+              enableInfiniteScroll: false,
+              viewportFraction: 1.0,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                  widget.onIndexChanged(_current);
+                });
+              },
             ),
           ),
-          SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: widget.content.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
-                child: Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: EdgeInsets.symmetric(horizontal: 4.0),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : darkBlue)
-                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
+        ),
+        SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: widget.content.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => _controller.animateToPage(entry.key),
+              child: Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : darkBlue)
+                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }

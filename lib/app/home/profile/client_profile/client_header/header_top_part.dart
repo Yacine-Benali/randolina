@@ -55,7 +55,7 @@ class ClientHeaderTopPart extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: textRowWidth,
                         child: Center(
                           child: Text(

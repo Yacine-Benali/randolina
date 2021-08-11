@@ -73,7 +73,7 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
                   child: SizedBox(
                     width: 5,
                     height: 5,
-                    child: popOptionsIcon[value]!,
+                    child: popOptionsIcon[value],
                   ),
                 ),
               ],
@@ -89,8 +89,6 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
       ),
     );
   }
-
-  void _toastInfo(String info) {}
 
   Future<void> downloadPhoto() async {
     final response = await Dio().get(

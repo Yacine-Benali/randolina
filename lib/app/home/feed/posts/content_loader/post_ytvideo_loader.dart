@@ -31,7 +31,6 @@ class _PostYTVideoLoaderState extends State<PostYTVideoLoader> {
         enableJavaScript: false,
         privacyEnhanced: true,
         useHybridComposition: false,
-        playsInline: true,
       ),
     )..listen((value) {
         if (value.playerState == PlayerState.buffering) {
