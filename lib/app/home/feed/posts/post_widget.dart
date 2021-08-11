@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/home/feed/posts/content_loader/post_content_loader.dart';
 import 'package:randolina/app/home/feed/posts/post_action_bar.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
@@ -68,13 +70,31 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          ' ${widget.post.miniUser.username}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            enableFeedback: false,
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.transparent),
                           ),
-                          textAlign: TextAlign.center,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (builder) => MiniuserToProfile(
+                                  miniUser: widget.post.miniUser,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            ' ${widget.post.miniUser.username}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ],
@@ -87,15 +107,17 @@ class _PostWidgetState extends State<PostWidget> {
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 40,
-              child: PostContentLoader(
-                type: widget.post.type,
-                content: widget.post.content,
-                onIndexChanged: (int index) {
-                  setState(() {
-                    contentIndex = index;
-                  });
-                },
+              height: SizeConfig.blockSizeVertical * 45,
+              child: Container(
+                child: PostContentLoader(
+                  type: widget.post.type,
+                  content: widget.post.content,
+                  onIndexChanged: (int index) {
+                    setState(() {
+                      contentIndex = index;
+                    });
+                  },
+                ),
               ),
             ),
             PostActionBar(
@@ -109,6 +131,16 @@ class _PostWidgetState extends State<PostWidget> {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (builder) => MiniuserToProfile(
+                                miniUser: widget.post.miniUser,
+                              ),
+                            ),
+                          );
+                        },
                       text: '${widget.post.miniUser.username}\t',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),

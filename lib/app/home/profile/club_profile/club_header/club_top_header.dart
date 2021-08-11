@@ -29,93 +29,73 @@ class ClubTopHeader extends StatelessWidget {
     //logger.info(SizeConfig.screenWidth - 180);
     late final double textRowWidth;
     if (showProfileAsOther) {
-      textRowWidth = SizeConfig.screenWidth - 8 - 55 - 16;
+      textRowWidth = SizeConfig.screenWidth - 8 - 16 - 55 - 16;
     } else {
-      textRowWidth = 300;
+      textRowWidth = SizeConfig.blockSizeHorizontal * 77;
     }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          if (showProfileAsOther) ...[
-            // IconButton(
-            //   padding: EdgeInsets.zero,
-            //   icon: Icon(
-            //     Icons.arrow_back,
-            //     color: Colors.black87,
-            //     size: 30,
-            //   ),
-            //   onPressed: () => Navigator.of(context).pop(),
-            // ),
-          ],
           Padding(
-            padding:
-                EdgeInsets.only(left: showProfileAsOther == true ? 0 : 16.0),
+            padding: EdgeInsets.only(left: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: textRowWidth,
-                  child: Row(
+                if (showProfileAsOther) ...[
+                  SizedBox(
+                    width: textRowWidth,
+                    child: AutoSizeText(
+                      clubOrAgency.name,
+                      minFontSize: 22,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+                if (!showProfileAsOther) ...[
+                  Row(
                     children: [
-                      if (showProfileAsOther) ...[
-                        Expanded(
-                          child: Row(
-                            children: [
-                              AutoSizeText(
-                                clubOrAgency.name,
-                                minFontSize: 22,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
+                      SizedBox(
+                        width: textRowWidth,
+                        child: Text(
+                          clubOrAgency.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            fontSize: 22,
                           ),
                         ),
-                      ],
-                      if (!showProfileAsOther) ...[
-                        Expanded(
-                          child: Row(
-                            children: [
-                              AutoSizeText(
-                                clubOrAgency.name,
-                                minFontSize: 22,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              ProfileEditPopUp(
-                                onEditPressed: onEditPressed,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
+                      ProfileEditPopUp(
+                        onEditPressed: onEditPressed,
+                      ),
                     ],
                   ),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF40A3DB),
-                    fontWeight: FontWeight.w400,
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF40A3DB),
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
           if (!showProfileAsOther) ...[
-            SizedBox(
-              child: Icon(
-                Icons.turned_in_not,
-                size: 30,
-              ),
-            ),
+            // SizedBox(
+            //   child: Icon(
+            //     Icons.turned_in_not,
+            //     size: 30,
+            //   ),
+            // ),
           ],
         ],
       ),

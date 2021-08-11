@@ -13,6 +13,7 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ClientProfileScreen extends StatefulWidget {
   const ClientProfileScreen({
@@ -54,12 +55,13 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
     postsWidget.clear();
     sortedPosts = widget.bloc.sortPost(posts, type);
     return sortedPosts.map((post) {
-      return PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
+      return PostWidget(post: post, postBloc: postBloc);
     }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    logger.info('rebuilding the whole screen');
     return FutureBuilder<List<Post>>(
       future: postsFuture,
       builder: (context, snapshot) {
@@ -91,26 +93,28 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                     );
                   },
                 ),
-                ProfilePostsTabBar(
-                  onTabChanged: (t) {
-                    type = t;
-                    setState(() {});
-                  },
-                ),
-                FutureBuilder(
-                  future: Future.delayed(Duration(milliseconds: 500)),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return Column(
-                        children: buildList(),
-                      );
-                    } else {
-                      return CircularProgressIndicator(
-                        color: Colors.grey,
-                      );
-                    }
-                  },
-                ),
+                if (widget.isFollowingOther ?? false) ...[
+                  ProfilePostsTabBar(
+                    onTabChanged: (t) {
+                      type = t;
+                      setState(() {});
+                    },
+                  ),
+                  FutureBuilder(
+                    future: Future.delayed(Duration(milliseconds: 500)),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Column(
+                          children: buildList(),
+                        );
+                      } else {
+                        return CircularProgressIndicator(
+                          color: Colors.grey,
+                        );
+                      }
+                    },
+                  ),
+                ],
               ],
             ),
           );

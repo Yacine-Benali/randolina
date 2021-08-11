@@ -56,7 +56,6 @@ class ClientHeaderTopPart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        color: Colors.red[200],
                         width: textRowWidth,
                         child: Center(
                           child: Text(
@@ -96,7 +95,7 @@ class ClientHeaderTopPart extends StatelessWidget {
               ),
             ),
           ],
-          if (!showProfileAsOther) ...[
+          if (showProfileAsOther) ...[
             SizedBox(width: 90),
           ],
         ],

@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
 class PostYTVideoLoader extends StatefulWidget {
   const PostYTVideoLoader({
@@ -14,72 +16,52 @@ class PostYTVideoLoader extends StatefulWidget {
 
 class _PostYTVideoLoaderState extends State<PostYTVideoLoader> {
   late YoutubePlayerController _controller;
-  late TextEditingController _idController;
-  late TextEditingController _seekToController;
-
-  bool _isPlayerReady = false;
 
   @override
   void initState() {
     super.initState();
-    String? videoId;
-    videoId = YoutubePlayer.convertUrlToId(widget.url);
-
     _controller = YoutubePlayerController(
-      initialVideoId: videoId!,
-      flags: YoutubePlayerFlags(
+      initialVideoId: 'adB9_iRaldM',
+      params: YoutubePlayerParams(
+        playlist: [],
+        showFullscreenButton: true,
         autoPlay: false,
         enableCaption: false,
+        showVideoAnnotations: false,
+        enableJavaScript: false,
+        privacyEnhanced: true,
+        useHybridComposition: false,
+        playsInline: true,
       ),
-    )..addListener(listener);
-    _idController = TextEditingController();
-    _seekToController = TextEditingController();
-  }
+    )..listen((value) {
+        if (value.playerState == PlayerState.buffering) {
+          String _time(Duration duration) {
+            return "${duration.inMinutes}:${duration.inSeconds}";
+          }
 
-  void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {});
-    }
-  }
+          Future.delayed(Duration(milliseconds: 1000), () {
+            final bufferedTime = _controller.value.position;
+            return print(_time(bufferedTime));
+          });
+        }
 
-  @override
-  void deactivate() {
-    _controller.pause();
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _idController.dispose();
-    _seekToController.dispose();
-    super.dispose();
+        if (value.isReady && !value.hasPlayed) {
+          _controller
+            ..hidePauseOverlay()
+            ..play()
+            ..hideTopMenu();
+        }
+      });
   }
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayer(
+    const player = YoutubePlayerIFrame(
+      gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{},
+    );
+    return YoutubePlayerControllerProvider(
       controller: _controller,
-      showVideoProgressIndicator: true,
-      progressIndicatorColor: Colors.blueAccent,
-      topActions: <Widget>[
-        const SizedBox(width: 8.0),
-        Expanded(
-          child: Text(
-            _controller.metadata.title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ),
-      ],
-      onReady: () {
-        _isPlayerReady = true;
-      },
-      onEnded: (data) {},
+      child: player,
     );
   }
 }

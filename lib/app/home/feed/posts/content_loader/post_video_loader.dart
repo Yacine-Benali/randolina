@@ -19,7 +19,8 @@ class _PostVideoLoaderState extends State<PostVideoLoader> {
   void initState() {
     final BetterPlayerConfiguration betterPlayerConfiguration =
         BetterPlayerConfiguration(
-      fit: BoxFit.fitHeight,
+      fit: BoxFit.contain,
+      aspectRatio: 1,
       controlsConfiguration: BetterPlayerControlsConfiguration(
         enableProgressText: false,
         enableSkips: false,
@@ -32,9 +33,16 @@ class _PostVideoLoaderState extends State<PostVideoLoader> {
       BetterPlayerDataSourceType.network,
       widget.url,
     );
+
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(dataSource);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _betterPlayerController.dispose();
+    super.dispose();
   }
 
   @override
