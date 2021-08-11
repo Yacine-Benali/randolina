@@ -51,30 +51,13 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
         backgroundColor: backgroundColor,
         body: Column(
           children: [
-            Stack(
-              children: [
-                ClubHeader(
-                  clubOrAgency: clubOrAgency,
-                  showProfileAsOther: false,
-                  bloc: widget.bloc,
-                  onEditPressed: () {},
-                  isFollowingOther: false,
-                  onMoreInfoPressed: () {},
-                ),
-                Positioned(
-                  top: 5,
-                  left: 8,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.black87,
-                      size: 30,
-                    ),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                )
-              ],
+            ClubHeader(
+              clubOrAgency: clubOrAgency,
+              showProfileAsOther: false,
+              bloc: widget.bloc,
+              onEditPressed: () {},
+              isFollowingOther: false,
+              onMoreInfoPressed: () {},
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -149,12 +132,13 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (clubOrAgency is Club && activities != null) {
-                        widget.bloc.saveClubProfile(bio, activities!);
+                        await widget.bloc.saveClubProfile(bio, activities!);
                       } else if (clubOrAgency is Agency) {
-                        widget.bloc.saveAgencyProfile(bio);
+                        await widget.bloc.saveAgencyProfile(bio);
                       }
+                      Navigator.of(context).pop();
                     },
                     minHeight: 30,
                     minWidth: 130,

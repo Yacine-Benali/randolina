@@ -39,15 +39,15 @@ class ClientHeaderTopPart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (showProfileAsOther) ...[
-            IconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(
-                Icons.close,
-                color: Colors.black87,
-                size: 30,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            // IconButton(
+            //   padding: EdgeInsets.zero,
+            //   icon: Icon(
+            //     Icons.close,
+            //     color: Colors.black87,
+            //     size: 30,
+            //   ),
+            //   onPressed: () => Navigator.of(context).pop(),
+            // ),
           ],
           Expanded(
             child: Padding(

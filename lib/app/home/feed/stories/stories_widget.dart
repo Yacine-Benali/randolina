@@ -4,6 +4,7 @@ import 'package:randolina/app/home/feed/feed_bloc.dart';
 import 'package:randolina/app/home/feed/stories/stories_screen.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
 class StoriesWidget extends StatelessWidget {
   const StoriesWidget({
@@ -61,14 +62,13 @@ class StoriesWidget extends StatelessWidget {
                                 }
                               },
                               child: SizedBox(
-                                width: 70,
-                                height: 70,
+                                width: SizeConfig.blockSizeHorizontal * 16,
+                                height: SizeConfig.blockSizeHorizontal * 16,
                                 child: CachedNetworkImage(
                                   imageUrl: user.profilePicture,
                                   imageBuilder: (context, imageProvider) =>
                                       CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                  ),
+                                          backgroundImage: imageProvider),
                                   placeholder: (context, url) =>
                                       CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>

@@ -23,7 +23,7 @@ class _PostImageLoaderState extends State<PostImageLoader> {
           borderRadius: BorderRadius.circular(19),
           image: DecorationImage(
             image: imageProvider,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
         ),
       ),

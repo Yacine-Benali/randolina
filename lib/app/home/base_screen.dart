@@ -6,6 +6,7 @@ import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -42,11 +43,19 @@ class _BaseScreenState extends State<BaseScreen> {
             value: user,
             child: Provider.value(
               value: user,
-              child: Navigator(
-                key: navigatorKey,
-                onGenerateRoute: (routeSettings) {
-                  return MaterialPageRoute(builder: (context) => HomeScreen());
+              child: WillPopScope(
+                onWillPop: () async {
+                  bool a = !await navigatorKey.currentState!.maybePop();
+                  logger.severe(a);
+                  return a;
                 },
+                child: Navigator(
+                  key: navigatorKey,
+                  onGenerateRoute: (routeSettings) {
+                    return MaterialPageRoute(
+                        builder: (context) => HomeScreen());
+                  },
+                ),
               ),
             ),
           );

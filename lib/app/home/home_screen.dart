@@ -24,56 +24,68 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     user = context.read<User>();
     super.initState();
-    screens = [
-      FeedScreen(),
-      Container(color: backgroundColor),
-      Container(color: backgroundColor),
-      ProfileScreen(user: user),
-    ];
+    screens = [];
+  }
+
+  Widget getScreen(int index) {
+    switch (index) {
+      case 0:
+        return FeedScreen();
+
+      case 1:
+        return Container(color: backgroundColor);
+
+      case 2:
+        return Container(color: backgroundColor);
+
+      case 3:
+        return ProfileScreen(user: context.read<User>());
+    }
+    return Container();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    // logger.info(SizeConfig().toString());
+
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: SizedBox(
-        height: 60,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: FloatingActionButton(
-            onPressed: () {
-              context.read<Auth>().signOut();
-            },
-            backgroundColor: darkBlue,
-            tooltip: 'Increment',
-            elevation: 2.0,
-            child: Icon(Icons.add),
-          ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            context.read<Auth>().signOut();
+          },
+          backgroundColor: darkBlue,
+          elevation: 2.0,
+          child: Icon(Icons.add),
         ),
       ),
-      body: screens[index],
-      bottomNavigationBar: FABBottomAppBar(
-        height: 55,
-        iconSize: 32,
-        centerItemText: '',
-        color: Colors.grey,
-        selectedColor: darkBlue,
-        notchedShape: CircularNotchedRectangle(),
-        onTabSelected: (int index) {
-          setState(() => this.index = index);
-        },
-        items: [
-          // todo @average change the icons to the ones in the design
-          FABBottomAppBarItem(iconData: Icons.home, notification: 0),
-          FABBottomAppBarItem(iconData: Icons.store, notification: 0),
-          FABBottomAppBarItem(iconData: Icons.favorite, notification: 0),
-          FABBottomAppBarItem(
-              iconData: Icons.account_circle_outlined, notification: 0),
-        ],
-        backgroundColor: Colors.white,
+      body: getScreen(index),
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        child: FABBottomAppBar(
+          height: 55,
+          iconSize: 32,
+          centerItemText: '',
+          color: Colors.grey,
+          selectedColor: darkBlue,
+          notchedShape: CircularNotchedRectangle(),
+          onTabSelected: (int index) {
+            setState(() => this.index = index);
+          },
+          items: [
+            // todo @average change the icons to the ones in the design
+            FABBottomAppBarItem(iconData: Icons.home, notification: 0),
+            FABBottomAppBarItem(iconData: Icons.store, notification: 0),
+            FABBottomAppBarItem(
+                iconData: Icons.calendar_today, notification: 0),
+            FABBottomAppBarItem(
+                iconData: Icons.account_circle_outlined, notification: 0),
+          ],
+          backgroundColor: Colors.white,
+        ),
       ),
     );
   }

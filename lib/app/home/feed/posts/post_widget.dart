@@ -6,6 +6,7 @@ import 'package:randolina/app/home/feed/posts/post_action_bar.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/home/feed/posts/post_widget_popup.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
 class PostWidget extends StatefulWidget {
   const PostWidget({
@@ -86,7 +87,7 @@ class _PostWidgetState extends State<PostWidget> {
               ),
             ),
             SizedBox(
-              height: 245,
+              height: SizeConfig.blockSizeVertical * 40,
               child: PostContentLoader(
                 type: widget.post.type,
                 content: widget.post.content,

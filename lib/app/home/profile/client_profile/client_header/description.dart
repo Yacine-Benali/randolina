@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:readmore/readmore.dart';
 
 class Description extends StatelessWidget {
@@ -16,6 +17,12 @@ class Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // logger.warning('rebuild description widget');
+    // logger.severe('update');
+    // context.read<User>();
+    final String v = client.bio ?? '';
+    logger.severe(v);
+
     return Container(
       height: isExpanded ? 115 : 87,
       width: SizeConfig.screenWidth,
@@ -42,7 +49,8 @@ class Description extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: ReadMoreText(
-          client.bio ?? '',
+          v,
+          key: UniqueKey(),
           trimLines: 3,
           trimMode: TrimMode.Line,
           trimCollapsedText: ' More',

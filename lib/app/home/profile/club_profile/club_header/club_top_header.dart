@@ -38,15 +38,15 @@ class ClubTopHeader extends StatelessWidget {
       child: Row(
         children: [
           if (showProfileAsOther) ...[
-            IconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black87,
-                size: 30,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            // IconButton(
+            //   padding: EdgeInsets.zero,
+            //   icon: Icon(
+            //     Icons.arrow_back,
+            //     color: Colors.black87,
+            //     size: 30,
+            //   ),
+            //   onPressed: () => Navigator.of(context).pop(),
+            // ),
           ],
           Padding(
             padding:
@@ -58,22 +58,43 @@ class ClubTopHeader extends StatelessWidget {
                   width: textRowWidth,
                   child: Row(
                     children: [
-                      Expanded(
-                        child: AutoSizeText(
-                          clubOrAgency.name,
-                          minFontSize: 22,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
+                      if (showProfileAsOther) ...[
+                        Expanded(
+                          child: Row(
+                            children: [
+                              AutoSizeText(
+                                clubOrAgency.name,
+                                minFontSize: 22,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
+                      ],
                       if (!showProfileAsOther) ...[
-                        ProfileEditPopUp(
-                          onEditPressed: onEditPressed,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              AutoSizeText(
+                                clubOrAgency.name,
+                                minFontSize: 22,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ProfileEditPopUp(
+                                onEditPressed: onEditPressed,
+                              ),
+                            ],
+                          ),
                         ),
-                      ]
+                      ],
                     ],
                   ),
                 ),
@@ -89,16 +110,10 @@ class ClubTopHeader extends StatelessWidget {
             ),
           ),
           if (!showProfileAsOther) ...[
-            Container(
-              color: Colors.yellow[200],
-              //width: 50,
-              margin: const EdgeInsets.only(right: 26),
-              alignment: Alignment.topRight,
-              child: SizedBox(
-                child: Icon(
-                  Icons.turned_in_not,
-                  size: 30,
-                ),
+            SizedBox(
+              child: Icon(
+                Icons.turned_in_not,
+                size: 30,
               ),
             ),
           ],

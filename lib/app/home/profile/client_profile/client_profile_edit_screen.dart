@@ -50,36 +50,18 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
         backgroundColor: backgroundColor,
         body: Column(
           children: [
-            Stack(
-              children: [
-                ClientHeader(
-                  onSavePressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SavedPostsScreen(bloc: widget.bloc),
-                      ),
-                    );
-                  },
-                  client: currentClient,
-                  isFollowingOther: false,
-                  onEditPressed: () {},
-                  showProfileAsOther: false,
-                ),
-                Positioned(
-                  top: 5,
-                  left: 8,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.black87,
-                      size: 30,
-                    ),
-                    onPressed: () => Navigator.of(context).pop(),
+            ClientHeader(
+              client: currentClient,
+              isFollowingOther: false,
+              onEditPressed: () {},
+              showProfileAsOther: false,
+              onSavePressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SavedPostsScreen(bloc: widget.bloc),
                   ),
-                )
-              ],
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -125,8 +107,10 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    onPressed: () =>
-                        widget.bloc.saveClientProfile(bio, activity),
+                    onPressed: () async {
+                      await widget.bloc.saveClientProfile(bio, activity);
+                      Navigator.of(context).pop();
+                    },
                     minHeight: 30,
                     minWidth: 130,
                   )

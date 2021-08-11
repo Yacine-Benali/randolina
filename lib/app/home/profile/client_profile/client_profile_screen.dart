@@ -70,14 +70,6 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
             child: Column(
               children: [
                 ClientHeader(
-                  onSavePressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            SavedPostsScreen(bloc: widget.bloc),
-                      ),
-                    );
-                  },
                   client: widget.client,
                   isFollowingOther: widget.isFollowingOther,
                   showProfileAsOther: widget.showProfileAsOther,
@@ -87,6 +79,14 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                         builder: (context) => ClientProfileEditScreen(
                           bloc: widget.bloc,
                         ),
+                      ),
+                    );
+                  },
+                  onSavePressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SavedPostsScreen(bloc: widget.bloc),
                       ),
                     );
                   },

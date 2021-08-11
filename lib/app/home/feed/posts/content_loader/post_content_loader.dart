@@ -56,6 +56,7 @@ class _PostContentLoaderState extends State<PostContentLoader> {
             items: children,
             carouselController: _controller,
             options: CarouselOptions(
+              aspectRatio: 1 / 1,
               enableInfiniteScroll: false,
               viewportFraction: 1.0,
               onPageChanged: (index, reason) {
