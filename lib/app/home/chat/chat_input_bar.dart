@@ -21,6 +21,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
   bool isLoading = false;
   Color color = Color.fromRGBO(51, 77, 115, 1);
   bool isWriting = false;
+  bool isRecording = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,15 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   sendImageMessage(ImageSource.gallery), //getImage,
               color: color,
             ),
+            // GestureDetector(
+            //   child: IconButton(
+            //     iconSize: 25,
+            //     icon: Icon(Icons.mic),
+            //     onPressed: () =>
+            //         sendImageMessage(ImageSource.gallery), //getImage,
+            //     color: color,
+            //   ),
+            // ),
           ],
           if (isWriting) ...[
             IconButton(
@@ -87,6 +97,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                     });
                   },
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 8),
                     border: InputBorder.none,
                     // filled: true,
                     // fillColor: Colors.red[200],

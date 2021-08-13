@@ -99,7 +99,7 @@ class ClubTopHeader extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey,
+                      color: Colors.black,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

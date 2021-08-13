@@ -1,19 +1,49 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ImageFullScreen extends StatelessWidget {
-  final String url;
-  final String tag;
-  const ImageFullScreen(this.tag, this.url);
+  const ImageFullScreen({
+    this.imageProvider,
+    this.loadingBuilder,
+    this.backgroundDecoration,
+    this.minScale,
+    this.maxScale,
+    this.initialScale,
+    this.basePosition = Alignment.center,
+    this.filterQuality = FilterQuality.none,
+    this.disableGestures,
+    this.errorBuilder,
+  });
+
+  final ImageProvider? imageProvider;
+  final LoadingBuilder? loadingBuilder;
+  final BoxDecoration? backgroundDecoration;
+  final dynamic minScale;
+  final dynamic maxScale;
+  final dynamic initialScale;
+  final Alignment basePosition;
+  final FilterQuality filterQuality;
+  final bool? disableGestures;
+  final ImageErrorWidgetBuilder? errorBuilder;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      child: Hero(
-        tag: tag,
-        child: CachedNetworkImage(
-          imageUrl: url,
+    return Scaffold(
+      body: Container(
+        constraints: BoxConstraints.expand(
+          height: MediaQuery.of(context).size.height,
+        ),
+        child: PhotoView(
+          imageProvider: imageProvider,
+          loadingBuilder: loadingBuilder,
+          backgroundDecoration: backgroundDecoration,
+          minScale: minScale,
+          maxScale: maxScale,
+          initialScale: initialScale,
+          basePosition: basePosition,
+          filterQuality: filterQuality,
+          disableGestures: disableGestures,
+          errorBuilder: errorBuilder,
         ),
       ),
     );

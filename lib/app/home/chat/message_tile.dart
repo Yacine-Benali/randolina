@@ -127,23 +127,30 @@ class MessageTile extends StatelessWidget {
         ),
       );
     } else if (message.type == 1) {
-      return GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ImageFullScreen(
-              'ImageMessage_${message.createdAt.toDate()}',
-              message.content,
-            ),
-          ),
-        ),
-        child: Hero(
-          tag: 'ImageMessage_${message.createdAt.toDate()}',
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: CachedNetworkImage(
-              imageUrl: message.content,
-              placeholder: (_, url) => CircularProgressIndicator(),
+      return Hero(
+        tag: 'ImageMessage_${message.createdAt.toDate()}',
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: CachedNetworkImage(
+            imageBuilder: (_, imageProvider) {
+              return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImageFullScreen(
+                          imageProvider: imageProvider,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Image(image: imageProvider));
+            },
+            imageUrl: message.content,
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            placeholder: (_, url) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:algolia/algolia.dart';
 import 'package:randolina/app/models/mini_user.dart';
+import 'package:randolina/main.dart';
 
 class AlgoliaService {
   AlgoliaService._privateConstructor();
@@ -11,8 +12,7 @@ class AlgoliaService {
     apiKey: '54b7a05d2436700ff62387b5835c2798',
   );
 
-  AlgoliaIndexReference get _moviesIndex =>
-      _algolia.instance.index('users_search');
+  AlgoliaIndexReference get _moviesIndex => _algolia.instance.index(userIndex);
 
   Future<List<MiniUser>> performUserQuery({required String text}) async {
     final query = _moviesIndex.query(text);
