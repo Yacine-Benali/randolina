@@ -1,6 +1,5 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class PostVideoLoader extends StatefulWidget {
   const PostVideoLoader({
@@ -22,8 +21,10 @@ class _PostVideoLoaderState extends State<PostVideoLoader> {
         BetterPlayerConfiguration(
       fit: BoxFit.contain,
       aspectRatio: 1,
+      autoDispose: false,
       autoDetectFullscreenDeviceOrientation: true,
-      deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
+      // deviceOrientationsOnFullScreen: [DeviceOrientation.landscapeLeft],
+      // deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       controlsConfiguration: BetterPlayerControlsConfiguration(
         enableProgressText: false,
         enableSkips: false,

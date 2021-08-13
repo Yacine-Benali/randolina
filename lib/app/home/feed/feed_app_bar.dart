@@ -9,7 +9,7 @@ class FeedAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 75,
+      height: 60,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -24,53 +24,48 @@ class FeedAppBar extends StatelessWidget {
           ),
         ],
       ),
-      child: Container(
-        padding: const EdgeInsets.only(),
-        height: 90,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.search,
-                  size: 30,
-                ),
-                color: darkBlue,
-                onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
-                },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: IconButton(
+              icon: Icon(
+                Icons.search,
+                size: 25,
               ),
+              color: darkBlue,
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+              },
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              width: 158,
-              height: 53,
-              child: Image.asset(
-                'assets/home_logo.png',
-              ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: IconButton(
-                icon: Icon(
-                  Icons.chat_bubble_outline,
-                  size: 30,
-                ),
-                color: darkBlue,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (builder) => ConversationScreen()),
-                  );
-                },
-              ),
+            width: 140,
+            height: 45,
+            child: Image.asset(
+              'assets/home_logo.png',
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              icon: Icon(
+                Icons.chat_bubble_outline,
+                size: 25,
+              ),
+              color: darkBlue,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (builder) => ConversationScreen()),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

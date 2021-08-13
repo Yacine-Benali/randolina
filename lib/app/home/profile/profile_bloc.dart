@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/message.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/saved_posts.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/app/models/user_followers_posts.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
@@ -257,17 +258,17 @@ class ProfileBloc {
   }
 
   Future<List<Post>> getSavedPosts() async {
-    final Map<String, dynamic>? data = await database.fetchDocument(
-      path: APIPath.savedPostsDocument(currentUser.id),
-      builder: (data, id) => data,
+    final List<SavedPosts> savedPosts = await database.fetchCollection(
+      path: APIPath.savedPostsCollection(currentUser.id),
+      builder: (data, id) => SavedPosts.fromMap(data),
     );
 
     final List<Future<Post?>> futures = [];
 
-    if (data != null && data.containsKey('savedPosts')) {
-      final List<String> savedPostIds = (data['savedPosts'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList();
+    if (savedPosts.isNotEmpty) {
+      final List<SavedPost> temp =
+          savedPosts.map((e) => e.list).toList().expand((e) => e).toList();
+      final List<String> savedPostIds = temp.map((e) => e.postId).toList();
 
       for (final String postId in savedPostIds) {
         final Future<Post?> futurePost = database.fetchDocument(
@@ -279,7 +280,6 @@ class ProfileBloc {
 
       final List<Post?> p = (await Future.wait(futures)).toList();
       final List<Post> pp = List.from(p.where((element) => element != null));
-      pp.sort((a, b) => a.createdAt.compareTo(b.createdAt) * -1);
       return pp;
     } else {
       return [];

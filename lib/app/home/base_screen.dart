@@ -16,29 +16,29 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-  late final Database database;
-  late final AuthUser authUser;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
+  late final Stream<User?> userstram;
   @override
   void initState() {
-    authUser = context.read<AuthUser>();
-    database = context.read<Database>();
+    final AuthUser authUser = context.read<AuthUser>();
+    final Database database = context.read<Database>();
+    userstram = database.streamDocument(
+        path: APIPath.userDocument(authUser.uid),
+        builder: (data, documentId) {
+          final data2 = User.fromMap2(data, documentId);
+          return data2;
+        });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: database.streamDocument(
-          path: APIPath.userDocument(authUser.uid),
-          builder: (data, documentId) {
-            final data2 = User.fromMap2(data, documentId);
-            return data2;
-          }),
+      stream: userstram,
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
         if (snapshot.hasData && (snapshot.data != null)) {
           final User user = snapshot.data!;
+          logger.info('current user ${user.id}');
           return Provider<User>.value(
             value: user,
             child: Provider.value(

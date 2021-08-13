@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:randolina/app/models/comment.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/saved_posts.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
@@ -67,27 +68,40 @@ class PostBloc {
     await database.setData(
       path: APIPath.savedPostsDocument(currentUser.id),
       data: {
-        'savedPosts': FieldValue.arrayUnion([post.id])
+        'postsId': FieldValue.arrayUnion([post.id]),
+        'savedAt': FieldValue.arrayUnion([Timestamp.now()])
       },
     );
   }
 
-  Future<bool> isSaved(Post post) async {
-    final List<String> list = await database.fetchCollection(
+  Future<SavedPost?> isSaved(Post post) async {
+    final List<SavedPosts> list = await database.fetchCollection(
       path: APIPath.savedPostsCollection(currentUser.id),
-      queryBuilder: (query) =>
-          query.where('savedPosts', arrayContains: post.id),
-      builder: (data, id) => id,
+      queryBuilder: (query) => query.where('postsId', arrayContains: post.id),
+      builder: (data, id) => SavedPosts.fromMap(data),
     );
 
-    return list.isNotEmpty;
+    final SavedPost theSavedPost = list
+        .map((e) => e.list)
+        .toList()
+        .expand((e) => e)
+        .toList()
+        .firstWhere((e) => e.postId == post.id,
+            orElse: () => SavedPost(postId: 'null', savedAt: Timestamp.now()));
+
+    if (theSavedPost.postId == 'null') {
+      return null;
+    } else {
+      return theSavedPost;
+    }
   }
 
-  Future<void> unsavePost(Post post) async {
+  Future<void> unsavePost(SavedPost savedPost) async {
     await database.setData(
       path: APIPath.savedPostsDocument(currentUser.id),
       data: {
-        'savedPosts': FieldValue.arrayRemove([post.id])
+        'postsId': FieldValue.arrayRemove([savedPost.postId]),
+        'savedAt': FieldValue.arrayRemove([savedPost.savedAt])
       },
     );
   }

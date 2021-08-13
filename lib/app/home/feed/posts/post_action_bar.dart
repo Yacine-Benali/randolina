@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randolina/app/home/feed/posts/comments/comments_screen.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/saved_posts.dart';
 import 'package:randolina/utils/logger.dart';
 
 class PostActionBar extends StatefulWidget {
@@ -22,6 +23,7 @@ class _PostActionBarState extends State<PostActionBar> {
   late bool isLiked = false;
   late bool isSaved = false;
   late int numberOfLikes;
+  SavedPost? savedPost;
 
   @override
   void initState() {
@@ -31,9 +33,12 @@ class _PostActionBarState extends State<PostActionBar> {
       setState(() {});
     });
 
-    widget.postBloc.isSaved(widget.post).then((value) {
-      isSaved = value;
-      setState(() {});
+    widget.postBloc.isSaved(widget.post).then((SavedPost? value) {
+      if (value != null) {
+        savedPost = value;
+        isSaved = true;
+        setState(() {});
+      }
     });
     super.initState();
   }
@@ -96,15 +101,18 @@ class _PostActionBarState extends State<PostActionBar> {
                 color: Colors.black,
                 onPressed: () async {
                   if (isSaved == false) {
-                    await widget.postBloc.savePost(widget.post);
-                    Fluttertoast.showToast(
-                      msg: 'Post saved successfully',
-                      toastLength: Toast.LENGTH_SHORT,
-                    );
+                    logger.info('save this post ${widget.post.id}');
+                    widget.postBloc.savePost(widget.post).then(
+                          (value) => Fluttertoast.showToast(
+                            msg: 'Post saved successfully',
+                            toastLength: Toast.LENGTH_SHORT,
+                          ),
+                        );
+
                     isSaved = true;
-                  } else {
+                  } else if (savedPost != null) {
                     logger.info('unsave this post ${widget.post.id}');
-                    widget.postBloc.unsavePost(widget.post);
+                    widget.postBloc.unsavePost(savedPost!);
                     isSaved = false;
                   }
                   setState(() {});

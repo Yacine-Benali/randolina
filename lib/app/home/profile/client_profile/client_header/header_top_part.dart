@@ -20,9 +20,9 @@ class ClientHeaderTopPart extends StatelessWidget {
   Widget build(BuildContext context) {
     late final double textRowWidth;
     if (showProfileAsOther) {
-      textRowWidth = SizeConfig.screenWidth - 90 - 55 - 8 - 30;
+      textRowWidth = SizeConfig.screenWidth - 120 - 8;
     } else {
-      textRowWidth = SizeConfig.screenWidth - 90 - 55 - 8 - 30;
+      textRowWidth = SizeConfig.screenWidth - 120 - 55 - 30 - 8;
     }
 
     return Container(
@@ -48,24 +48,22 @@ class ClientHeaderTopPart extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 14, left: 90),
+              padding: const EdgeInsets.only(top: 14, left: 120),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         width: textRowWidth,
-                        child: Center(
-                          child: Text(
-                            client.name,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 19,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        child: Text(
+                          client.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
@@ -94,9 +92,6 @@ class ClientHeaderTopPart extends StatelessWidget {
                 onPressed: onSavePressed,
               ),
             ),
-          ],
-          if (showProfileAsOther) ...[
-            SizedBox(width: 90),
           ],
         ],
       ),
