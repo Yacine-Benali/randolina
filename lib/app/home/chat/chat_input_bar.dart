@@ -14,57 +14,98 @@ class ChatInputBar extends StatefulWidget {
 class _ChatInputBarState extends State<ChatInputBar> {
   TextEditingController textEditingController = TextEditingController();
   bool isLoading = false;
+  Color color = Color.fromRGBO(51, 77, 115, 1);
+  bool isWriting = false;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10, 20),
-      child: Material(
-        type: MaterialType.button,
-        borderRadius: BorderRadius.circular(20.0),
-        color: Colors.white,
-        elevation: 5.0,
-        child: Container(
-          width: double.infinity,
-          margin: EdgeInsets.all(9),
-          child: Row(
-            children: <Widget>[
-              // send image Button
-              IconButton(
-                iconSize: 30.0,
-                icon: Icon(Icons.image),
-                onPressed: sendImageMessage, //getImage,
-                color: Colors.indigo,
-              ),
-              // Edit text
-              Flexible(
+    return Material(
+      type: MaterialType.button,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      ),
+      color: Colors.white,
+      elevation: 5.0,
+      child: Row(
+        children: <Widget>[
+          // send image Button
+          if (!isWriting) ...[
+            IconButton(
+              iconSize: 25,
+              icon: Icon(Icons.camera_alt),
+              onPressed: sendImageMessage, //getImage,
+              color: color,
+            ),
+            IconButton(
+              iconSize: 25,
+              icon: Icon(Icons.image),
+              onPressed: sendImageMessage, //getImage,
+              color: color,
+            ),
+          ],
+          if (isWriting) ...[
+            IconButton(
+              iconSize: 40,
+              icon: Icon(Icons.chevron_right),
+              onPressed: () {
+                setState(() {
+                  isWriting = false;
+                });
+              }, //getImage,
+              color: color,
+            ),
+          ],
+          // Edit text
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(218, 218, 218, 0.37),
+                  // color: Colors.blue[100],
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: TextField(
-                  maxLines: 4,
-                  minLines: 1,
-                  style: TextStyle(color: Colors.black, fontSize: 15.0),
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                   controller: textEditingController,
-                  decoration: InputDecoration.collapsed(
-                    hintText: 'Type your message...',
+                  //keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 1,
+                  onChanged: (v) {
+                    setState(() {
+                      isWriting = true;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    // filled: true,
+                    // fillColor: Colors.red[200],
+                    // contentPadding: EdgeInsets.only(left: 4),
+                    hintText: ' Aa...',
                     hintStyle: TextStyle(color: Colors.grey),
                   ),
                 ),
               ),
-              // send message button
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 8.0),
-                child: !isLoading
-                    ? IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () =>
-                            sendTextMessage(textEditingController.text, 0),
-                        color: Colors.indigo,
-                        iconSize: 30.0,
-                      )
-                    : CircularProgressIndicator(),
-              ),
-            ],
+            ),
           ),
-        ),
+          // send message button
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            child: !isLoading
+                ? IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: () =>
+                        sendTextMessage(textEditingController.text, 0),
+                    color: color,
+                    iconSize: 25,
+                  )
+                : CircularProgressIndicator(),
+          ),
+        ],
       ),
     );
   }

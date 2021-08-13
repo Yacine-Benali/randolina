@@ -13,25 +13,31 @@ class ClubTopHeader extends StatelessWidget {
     required this.showProfileAsOther,
     required this.clubOrAgency,
     required this.onMoreInfoPressed,
+    required this.onSavePressed,
   }) : super(key: key);
   final VoidCallback onEditPressed;
   final bool showProfileAsOther;
   final User clubOrAgency;
   final VoidCallback onMoreInfoPressed;
+  final VoidCallback onSavePressed;
+
   @override
   Widget build(BuildContext context) {
-    late String subtitle;
+    late String subtitle1;
+    late String subtitle2;
     if (clubOrAgency is Club) {
-      subtitle = 'Club de Randonnée';
+      subtitle1 = 'Club de Randonnée';
+      subtitle2 = (clubOrAgency as Club).address;
     } else if (clubOrAgency is Agency) {
-      subtitle = 'Agence de Voyage';
+      subtitle1 = 'Agence de Voyage';
+      subtitle2 = (clubOrAgency as Agency).address;
     }
     //logger.info(SizeConfig.screenWidth - 180);
     late final double textRowWidth;
     if (showProfileAsOther) {
       textRowWidth = SizeConfig.screenWidth - 8 - 16 - 55 - 16;
     } else {
-      textRowWidth = SizeConfig.blockSizeHorizontal * 77;
+      textRowWidth = SizeConfig.blockSizeHorizontal * 77 - 30;
     }
 
     return Padding(
@@ -55,7 +61,7 @@ class ClubTopHeader extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                  )
+                  ),
                 ],
                 if (!showProfileAsOther) ...[
                   Row(
@@ -77,25 +83,37 @@ class ClubTopHeader extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Text(
-                    subtitle,
+                ],
+                Text(
+                  subtitle1,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF40A3DB),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  width: textRowWidth,
+                  child: Text(
+                    subtitle2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF40A3DB),
+                      color: Colors.grey,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                ],
+                ),
               ],
             ),
           ),
           if (!showProfileAsOther) ...[
-            // SizedBox(
-            //   child: Icon(
-            //     Icons.turned_in_not,
-            //     size: 30,
-            //   ),
-            // ),
+            IconButton(
+              padding: EdgeInsets.all(0),
+              icon: Icon(Icons.turned_in_not, size: 30),
+              onPressed: onSavePressed,
+              alignment: Alignment.topRight,
+            ),
           ],
         ],
       ),

@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => this.index = index);
         },
         items: [
-          // todo @average change the icons to the ones in the design
           FABBottomAppBarItem(iconData: Icons.home, notification: 0),
           FABBottomAppBarItem(iconData: Icons.store, notification: 0),
           FABBottomAppBarItem(iconData: Icons.calendar_today, notification: 0),

@@ -55,6 +55,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
               clubOrAgency: clubOrAgency,
               showProfileAsOther: false,
               bloc: widget.bloc,
+              onSavePressed: () {},
               onEditPressed: () {},
               isFollowingOther: false,
               onMoreInfoPressed: () {},

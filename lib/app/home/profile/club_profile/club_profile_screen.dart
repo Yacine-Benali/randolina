@@ -6,6 +6,7 @@ import 'package:randolina/app/home/profile/club_profile/club_header/club_header.
 import 'package:randolina/app/home/profile/club_profile/club_profile_edit_screen.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_events_slider.dart';
 import 'package:randolina/app/home/profile/common/profile_posts_tab_bar.dart';
+import 'package:randolina/app/home/profile/common/saved_posts_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
@@ -99,8 +100,16 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
               children: [
                 ClubHeader(
                   clubOrAgency: widget.clubOrAgency,
-                  showProfileAsOther: widget.showProfileAsOther,
                   bloc: widget.bloc,
+                  showProfileAsOther: widget.showProfileAsOther,
+                  onSavePressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SavedPostsScreen(bloc: widget.bloc),
+                      ),
+                    );
+                  },
                   onEditPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(

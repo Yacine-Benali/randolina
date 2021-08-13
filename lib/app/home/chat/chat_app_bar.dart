@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/mini_user.dart';
-import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/common_widgets/image_profile.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({
@@ -16,46 +15,23 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Center(
       child: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black87),
         title: ListTile(
-          leading: Material(
-            borderRadius: BorderRadius.all(
-              Radius.circular(18.0),
-            ),
-            clipBehavior: Clip.hardEdge,
-            child: otherUser.profilePicture == ''
-                ? CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizontal * 4,
-                    backgroundColor: Colors.white,
-                    child: Text(
-                      otherUser.name,
-                      style: TextStyle(color: Colors.indigo),
-                    ),
-                  )
-                : CachedNetworkImage(
-                    placeholder: (context, url) => Container(
-                      // width: SizeConfig.safeBlockHorizontal * 8.5,
-                      // height: SizeConfig.safeBlockHorizontal * 8.5,
-                      padding: EdgeInsets.all(10.0),
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1.0,
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.indigo),
-                      ),
-                    ),
-                    imageUrl: otherUser.profilePicture,
-                    width: 35.0,
-                    height: 35.0,
-                    fit: BoxFit.cover,
-                  ),
+          leading: ImageProfile(
+            url: otherUser.profilePicture,
+            height: 35,
+            width: 35,
           ),
+
           title: Text(
             otherUser.name,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
-          subtitle: Text(
-            otherUser.username,
-            style: TextStyle(color: Colors.white),
-          ),
+          // subtitle: Text(
+          //   otherUser.username,
+          //   style: TextStyle(color: Colors.white),
+          // ),
         ),
       ),
     );

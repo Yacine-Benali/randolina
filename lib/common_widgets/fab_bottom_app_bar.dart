@@ -97,7 +97,9 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
                   Icon(
                     item.iconData,
                     color: color,
-                    size: widget.iconSize,
+                    size: item.iconData == Icons.calendar_today
+                        ? 28
+                        : widget.iconSize,
                   ),
                   if (item.notification != 0) ...[
                     Positioned(

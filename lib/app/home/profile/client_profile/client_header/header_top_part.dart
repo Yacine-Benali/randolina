@@ -20,7 +20,7 @@ class ClientHeaderTopPart extends StatelessWidget {
   Widget build(BuildContext context) {
     late final double textRowWidth;
     if (showProfileAsOther) {
-      textRowWidth = SizeConfig.screenWidth - 120 - 8;
+      textRowWidth = SizeConfig.screenWidth - 120 - 8 - 55;
     } else {
       textRowWidth = SizeConfig.screenWidth - 120 - 55 - 30 - 8;
     }
@@ -70,6 +70,13 @@ class ClientHeaderTopPart extends StatelessWidget {
                       if (!showProfileAsOther) ...[
                         ProfileEditPopUp(onEditPressed: onEditPressed),
                       ],
+                      // if (showProfileAsOther) ...[
+                      //   // IconButton(
+                      //   //   padding: EdgeInsets.all(0),
+                      //   //   icon: Icon(Icons.turned_in_not, size: 30),
+                      //   //   onPressed: onSavePressed,
+                      //   // ),
+                      // ],
                     ],
                   ),
                   Text(
