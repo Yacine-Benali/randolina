@@ -60,7 +60,9 @@ class _ConversationTileState extends State<ConversationTile> {
                 )
               : TextStyle(color: Colors.black),
         ),
-        subtitle: Text(widget.conversation.latestMessage.content),
+        subtitle: widget.conversation.latestMessage.type == 0
+            ? Text(widget.conversation.latestMessage.content)
+            : Text(''),
         trailing: notification
             ? Container(
                 // width: SizeConfig.safeBlockHorizontal * 4,

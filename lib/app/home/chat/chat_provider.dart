@@ -41,14 +41,14 @@
 //       merge: true,
 //     );
 //   }
-//   void addMessageToCollection(
-//       String schoolName, String conversationId, MessageModel message) async {
-//     // add message to collection
-//     return database.addDocument(
-//       path: APIPath.messagesCollection(schoolName, conversationId),
-//       data: message.toMap(),
-//     );
-//   }
+  // void addMessageToCollection(
+  //     String schoolName, String conversationId, MessageModel message) async {
+  //   // add message to collection
+  //   return database.addDocument(
+  //     path: APIPath.messagesCollection(schoolName, conversationId),
+  //     data: message.toMap(),
+  //   );
+  // }
 
 //   Future<dynamic> uploadImage(
 //       String schoolName, String conversationId, File file, String imageId) {

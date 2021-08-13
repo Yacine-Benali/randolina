@@ -159,6 +159,7 @@ class ProfileBloc {
       ),
       user1: currentUser.toMiniUser(),
       user2: otherUser.toMiniUser(),
+      usersIds: [currentUser.id, otherUser.id],
     );
   }
 

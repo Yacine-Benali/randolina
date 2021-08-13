@@ -7,7 +7,6 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class ConversationScreen extends StatefulWidget {
   const ConversationScreen({Key? key}) : super(key: key);
@@ -49,7 +48,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
         child: StreamBuilder<List<Conversation>>(
           stream: conversationStream,
           builder: (context, snapshot) {
-            logger.info(snapshot);
             if (snapshot.hasData && snapshot.data != null) {
               final List<Conversation> items = snapshot.data!;
               if (items.isNotEmpty) {

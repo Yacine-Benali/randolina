@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/chat/chat_bloc.dart';
+import 'package:randolina/app/home/chat/message_tile.dart';
 import 'package:randolina/app/models/message.dart';
+import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 
 class ChatList extends StatefulWidget {
+  const ChatList({Key? key, required this.bloc}) : super(key: key);
+  final ChatBloc bloc;
+
   @override
   _ChatListState createState() => _ChatListState();
 }
@@ -16,26 +22,26 @@ class _ChatListState extends State<ChatList> {
 
   @override
   void initState() {
-    // bloc = Provider.of<ChatBloc>(context, listen: false);
-    // messagesStream = bloc.messagesStream;
+    messagesStream = widget.bloc.messagesStream;
     isLoadingNextMessages = false;
-    //bloc.fetchFirstMessages();
+    widget.bloc.fetchFirstMessages();
+
     listScrollController.addListener(() {
       final double maxScroll = listScrollController.position.maxScrollExtent;
       final double currentScroll = listScrollController.position.pixels;
       if (maxScroll == currentScroll) {
         print('load more messages');
 
-        // if (messages.isNotEmpty) {
-        //   setState(() {
-        //     isLoadingNextMessages = true;
-        //   });
-        //   bloc.fetchNextMessages(messages.last).then((value) {
-        //     setState(() {
-        //       isLoadingNextMessages = false;
-        //     });
-        //   });
-        // }
+        if (messages.isNotEmpty) {
+          setState(() {
+            isLoadingNextMessages = true;
+          });
+          widget.bloc.fetchNextMessages(messages.last).then((value) {
+            setState(() {
+              isLoadingNextMessages = false;
+            });
+          });
+        }
       }
     });
 
@@ -69,13 +75,24 @@ class _ChatListState extends State<ChatList> {
                     // oups u have reached the top of messages list
                     return _buildProgressIndicator();
                   } else {
-                    //   isSelf = bloc.checkMessageSender(messages[index]);
+                    isSelf = widget.bloc.checkMessageSender(messages[index]);
+                    final MiniUser miniUser =
+                        widget.bloc.checkUser(isSelf: isSelf);
+                    bool showAvatar = false;
+                    //
+                    if (index == 0) {
+                      showAvatar = true;
+                    } else if (messages[index].createdBy !=
+                        messages[index - 1].createdBy) {
+                      //
+                      showAvatar = true;
+                    }
 
-                    // return MessageTile(
-                    //   message: messages[index],
-                    //   isSelf: isSelf,
-                    // );
-                    return Container();
+                    return MessageTile(
+                      message: messages[index],
+                      isSelf: isSelf,
+                      avatarUrl: showAvatar ? miniUser.profilePicture : null,
+                    );
                   }
                 },
                 // +1 to include the loading widget
@@ -85,7 +102,7 @@ class _ChatListState extends State<ChatList> {
               );
             } else {
               return EmptyContent(
-                title: 'welcom to the messages screen',
+                title: '',
                 message:
                     'here you can send and recieve message from the teachers',
               );

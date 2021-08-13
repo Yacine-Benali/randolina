@@ -15,8 +15,9 @@ class ConversationBloc {
     return database.streamCollection(
       path: APIPath.conversationsCollection(),
       builder: (data, documentId) => Conversation.fromMap(data, documentId),
-      queryBuilder: (query) =>
-          query.orderBy('latestMessage.seen', descending: false),
+      queryBuilder: (query) => query
+          .where('usersIds', arrayContains: currentUser.id)
+          .orderBy('latestMessage.seen', descending: false),
     );
   }
 }

@@ -12,7 +12,7 @@ class Message {
   final String id;
   final int type;
   final String content;
-  final bool seen;
+  bool seen;
   final String createdBy;
   final Timestamp createdAt;
 
@@ -40,7 +40,7 @@ class Message {
       'content': content,
       'seen': seen,
       'createdBy': createdBy,
-      'createdAt': createdAt,
+      'createdAt': FieldValue.serverTimestamp(),
     };
   }
 

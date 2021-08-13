@@ -11,10 +11,11 @@ class ImageFullScreen extends StatelessWidget {
     return Container(
       color: Colors.black,
       child: Hero(
-          tag: tag,
-          child: CachedNetworkImage(
-            imageUrl: url,
-          )),
+        tag: tag,
+        child: CachedNetworkImage(
+          imageUrl: url,
+        ),
+      ),
     );
   }
 }

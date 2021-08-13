@@ -1,107 +1,171 @@
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-// import 'package:b1_parent/app/conversation/chat/image_full_screen.dart';
-// import 'package:b1_parent/app/conversation/message_model.dart';
-// import 'package:b1_parent/constants/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:randolina/app/home/chat/image_full_screen.dart';
+import 'package:randolina/app/models/message.dart';
+import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
-// class MessageTile extends StatelessWidget {
-//   const MessageTile({Key key, @required this.message, this.isSelf})
-//       : super(key: key);
-//   final MessageModel message;
-//   final bool isSelf;
+class MessageTile extends StatelessWidget {
+  const MessageTile({
+    Key? key,
+    required this.message,
+    required this.isSelf,
+    required this.avatarUrl,
+  }) : super(key: key);
+  final Message message;
+  final bool isSelf;
+  final String? avatarUrl;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Container(
-//         child: Column(
-//           children: <Widget>[
-//             buildMessageContainer(isSelf, message, context),
-//              buildTimeStamp(context,isSelf, message)
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0, right: 8, left: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment:
+            isSelf ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          if (!isSelf) ...[
+            if (avatarUrl != null) ...[
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ImageProfile(
+                  url: avatarUrl!,
+                  width: 20,
+                  height: 20,
+                ),
+              ),
+            ],
+            if (avatarUrl == null) ...[
+              SizedBox(width: 20, height: 20),
+            ],
+          ],
+          buildMessageContainer(
+            isSelf: isSelf,
+            message: message,
+            context: context,
+          ),
+          if (isSelf) ...[
+            SizedBox(width: 20, height: 20),
+            // if (avatarUrl != null) ...[
+            //   Padding(
+            //     padding: const EdgeInsets.all(4.0),
+            //     child: ImageProfile(
+            //       url: avatarUrl!,
+            //       width: 20,
+            //       height: 20,
+            //     ),
+            //   ),
+            // ],
+            // if (avatarUrl == null) ...[
+            //   SizedBox(width: 20, height: 20),
+            // ],
+          ],
+        ],
+      ),
+    );
+  }
 
-//   Row buildMessageContainer(
-//       bool isSelf, MessageModel message, BuildContext context) {
-//     double lrEdgeInsets = 1.0;
-//     double tbEdgeInsets = 1.0;
-//     if (message.type == 0) {
-//       lrEdgeInsets = 15.0;
-//       tbEdgeInsets = 10.0;
-//     }
-//     return Row(
-//       children: <Widget>[
-//         Container(
-//           child: buildMessageContent(isSelf, message, context),
-//           padding: EdgeInsets.fromLTRB(
-//               lrEdgeInsets, tbEdgeInsets, lrEdgeInsets, tbEdgeInsets),
-//           constraints: BoxConstraints(maxWidth: SizeConfig.screenWidth / 2),
-//           decoration: BoxDecoration(
-//             color: (message.type == 0)
-//                 ? isSelf ? Colors.indigo : Colors.grey[300]
-//                 : Colors.transparent,
-//             borderRadius: BorderRadius.circular(8.0),
-//           ),
-//           margin: EdgeInsets.only(
-//               right: isSelf ? 10.0 : 0, left: isSelf ? 0 : 10.0),
-//         )
-//       ],
-//       mainAxisAlignment: isSelf
-//           ? MainAxisAlignment.end
-//           : MainAxisAlignment.start, // aligns the chatitem to right end
-//     );
-//   }
+  Widget buildMessageContainer({
+    required bool isSelf,
+    required Message message,
+    required BuildContext context,
+  }) {
+    double lrEdgeInsets = 1.0;
+    double tbEdgeInsets = 1.0;
+    if (message.type == 0) {
+      lrEdgeInsets = 15.0;
+      tbEdgeInsets = 10.0;
+    }
+    return Row(
+      mainAxisAlignment:
+          isSelf ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.fromLTRB(
+            lrEdgeInsets,
+            tbEdgeInsets,
+            lrEdgeInsets,
+            tbEdgeInsets,
+          ),
+          constraints: BoxConstraints(maxWidth: SizeConfig.screenWidth / 2),
+          decoration: BoxDecoration(
+            color: (message.type == 0)
+                ? isSelf
+                    ? Color.fromRGBO(64, 163, 219, 0.46)
+                    : Color.fromRGBO(51, 77, 115, 0.29)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          // margin: EdgeInsets.only(
+          //   right: isSelf ? 10.0 : 0,
+          //   left: isSelf ? 0 : 10.0,
+          // ),
+          child: buildMessageContent(
+            isSelf: isSelf,
+            message: message,
+            context: context,
+          ),
+        )
+      ],
+      // aligns the chatitem to right end
+    );
+  }
 
-//   buildMessageContent(bool isSelf, MessageModel message, BuildContext context) {
-//     if (message.type == 0) {
-//       return Text(
-//         message.content,
-//         style: TextStyle(
-//           color: isSelf ? Colors.white : Colors.black,
-//         ),
-//       );
-//     } else if (message.type == 1) {
-//       return GestureDetector(
-//         onTap: () => Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (_) => ImageFullScreen(
-//                 'ImageMessage_${message.timestamp}', message.content),
-//           ),
-//         ),
-//         child: Hero(
-//           tag: 'ImageMessage_${message.timestamp}',
-//           child: ClipRRect(
-//             borderRadius: BorderRadius.circular(8.0),
-//             child: CachedNetworkImage(
-//               imageUrl: message.content,
-//               placeholder: (_, url) => CircularProgressIndicator(),
-//             ),
-//           ),
-//         ),
-//       );
-//     }
-//   }
+  Widget buildMessageContent({
+    required bool isSelf,
+    required Message message,
+    required BuildContext context,
+  }) {
+    if (message.type == 0) {
+      return Text(
+        message.content,
+        style: TextStyle(
+          color: isSelf ? Colors.white : Colors.white,
+        ),
+      );
+    } else if (message.type == 1) {
+      return GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ImageFullScreen(
+              'ImageMessage_${message.createdAt.toDate()}',
+              message.content,
+            ),
+          ),
+        ),
+        child: Hero(
+          tag: 'ImageMessage_${message.createdAt.toDate()}',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: CachedNetworkImage(
+              imageUrl: message.content,
+              placeholder: (_, url) => CircularProgressIndicator(),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
 
-//   Row buildTimeStamp(BuildContext context, bool isSelf, MessageModel message) {
-//     return Row(
-//         mainAxisAlignment:
-//             isSelf ? MainAxisAlignment.end : MainAxisAlignment.start,
-//         children: <Widget>[
-//           Container(
-//             child: Text(
-//               DateFormat('dd MMM kk:mm').format(
-//                   DateTime.fromMillisecondsSinceEpoch(message.timestamp)),
-//               style: Theme.of(context).textTheme.caption,
-//             ),
-//             margin: EdgeInsets.only(
-//                 right: isSelf ? 10.0 : 0, left: isSelf ? 0 : 10.0),
-//           )
-//         ]);
-//   }
-// }
+  Row buildTimeStamp(BuildContext context, bool isSelf, Message message) {
+    return Row(
+        mainAxisAlignment:
+            isSelf ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(
+                right: isSelf ? 10.0 : 0, left: isSelf ? 0 : 10.0),
+            child: Text(
+              DateFormat('dd MMM kk:mm').format(message.createdAt.toDate()),
+              style: Theme.of(context).textTheme.caption,
+            ),
+          )
+        ]);
+  }
+}

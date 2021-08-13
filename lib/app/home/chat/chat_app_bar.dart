@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 
@@ -18,6 +19,13 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black87),
         title: ListTile(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (builder) => MiniuserToProfile(miniUser: otherUser),
+              ),
+            );
+          },
           leading: ImageProfile(
             url: otherUser.profilePicture,
             height: 35,

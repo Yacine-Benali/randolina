@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:randolina/app/home/chat/chat_bloc.dart';
 
 class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
     Key? key,
-    //required this.bloc,
+    required this.bloc,
   }) : super(key: key);
-  //final ChatBloc bloc;
+  final ChatBloc bloc;
 
   @override
   _ChatInputBarState createState() => _ChatInputBarState();
@@ -34,13 +39,14 @@ class _ChatInputBarState extends State<ChatInputBar> {
             IconButton(
               iconSize: 25,
               icon: Icon(Icons.camera_alt),
-              onPressed: sendImageMessage, //getImage,
+              onPressed: () => sendImageMessage(ImageSource.camera), //getImage,
               color: color,
             ),
             IconButton(
               iconSize: 25,
               icon: Icon(Icons.image),
-              onPressed: sendImageMessage, //getImage,
+              onPressed: () =>
+                  sendImageMessage(ImageSource.gallery), //getImage,
               color: color,
             ),
           ],
@@ -99,7 +105,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 ? IconButton(
                     icon: Icon(Icons.send),
                     onPressed: () =>
-                        sendTextMessage(textEditingController.text, 0),
+                        sendTextMessage(textEditingController.text),
                     color: color,
                     iconSize: 25,
                   )
@@ -111,31 +117,29 @@ class _ChatInputBarState extends State<ChatInputBar> {
   }
 
   /// responsible for sending the message to the cloud
-  void sendTextMessage(String content, int type) {
-    // type: 0 = text, 1 = image
-    // if (content.trim() != '') {
-    //   textEditingController.clear();
+  void sendTextMessage(String content) {
+    if (content.trim() != '') {
+      textEditingController.clear();
 
-    //   bloc.sendMessage(content, type);
-    // } else {
-    //   Fluttertoast.showToast(msg: 'Nothing to send');
-    // }
+      widget.bloc.sendMessage(content, 0);
+    } else {
+      Fluttertoast.showToast(msg: 'Nothing to send');
+    }
   }
 
-  /// called on pressing the photo button
-  /// calls image_picker package to chose image from gallery
-  Future<void> sendImageMessage() async {
-    // imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    // // print('image file: ');
-    // // print(imageFile);
-    // if (imageFile == null) {
-    //   return;
-    // }
-    // // set loading state
+  Future<void> sendImageMessage(ImageSource imageSource) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: imageSource);
+    if (image == null) {
+      return;
+    }
+    final File imageFile = File(image.path);
+
+    // set loading state
     // setState(() {
     //   isLoading = true;
     // });
-    // bool result = await bloc.sendImageMessage(imageFile, 1);
+    final bool result = await widget.bloc.sendImageMessage(imageFile, 1);
     // if (result == true) {
     //   setState(() {
     //     isLoading = false;
