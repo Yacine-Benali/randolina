@@ -34,7 +34,7 @@ class ClubHeader extends StatelessWidget {
       alignment: Alignment.bottomLeft,
       children: [
         Container(
-          height: SizeConfig.blockSizeVertical * 20,
+          // height: SizeConfig.blockSizeVertical * 20,
           margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -60,65 +60,68 @@ class ClubHeader extends StatelessWidget {
                 clubOrAgency: clubOrAgency,
                 onMoreInfoPressed: onMoreInfoPressed,
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 110 + 18,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: ReadMoreText(
-                          clubOrAgency.bio ?? '',
-                          trimLines: 3,
-                          trimMode: TrimMode.Line,
-                          trimCollapsedText: ' More',
-                          trimExpandedText: 'less',
-                          callback: (value) {},
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black.withOpacity(0.87),
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 10,
+                child: Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 110 + 18,
                       ),
-                    ),
-                    if (showProfileAsOther) ...[
-                      Container(
-                        margin: const EdgeInsets.only(right: 30),
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF334D73),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.black.withOpacity(0.10),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(51, 77, 115, 0.42),
-                              blurRadius: 4,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
+                      Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.phone,
-                              color: Colors.white,
-                              size: 20,
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: ReadMoreText(
+                            clubOrAgency.bio ?? '',
+                            trimLines: 3,
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: ' More',
+                            trimExpandedText: 'less',
+                            callback: (value) {},
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black.withOpacity(0.87),
+                              fontWeight: FontWeight.normal,
                             ),
-                            onPressed: () {},
-                            padding: EdgeInsets.all(0),
                           ),
                         ),
                       ),
+                      if (showProfileAsOther) ...[
+                        Container(
+                          margin: const EdgeInsets.only(right: 30),
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF334D73),
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                              color: Colors.black.withOpacity(0.10),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(51, 77, 115, 0.42),
+                                blurRadius: 4,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.phone,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              onPressed: () {},
+                              padding: EdgeInsets.all(0),
+                            ),
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ],

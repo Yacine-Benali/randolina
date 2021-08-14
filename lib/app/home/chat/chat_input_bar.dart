@@ -90,7 +90,6 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   controller: textEditingController,
                   //keyboardType: TextInputType.multiline,
                   minLines: 1,
-                  maxLines: 1,
                   onChanged: (v) {
                     setState(() {
                       isWriting = true;

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:randolina/app/home/chat/image_full_screen.dart';
 import 'package:randolina/app/models/message.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
@@ -158,21 +157,5 @@ class MessageTile extends StatelessWidget {
     } else {
       return Container();
     }
-  }
-
-  Row buildTimeStamp(BuildContext context, bool isSelf, Message message) {
-    return Row(
-        mainAxisAlignment:
-            isSelf ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(
-                right: isSelf ? 10.0 : 0, left: isSelf ? 0 : 10.0),
-            child: Text(
-              DateFormat('dd MMM kk:mm').format(message.createdAt.toDate()),
-              style: Theme.of(context).textTheme.caption,
-            ),
-          )
-        ]);
   }
 }
