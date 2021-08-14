@@ -21,16 +21,18 @@ class _PostVideoLoaderState extends State<PostVideoLoader> {
         BetterPlayerConfiguration(
       fit: BoxFit.contain,
       aspectRatio: 1,
-      autoDispose: false,
+      //autoDispose: false,
       autoDetectFullscreenDeviceOrientation: true,
       // deviceOrientationsOnFullScreen: [DeviceOrientation.landscapeLeft],
       // deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       controlsConfiguration: BetterPlayerControlsConfiguration(
         enableProgressText: false,
         enableSkips: false,
+        enableFullscreen: false,
         enableSubtitles: false,
         enableMute: false,
         enableAudioTracks: false,
+        enableQualities: false,
       ),
     );
     final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
@@ -43,11 +45,11 @@ class _PostVideoLoaderState extends State<PostVideoLoader> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _betterPlayerController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _betterPlayerController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
