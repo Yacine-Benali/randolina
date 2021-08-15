@@ -50,7 +50,7 @@ class _ClientHeaderState extends State<ClientHeader> {
               Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
+                    padding: const EdgeInsets.only(bottom: 18.0),
                     child: Description(
                       client: widget.client,
                       isExpanded: isExpanded,

@@ -16,32 +16,32 @@ class Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Container(
-        //height: isExpanded ? 115 : 87,
-        width: SizeConfig.screenWidth,
-        margin: const EdgeInsets.only(left: 60),
-        padding: const EdgeInsets.only(
-          top: 15,
-          left: 60,
-          right: 10,
-          bottom: 15,
+    return Container(
+      //height: isExpanded ? 115 : 87,
+      width: SizeConfig.screenWidth,
+      margin: const EdgeInsets.only(left: 60),
+      padding: const EdgeInsets.only(
+        top: 15,
+        left: 60,
+        right: 10,
+        bottom: 15,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(37),
+          bottomRight: Radius.circular(37),
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(37),
-            bottomRight: Radius.circular(37),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFF334D73).withOpacity(0.20),
+            blurRadius: 4,
+            offset: Offset(0, 2),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFF334D73).withOpacity(0.20),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
         child: ReadMoreText(
           client.bio ?? '',
           key: UniqueKey(),
