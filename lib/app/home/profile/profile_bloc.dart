@@ -269,6 +269,7 @@ class ProfileBloc {
     if (savedPosts.isNotEmpty) {
       final List<SavedPost> temp =
           savedPosts.map((e) => e.list).toList().expand((e) => e).toList();
+      //
       final List<String> savedPostIds = temp.map((e) => e.postId).toList();
 
       for (final String postId in savedPostIds) {
@@ -281,6 +282,8 @@ class ProfileBloc {
 
       final List<Post?> p = (await Future.wait(futures)).toList();
       final List<Post> pp = List.from(p.where((element) => element != null));
+      pp.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
       return pp;
     } else {
       return [];
