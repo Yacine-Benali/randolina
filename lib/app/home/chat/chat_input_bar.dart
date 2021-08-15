@@ -149,7 +149,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
     // setState(() {
     //   isLoading = true;
     // });
-    final bool result = await widget.bloc.sendImageMessage(imageFile, 1);
+    await widget.bloc.sendImageMessage(imageFile, 1);
     // if (result == true) {
     //   setState(() {
     //     isLoading = false;

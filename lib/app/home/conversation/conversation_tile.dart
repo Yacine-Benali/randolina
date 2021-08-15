@@ -4,6 +4,8 @@ import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ConversationTile extends StatefulWidget {
   const ConversationTile({
@@ -35,8 +37,8 @@ class _ConversationTileState extends State<ConversationTile> {
 
     if (widget.conversation.latestMessage.createdBy != widget.currentUser.id) {
       notification = !widget.conversation.latestMessage.seen;
+      logger.severe(notification);
     }
-    notification = false;
     super.initState();
   }
 
@@ -55,18 +57,20 @@ class _ConversationTileState extends State<ConversationTile> {
           style: notification
               ? TextStyle(
                   color: Colors.black,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                 )
-              : TextStyle(color: Colors.black),
+              : TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
         ),
         subtitle: widget.conversation.latestMessage.type == 0
             ? Text(widget.conversation.latestMessage.content)
-            : Text(''),
+            : Text('image'),
         trailing: notification
             ? Container(
-                // width: SizeConfig.safeBlockHorizontal * 4,
-                // height: SizeConfig.safeBlockVertical * 1.87,
+                width: SizeConfig.blockSizeHorizontal * 4,
+                height: SizeConfig.blockSizeVertical * 1.87,
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   shape: BoxShape.circle,

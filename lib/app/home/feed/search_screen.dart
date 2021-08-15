@@ -1,4 +1,3 @@
-import 'package:algolia/algolia.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +6,6 @@ import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/services/algolia_service.dart';
-import 'package:randolina/utils/logger.dart';
 
 class DataSearch extends SearchDelegate<String> {
   final algoliaService = AlgoliaService.instance;
@@ -83,7 +81,6 @@ class DataSearch extends SearchDelegate<String> {
 
           return ListView(children: userTile);
         } else if (snapshot.hasError) {
-          logger.info((snapshot.error as AlgoliaError).error);
           return EmptyContent(
             title: '',
             message:

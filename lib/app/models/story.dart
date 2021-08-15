@@ -12,6 +12,7 @@ class Story {
   Timestamp createdAt;
   String content;
 
+  // ignore: avoid_unused_constructor_parameters
   factory Story.fromMap(Map<String, dynamic> data, String documentId) {
     final int type = data['type'] as int;
     final String createdBy = data['createdBy'] as String;
