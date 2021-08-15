@@ -40,8 +40,8 @@ class ClubTopHeader extends StatelessWidget {
       textRowWidth = SizeConfig.blockSizeHorizontal * 77 - 30;
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return SizedBox(
+      height: SizeConfig.blockSizeHorizontal * 19,
       child: Row(
         children: [
           Padding(
