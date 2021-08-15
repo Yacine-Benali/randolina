@@ -5,7 +5,6 @@ import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:randolina/utils/logger.dart';
 
 class ConversationTile extends StatefulWidget {
   const ConversationTile({
@@ -37,7 +36,8 @@ class _ConversationTileState extends State<ConversationTile> {
 
     if (widget.conversation.latestMessage.createdBy != widget.currentUser.id) {
       notification = !widget.conversation.latestMessage.seen;
-      logger.severe(notification);
+    } else {
+      notification = false;
     }
     super.initState();
   }

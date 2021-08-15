@@ -46,7 +46,6 @@ class _BaseScreenState extends State<BaseScreen> {
               child: WillPopScope(
                 onWillPop: () async {
                   final bool a = !await navigatorKey.currentState!.maybePop();
-                  logger.severe(a);
                   return a;
                 },
                 child: Navigator(

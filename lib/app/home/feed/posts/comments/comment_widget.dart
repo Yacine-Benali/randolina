@@ -33,7 +33,7 @@ class CommentWidget extends StatelessWidget {
         text: TextSpan(
           children: <TextSpan>[
             TextSpan(
-              text: '${comment.miniUser.username}\t',
+              text: '${comment.miniUser.name}\t',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),

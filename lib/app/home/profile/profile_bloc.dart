@@ -73,7 +73,6 @@ class ProfileBloc {
       return true;
     } else {
       logger.severe('Error FUCKING ERROR');
-      logger.severe(list1);
       return false;
     }
   }
