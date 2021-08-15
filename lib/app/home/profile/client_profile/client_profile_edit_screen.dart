@@ -30,6 +30,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
   String? bio;
   late String activity;
   late Client currentClient;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -64,58 +65,70 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                children: [
-                  CustomTextForm(
-                    textInputAction: TextInputAction.newline,
-                    textInputType: TextInputType.multiline,
-                    lines: 3,
-                    maxLength: 100,
-                    initialValue: currentClient.bio,
-                    title: 'Bio:',
-                    titleStyle: titleStyle,
-                    hintText: 'Bio...',
-                    onChanged: (String value) {
-                      bio = value;
-                    },
-                    validator: (v) {},
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomDropDown(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    CustomTextForm(
+                      textInputAction: TextInputAction.newline,
+                      textInputType: TextInputType.multiline,
+                      lines: 3,
+                      maxLength: 100,
+                      initialValue: currentClient.bio,
+                      title: 'Bio:',
                       titleStyle: titleStyle,
-                      initialValue: currentClient.activity,
-                      validator: (String? value) {
-                        if (value == null) {
-                          return invalidActivityError;
-                        }
-                        return null;
-                      },
-                      title: 'Activity:',
-                      hint: 'Chose...',
-                      options: clientActivities,
+                      hintText: 'Bio...',
                       onChanged: (String value) {
-                        activity = value;
+                        bio = value;
+                      },
+                      validator: (v) {
+                        if (v != null) {
+                          final numLines = '\n'.allMatches(v).length + 1;
+                          if (numLines > 3) {
+                            return 'number of lines cant exceed 3';
+                          }
+                        }
                       },
                     ),
-                  ),
-                  SizedBox(height: 70),
-                  CustomElevatedButton(
-                    buttonText: Text(
-                      'Save',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: CustomDropDown(
+                        titleStyle: titleStyle,
+                        initialValue: currentClient.activity,
+                        validator: (String? value) {
+                          if (value == null) {
+                            return invalidActivityError;
+                          }
+                          return null;
+                        },
+                        title: 'Activity:',
+                        hint: 'Chose...',
+                        options: clientActivities,
+                        onChanged: (String value) {
+                          activity = value;
+                        },
                       ),
                     ),
-                    onPressed: () async {
-                      await widget.bloc.saveClientProfile(bio, activity);
-                      Navigator.of(context).pop();
-                    },
-                    minHeight: 30,
-                    minWidth: 130,
-                  )
-                ],
+                    SizedBox(height: 70),
+                    CustomElevatedButton(
+                      buttonText: Text(
+                        'Save',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                        ),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await widget.bloc.saveClientProfile(bio, activity);
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      minHeight: 30,
+                      minWidth: 130,
+                    )
+                  ],
+                ),
               ),
             ),
           ],

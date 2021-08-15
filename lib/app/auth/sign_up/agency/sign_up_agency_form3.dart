@@ -82,7 +82,14 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
                     onChanged: (String value) {
                       bio = value;
                     },
-                    validator: (v) {},
+                    validator: (v) {
+                      if (v != null) {
+                        final numLines = '\n'.allMatches(v).length + 1;
+                        if (numLines > 3) {
+                          return 'number of lines cant exceed 3';
+                        }
+                      }
+                    },
                   ),
                 ],
               ),

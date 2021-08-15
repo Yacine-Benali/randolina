@@ -88,7 +88,14 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                     onChanged: (String value) {
                       bio = value;
                     },
-                    validator: (v) {},
+                    validator: (v) {
+                      if (v != null) {
+                        final numLines = '\n'.allMatches(v).length + 1;
+                        if (numLines > 3) {
+                          return 'number of lines cant exceed 3';
+                        }
+                      }
+                    },
                   ),
                   CustomDropDown(
                     validator: (String? value) {

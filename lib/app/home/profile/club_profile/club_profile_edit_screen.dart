@@ -28,6 +28,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
   String? bio;
   late List<String>? activities;
   late User clubOrAgency;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -60,93 +61,106 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
               isFollowingOther: false,
               onMoreInfoPressed: () {},
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                children: [
-                  CustomTextForm(
-                    textInputAction: TextInputAction.newline,
-                    textInputType: TextInputType.multiline,
-                    lines: 3,
-                    maxLength: 100,
-                    initialValue: clubOrAgency.bio,
-                    title: 'Bio:',
-                    titleStyle: titleStyle,
-                    hintText: 'Bio...',
-                    onChanged: (String value) {
-                      bio = value;
-                    },
-                    validator: (v) {},
-                  ),
-                  if (activities != null) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: MultiSelectFormField(
-                        initialValue: activities,
-                        validator: (values) {
-                          if (values != null) {
-                            final List<dynamic> temp = values as List<dynamic>;
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  children: [
+                    CustomTextForm(
+                      textInputAction: TextInputAction.newline,
+                      textInputType: TextInputType.multiline,
+                      lines: 3,
+                      maxLength: 100,
+                      initialValue: clubOrAgency.bio,
+                      title: 'Bio:',
+                      titleStyle: titleStyle,
+                      hintText: 'Bio...',
+                      onChanged: (String value) {
+                        bio = value;
+                      },
+                      validator: (v) {
+                        if (v != null) {
+                          final numLines = '\n'.allMatches(v).length + 1;
+                          if (numLines > 3) {
+                            return 'number of lines cant exceed 3';
+                          }
+                        }
+                      },
+                    ),
+                    if (activities != null) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: MultiSelectFormField(
+                          initialValue: activities,
+                          validator: (values) {
+                            if (values != null) {
+                              final List<dynamic> temp =
+                                  values as List<dynamic>;
 
-                            if (temp.isEmpty) {
+                              if (temp.isEmpty) {
+                                return invalidClubActivitiesError;
+                              }
+                            } else {
                               return invalidClubActivitiesError;
                             }
-                          } else {
-                            return invalidClubActivitiesError;
-                          }
-                        },
-                        chipBackGroundColor: gradientStart,
-                        //  errorText: '*',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        chipLabelStyle: TextStyle(color: Colors.white),
-                        dialogTextStyle: TextStyle(color: Colors.black),
-                        checkBoxActiveColor: Colors.blue,
-                        checkBoxCheckColor: Colors.white,
-                        title: Text('Choose activities', style: titleStyle),
-                        dataSource: clubActivities,
-                        textField: clubKey,
-                        valueField: clubValue,
-                        hintWidget: Text(
-                          'Please choose one or more activities',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
+                          },
+                          chipBackGroundColor: gradientStart,
+                          //  errorText: '*',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
+                          chipLabelStyle: TextStyle(color: Colors.white),
+                          dialogTextStyle: TextStyle(color: Colors.black),
+                          checkBoxActiveColor: Colors.blue,
+                          checkBoxCheckColor: Colors.white,
+                          title: Text('Choose activities', style: titleStyle),
+                          dataSource: clubActivities,
+                          textField: clubKey,
+                          valueField: clubValue,
+                          hintWidget: Text(
+                            'Please choose one or more activities',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          onSaved: (values) {
+                            if (values == null) return;
+                            final List<String> temp = (values as List<dynamic>)
+                                .map((e) => e.toString())
+                                .toList();
+                            setState(() {
+                              activities = temp;
+                            });
+                          },
                         ),
-                        onSaved: (values) {
-                          if (values == null) return;
-                          final List<String> temp = (values as List<dynamic>)
-                              .map((e) => e.toString())
-                              .toList();
-                          setState(() {
-                            activities = temp;
-                          });
-                        },
                       ),
-                    ),
+                    ],
+                    SizedBox(height: 70),
+                    CustomElevatedButton(
+                      buttonText: Text(
+                        'Save',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                        ),
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          if (clubOrAgency is Club && activities != null) {
+                            await widget.bloc.saveClubProfile(bio, activities!);
+                          } else if (clubOrAgency is Agency) {
+                            await widget.bloc.saveAgencyProfile(bio);
+                          }
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      minHeight: 30,
+                      minWidth: 130,
+                    )
                   ],
-                  SizedBox(height: 70),
-                  CustomElevatedButton(
-                    buttonText: Text(
-                      'Save',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (clubOrAgency is Club && activities != null) {
-                        await widget.bloc.saveClubProfile(bio, activities!);
-                      } else if (clubOrAgency is Agency) {
-                        await widget.bloc.saveAgencyProfile(bio);
-                      }
-                      Navigator.of(context).pop();
-                    },
-                    minHeight: 30,
-                    minWidth: 130,
-                  )
-                ],
+                ),
               ),
             ),
           ],
