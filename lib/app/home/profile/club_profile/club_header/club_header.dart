@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/profile/club_profile/club_header/club_profile_popup.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/user.dart';
@@ -90,37 +91,7 @@ class ClubHeader extends StatelessWidget {
                       ),
                     ),
                     if (showProfileAsOther) ...[
-                      Container(
-                        margin: const EdgeInsets.only(right: 30),
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF334D73),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.black.withOpacity(0.10),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(51, 77, 115, 0.42),
-                              blurRadius: 4,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.phone,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            onPressed: () {},
-                            padding: EdgeInsets.all(0),
-                          ),
-                        ),
-                      ),
+                      ClubProfilePopUp(clubOrAgency: clubOrAgency),
                     ],
                   ],
                 ),

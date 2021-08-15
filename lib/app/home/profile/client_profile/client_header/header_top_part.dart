@@ -102,7 +102,7 @@ class ClientHeaderTopPart extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ClientToChat(client: client),
+                    builder: (context) => UserToChat(otherUser: client),
                   ),
                 );
               },
