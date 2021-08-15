@@ -5,6 +5,7 @@ import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/common_widgets/visit_followers_header.dart';
 
 class ClientHeader extends StatefulWidget {
@@ -30,38 +31,42 @@ class ClientHeader extends StatefulWidget {
 
 class _ClientHeaderState extends State<ClientHeader> {
   bool isExpanded = false;
-
+//! todo waiting on client feedback about moving profile picture when clicking
+// more less
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
-        SizedBox(
-          height: isExpanded ? 207 : 191,
-          child: Column(
-            children: [
-              ClientHeaderTopPart(
-                onSavePressed: widget.onSavePressed,
-                client: widget.client,
-                showProfileAsOther: widget.showProfileAsOther,
-                onEditPressed: widget.onEditPressed,
-                isFollowingOther: widget.isFollowingOther,
-              ),
-              Description(
-                client: widget.client,
-                isExpanded: isExpanded,
-                onExpanded: (bool isExpanded) {
-                  this.isExpanded = isExpanded;
-                  setState(() {});
-                },
-              )
-            ],
+        Container(
+          color: Colors.red[200],
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Column(
+              children: [
+                ClientHeaderTopPart(
+                  onSavePressed: widget.onSavePressed,
+                  client: widget.client,
+                  showProfileAsOther: widget.showProfileAsOther,
+                  onEditPressed: widget.onEditPressed,
+                  isFollowingOther: widget.isFollowingOther,
+                ),
+                Description(
+                  client: widget.client,
+                  isExpanded: isExpanded,
+                  onExpanded: (bool isExpanded) {
+                    this.isExpanded = isExpanded;
+                    setState(() {});
+                  },
+                )
+              ],
+            ),
           ),
         ),
         if (!widget.showProfileAsOther) ...[
           Positioned(
-            right: 30,
-            bottom: isExpanded ? 10 : 22,
+            right: SizeConfig.blockSizeHorizontal * 7.7,
+            bottom: SizeConfig.blockSizeVertical * 1,
             child: FollowersHeader(
               following: widget.client.following,
               followers: widget.client.followers,
@@ -80,8 +85,8 @@ class _ClientHeaderState extends State<ClientHeader> {
           ),
         ],
         Positioned(
-          bottom: isExpanded ? (58 + 30) : (42 + 30),
-          left: 16,
+          bottom: SizeConfig.blockSizeVertical * 7,
+          left: SizeConfig.blockSizeHorizontal * 4,
           child: ImageProfile(
             url: widget.client.profilePicture,
           ),

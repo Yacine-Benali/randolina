@@ -16,31 +16,32 @@ class Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: isExpanded ? 115 : 87,
-      width: SizeConfig.screenWidth,
-      margin: const EdgeInsets.only(left: 60),
-      padding: const EdgeInsets.only(
-        top: 15,
-        left: 60,
-        right: 10,
-        bottom: 15,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(37),
-          bottomRight: Radius.circular(37),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Container(
+        //height: isExpanded ? 115 : 87,
+        width: SizeConfig.screenWidth,
+        margin: const EdgeInsets.only(left: 60),
+        padding: const EdgeInsets.only(
+          top: 15,
+          left: 60,
+          right: 10,
+          bottom: 15,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFF334D73).withOpacity(0.20),
-            blurRadius: 4,
-            offset: Offset(0, 2),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(37),
+            bottomRight: Radius.circular(37),
           ),
-        ],
-      ),
-      child: SingleChildScrollView(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFF334D73).withOpacity(0.20),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
         child: ReadMoreText(
           client.bio ?? '',
           key: UniqueKey(),
@@ -48,9 +49,9 @@ class Description extends StatelessWidget {
           trimMode: TrimMode.Line,
           trimCollapsedText: ' More',
           trimExpandedText: 'less',
-          callback: (value) {
-            onExpanded(!value);
-          },
+          // callback: (value) {
+          //   onExpanded(!value);
+          // },
           style: TextStyle(
             fontSize: 14,
             color: Colors.black.withOpacity(0.87),

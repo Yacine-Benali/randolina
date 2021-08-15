@@ -19,7 +19,7 @@ class FollowersHeader extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(0.0),
           child: Container(
             width: width,
             height: height,

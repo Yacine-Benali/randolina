@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/profile/club_profile/club_header/club_profile_popup.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/user.dart';
@@ -90,9 +89,6 @@ class ClubHeader extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (showProfileAsOther) ...[
-                      ClubProfilePopUp(clubOrAgency: clubOrAgency),
-                    ],
                   ],
                 ),
               ),

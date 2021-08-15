@@ -29,7 +29,6 @@ class ClientHeaderTopPart extends StatelessWidget {
     }
 
     return Container(
-      height: 82 - 20,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
