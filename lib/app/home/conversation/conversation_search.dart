@@ -4,7 +4,6 @@ import 'package:randolina/app/home/conversation/conversation_tile.dart';
 import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
-import 'package:randolina/constants/app_colors.dart';
 
 class ConversationSearch extends SearchDelegate<String> {
   ConversationSearch({required this.conversations});
@@ -56,7 +55,6 @@ class ConversationSearch extends SearchDelegate<String> {
     }).toList();
 
     return Container(
-      color: backgroundColor,
       child: ListView.separated(
         itemCount: relevant.length,
         separatorBuilder: (context, index) => Divider(height: 0.5),

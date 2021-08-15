@@ -39,7 +39,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
         stream: conversationStream,
         builder: (context, snapshot) {
           return Scaffold(
-            backgroundColor: backgroundColor,
             appBar: AppBar(
               backgroundColor: Colors.white,
               centerTitle: true,
