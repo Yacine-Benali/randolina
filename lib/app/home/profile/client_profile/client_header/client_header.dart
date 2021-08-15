@@ -45,6 +45,7 @@ class _ClientHeaderState extends State<ClientHeader> {
                 client: widget.client,
                 showProfileAsOther: widget.showProfileAsOther,
                 onEditPressed: widget.onEditPressed,
+                isFollowingOther: widget.isFollowingOther,
               ),
               Description(
                 client: widget.client,

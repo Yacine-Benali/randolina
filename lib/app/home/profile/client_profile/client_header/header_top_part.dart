@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/profile/client_to_chat.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
 import 'package:randolina/common_widgets/size_config.dart';
@@ -10,11 +11,13 @@ class ClientHeaderTopPart extends StatelessWidget {
     required this.showProfileAsOther,
     required this.onEditPressed,
     required this.onSavePressed,
+    required this.isFollowingOther,
   }) : super(key: key);
   final Client client;
   final bool showProfileAsOther;
   final VoidCallback onEditPressed;
   final VoidCallback onSavePressed;
+  final bool? isFollowingOther;
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +73,6 @@ class ClientHeaderTopPart extends StatelessWidget {
                       if (!showProfileAsOther) ...[
                         ProfileEditPopUp(onEditPressed: onEditPressed),
                       ],
-                      // if (showProfileAsOther) ...[
-                      //   // IconButton(
-                      //   //   padding: EdgeInsets.all(0),
-                      //   //   icon: Icon(Icons.turned_in_not, size: 30),
-                      //   //   onPressed: onSavePressed,
-                      //   // ),
-                      // ],
                     ],
                   ),
                   Text(
@@ -98,6 +94,18 @@ class ClientHeaderTopPart extends StatelessWidget {
                 icon: Icon(Icons.turned_in_not, size: 30),
                 onPressed: onSavePressed,
               ),
+            ),
+          ],
+          if (showProfileAsOther && isFollowingOther != null) ...[
+            IconButton(
+              icon: Icon(Icons.chat_bubble_outline, size: 30),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ClientToChat(client: client),
+                  ),
+                );
+              },
             ),
           ],
         ],
