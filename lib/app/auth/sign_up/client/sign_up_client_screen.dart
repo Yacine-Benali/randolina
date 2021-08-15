@@ -96,68 +96,83 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return SizedBox(
-      height: SizeConfig.screenHeight,
-      child: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        children: <Widget>[
-          SignUpClientForm(
-            onSaved: ({
-              required String fullname,
-              required String password,
-              required String phoneNumber,
-              required String username,
-              required int wilaya,
-              required Timestamp dateOfBirth,
-            }) async {
-              try {
-                _fullname = fullname;
-                _password = password;
-                _phoneNumber = phoneNumber;
-                _username = username;
-                _wilaya = wilaya;
-                _dateOfBirth = dateOfBirth;
+    return WillPopScope(
+      onWillPop: () async {
+        if (_pageController.hasClients) {
+          if (_pageController.page == 0) {
+            return true;
+          } else {
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+        return false;
+      },
+      child: SizedBox(
+        height: SizeConfig.screenHeight,
+        child: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _pageController,
+          children: <Widget>[
+            SignUpClientForm(
+              onSaved: ({
+                required String fullname,
+                required String password,
+                required String phoneNumber,
+                required String username,
+                required int wilaya,
+                required Timestamp dateOfBirth,
+              }) async {
+                try {
+                  _fullname = fullname;
+                  _password = password;
+                  _phoneNumber = phoneNumber;
+                  _username = username;
+                  _wilaya = wilaya;
+                  _dateOfBirth = dateOfBirth;
 
-                await bloc.verifyPhoneNumber(_phoneNumber);
-                swipePage(1);
-              } on Exception catch (e) {
-                logger.severe('Error in verifyPhoneNumber');
-                PlatformExceptionAlertDialog(exception: e).show(context);
-              }
-            },
-          ),
-          SignUpPhoneConfirmation(
-            bloc: bloc,
-            backgroundImagePath: clientBackgroundImage,
-            onNextPressed: (String code) async {
-              try {
-                final bool isLoggedIn = await bloc.magic(
-                  _username,
-                  _password,
-                  code,
-                );
-                if (isLoggedIn) {
-                  swipePage(2);
+                  await bloc.verifyPhoneNumber(_phoneNumber);
+                  swipePage(1);
+                } on Exception catch (e) {
+                  logger.severe('Error in verifyPhoneNumber');
+                  PlatformExceptionAlertDialog(exception: e).show(context);
                 }
-              } on Exception catch (e) {
-                PlatformExceptionAlertDialog(exception: e).show(context);
-              }
-            },
-          ),
-          SignUpClientForm2(
-            onSaved: ({
-              required File imageFile,
-              required String? bio,
-              required String activity,
-            }) {
-              _imageFile = imageFile;
-              _bio = bio;
-              _activity = activity;
-              sendClientInfo();
-            },
-          ),
-        ],
+              },
+            ),
+            SignUpPhoneConfirmation(
+              bloc: bloc,
+              backgroundImagePath: clientBackgroundImage,
+              onNextPressed: (String code) async {
+                try {
+                  final bool isLoggedIn = await bloc.magic(
+                    _username,
+                    _password,
+                    code,
+                  );
+                  if (isLoggedIn) {
+                    swipePage(2);
+                  }
+                } on Exception catch (e) {
+                  PlatformExceptionAlertDialog(exception: e).show(context);
+                }
+              },
+            ),
+            SignUpClientForm2(
+              onSaved: ({
+                required File imageFile,
+                required String? bio,
+                required String activity,
+              }) {
+                _imageFile = imageFile;
+                _bio = bio;
+                _activity = activity;
+                sendClientInfo();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -101,79 +101,94 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return PageView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: _pageController,
-      children: <Widget>[
-        SignUpClubForm(
-          onSaved: ({
-            required String fullname,
-            required String clubname,
-            required Timestamp creationDate,
-            required String address,
-            required int members,
-          }) {
-            _fullname = fullname;
-            _clubname = clubname;
-            _creationDate = creationDate;
-            _address = address;
-            _members = members;
-            swipePage(1);
-          },
-        ),
-        SignUpClubForm2(
-          onSaved: ({
-            required String username,
-            required String email,
-            required String password,
-            required String phoneNumber,
-          }) async {
-            try {
-              _username = username;
-              _email = email;
-              _password = password;
-              _phoneNumber = phoneNumber;
+    return WillPopScope(
+      onWillPop: () async {
+        if (_pageController.hasClients) {
+          if (_pageController.page == 0) {
+            return true;
+          } else {
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+        return false;
+      },
+      child: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        children: <Widget>[
+          SignUpClubForm(
+            onSaved: ({
+              required String fullname,
+              required String clubname,
+              required Timestamp creationDate,
+              required String address,
+              required int members,
+            }) {
+              _fullname = fullname;
+              _clubname = clubname;
+              _creationDate = creationDate;
+              _address = address;
+              _members = members;
+              swipePage(1);
+            },
+          ),
+          SignUpClubForm2(
+            onSaved: ({
+              required String username,
+              required String email,
+              required String password,
+              required String phoneNumber,
+            }) async {
+              try {
+                _username = username;
+                _email = email;
+                _password = password;
+                _phoneNumber = phoneNumber;
 
-              await bloc.verifyPhoneNumber(_phoneNumber);
-              swipePage(2);
-            } on Exception catch (e) {
-              logger.severe('Error in verifyPhoneNumber');
-              PlatformExceptionAlertDialog(exception: e).show(context);
-            }
-          },
-        ),
-        SignUpPhoneConfirmation(
-          backgroundImagePath: clubBackgroundImage,
-          bloc: bloc,
-          onNextPressed: (String code) async {
-            try {
-              final bool isLoggedIn = await bloc.magic(
-                _username,
-                _password,
-                code,
-              );
-              if (isLoggedIn) {
-                swipePage(3);
+                await bloc.verifyPhoneNumber(_phoneNumber);
+                swipePage(2);
+              } on Exception catch (e) {
+                logger.severe('Error in verifyPhoneNumber');
+                PlatformExceptionAlertDialog(exception: e).show(context);
               }
-            } on Exception catch (e) {
-              PlatformExceptionAlertDialog(exception: e).show(context);
-            }
-          },
-        ),
-        SignUpClubForm3(
-          onSaved: ({
-            required File imageFile,
-            required String? bio,
-            required List<String> clubActivities,
-          }) {
-            _imageFile = imageFile;
-            _bio = bio;
-            _clubActivities = clubActivities;
+            },
+          ),
+          SignUpPhoneConfirmation(
+            backgroundImagePath: clubBackgroundImage,
+            bloc: bloc,
+            onNextPressed: (String code) async {
+              try {
+                final bool isLoggedIn = await bloc.magic(
+                  _username,
+                  _password,
+                  code,
+                );
+                if (isLoggedIn) {
+                  swipePage(3);
+                }
+              } on Exception catch (e) {
+                PlatformExceptionAlertDialog(exception: e).show(context);
+              }
+            },
+          ),
+          SignUpClubForm3(
+            onSaved: ({
+              required File imageFile,
+              required String? bio,
+              required List<String> clubActivities,
+            }) {
+              _imageFile = imageFile;
+              _bio = bio;
+              _clubActivities = clubActivities;
 
-            sendClubInfo();
-          },
-        ),
-      ],
+              sendClubInfo();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

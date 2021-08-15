@@ -43,6 +43,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
                 SliverAppBar(
                   backgroundColor: Colors.transparent,
                   flexibleSpace: widget.appBar,
+                  leading: Container(),
                   iconTheme: IconThemeData(
                     color: widget.backgroundImagePath != null
                         ? Colors.white

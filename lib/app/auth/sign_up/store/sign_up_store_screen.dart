@@ -94,73 +94,88 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return PageView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: _pageController,
-      children: <Widget>[
-        SignUpStoreForm(
-          onSaved: ({
-            required String fullname,
-            required String clubname,
-            required String address,
-          }) {
-            _fullname = fullname;
-            _storeName = clubname;
-            _address = address;
-            swipePage(1);
-          },
-        ),
-        SignUpStoreForm2(
-          onSaved: ({
-            required String username,
-            required String email,
-            required String password,
-            required String phoneNumber,
-          }) async {
-            try {
-              _username = username;
-              _email = email;
-              _password = password;
-              _phoneNumber = phoneNumber;
+    return WillPopScope(
+      onWillPop: () async {
+        if (_pageController.hasClients) {
+          if (_pageController.page == 0) {
+            return true;
+          } else {
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+        return false;
+      },
+      child: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        children: <Widget>[
+          SignUpStoreForm(
+            onSaved: ({
+              required String fullname,
+              required String clubname,
+              required String address,
+            }) {
+              _fullname = fullname;
+              _storeName = clubname;
+              _address = address;
+              swipePage(1);
+            },
+          ),
+          SignUpStoreForm2(
+            onSaved: ({
+              required String username,
+              required String email,
+              required String password,
+              required String phoneNumber,
+            }) async {
+              try {
+                _username = username;
+                _email = email;
+                _password = password;
+                _phoneNumber = phoneNumber;
 
-              await bloc.verifyPhoneNumber(_phoneNumber);
-              swipePage(2);
-            } on Exception catch (e) {
-              logger.severe('Error in verifyPhoneNumber');
-              PlatformExceptionAlertDialog(exception: e).show(context);
-            }
-          },
-        ),
-        SignUpPhoneConfirmation(
-          backgroundImagePath: storeBackgroundImage,
-          bloc: bloc,
-          onNextPressed: (String code) async {
-            try {
-              final bool isLoggedIn = await bloc.magic(
-                _username,
-                _password,
-                code,
-              );
-              if (isLoggedIn) {
-                swipePage(3);
+                await bloc.verifyPhoneNumber(_phoneNumber);
+                swipePage(2);
+              } on Exception catch (e) {
+                logger.severe('Error in verifyPhoneNumber');
+                PlatformExceptionAlertDialog(exception: e).show(context);
               }
-            } on Exception catch (e) {
-              PlatformExceptionAlertDialog(exception: e).show(context);
-            }
-          },
-        ),
-        SignUpStoreForm3(
-          onSaved: ({
-            required File imageFile,
-            required String? bio,
-          }) {
-            _imageFile = imageFile;
-            _bio = bio;
+            },
+          ),
+          SignUpPhoneConfirmation(
+            backgroundImagePath: storeBackgroundImage,
+            bloc: bloc,
+            onNextPressed: (String code) async {
+              try {
+                final bool isLoggedIn = await bloc.magic(
+                  _username,
+                  _password,
+                  code,
+                );
+                if (isLoggedIn) {
+                  swipePage(3);
+                }
+              } on Exception catch (e) {
+                PlatformExceptionAlertDialog(exception: e).show(context);
+              }
+            },
+          ),
+          SignUpStoreForm3(
+            onSaved: ({
+              required File imageFile,
+              required String? bio,
+            }) {
+              _imageFile = imageFile;
+              _bio = bio;
 
-            sendClubInfo();
-          },
-        ),
-      ],
+              sendClubInfo();
+            },
+          ),
+        ],
+      ),
     );
   }
 }
