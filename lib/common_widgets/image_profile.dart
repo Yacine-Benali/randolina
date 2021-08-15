@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ImageProfile extends StatelessWidget {
-  const ImageProfile({required this.url, this.height = 95, this.width = 95});
+  const ImageProfile({
+    required this.url,
+    this.height = 95,
+    this.width = 95,
+  });
   final String url;
   final double width;
   final double height;

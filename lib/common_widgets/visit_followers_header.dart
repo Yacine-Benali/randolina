@@ -33,13 +33,17 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
     super.initState();
   }
 
+  final double width = SizeConfig.blockSizeHorizontal * 27;
+  final double height = SizeConfig.blockSizeVertical * 3.2;
+  final double middleWidth = SizeConfig.blockSizeHorizontal * 4;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Container(
-          width: SizeConfig.blockSizeHorizontal * 31,
-          height: SizeConfig.blockSizeVertical * 3.2,
+          width: width,
+          height: height,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(11),
             boxShadow: [
@@ -100,10 +104,10 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
             },
           ),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: middleWidth),
         Container(
-          width: SizeConfig.blockSizeHorizontal * 31,
-          height: SizeConfig.blockSizeVertical * 3.2,
+          width: width,
+          height: height,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(11),

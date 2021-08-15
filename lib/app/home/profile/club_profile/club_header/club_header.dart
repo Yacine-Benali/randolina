@@ -30,96 +30,104 @@ class ClubHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomLeft,
+    return Column(
       children: [
         Container(
-          // height: SizeConfig.blockSizeVertical * 20,
-          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(40),
-              bottomRight: Radius.circular(40),
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: ClubTopHeader(
+              showProfileAsOther: showProfileAsOther,
+              onEditPressed: onEditPressed,
+              onSavePressed: onSavePressed,
+              clubOrAgency: clubOrAgency,
+              onMoreInfoPressed: onMoreInfoPressed,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xFF334D73).withOpacity(0.30),
-                blurRadius: 4,
-                offset: Offset(0, 3),
-              ),
-            ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+        ),
+        Container(
+          color: Colors.white,
+          child: Stack(
+            alignment: Alignment.bottomLeft,
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: ClubTopHeader(
-                  showProfileAsOther: showProfileAsOther,
-                  onEditPressed: onEditPressed,
-                  onSavePressed: onSavePressed,
-                  clubOrAgency: clubOrAgency,
-                  onMoreInfoPressed: onMoreInfoPressed,
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 10,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 110 + 18,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: ReadMoreText(
-                          clubOrAgency.bio ?? '',
-                          trimLines: 3,
-                          trimMode: TrimMode.Line,
-                          trimCollapsedText: ' More',
-                          trimExpandedText: 'less',
-                          callback: (value) {},
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black.withOpacity(0.87),
-                            fontWeight: FontWeight.normal,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xFF334D73).withOpacity(0.30),
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        height: 95,
+                      ),
+                      SizedBox(
+                        width: SizeConfig.screenWidth - 120,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 30.0, top: 20),
+                          child: ReadMoreText(
+                            clubOrAgency.bio ?? '',
+                            trimLines: 3,
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: ' More',
+                            trimExpandedText: 'less',
+                            callback: (value) {},
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black.withOpacity(0.87),
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+              ),
+              if (!showProfileAsOther) ...[
+                Positioned(
+                  left: SizeConfig.blockSizeHorizontal * 28,
+                  bottom: 0,
+                  child: FollowersHeader(
+                    followers: 0,
+                    following: 0,
+                  ),
+                ),
+              ],
+              if (showProfileAsOther && isFollowingOther != null) ...[
+                Positioned(
+                  left: SizeConfig.blockSizeHorizontal * 28,
+                  bottom: 0,
+                  child: VisitFollowersHeader(
+                    isExpanded: false,
+                    isFollowing: isFollowingOther!,
+                    followers: clubOrAgency.followers,
+                  ),
+                ),
+              ],
+              Positioned(
+                left: 18,
+                bottom: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: ImageProfile(url: clubOrAgency.profilePicture),
                 ),
               ),
             ],
           ),
-        ),
-        if (!showProfileAsOther) ...[
-          Positioned(
-            left: SizeConfig.blockSizeHorizontal * 28,
-            bottom: 0,
-            child: FollowersHeader(
-              followers: 0,
-              following: 0,
-            ),
-          ),
-        ],
-        if (showProfileAsOther && isFollowingOther != null) ...[
-          Positioned(
-            left: SizeConfig.blockSizeHorizontal * 28,
-            bottom: 0,
-            child: VisitFollowersHeader(
-              isExpanded: false,
-              isFollowing: isFollowingOther!,
-              followers: clubOrAgency.followers,
-            ),
-          ),
-        ],
-        Positioned(
-          left: 18,
-          bottom: 6,
-          child: ImageProfile(url: clubOrAgency.profilePicture),
         ),
       ],
     );
