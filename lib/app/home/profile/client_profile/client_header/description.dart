@@ -41,7 +41,7 @@ class Description extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.only(bottom: 20.0),
         child: ReadMoreText(
           client.bio ?? '',
           key: UniqueKey(),

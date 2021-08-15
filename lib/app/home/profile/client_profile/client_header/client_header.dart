@@ -88,7 +88,7 @@ class _ClientHeaderState extends State<ClientHeader> {
           ),
         ),
         Positioned(
-          top: SizeConfig.blockSizeHorizontal * 3,
+          top: SizeConfig.blockSizeVertical * 3.8,
           left: SizeConfig.blockSizeHorizontal * 4,
           child: ImageProfile(
             url: widget.client.profilePicture,

@@ -12,9 +12,9 @@ class FollowersHeader extends StatelessWidget {
   final int followers;
 
   // ignore: avoid_field_initializers_in_const_classes
-  final double width = SizeConfig.blockSizeHorizontal * 27;
+  final double width = SizeConfig.blockSizeHorizontal * 32;
   // ignore: avoid_field_initializers_in_const_classes
-  final double height = SizeConfig.blockSizeVertical * 3.2;
+  final double height = SizeConfig.blockSizeVertical * 3.5;
   // ignore: avoid_field_initializers_in_const_classes
   final double middleWidth = SizeConfig.blockSizeHorizontal * 4;
   @override
