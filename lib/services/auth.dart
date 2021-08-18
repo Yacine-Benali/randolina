@@ -13,7 +13,6 @@ class AuthUser {
 }
 
 abstract class Auth {
-  void init();
   AuthUser? currentUser();
   Stream<AuthUser?> get onAuthStateChanged;
   Future<AuthUser?> signUpWithEmailAndPassword(

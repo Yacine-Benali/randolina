@@ -18,10 +18,6 @@ class FirebaseAuthService implements Auth {
     );
   }
 
-  // todo @average this is empty remove it
-  @override
-  void init() {}
-
   @override
   Future<void> reesetPassword(String newpassword) async {
     final User? currentUser = _firebaseAuth.currentUser;

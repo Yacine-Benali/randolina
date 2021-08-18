@@ -12,7 +12,6 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Auth auth = context.read<Auth>();
-    auth.init();
 
     return StreamBuilder<AuthUser?>(
       stream: auth.onAuthStateChanged,
