@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/chat/chat_screen.dart';
 import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
-import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 
 class ConversationTile extends StatefulWidget {
@@ -47,10 +47,29 @@ class _ConversationTileState extends State<ConversationTile> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ListTile(
-        leading: ImageProfile(
-          url: otherUser.profilePicture,
-          height: 60,
-          width: 60,
+        leading: CachedNetworkImage(
+          imageUrl: otherUser.profilePicture,
+          imageBuilder: (context, imageProvider) => Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(47),
+              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              border: Border.all(
+                width: 2,
+                color: Colors.white,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFF334D73).withOpacity(0.43),
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+          ),
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         title: Text(
           otherUser.name,

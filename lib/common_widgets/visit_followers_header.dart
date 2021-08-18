@@ -34,11 +34,11 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
   }
 
   // ignore: avoid_field_initializers_in_const_classes
-  final double width = SizeConfig.blockSizeHorizontal * 32;
+  final double width = SizeConfig.blockSizeHorizontal * 29;
   // ignore: avoid_field_initializers_in_const_classes
   final double height = SizeConfig.blockSizeVertical * 3.5;
   // ignore: avoid_field_initializers_in_const_classes
-  final double middleWidth = SizeConfig.blockSizeHorizontal * 4;
+  final double middleWidth = SizeConfig.blockSizeHorizontal * 2;
 
   @override
   Widget build(BuildContext context) {
