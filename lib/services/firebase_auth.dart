@@ -18,8 +18,31 @@ class FirebaseAuthService implements Auth {
     );
   }
 
+  // todo @average this is empty remove it
   @override
   void init() {}
+
+  @override
+  Future<void> reesetPassword(String newpassword) async {
+    final User? currentUser = _firebaseAuth.currentUser;
+
+    if (currentUser != null) {
+      await currentUser.updatePassword(newpassword);
+    }
+  }
+
+  @override
+  Future<void> signUpWithPhoneNumber(
+    String smsCode,
+    String verificationId,
+  ) async {
+    await _firebaseAuth.signInWithCredential(
+      PhoneAuthProvider.credential(
+        smsCode: smsCode,
+        verificationId: verificationId,
+      ),
+    );
+  }
 
   @override
   Stream<AuthUser?> get onAuthStateChanged {

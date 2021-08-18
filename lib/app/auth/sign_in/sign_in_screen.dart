@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/auth/forgot_password/forgot_pass_screen.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_screen.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
@@ -170,7 +171,17 @@ class _SignInScreenState extends State<SignInScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) {
+                                return ForgotPassScreen();
+                              },
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Forgot password ?',
                           style: TextStyle(color: Colors.blueGrey),

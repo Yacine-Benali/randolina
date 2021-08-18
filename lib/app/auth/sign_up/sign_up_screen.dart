@@ -56,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         RoleSelectorScreen(
           onNextPressed: (var role) {
             setState(() => selectedRole = role);
+            
             swipePage(1);
           },
         ),

@@ -34,4 +34,6 @@ abstract class Auth {
   );
 
   Future<void> signOut();
+  Future<void> reesetPassword(String newpassword);
+  Future<void> signUpWithPhoneNumber(String smsCode, String verificationId);
 }
