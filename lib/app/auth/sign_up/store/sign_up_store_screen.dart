@@ -147,7 +147,6 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
           ),
           SignUpPhoneConfirmation(
             backgroundImagePath: storeBackgroundImage,
-            bloc: bloc,
             onNextPressed: (String code) async {
               try {
                 final bool isLoggedIn = await bloc.magic(

@@ -153,7 +153,6 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
           ),
           SignUpPhoneConfirmation(
             backgroundImagePath: agencyBackgroundImage,
-            bloc: bloc,
             onNextPressed: (String code) async {
               try {
                 final bool isLoggedIn = await bloc.magic(

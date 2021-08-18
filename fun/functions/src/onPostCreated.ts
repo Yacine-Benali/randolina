@@ -36,7 +36,7 @@ export const onPostCreated =
                   "id": uid,
                   "lastPostTimestamp": null,
                   "length": 0,
-                  // todo @high error add previous posts also
+                  //! todo @high error add previous posts also
                   "postsIds": [postId],
 
                 }

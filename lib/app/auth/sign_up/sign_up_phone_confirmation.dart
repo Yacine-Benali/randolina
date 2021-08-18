@@ -14,13 +14,10 @@ class SignUpPhoneConfirmation extends StatefulWidget {
   const SignUpPhoneConfirmation({
     Key? key,
     required this.onNextPressed,
-    required this.bloc,
     required this.backgroundImagePath,
   }) : super(key: key);
-  //! todo @average why the bloc is being passed here ?
 
   final ValueChanged<String> onNextPressed;
-  final SignUpBloc bloc;
   final String backgroundImagePath;
 
   @override

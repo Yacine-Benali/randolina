@@ -142,7 +142,6 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
               },
             ),
             SignUpPhoneConfirmation(
-              bloc: bloc,
               backgroundImagePath: clientBackgroundImage,
               onNextPressed: (String code) async {
                 try {
