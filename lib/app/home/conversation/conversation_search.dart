@@ -54,19 +54,17 @@ class ConversationSearch extends SearchDelegate<String> {
       }
     }).toList();
 
-    return Container(
-      child: ListView.separated(
-        itemCount: relevant.length,
-        separatorBuilder: (context, index) => Divider(height: 0.5),
-        itemBuilder: (context, index) {
-          //return Container();
-          return ConversationTile(
-            key: Key(relevant[index].id),
-            conversation: relevant[index],
-            currentUser: currentUser,
-          );
-        },
-      ),
+    return ListView.separated(
+      itemCount: relevant.length,
+      separatorBuilder: (context, index) => Divider(height: 0.5),
+      itemBuilder: (context, index) {
+        //return Container();
+        return ConversationTile(
+          key: Key(relevant[index].id),
+          conversation: relevant[index],
+          currentUser: currentUser,
+        );
+      },
     );
   }
 }

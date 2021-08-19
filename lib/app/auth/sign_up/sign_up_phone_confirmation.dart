@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
