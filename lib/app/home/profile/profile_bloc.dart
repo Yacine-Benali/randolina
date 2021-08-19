@@ -77,7 +77,7 @@ class ProfileBloc {
     }
   }
 
-  // todo @low this is bad for security
+  // todo @low this is bad for security and longterm use
   Future<void> followOtherUser() async {
     // call an api that gets user_followers_posts document that is not full
     // and do the following operations on it

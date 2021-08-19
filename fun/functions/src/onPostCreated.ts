@@ -13,6 +13,8 @@ export const onPostCreated =
           const data = snapshot.data();
 
           const uid: string = data.miniUser.id;
+          // todo @low longterm this document can get full
+
           const querySnapshot =
             await db.collection("user_followers_posts").where("id", "==", uid).
                 where("length", "<", 10000).get();
@@ -36,8 +38,10 @@ export const onPostCreated =
                   "id": uid,
                   "lastPostTimestamp": null,
                   "length": 0,
-                  //! todo @high error add previous posts also
-                  "postsIds": [postId],
+                  "postsIds": [{
+                    "postId": postId,
+                    "createdAt": data.createdAt,
+                  }],
 
                 }
             );
