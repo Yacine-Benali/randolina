@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/home_screen.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
+import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -52,14 +54,23 @@ class _BaseScreenState extends State<BaseScreen> {
                   key: navigatorKey,
                   onGenerateRoute: (routeSettings) {
                     return MaterialPageRoute(
-                        builder: (context) => HomeScreen());
+                      builder: (context) => HomeScreen(),
+                    );
                   },
                 ),
               ),
             ),
           );
+        } else if (snapshot.hasError) {
+          // todo @low work on this screen
+          return Material(
+            child: EmptyContent(
+              title: '',
+              message: internetError,
+            ),
+          );
         }
-        return LoadingScreen();
+        return LoadingScreen(showAppBar: false);
       },
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home/events/events_screen.dart';
 import 'package:randolina/app/home/feed/feed_screen.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
 import 'package:randolina/app/models/user.dart';
@@ -17,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final User user;
-  int index = 0;
+  int index = 2;
   late List<Widget> screens;
 
   @override
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Container(color: backgroundColor);
 
       case 2:
-        return Container(color: backgroundColor);
+        return EventsScreen();
 
       case 3:
         return ProfileScreen(user: user);

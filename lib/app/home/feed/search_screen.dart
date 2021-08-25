@@ -5,6 +5,7 @@ import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/algolia_service.dart';
 
 class DataSearch extends SearchDelegate<String> {
@@ -83,8 +84,7 @@ class DataSearch extends SearchDelegate<String> {
         } else if (snapshot.hasError) {
           return EmptyContent(
             title: '',
-            message:
-                'pas de connexion Internet, assurez-vous que le wifi ou les données mobiles sont activés et réessayez',
+            message: internetError,
           );
         }
 
