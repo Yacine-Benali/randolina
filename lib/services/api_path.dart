@@ -35,4 +35,7 @@ class APIPath {
 
   static String chatPhotosCollection(String uid, String photoId) =>
       'conversations/$uid/messages/$photoId';
+
+  static String eventsPictures(String userId, String eventId, String photoId) =>
+      'events/user_$userId/event_$eventId/$photoId';
 }

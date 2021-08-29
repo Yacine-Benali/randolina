@@ -1,8 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event_form1.dart';
+import 'package:randolina/app/home/events/new_event_form2.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/services/auth.dart';
+import 'package:randolina/services/database.dart';
 
 class NewEventScreen extends StatefulWidget {
   const NewEventScreen({Key? key}) : super(key: key);
@@ -13,12 +18,17 @@ class NewEventScreen extends StatefulWidget {
 
 class _NewEventScreenState extends State<NewEventScreen> {
   late final PageController _pageController;
+  late final EventsBloc eventsBloc;
 
   @override
   void initState() {
-    _pageController = PageController();
-    // final Auth auth = context.read<Auth>();
-    // final Database database = context.read<Database>();
+    _pageController = PageController(initialPage: 1);
+    final AuthUser auth = context.read<AuthUser>();
+    final Database database = context.read<Database>();
+    eventsBloc = EventsBloc(
+      database: database,
+      authUser: auth,
+    );
 
     super.initState();
   }
@@ -58,9 +68,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
               swipePage(1);
             },
           ),
-          Container(
-            color: Colors.black,
-          ),
+          NewEventForm2(eventsBloc: eventsBloc),
         ],
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:randolina/app/home/events/next_button.dart';
+import 'package:randolina/app/home/events/widgets/next_button.dart';
 
 class NewEventForm1 extends StatefulWidget {
   const NewEventForm1({

@@ -27,7 +27,6 @@ dependencies:
   provider: ^5.0.0
   cloud_firestore: ^2.4.0
   logging: ^1.0.1
-  image_picker: ^0.8.2
   firebase_storage: ^10.0.1
   uuid: 3.0.4
   sn_progress_dialog: ^1.0.2
@@ -59,8 +58,12 @@ dependencies:
   flutter_native_splash: ^1.2.1
   camera: ^0.8.1+7
   path: ^1.8.0
+  date_time_picker: ^2.1.0
   #! need ios config
   url_launcher: ^6.0.9
+  multi_image_picker2: ^5.0.2
+  image_picker: ^0.8.2
+  #!
   blur: ^3.0.0
   intl: ^0.17.0
 

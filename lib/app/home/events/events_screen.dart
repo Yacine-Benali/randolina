@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/events/club_event_card.dart';
+import 'package:randolina/app/home/events/widgets/club_event_card.dart';
 import 'package:randolina/app/home/events/new_event_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
 

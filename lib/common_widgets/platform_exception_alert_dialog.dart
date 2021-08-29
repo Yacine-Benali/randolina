@@ -19,6 +19,7 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
     if (exception is PlatformException) {
       return _errors[exception.code] ?? exception.message ?? '';
     }
+    
     return 'Error unknown';
   }
 
