@@ -4,11 +4,11 @@ import 'package:randolina/app/models/event.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class EventMoreInfo extends StatefulWidget {
-  EventMoreInfo({
+  const EventMoreInfo({
     Key? key,
     required this.event,
   }) : super(key: key);
-  Event event;
+  final Event event;
 
   @override
   _EventMoreInfoState createState() => _EventMoreInfoState();

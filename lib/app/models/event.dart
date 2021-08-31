@@ -1,6 +1,5 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/mini_user.dart';
 
 class Event {
@@ -38,7 +37,7 @@ class Event {
   final MiniUser createdBy;
   final int createdByType;
   final int subscribersLength;
-  final Map<String, String> subscribers;
+  final List<MiniSubscriber> subscribers;
   final Timestamp createdAt;
 
   // ignore: avoid_unused_constructor_parameters
@@ -58,10 +57,15 @@ class Event {
     final int availableSeats = data['availableSeats'] as int;
     final MiniUser createdBy =
         MiniUser.fromMap(data['createdBy'] as Map<String, dynamic>);
+    //
     final int createdByType = data['createdByType'] as int;
     final int subscribersLength = data['subscribersLength'] as int;
-    final Map<String, String> subscribers = Map<String, String>.from(
-        data['subscribers'] as LinkedHashMap<String, dynamic>);
+    //
+    final List<MiniSubscriber> subscribers =
+        (data['subscribers'] as List<dynamic>)
+            .map((e) => MiniSubscriber.fromMap(e as Map<String, dynamic>))
+            .toList();
+
     final Timestamp createdAt =
         data['createdAt'] as Timestamp? ?? Timestamp.now();
 

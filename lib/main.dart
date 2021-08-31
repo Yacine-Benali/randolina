@@ -16,7 +16,9 @@ import 'package:randolina/services/firestore_database.dart';
 import 'package:randolina/utils/logger.dart';
 
 const bool isLocal = true;
-const String userIndex = isLocal ? 'users_search' : 'dev_users_search';
+const String userIndex = isLocal ? 'local_users_search' : 'dev_users_search';
+const String eventsIndex =
+    isLocal ? 'local_events_search' : 'dev_events_search';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

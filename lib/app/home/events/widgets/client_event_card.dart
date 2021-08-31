@@ -1,39 +1,97 @@
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/events/event_more_info.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/events/client_event_detail_screen.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
-import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
-import 'package:randolina/common_widgets/platform_alert_dialog.dart';
+import 'package:randolina/app/models/mini_subscriber.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/utils/utils.dart';
 
-class ClubEventCard extends StatefulWidget {
-  const ClubEventCard({
+enum ActionButtonState { subscribe, unsubscribe, unavailable }
+
+class ClientEventCard extends StatefulWidget {
+  const ClientEventCard({
     Key? key,
     required this.event,
     required this.eventsBloc,
-    this.showControls = true,
   }) : super(key: key);
 
   final EventsBloc eventsBloc;
   final Event event;
-  final bool showControls;
   @override
-  _ClubEventCardState createState() => _ClubEventCardState();
+  _ClientEventCardState createState() => _ClientEventCardState();
 }
 
-class _ClubEventCardState extends State<ClubEventCard> {
-  Future<void> deleteEvent() async {
-    final bool? didRequestSignOut = await PlatformAlertDialog(
-      title: 'Confirm',
-      content: 'are you sure you want to delete this event',
-      cancelActionText: 'cancel',
-      defaultActionText: 'yes',
-    ).show(context);
-    if (didRequestSignOut == true) {
-      widget.eventsBloc.deleteEvent(widget.event);
+class _ClientEventCardState extends State<ClientEventCard> {
+  late List<Color> actionButtonGradient;
+  late String actionButtonText;
+  late VoidCallback callback;
+  late final Client client;
+
+  void setbuttonProperties(ActionButtonState actionButtonState) {
+    switch (actionButtonState) {
+      case ActionButtonState.subscribe:
+        actionButtonGradient = [
+          Color.fromRGBO(125, 207, 123, 1),
+          Color.fromRGBO(125, 207, 123, 0.8),
+        ];
+        actionButtonText = 'Participer';
+        callback = () {
+          widget.eventsBloc.subscribeToEvent(widget.event);
+          // buttonState(ActionButtonState.unsubscribe);
+          // setState(() {});
+        };
+        break;
+      case ActionButtonState.unsubscribe:
+        actionButtonGradient = [
+          Color.fromRGBO(251, 106, 106, 1),
+          Color.fromRGBO(251, 106, 106, 0.8),
+        ];
+        actionButtonText = 'Annuler';
+        callback = () {
+          widget.eventsBloc.unsubscribeFromEvent(widget.event);
+          // buttonState(ActionButtonState.subscribe);
+          // setState(() {});
+        };
+        break;
+      case ActionButtonState.unavailable:
+        actionButtonGradient = [
+          Color.fromRGBO(251, 106, 106, 1),
+          Color.fromRGBO(251, 106, 106, 0.8),
+        ];
+        actionButtonText = 'Complet';
+        callback = () {};
+        break;
+      default:
     }
+  }
+
+  void setButtonState() {
+    bool isSet = false;
+
+    if (widget.event.subscribersLength == widget.event.availableSeats) {
+      setbuttonProperties(ActionButtonState.unavailable);
+      isSet = true;
+    }
+    for (final MiniSubscriber miniSubscriber in widget.event.subscribers) {
+      if (miniSubscriber.id == client.id) {
+        setbuttonProperties(ActionButtonState.unsubscribe);
+        isSet = true;
+      }
+    }
+    if (!isSet) {
+      setbuttonProperties(ActionButtonState.subscribe);
+    }
+  }
+
+  @override
+  void initState() {
+    client = context.read<User>() as Client;
+    setButtonState();
+    super.initState();
   }
 
   Widget buildTopPart() {
@@ -46,69 +104,60 @@ class _ClubEventCardState extends State<ClubEventCard> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
         ),
-        if (widget.showControls) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Container(
-                  height: 30,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 4),
-                        blurRadius: 5.0,
-                      )
-                    ],
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      stops: const [0, 1],
-                      colors: [
-                        Color.fromRGBO(64, 163, 219, 1),
-                        Color.fromRGBO(64, 163, 219, 0.5)
-                      ],
-                    ),
-                    color: Colors.deepPurple.shade300,
-                    borderRadius: BorderRadius.circular(60),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                height: 30,
+                width: 80,
+                decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 4),
+                      blurRadius: 5.0,
+                    )
+                  ],
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: const [0, 1],
+                    colors: actionButtonGradient,
                   ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => NewEventScreen(
-                            event: widget.event,
-                          ),
-                        ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      shadowColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
-                    ),
-                    child: Text('Edit'),
+                  color: Colors.deepPurple.shade300,
+                  borderRadius: BorderRadius.circular(60),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    callback();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.transparent),
+                    shadowColor: MaterialStateProperty.all(Colors.transparent),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
                   ),
+                  child: Text(actionButtonText),
                 ),
               ),
-              IconButton(
-                onPressed: deleteEvent,
-                icon: Icon(Icons.delete_outline_outlined),
-              ),
-            ],
-          ),
-        ],
-        if (!widget.showControls) ...[
-          SizedBox(
-            height: 30,
-            width: 80,
-          ),
-        ],
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ClientEventDetailScreen(
+                      event: widget.event,
+                      eventsBloc: widget.eventsBloc,
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(Icons.info_outline),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -167,7 +216,6 @@ class _ClubEventCardState extends State<ClubEventCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 50),
                       Expanded(
                         child: Container(
                           alignment: Alignment.center,
@@ -192,20 +240,6 @@ class _ClubEventCardState extends State<ClubEventCard> {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    EventMoreInfo(event: widget.event),
-                              ),
-                            );
-                          },
-                          icon: Icon(Icons.info_outlined),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -219,6 +253,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
 
   @override
   Widget build(BuildContext context) {
+    setButtonState();
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: Card(

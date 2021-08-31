@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:randolina/app/models/event.dart';
+import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -58,19 +60,76 @@ class EventsBloc {
         data: event.toMap(),
       );
 
-  Stream<List<Event>> getClubEvents() {
+  Stream<List<Event>> getClubMyEvents() {
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('createdBy.id', isEqualTo: authUser.uid)
-          .orderBy('createdAt'),
+          .orderBy('createdAt', descending: true),
     );
-    // todo @high wating for client answer
-    // show them by order for club ?
-    // show expired event ?
+  }
+
+  Stream<List<Event>> getClientMyEvents() {
+    return database.streamCollection(
+      path: APIPath.eventsCollection(),
+      builder: (data, documentId) => Event.fromMap(data, documentId),
+      queryBuilder: (query) => query.where(
+        'subscribers',
+        arrayContainsAny: [
+          {'id': authUser.uid, 'isConfirmed': false},
+          {'id': authUser.uid, 'isConfirmed': true}
+        ],
+      ).orderBy('createdAt', descending: true),
+    );
+  }
+
+  Stream<List<Event>> getClubAllEvents() {
+    //! todo @high paginate
+    return database.streamCollection(
+      path: APIPath.eventsCollection(),
+      builder: (data, documentId) => Event.fromMap(data, documentId),
+      queryBuilder: (query) =>
+          query.where('createdBy.id', isNotEqualTo: authUser.uid),
+      sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+    );
+  }
+
+  Stream<List<Event>> getClientAllEvents() {
+    //! todo @high paginate
+    return database.streamCollection(
+      path: APIPath.eventsCollection(),
+      builder: (data, documentId) => Event.fromMap(data, documentId),
+      queryBuilder: (query) => query.orderBy('createdAt', descending: true),
+    );
   }
 
   Future<void> deleteEvent(Event event) async =>
       database.deleteDocument(path: APIPath.eventDocument(event.id));
+
+  Future<void> subscribeToEvent(Event event) async {
+    final miniSubscriber = MiniSubscriber(id: authUser.uid, isConfirmed: false);
+    await database.updateData(
+      path: APIPath.eventDocument(event.id),
+      data: {
+        'subscribers': FieldValue.arrayUnion([miniSubscriber.toMap()])
+      },
+    );
+  }
+
+  Future<void> unsubscribeFromEvent(Event event) async {
+    late final MiniSubscriber miniSubscriber;
+
+    for (final MiniSubscriber temp in event.subscribers) {
+      if (temp.id == authUser.uid) {
+        miniSubscriber = temp;
+      }
+    }
+    await database.updateData(
+      path: APIPath.eventDocument(event.id),
+      data: {
+        'subscribers': FieldValue.arrayRemove([miniSubscriber.toMap()])
+      },
+    );
+  }
 }

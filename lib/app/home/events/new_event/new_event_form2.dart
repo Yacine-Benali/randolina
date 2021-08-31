@@ -86,7 +86,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
 
   Future<void> onSave() async {
     if (_formKey.currentState!.validate()) {
-      if (images.isEmpty && (widget.event?.images.isEmpty ?? false)) {
+      if (images.isEmpty && (widget.event?.images.isEmpty ?? true)) {
         PlatformExceptionAlertDialog(
           exception: PlatformException(
             code: 'Error',
@@ -128,7 +128,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
         availableSeats: availableSeats!,
         createdBy: context.read<User>().toMiniUser(),
         createdByType: createdByType,
-        subscribers: {},
+        subscribers: [],
         subscribersLength: 0,
         createdAt: Timestamp.now(),
       );
@@ -372,7 +372,6 @@ class _NewEventForm2State extends State<NewEventForm2> {
                 if (int.tryParse(value) == null) {
                   return 'incorrect format';
                 }
-                // todo @high to be tested later
                 if (isClub && int.parse(value) > 13000) {
                   return 'max price for clubs is 13000';
                 }
