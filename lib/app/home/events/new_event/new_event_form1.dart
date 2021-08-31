@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
@@ -8,8 +9,10 @@ class NewEventForm1 extends StatefulWidget {
   const NewEventForm1({
     Key? key,
     required this.onPictureChanged,
+    this.profilePicture,
   }) : super(key: key);
-  final ValueChanged<File> onPictureChanged;
+  final ValueChanged<File?> onPictureChanged;
+  final String? profilePicture;
 
   @override
   _NewEventForm1State createState() => _NewEventForm1State();
@@ -87,7 +90,9 @@ class _NewEventForm1State extends State<NewEventForm1> {
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Image.memory(imageFile!.readAsBytesSync()),
+          child: imageFile != null
+              ? Image.memory(imageFile!.readAsBytesSync())
+              : CachedNetworkImage(imageUrl: widget.profilePicture!),
         ),
       ),
     );
@@ -111,7 +116,9 @@ class _NewEventForm1State extends State<NewEventForm1> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30.0),
-            child: imageFile == null ? buildUploadButton() : buildPhoto(),
+            child: (imageFile == null && widget.profilePicture == null)
+                ? buildUploadButton()
+                : buildPhoto(),
           ),
           Expanded(child: Container()),
           Padding(
@@ -119,7 +126,9 @@ class _NewEventForm1State extends State<NewEventForm1> {
             child: NextButton(
               onPressed: () {
                 if (imageFile != null) {
-                  widget.onPictureChanged(imageFile!);
+                  widget.onPictureChanged(imageFile);
+                } else if (widget.profilePicture != null) {
+                  widget.onPictureChanged(null);
                 }
               },
             ),

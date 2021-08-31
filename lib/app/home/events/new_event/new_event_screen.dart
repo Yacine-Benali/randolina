@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
-import 'package:randolina/app/home/events/new_event_form1.dart';
-import 'package:randolina/app/home/events/new_event_form2.dart';
-import 'package:randolina/app/home/events/new_events_form3.dart';
+import 'package:randolina/app/home/events/new_event/new_event_form1.dart';
+import 'package:randolina/app/home/events/new_event/new_event_form2.dart';
+import 'package:randolina/app/home/events/new_event/new_events_form3.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
@@ -15,7 +15,9 @@ import 'package:randolina/services/database.dart';
 class NewEventScreen extends StatefulWidget {
   const NewEventScreen({
     Key? key,
+    this.event,
   }) : super(key: key);
+  final Event? event;
 
   @override
   _NewEventScreenState createState() => _NewEventScreenState();
@@ -31,7 +33,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController();
     final AuthUser auth = context.read<AuthUser>();
     final Database database = context.read<Database>();
     eventsBloc = EventsBloc(
@@ -75,7 +77,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.blueGrey),
           title: Text(
-            'add an event',
+            widget.event == null ? 'add an event' : 'edit event',
             style: TextStyle(
               color: Color.fromRGBO(34, 50, 99, 1),
               fontWeight: FontWeight.w600,
@@ -87,17 +89,15 @@ class _NewEventScreenState extends State<NewEventScreen> {
           controller: _pageController,
           children: [
             NewEventForm1(
-              onPictureChanged: (File value) async {
+              profilePicture: widget.event?.profileImage,
+              onPictureChanged: (File? value) async {
                 profilePicture = value;
-
-                if (profilePicture != null) {
-                  setState(() {});
-                  //  await Future.delayed(Duration(milliseconds: 500));
-                  swipePage(1);
-                }
+                setState(() {});
+                swipePage(1);
               },
             ),
             NewEventForm2(
+              event: widget.event,
               profilePicture: profilePicture,
               eventsBloc: eventsBloc,
               onNextPressed: ({
@@ -107,6 +107,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
                 this.event = event;
                 this.images = images;
                 setState(() {});
+
                 swipePage(2);
               },
             ),

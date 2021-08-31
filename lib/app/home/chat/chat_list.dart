@@ -64,59 +64,60 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Message>>(
-        stream: messagesStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            messages = snapshot.data!;
-            if (messages.isNotEmpty) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index == messages.length) {
-                    // oups u have reached the top of messages list
-                    return _buildProgressIndicator();
-                  } else {
-                    isSelf = widget.bloc.checkMessageSender(messages[index]);
-                    final MiniUser miniUser =
-                        widget.bloc.checkUser(isSelf: isSelf);
-                    bool showAvatar = false;
+      stream: messagesStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          messages = snapshot.data!;
+          if (messages.isNotEmpty) {
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                if (index == messages.length) {
+                  // oups u have reached the top of messages list
+                  return _buildProgressIndicator();
+                } else {
+                  isSelf = widget.bloc.checkMessageSender(messages[index]);
+                  final MiniUser miniUser =
+                      widget.bloc.checkUser(isSelf: isSelf);
+                  bool showAvatar = false;
+                  //
+                  if (index == 0) {
+                    showAvatar = true;
+                  } else if (messages[index].createdBy !=
+                      messages[index - 1].createdBy) {
                     //
-                    if (index == 0) {
-                      showAvatar = true;
-                    } else if (messages[index].createdBy !=
-                        messages[index - 1].createdBy) {
-                      //
-                      showAvatar = true;
-                    }
-
-                    return MessageTile(
-                      message: messages[index],
-                      isSelf: isSelf,
-                      avatarUrl: showAvatar ? miniUser.profilePicture : null,
-                    );
+                    showAvatar = true;
                   }
-                },
-                // +1 to include the loading widget
-                itemCount: messages.length + 1,
-                reverse: true,
-                controller: listScrollController,
-              );
-            } else {
-              return EmptyContent(
-                title: '',
-                message:
-                    'here you can send and recieve message from the teachers',
-              );
-            }
-          } else if (snapshot.hasError) {
+
+                  return MessageTile(
+                    message: messages[index],
+                    isSelf: isSelf,
+                    avatarUrl: showAvatar ? miniUser.profilePicture : null,
+                  );
+                }
+              },
+              // +1 to include the loading widget
+              itemCount: messages.length + 1,
+              reverse: true,
+              controller: listScrollController,
+            );
+          } else {
             return EmptyContent(
-              title: 'Something went wrong',
-              message: "Can't load items right now",
+              title: '',
+              message:
+                  'here you can send and recieve message from the teachers',
             );
           }
-          return Center(
-            child: CircularProgressIndicator(),
+        } else if (snapshot.hasError) {
+          return EmptyContent(
+            title: 'Something went wrong',
+            message: "Can't load items right now",
           );
-        });
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 
   @override

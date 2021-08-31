@@ -192,10 +192,10 @@ class FirestoreDatabase implements Database {
   //   );
   // }
 
-  // @override
-  // Future<void> deleteDocument({String path}) async {
-  //   final reference = FirebaseFirestore.instance.doc(path);
-  //   print('delete: $path');
-  //   await reference.delete();
-  // }
+  @override
+  Future<void> deleteDocument({required String path}) async {
+    final reference = FirebaseFirestore.instance.doc(path);
+    print('delete: $path');
+    await reference.delete();
+  }
 }

@@ -5,15 +5,22 @@ class EventDifficultyPicker extends StatefulWidget {
     Key? key,
     required this.onChanged,
     this.enabled = true,
+    required this.initialValue,
   }) : super(key: key);
   final ValueChanged<int> onChanged;
   final bool enabled;
+  final int? initialValue;
   @override
   _EventDifficultyPickerState createState() => _EventDifficultyPickerState();
 }
 
 class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
-  int groupeValue = 1;
+  late int groupeValue;
+  @override
+  void initState() {
+    groupeValue = widget.initialValue ?? 1;
+    super.initState();
+  }
 
   void onChanged(int newValue) {
     setState(() {

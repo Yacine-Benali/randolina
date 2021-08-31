@@ -37,7 +37,6 @@ class _BaseScreenState extends State<BaseScreen> {
     return StreamBuilder<User?>(
       stream: userstram,
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-        logger.severe(snapshot);
         if (snapshot.hasData && (snapshot.data != null)) {
           final User user = snapshot.data!;
           logger.info('current user ${user.id}');

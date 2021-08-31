@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:randolina/app/home/events/widgets/event_date_picker.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/home/events/widgets/event_field.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
+import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/user.dart';
@@ -25,10 +27,12 @@ class NewEventForm2 extends StatefulWidget {
     required this.eventsBloc,
     required this.onNextPressed,
     required this.profilePicture,
+    this.event,
   }) : super(key: key);
 
   final File? profilePicture;
   final EventsBloc eventsBloc;
+  final Event? event;
   final void Function({
     required Event event,
     required List<Asset> images,
@@ -39,29 +43,50 @@ class NewEventForm2 extends StatefulWidget {
 
 class _NewEventForm2State extends State<NewEventForm2> {
   late final GlobalKey<FormState> _formKey;
+  late bool isClub;
+  final List<Widget> items = <Widget>[];
+
   //
   List<Asset> images = <Asset>[];
-  late String destination;
-  late double price;
-  late String description;
-  late double walkingDistance;
+  String? destination;
+  int? price;
+  String? description;
+  double? walkingDistance;
   Timestamp? startDateTime;
   Timestamp? endDateTime;
-  int difficulty = 1;
-  late double marchingDistance;
-  late String instructions;
-  late int availableSeats;
+  int? difficulty = 1;
+  String? instructions;
+  int? availableSeats;
 
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
+    final User user = context.read<User>();
+
+    if (user is Club) {
+      isClub = true;
+    } else {
+      isClub = false;
+    }
+    if (widget.event != null) {
+      destination = widget.event!.destination;
+      price = widget.event!.price;
+      description = widget.event!.description;
+      walkingDistance = widget.event!.walkingDistance;
+      startDateTime = widget.event!.startDateTime;
+      endDateTime = widget.event!.endDateTime;
+      difficulty = widget.event!.difficulty;
+      walkingDistance = widget.event!.walkingDistance;
+      instructions = widget.event!.instructions;
+      availableSeats = widget.event!.availableSeats;
+    }
 
     super.initState();
   }
 
   Future<void> onSave() async {
     if (_formKey.currentState!.validate()) {
-      if (images.isEmpty) {
+      if (images.isEmpty && (widget.event?.images.isEmpty ?? false)) {
         PlatformExceptionAlertDialog(
           exception: PlatformException(
             code: 'Error',
@@ -79,19 +104,33 @@ class _NewEventForm2State extends State<NewEventForm2> {
         ).show(context);
         return;
       }
+      late int createdByType;
+      if (context.read<User>() is Club) {
+        createdByType = 1;
+      } else if (context.read<User>() is Agency) {
+        createdByType = 2;
+      } else {
+        throw PlatformException(code: 'INSUFFICIENT_PERMISSION');
+      }
 
       final Event event = Event(
-        images: [''],
-        profileImage: '',
-        destination: destination,
-        price: price,
-        description: description,
-        walkingDistance: walkingDistance,
+        id: widget.event?.id ?? '',
+        images: widget.event?.images ?? [],
+        profileImage: widget.event?.profileImage ?? '',
+        destination: destination!,
+        price: price!,
+        description: description!,
+        walkingDistance: walkingDistance!,
         startDateTime: startDateTime!,
         endDateTime: endDateTime!,
-        difficulty: difficulty,
-        instructions: instructions,
-        availableSeats: availableSeats,
+        difficulty: difficulty!,
+        instructions: instructions!,
+        availableSeats: availableSeats!,
+        createdBy: context.read<User>().toMiniUser(),
+        createdByType: createdByType,
+        subscribers: {},
+        subscribersLength: 0,
+        createdAt: Timestamp.now(),
       );
       widget.onNextPressed(
         event: event,
@@ -102,7 +141,6 @@ class _NewEventForm2State extends State<NewEventForm2> {
 
   Future<void> loadAssets() async {
     List<Asset> resultList = <Asset>[];
-
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 10,
@@ -123,18 +161,13 @@ class _NewEventForm2State extends State<NewEventForm2> {
       );
       // ignore: empty_catches
     } on Exception {}
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
-
     setState(() {
       images = resultList;
     });
   }
 
-  // todo low same button in form 1
+  // todo @low same button in form 1
   Widget buildUploadButton() {
     return Container(
       decoration: BoxDecoration(
@@ -183,58 +216,116 @@ class _NewEventForm2State extends State<NewEventForm2> {
     );
   }
 
+  Widget buildProfilePicture() {
+    if (widget.profilePicture != null) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: SizeConfig.screenWidth,
+          height: 200,
+          child: Image.file(
+            widget.profilePicture!,
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
+    } else if (widget.event != null) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: SizeConfig.screenWidth,
+          height: 200,
+          child: CachedNetworkImage(
+            imageUrl: widget.event!.profileImage,
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  void buildCarousel() {
+    items.clear();
+    if (images.isNotEmpty) {
+      for (final Asset asset in images) {
+        if (asset.originalWidth == null || asset.originalHeight == null) {
+          logger.severe('null height or width ');
+        }
+
+        final w = Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: AssetThumb(
+                asset: asset,
+                width: asset.originalWidth ?? 300,
+                height: asset.originalHeight ?? 300,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                images.remove(asset);
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.cancel,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        );
+        items.add(w);
+      }
+    }
+    if (widget.event != null) {
+      for (final String url in widget.event!.images) {
+        final w = Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CachedNetworkImage(imageUrl: url),
+            ),
+            IconButton(
+              onPressed: () {
+                widget.event!.images.remove(url);
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.cancel,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        );
+        items.add(w);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final User user = context.read<User>();
-    late bool isClub;
-    if (user is Club) {
-      isClub = true;
-    } else {
-      isClub = false;
-    }
+    buildCarousel();
 
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Column(
           children: [
-            if (widget.profilePicture != null) ...[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: SizeConfig.screenWidth,
-                  height: 200,
-                  child: Image.file(
-                    widget.profilePicture!,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ],
+            buildProfilePicture(),
             buildUploadButton(),
-            if (images.isNotEmpty) ...[
+            if (items.isNotEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: CarouselSlider(
                   options: CarouselOptions(enableInfiniteScroll: false),
-                  items: images.map((Asset asset) {
-                    if (asset.originalWidth == null ||
-                        asset.originalHeight == null) {
-                      logger.severe('null height or width ');
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: AssetThumb(
-                        asset: asset,
-                        width: asset.originalWidth ?? 300,
-                        height: asset.originalHeight ?? 300,
-                      ),
-                    );
-                  }).toList(),
+                  items: items,
                 ),
               ),
             ],
             EventField(
+              initialValue: destination,
               title: 'Desination :',
               hint: 'Tikijda...',
               maxLength: 20,
@@ -249,6 +340,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
               },
             ),
             EventField(
+              initialValue: price != null ? '$price' : null,
               title: 'Price :',
               hint: 'Prix...',
               textInputAction: TextInputAction.next,
@@ -271,19 +363,23 @@ class _NewEventForm2State extends State<NewEventForm2> {
                 ),
               ),
               onChanged: (value) {
-                price = double.parse(value);
+                price = int.parse(value);
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'please enter a price';
                 }
+                if (int.tryParse(value) == null) {
+                  return 'incorrect format';
+                }
                 // todo @high to be tested later
-                if (isClub && price > 13000) {
+                if (isClub && int.parse(value) > 13000) {
                   return 'max price for clubs is 13000';
                 }
               },
             ),
             EventField(
+              initialValue: description,
               title: 'Description :',
               hint: 'Text...',
               textInputAction: TextInputAction.newline,
@@ -319,6 +415,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: EventDifficultyPicker(
+                initialValue: difficulty,
                 onChanged: (value) {
                   difficulty = value;
                 },
@@ -329,6 +426,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
               child: SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 70,
                 child: EventField(
+                  initialValue:
+                      walkingDistance != null ? '$walkingDistance' : null,
                   title: 'Distance de marche :',
                   hint: 'exmpl 80km...',
                   textInputAction: TextInputAction.next,
@@ -345,6 +444,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
               ),
             ),
             EventField(
+              initialValue: instructions,
               title: 'Instructions :',
               hint: 'Text...',
               textInputAction: TextInputAction.newline,
@@ -364,6 +464,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
               child: SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 70,
                 child: EventField(
+                  initialValue:
+                      availableSeats != null ? '$availableSeats' : null,
                   title: 'Nombres des places :',
                   hint: 'exmpl 30,45,60...',
                   textInputAction: TextInputAction.done,

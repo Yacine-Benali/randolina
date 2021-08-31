@@ -1,23 +1,37 @@
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:randolina/app/home/events/event_more_info.dart';
+import 'package:randolina/app/home/events/events_bloc.dart';
+import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
+import 'package:randolina/app/models/event.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
+import 'package:randolina/utils/utils.dart';
 
 class ClubEventCard extends StatefulWidget {
-  const ClubEventCard({Key? key}) : super(key: key);
+  const ClubEventCard({
+    Key? key,
+    required this.event,
+    required this.eventsBloc,
+  }) : super(key: key);
 
+  final EventsBloc eventsBloc;
+  final Event event;
   @override
   _ClubEventCardState createState() => _ClubEventCardState();
 }
 
 class _ClubEventCardState extends State<ClubEventCard> {
-  String formatDate() {
-    final Timestamp tempDay = Timestamp.now();
-    final DateTime tempDay2 = tempDay.toDate();
-    final DateFormat formatter = DateFormat('dd LLLL');
-    final String formatted = formatter.format(tempDay2);
-    return formatted;
+  Future<void> deleteEvent() async {
+    final bool? didRequestSignOut = await PlatformAlertDialog(
+      title: 'Confirm',
+      content: 'are you sure you want to delete this event',
+      cancelActionText: 'cancel',
+      defaultActionText: 'yes',
+    ).show(context);
+    if (didRequestSignOut == true) {
+      widget.eventsBloc.deleteEvent(widget.event);
+    }
   }
 
   Widget buildTopPart() {
@@ -26,7 +40,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
         Container(
           color: Colors.white,
           child: Text(
-            "O'rando Adeventure",
+            widget.event.createdBy.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
         ),
@@ -59,7 +73,15 @@ class _ClubEventCardState extends State<ClubEventCard> {
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => NewEventScreen(
+                          event: widget.event,
+                        ),
+                      ),
+                    );
+                  },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.transparent),
@@ -71,7 +93,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: deleteEvent,
               icon: Icon(Icons.delete_outline_outlined),
             ),
           ],
@@ -86,7 +108,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
       child: ClipRect(
         child: Banner(
           location: BannerLocation.topEnd,
-          message: "1200 da",
+          message: "${widget.event.price.toInt()} DA",
           color: Colors.red.withOpacity(0.6),
           textStyle: TextStyle(
             fontWeight: FontWeight.w700,
@@ -98,11 +120,9 @@ class _ClubEventCardState extends State<ClubEventCard> {
             height: 230,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.blue[200],
               image: DecorationImage(
-                image:
-                    NetworkImage('https://source.unsplash.com/random/?sig=15'),
-                fit: BoxFit.fill,
+                image: NetworkImage(widget.event.profileImage),
+                fit: BoxFit.contain,
               ),
             ),
             child: Column(
@@ -115,7 +135,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
-                        formatDate(),
+                        eventCardDateFormat(widget.event.startDateTime),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -144,8 +164,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Text(
-                              // todo textoverflow
-                              "Montange tikajda tikajda ***** ***** **** *****",
+                              widget.event.destination,
                               style: TextStyle(
                                 fontSize: 23,
                                 fontWeight: FontWeight.w600,
@@ -165,7 +184,15 @@ class _ClubEventCardState extends State<ClubEventCard> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print('*');
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    EventMoreInfo(event: widget.event),
+                              ),
+                            );
+                          },
                           icon: Icon(Icons.info_outlined),
                         ),
                       ),

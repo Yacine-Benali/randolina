@@ -67,6 +67,6 @@ abstract class Database {
   //   required Query Function(Query query) queryBuilder,
   // });
 
-  // Future<void> deleteDocument({String path});
+  Future<void> deleteDocument({required String path});
 
 }

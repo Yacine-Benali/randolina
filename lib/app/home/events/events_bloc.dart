@@ -30,17 +30,13 @@ class EventsBloc {
   Future<File> assetToFile(Asset asset) async {
     // generate random number.
     final rng = Random();
-    // get temporary directory of device.
     final Directory tempDir = await getTemporaryDirectory();
-    // get temporary path from temporary directory.
     final String tempPath = tempDir.path;
     // create a new file in temporary path with random file name.
     final File file = File('$tempPath${rng.nextInt(100)}.png');
     final ByteData byteData = await asset.getByteData();
-    // write bodyBytes received in response to file.
     await file.writeAsBytes(byteData.buffer.asUint8List());
-    // now return the file which is created with random name in
-    // temporary directory and image bytes from response is written to // that file.
+
     return file;
   }
 
@@ -57,6 +53,24 @@ class EventsBloc {
     return Future.wait(urls);
   }
 
-  Future<void> saveEvent(String eventId, Event event) async => database.setData(
-      path: APIPath.eventDocument(eventId), data: event.toMap());
+  Future<void> saveEvent(Event event) async => database.setData(
+        path: APIPath.eventDocument(event.id),
+        data: event.toMap(),
+      );
+
+  Stream<List<Event>> getClubEvents() {
+    return database.streamCollection(
+      path: APIPath.eventsCollection(),
+      builder: (data, documentId) => Event.fromMap(data, documentId),
+      queryBuilder: (query) => query
+          .where('createdBy.id', isEqualTo: authUser.uid)
+          .orderBy('createdAt'),
+    );
+    // todo @high wating for client answer
+    // show them by order for club ?
+    // show expired event ?
+  }
+
+  Future<void> deleteEvent(Event event) async =>
+      database.deleteDocument(path: APIPath.eventDocument(event.id));
 }

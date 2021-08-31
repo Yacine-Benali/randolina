@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
@@ -9,6 +10,7 @@ import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 import 'package:uuid/uuid.dart';
@@ -31,6 +33,8 @@ class NewEventsForm3 extends StatefulWidget {
 }
 
 class _NewEventsForm3State extends State<NewEventsForm3> {
+  final List<Widget> items = <Widget>[];
+
   Widget buildTitle(String title) {
     return Text(
       title,
@@ -43,53 +47,101 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
   }
 
   Widget buildProfilePicture() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
-      child: ClipRect(
-        child: Banner(
-          location: BannerLocation.topEnd,
-          message: "${widget.event!.price} da",
-          color: Colors.red.withOpacity(0.6),
-          textStyle: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 12.0,
-            letterSpacing: 1.0,
-          ),
-          //textDirection: TextDirection.ltr,
-          child: Container(
-            height: 230,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.blue[200],
-            ),
-            child: Image.file(widget.profilePicture!, fit: BoxFit.contain),
-          ),
+    late Widget w;
+
+    if (widget.profilePicture != null) {
+      w = Image.file(
+        widget.profilePicture!,
+        fit: BoxFit.contain,
+      );
+    } else if (widget.event != null) {
+      w = CachedNetworkImage(
+        imageUrl: widget.event!.profileImage,
+        fit: BoxFit.contain,
+      );
+    } else {
+      w = Container();
+    }
+
+    return ClipRect(
+      child: Banner(
+        location: BannerLocation.topEnd,
+        message: "${widget.event!.price.toInt()} DA",
+        color: Colors.red.withOpacity(0.6),
+        textStyle: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 12.0,
+          letterSpacing: 1.0,
         ),
+        child: SizedBox(width: SizeConfig.screenWidth, height: 200, child: w),
       ),
     );
   }
 
+  void buildCarousel() {
+    items.clear();
+    if (widget.images?.isNotEmpty ?? false) {
+      for (final Asset asset in widget.images!) {
+        if (asset.originalWidth == null || asset.originalHeight == null) {
+          logger.severe('null height or width ');
+        }
+        final w = Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: AssetThumb(
+            asset: asset,
+            width: asset.originalWidth ?? 300,
+            height: asset.originalHeight ?? 300,
+          ),
+        );
+        items.add(w);
+      }
+    }
+    if (widget.event != null) {
+      for (final String url in widget.event!.images) {
+        final w = Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: CachedNetworkImage(imageUrl: url),
+        );
+        items.add(w);
+      }
+    }
+  }
+
   Future<void> finish() async {
+    final ProgressDialog progressDialog = ProgressDialog(
+      context,
+      message: Text("Loading"),
+      title: Text("uploading images"),
+      dismissable: false,
+    );
+    final Uuid uuid = Uuid();
+    String eventId = uuid.v4();
+
+    progressDialog.show();
     try {
-      final ProgressDialog progressDialog = ProgressDialog(
-        context,
-        message: Text("Loading"),
-        title: Text("uploading images"),
-      );
+      late String profilePictureUrl;
+      final List<String> imagesUrls = [];
 
-      progressDialog.show();
+      if (widget.event != null) {
+        if (widget.event!.id != '') eventId = widget.event!.id;
 
-      final Uuid uuid = Uuid();
-      final String eventId = uuid.v4();
-      final String profilePictureUrl =
-          await widget.eventsBloc.uploadEventProfileImage(
-        widget.profilePicture!,
-        eventId,
-      );
-      final List<String> imagesUrls =
-          await widget.eventsBloc.uploadEventImages(widget.images!);
+        profilePictureUrl = widget.event!.profileImage;
+        imagesUrls.addAll(widget.event!.images);
+      }
 
+      if (widget.profilePicture != null) {
+        profilePictureUrl = await widget.eventsBloc.uploadEventProfileImage(
+          widget.profilePicture!,
+          eventId,
+        );
+      }
+      if (widget.images != null) {
+        imagesUrls.addAll(await widget.eventsBloc.uploadEventImages(
+          widget.images!,
+        ));
+      }
       final Event event = Event(
+        id: eventId,
         images: imagesUrls,
         profileImage: profilePictureUrl,
         destination: widget.event!.destination,
@@ -101,17 +153,27 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
         difficulty: widget.event!.difficulty,
         instructions: widget.event!.instructions,
         availableSeats: widget.event!.availableSeats,
+        createdBy: widget.event!.createdBy,
+        createdByType: widget.event!.createdByType,
+        subscribers: widget.event!.subscribers,
+        subscribersLength: widget.event!.subscribersLength,
+        createdAt: widget.event!.createdAt,
       );
-      await widget.eventsBloc.saveEvent(eventId, event);
+      await widget.eventsBloc.saveEvent(event);
       progressDialog.dismiss();
       Navigator.of(context).pop();
     } on Exception catch (e) {
+      progressDialog.dismiss();
+
       PlatformExceptionAlertDialog(exception: e).show(context);
+    } catch (e) {
+      logger.warning('wtf');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    buildCarousel();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -126,23 +188,15 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
                 style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             ),
-            CarouselSlider(
-              options: CarouselOptions(enableInfiniteScroll: false),
-              items: widget.images!.map((Asset asset) {
-                if (asset.originalWidth == null ||
-                    asset.originalHeight == null) {
-                  logger.severe('null height or width ');
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: AssetThumb(
-                    asset: asset,
-                    width: asset.originalWidth ?? 300,
-                    height: asset.originalHeight ?? 300,
-                  ),
-                );
-              }).toList(),
-            ),
+            if (items.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: CarouselSlider(
+                  options: CarouselOptions(enableInfiniteScroll: false),
+                  items: items,
+                ),
+              ),
+            ],
             SizedBox(height: 15),
             Material(
               borderRadius: BorderRadius.circular(20.0),
@@ -200,6 +254,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
                     ...[
                       SizedBox(height: 40),
                       EventDifficultyPicker(
+                        initialValue: widget.event!.difficulty,
                         onChanged: (t) {},
                         enabled: false,
                       ),
