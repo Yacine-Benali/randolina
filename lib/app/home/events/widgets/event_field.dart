@@ -61,7 +61,6 @@ class _EventFieldState extends State<EventField> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: TextFormField(
-                  enabled: false,
                   textInputAction: widget.textInputAction,
                   minLines: widget.lines,
                   maxLines: widget.lines,

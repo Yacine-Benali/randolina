@@ -1,16 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event_form1.dart';
 import 'package:randolina/app/home/events/new_event_form2.dart';
+import 'package:randolina/app/home/events/new_events_form3.dart';
+import 'package:randolina/app/models/event.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 
 class NewEventScreen extends StatefulWidget {
-  const NewEventScreen({Key? key}) : super(key: key);
+  const NewEventScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _NewEventScreenState createState() => _NewEventScreenState();
@@ -20,9 +25,13 @@ class _NewEventScreenState extends State<NewEventScreen> {
   late final PageController _pageController;
   late final EventsBloc eventsBloc;
 
+  Event? event;
+  File? profilePicture;
+  List<Asset>? images;
+
   @override
   void initState() {
-    _pageController = PageController(initialPage: 1);
+    _pageController = PageController(initialPage: 0);
     final AuthUser auth = context.read<AuthUser>();
     final Database database = context.read<Database>();
     eventsBloc = EventsBloc(
@@ -45,31 +54,70 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        elevation: 2,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.blueGrey),
-        title: Text(
-          'add an event',
-          style: TextStyle(
-            color: Color.fromRGBO(34, 50, 99, 1),
-            fontWeight: FontWeight.w600,
+    return WillPopScope(
+      onWillPop: () async {
+        if (_pageController.hasClients) {
+          if (_pageController.page == 0) {
+            return true;
+          } else {
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          elevation: 2,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.blueGrey),
+          title: Text(
+            'add an event',
+            style: TextStyle(
+              color: Color.fromRGBO(34, 50, 99, 1),
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-      ),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
-        children: [
-          NewEventForm1(
-            onPictureChanged: (File value) {
-              swipePage(1);
-            },
-          ),
-          NewEventForm2(eventsBloc: eventsBloc),
-        ],
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _pageController,
+          children: [
+            NewEventForm1(
+              onPictureChanged: (File value) async {
+                profilePicture = value;
+
+                if (profilePicture != null) {
+                  setState(() {});
+                  //  await Future.delayed(Duration(milliseconds: 500));
+                  swipePage(1);
+                }
+              },
+            ),
+            NewEventForm2(
+              profilePicture: profilePicture,
+              eventsBloc: eventsBloc,
+              onNextPressed: ({
+                required Event event,
+                required List<Asset> images,
+              }) {
+                this.event = event;
+                this.images = images;
+                setState(() {});
+                swipePage(2);
+              },
+            ),
+            NewEventsForm3(
+              images: images,
+              event: event,
+              profilePicture: profilePicture,
+              eventsBloc: eventsBloc,
+            ),
+          ],
+        ),
       ),
     );
   }

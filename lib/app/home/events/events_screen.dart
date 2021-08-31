@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/events/widgets/club_event_card.dart';
 import 'package:randolina/app/home/events/new_event_screen.dart';
+import 'package:randolina/app/home/events/widgets/club_event_card.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class EventsScreen extends StatefulWidget {
@@ -15,10 +15,12 @@ class _EventsScreenState extends State<EventsScreen>
   late final TabController _tabController;
   late final TextStyle textstyle;
   late int tabIndex;
+
   @override
   void initState() {
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(() => setState(() {}));
+
     textstyle = TextStyle(
       color: darkBlue,
       fontWeight: FontWeight.w800,
@@ -68,7 +70,7 @@ class _EventsScreenState extends State<EventsScreen>
             padding:
                 const EdgeInsets.only(top: 30, bottom: 8.0, right: 8, left: 8),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => NewEventScreen(),

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:randolina/utils/utils.dart';
 
 class EventDatePicker extends StatelessWidget {
   const EventDatePicker({
@@ -18,10 +18,6 @@ class EventDatePicker extends StatelessWidget {
   final Timestamp? selectedDate;
   final ValueChanged<Timestamp> onSelectedDate;
 
-  static String date(DateTime date) {
-    return DateFormat.yMMMd().format(date);
-  }
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime temp =
         selectedDate != null ? selectedDate!.toDate() : DateTime.now();
@@ -31,10 +27,21 @@ class EventDatePicker extends StatelessWidget {
       firstDate: DateTime(1960),
       lastDate: DateTime(2100),
     );
-    if (pickedDate != null) {
-      onSelectedDate(Timestamp.fromDate(pickedDate));
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: const TimeOfDay(hour: 10, minute: 47),
+    );
+
+    if (pickedDate != null && pickedTime != null) {
+      final finalDateTime = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+      onSelectedDate(Timestamp.fromDate(finalDateTime));
     }
-    
   }
 
   @override
@@ -65,18 +72,8 @@ class EventDatePicker extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2),
-
-          // because it not redondant
-          // ignore: avoid_unnecessary_containers
-          Container(
-            height: 55,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25.0),
-              border: Border.all(
-                color: Colors.blueGrey,
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10, 20),
             child: Material(
               type: MaterialType.button,
               borderRadius: BorderRadius.circular(20.0),
@@ -84,20 +81,28 @@ class EventDatePicker extends StatelessWidget {
               elevation: 5.0,
               child: InkWell(
                 onTap: () => _selectDate(context),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    // ignore: prefer_if_elements_to_conditional_expressions
-                    selectedDate != null
-                        ? Text(date(selectedDate!.toDate()), style: on)
-                        : Text(hintText, style: off),
-                    Icon(
-                      Icons.expand_more,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.grey.shade700
-                          : Colors.white70,
+                child: SizedBox(
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        // ignore: prefer_if_elements_to_conditional_expressions
+                        selectedDate != null
+                            ? Text(eventDateFormat(selectedDate!.toDate()),
+                                style: on)
+                            : Text(hintText, style: off),
+                        Icon(
+                          Icons.expand_more,
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.grey.shade700
+                                  : Colors.white70,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

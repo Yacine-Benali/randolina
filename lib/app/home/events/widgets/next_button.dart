@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 
 class NextButton extends StatelessWidget {
-  const NextButton({Key? key, required this.onPressed}) : super(key: key);
+  const NextButton({Key? key, required this.onPressed, this.title = 'Next'})
+      : super(key: key);
   final VoidCallback onPressed;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class NextButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Text(
-            'Next',
+            title,
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,

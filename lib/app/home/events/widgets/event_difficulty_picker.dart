@@ -4,9 +4,10 @@ class EventDifficultyPicker extends StatefulWidget {
   const EventDifficultyPicker({
     Key? key,
     required this.onChanged,
+    this.enabled = true,
   }) : super(key: key);
   final ValueChanged<int> onChanged;
-
+  final bool enabled;
   @override
   _EventDifficultyPickerState createState() => _EventDifficultyPickerState();
 }
@@ -27,15 +28,12 @@ class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
       children: [
         Align(
           alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Text(
-              'Niveau de difficulté :',
-              style: TextStyle(
-                fontSize: 18,
-                color: Color.fromRGBO(34, 50, 99, 1),
-                fontWeight: FontWeight.w800,
-              ),
+          child: Text(
+            'Niveau de difficulté :',
+            style: TextStyle(
+              fontSize: 18,
+              color: Color.fromRGBO(34, 50, 99, 1),
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
@@ -45,6 +43,7 @@ class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <LabeledRadio>[
               LabeledRadio(
+                enabled: widget.enabled,
                 label: '1',
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 value: 1,
@@ -52,6 +51,7 @@ class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
                 onChanged: onChanged,
               ),
               LabeledRadio(
+                enabled: widget.enabled,
                 label: '2',
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 value: 2,
@@ -59,6 +59,7 @@ class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
                 onChanged: onChanged,
               ),
               LabeledRadio(
+                enabled: widget.enabled,
                 label: '3',
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 value: 3,
@@ -66,6 +67,7 @@ class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
                 onChanged: onChanged,
               ),
               LabeledRadio(
+                enabled: widget.enabled,
                 label: '4',
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 value: 4,
@@ -73,6 +75,7 @@ class _EventDifficultyPickerState extends State<EventDifficultyPicker> {
                 onChanged: onChanged,
               ),
               LabeledRadio(
+                enabled: widget.enabled,
                 label: '5',
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 value: 5,
@@ -95,6 +98,7 @@ class LabeledRadio extends StatelessWidget {
     required this.groupValue,
     required this.value,
     required this.onChanged,
+    this.enabled = true,
   }) : super(key: key);
 
   final String label;
@@ -102,27 +106,31 @@ class LabeledRadio extends StatelessWidget {
   final int groupValue;
   final int value;
   final ValueChanged<int> onChanged;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        if (value != groupValue) {
-          onChanged(value);
-        }
-      },
+      onTap: enabled
+          ? () {
+              if (value != groupValue) {
+                onChanged(value);
+              }
+            }
+          : null,
       child: Padding(
         padding: padding,
         child: Column(
           children: <Widget>[
             Text(label),
             Radio<int>(
-              //     fillColor: MaterialStateProperty.all(Colors.green),
               groupValue: groupValue,
               value: value,
-              onChanged: (int? newValue) {
-                onChanged(newValue!);
-              },
+              onChanged: enabled
+                  ? (int? newValue) {
+                      onChanged(newValue!);
+                    }
+                  : null,
             ),
           ],
         ),

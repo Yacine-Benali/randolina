@@ -26,4 +26,20 @@ class Event {
   final int difficulty;
   final String instructions;
   final int availableSeats;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'images': images,
+      'profileImage': profileImage,
+      'destination': destination,
+      'price': price,
+      'description': description,
+      'walkingDistance': walkingDistance,
+      'startDateTime': startDateTime,
+      'endDateTime': endDateTime,
+      'difficulty': difficulty,
+      'instructions': instructions,
+      'availableSeats': availableSeats,
+    };
+  }
 }

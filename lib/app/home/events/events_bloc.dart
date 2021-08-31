@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:randolina/app/models/event.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -19,9 +20,9 @@ class EventsBloc {
   final AuthUser authUser;
   final Uuid uuid = Uuid();
 
-  Future<String> uploadEventProfileImage(File file) async {
+  Future<String> uploadEventProfileImage(File file, String eventId) async {
     return database.uploadFile(
-      path: APIPath.eventsPictures(authUser.uid, '', uuid.v4()),
+      path: APIPath.eventsPictures(authUser.uid, eventId, uuid.v4()),
       filePath: file.path,
     );
   }
@@ -55,4 +56,7 @@ class EventsBloc {
     }
     return Future.wait(urls);
   }
+
+  Future<void> saveEvent(String eventId, Event event) async => database.setData(
+      path: APIPath.eventDocument(eventId), data: event.toMap());
 }

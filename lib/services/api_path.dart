@@ -38,4 +38,6 @@ class APIPath {
 
   static String eventsPictures(String userId, String eventId, String photoId) =>
       'events/user_$userId/event_$eventId/$photoId';
+
+  static String eventDocument(String eventId) => 'events/$eventId';
 }

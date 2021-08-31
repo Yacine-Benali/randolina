@@ -73,20 +73,22 @@ class _NewEventForm1State extends State<NewEventForm1> {
   }
 
   Widget buildPhoto() {
-    print(imageFile);
-    return GestureDetector(
-      onTap: () async {
-        final ImagePicker _picker = ImagePicker();
-        final XFile? image =
-            await _picker.pickImage(source: ImageSource.gallery);
-        if (image != null) {
-          imageFile = File(image.path);
-          setState(() {});
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Image.memory(imageFile!.readAsBytesSync()),
+    return SizedBox(
+      height: 400,
+      child: GestureDetector(
+        onTap: () async {
+          final ImagePicker _picker = ImagePicker();
+          final XFile? image =
+              await _picker.pickImage(source: ImageSource.gallery);
+          if (image != null) {
+            imageFile = File(image.path);
+            setState(() {});
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Image.memory(imageFile!.readAsBytesSync()),
+        ),
       ),
     );
   }

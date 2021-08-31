@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
+import 'package:randolina/app/home/events/widgets/event_date_picker.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/home/events/widgets/event_field.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
@@ -20,8 +23,16 @@ class NewEventForm2 extends StatefulWidget {
   const NewEventForm2({
     Key? key,
     required this.eventsBloc,
+    required this.onNextPressed,
+    required this.profilePicture,
   }) : super(key: key);
+
+  final File? profilePicture;
   final EventsBloc eventsBloc;
+  final void Function({
+    required Event event,
+    required List<Asset> images,
+  }) onNextPressed;
   @override
   _NewEventForm2State createState() => _NewEventForm2State();
 }
@@ -34,9 +45,9 @@ class _NewEventForm2State extends State<NewEventForm2> {
   late double price;
   late String description;
   late double walkingDistance;
-  late Timestamp startDateTime;
-  late Timestamp endDateTime;
-  late int difficulty;
+  Timestamp? startDateTime;
+  Timestamp? endDateTime;
+  int difficulty = 1;
   late double marchingDistance;
   late String instructions;
   late int availableSeats;
@@ -49,18 +60,26 @@ class _NewEventForm2State extends State<NewEventForm2> {
   }
 
   Future<void> onSave() async {
-    if (images.isEmpty) {
-      PlatformExceptionAlertDialog(
-        exception: PlatformException(
-          code: 'Error',
-          message: 'pelase select at least one image',
-        ),
-      ).show(context);
-    }
-
-    final urls = await widget.eventsBloc.uploadEventImages(images);
-    logger.severe(urls);
     if (_formKey.currentState!.validate()) {
+      if (images.isEmpty) {
+        PlatformExceptionAlertDialog(
+          exception: PlatformException(
+            code: 'Error',
+            message: 'pelase select at least one image',
+          ),
+        ).show(context);
+        return;
+      }
+      if (startDateTime == null || endDateTime == null) {
+        PlatformExceptionAlertDialog(
+          exception: PlatformException(
+            code: 'Error',
+            message: 'pelase select start and end date',
+          ),
+        ).show(context);
+        return;
+      }
+
       final Event event = Event(
         images: [''],
         profileImage: '',
@@ -68,18 +87,21 @@ class _NewEventForm2State extends State<NewEventForm2> {
         price: price,
         description: description,
         walkingDistance: walkingDistance,
-        startDateTime: startDateTime,
-        endDateTime: endDateTime,
+        startDateTime: startDateTime!,
+        endDateTime: endDateTime!,
         difficulty: difficulty,
         instructions: instructions,
         availableSeats: availableSeats,
+      );
+      widget.onNextPressed(
+        event: event,
+        images: images,
       );
     }
   }
 
   Future<void> loadAssets() async {
     List<Asset> resultList = <Asset>[];
-    String error = 'No Error Detected';
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -99,9 +121,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
           selectCircleStrokeColor: "#ffffff",
         ),
       );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
+      // ignore: empty_catches
+    } on Exception {}
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -177,15 +198,19 @@ class _NewEventForm2State extends State<NewEventForm2> {
         key: _formKey,
         child: Column(
           children: [
-            // todo show photo from previous form
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: SizeConfig.screenWidth,
-                height: 200,
-                color: Colors.red,
+            if (widget.profilePicture != null) ...[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: SizeConfig.screenWidth,
+                  height: 200,
+                  child: Image.file(
+                    widget.profilePicture!,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
-            ),
+            ],
             buildUploadButton(),
             if (images.isNotEmpty) ...[
               Padding(
@@ -261,7 +286,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
             EventField(
               title: 'Description :',
               hint: 'Text...',
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.newline,
+              textInputType: TextInputType.multiline,
               lines: 5,
               onChanged: (value) {
                 description = value;
@@ -272,18 +298,31 @@ class _NewEventForm2State extends State<NewEventForm2> {
                 }
               },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 70,
-                color: Colors.yellow[200],
-                child: Center(child: Text('waiting for client confirmation')),
-              ),
-            ),
-            EventDifficultyPicker(
-              onChanged: (value) {
-                difficulty = value;
+            EventDatePicker(
+              title: 'date et heure de départ',
+              selectedDate: startDateTime,
+              onSelectedDate: (t) {
+                startDateTime = t;
+                setState(() {});
               },
+              hintText: 'select date and time',
+            ),
+            EventDatePicker(
+              title: "date et heure de d'arriver",
+              selectedDate: endDateTime,
+              onSelectedDate: (t) {
+                endDateTime = t;
+                setState(() {});
+              },
+              hintText: 'select date and time',
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: EventDifficultyPicker(
+                onChanged: (value) {
+                  difficulty = value;
+                },
+              ),
             ),
             Align(
               alignment: Alignment.centerLeft,
@@ -306,9 +345,10 @@ class _NewEventForm2State extends State<NewEventForm2> {
               ),
             ),
             EventField(
-              title: 'Instruction :',
+              title: 'Instructions :',
               hint: 'Text...',
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.newline,
+              textInputType: TextInputType.multiline,
               lines: 5,
               onChanged: (value) {
                 instructions = value;

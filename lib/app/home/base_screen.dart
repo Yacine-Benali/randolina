@@ -4,7 +4,6 @@ import 'package:randolina/app/home/home_screen.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
-import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -38,6 +37,7 @@ class _BaseScreenState extends State<BaseScreen> {
     return StreamBuilder<User?>(
       stream: userstram,
       builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+        logger.severe(snapshot);
         if (snapshot.hasData && (snapshot.data != null)) {
           final User user = snapshot.data!;
           logger.info('current user ${user.id}');
@@ -66,7 +66,7 @@ class _BaseScreenState extends State<BaseScreen> {
           return Material(
             child: EmptyContent(
               title: '',
-              message: internetError,
+              message: snapshot.error.toString(),
             ),
           );
         }

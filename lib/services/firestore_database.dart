@@ -58,6 +58,7 @@ class FirestoreDatabase implements Database {
     final Stream<DocumentSnapshot<Map<String, dynamic>>> snapshots =
         reference.snapshots();
     return snapshots.map((DocumentSnapshot<Map<String, dynamic>> snapshot) {
+      if (snapshot.data() == null) return null;
       return builder(snapshot.data()!, snapshot.id);
     });
   }
