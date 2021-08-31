@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: FloatingActionButton(

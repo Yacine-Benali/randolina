@@ -23,9 +23,17 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Material(
-        color: backgroundColor,
-        child: SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            'event info',
+            style: TextStyle(color: Colors.black),
+          ),
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
+        body: SingleChildScrollView(
           child: Column(
             children: [
               EventsDetailForm(event: widget.event),

@@ -132,4 +132,14 @@ class EventsBloc {
       },
     );
   }
+
+  List<Event> searchEvents(List<Event> events, String searchText) {
+    final List<Event> matchedEvents = [];
+    for (final Event event in events) {
+      if (event.destination.contains(searchText)) {
+        matchedEvents.add(event);
+      }
+    }
+    return matchedEvents;
+  }
 }

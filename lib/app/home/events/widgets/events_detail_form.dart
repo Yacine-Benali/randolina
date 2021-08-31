@@ -47,7 +47,7 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
           height: 200,
           child: CachedNetworkImage(
             imageUrl: widget.event.profileImage,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
           ),
         ),
       ),

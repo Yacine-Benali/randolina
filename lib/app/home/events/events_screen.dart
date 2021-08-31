@@ -12,7 +12,6 @@ import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
@@ -30,6 +29,7 @@ class _EventsScreenState extends State<EventsScreen>
   late final bool isClient;
   late final Stream<List<Event>> myEventsStream;
   late final Stream<List<Event>> allEventsStream;
+  String searchText = '';
 
   @override
   void initState() {
@@ -64,8 +64,9 @@ class _EventsScreenState extends State<EventsScreen>
         if (snapshot.hasData && snapshot.data != null) {
           final List<Event> events = snapshot.data!;
           if (events.isNotEmpty) {
-            logger.severe('update');
-            final List<Widget> widgets = events
+            final List<Event> matchedEvents =
+                eventsBloc.searchEvents(events, searchText);
+            final List<Widget> widgets = matchedEvents
                 .map(
                   (e) => isClient
                       ? ClientEventCard(
@@ -103,15 +104,41 @@ class _EventsScreenState extends State<EventsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(25.0),
+      borderSide: BorderSide(color: Colors.blueGrey),
+    );
     return SafeArea(
       child: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: Container(
-              height: 50,
-              width: 50,
-              color: Colors.amber,
+            child: Material(
+              color: Colors.white,
+              elevation: 2,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: BorderSide(color: Colors.red),
+                    ),
+                    enabledBorder: border,
+                    errorBorder: border,
+                    focusedBorder: border,
+                    prefixIcon: Icon(Icons.search),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    fillColor: backgroundColor,
+                    filled: true,
+                  ),
+                  onChanged: (t) {
+                    searchText = t;
+                    setState(() {});
+                  },
+                ),
+              ),
             ),
           ),
           Padding(
