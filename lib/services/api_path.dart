@@ -41,4 +41,6 @@ class APIPath {
 
   static String eventDocument(String eventId) => 'events/$eventId';
   static String eventsCollection() => 'events/';
+  static String savedEventDocument(String userId) =>
+      'users/$userId/savedEvents/savedEvents';
 }

@@ -58,45 +58,57 @@ class _EventsScreenState extends State<EventsScreen>
   }
 
   Widget buildEvents({required bool isMyEvent}) {
-    return StreamBuilder<List<Event>>(
-      stream: isMyEvent ? myEventsStream : allEventsStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          final List<Event> events = snapshot.data!;
-          if (events.isNotEmpty) {
-            final List<Event> matchedEvents =
-                eventsBloc.searchEvents(events, searchText);
-            final List<Widget> widgets = matchedEvents
-                .map(
-                  (e) => isClient
-                      ? ClientEventCard(
-                          key: UniqueKey(),
-                          event: e,
-                          eventsBloc: eventsBloc,
-                        )
-                      : ClubEventCard(
-                          event: e,
-                          eventsBloc: eventsBloc,
-                          showControls: isMyEvent,
-                        ),
-                )
-                .toList();
-            return Column(children: widgets);
-          } else {
-            return EmptyContent(
-              title: '',
-              message: 'You dont have any events',
+    return FutureBuilder(
+      future: isClient
+          ? eventsBloc.getSavedEvents()
+          : Future.delayed(Duration(microseconds: 200)),
+      builder: (_, snapshot) {
+        return StreamBuilder<List<Event>>(
+          stream: isMyEvent ? myEventsStream : allEventsStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              final List<Event> events = snapshot.data!;
+              if (events.isNotEmpty) {
+                final List<Event> matchedEvents =
+                    eventsBloc.searchEvents(events, searchText);
+
+                final List<Widget> widgets = [];
+                for (final Event event in matchedEvents) {
+                  Widget w;
+                  if (isClient) {
+                    w = ClientEventCard(
+                      key: Key(event.id),
+                      event: event,
+                      eventsBloc: eventsBloc,
+                    );
+                  } else {
+                    w = ClubEventCard(
+                      event: event,
+                      eventsBloc: eventsBloc,
+                      showControls: isMyEvent,
+                    );
+                  }
+                  widgets.add(w);
+                }
+
+                return Column(children: widgets);
+              } else {
+                return EmptyContent(
+                  title: '',
+                  message: 'You dont have any events',
+                );
+              }
+            } else if (snapshot.hasError) {
+              return EmptyContent(
+                title: 'Something went wrong',
+                message:
+                    "Can't load items right now\n ${snapshot.error.toString()}",
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          }
-        } else if (snapshot.hasError) {
-          return EmptyContent(
-            title: 'Something went wrong',
-            message:
-                "Can't load items right now\n ${snapshot.error.toString()}",
-          );
-        }
-        return Center(
-          child: CircularProgressIndicator(),
+          },
         );
       },
     );

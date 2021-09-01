@@ -7,9 +7,11 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
+import 'package:randolina/app/models/saved_events.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:uuid/uuid.dart';
 
 class EventsBloc {
@@ -21,6 +23,7 @@ class EventsBloc {
   final Database database;
   final AuthUser authUser;
   final Uuid uuid = Uuid();
+  SavedEvents? savedEvents;
 
   Future<String> uploadEventProfileImage(File file, String eventId) async {
     return database.uploadFile(
@@ -141,5 +144,57 @@ class EventsBloc {
       }
     }
     return matchedEvents;
+  }
+
+  Future<void> getSavedEvents() async {
+    final SavedEvents? savedEvents = await database.fetchDocument(
+      path: APIPath.savedEventDocument(authUser.uid),
+      builder: (data, id) => SavedEvents.fromMap(data),
+    );
+    this.savedEvents = savedEvents;
+  }
+
+  Future<void> saveEventToFavorite(Event event) async {
+    await database.setData(
+      path: APIPath.savedEventDocument(authUser.uid),
+      data: {
+        'eventsId': FieldValue.arrayUnion([event.id]),
+        'savedAt': FieldValue.arrayUnion([Timestamp.now()])
+      },
+    );
+    await getSavedEvents();
+  }
+
+  Future<void> unsaveEventFromFavorite(Event event) async {
+    if (savedEvents != null) {
+      final SavedEvent savedEvent = savedEvents!.list
+          .firstWhere((element) => element.eventId == event.id);
+      await database.setData(
+        path: APIPath.savedEventDocument(authUser.uid),
+        data: {
+          'eventsId': FieldValue.arrayRemove([savedEvent.eventId]),
+          'savedAt': FieldValue.arrayRemove([savedEvent.savedAt])
+        },
+      );
+    }
+    await getSavedEvents();
+  }
+
+  bool isEventSaved(Event event) {
+    if (savedEvents == null) {
+      logger.severe('ERROR savedEvents should be initialized');
+      return false;
+    } else {
+      logger.warning(savedEvents!.list.length);
+    }
+    // ignore: unnecessary_nullable_for_final_variable_declarations
+    final SavedEvent savedEvent = savedEvents!.list.firstWhere(
+      (element) => element.eventId == event.id,
+      orElse: () => SavedEvent(eventId: 'error', savedAt: Timestamp.now()),
+    );
+    if (savedEvent.eventId != 'error') {
+      return true;
+    }
+    return false;
   }
 }

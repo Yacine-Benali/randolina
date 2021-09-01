@@ -29,7 +29,17 @@ class _ClientEventCardState extends State<ClientEventCard> {
   late List<Color> actionButtonGradient;
   late String actionButtonText;
   late VoidCallback callback;
+  late bool isSaved;
   late final Client client;
+
+  @override
+  void initState() {
+    client = context.read<User>() as Client;
+    setButtonState();
+    isSaved = widget.eventsBloc.isEventSaved(widget.event);
+
+    super.initState();
+  }
 
   void setbuttonProperties(ActionButtonState actionButtonState) {
     switch (actionButtonState) {
@@ -87,13 +97,6 @@ class _ClientEventCardState extends State<ClientEventCard> {
     }
   }
 
-  @override
-  void initState() {
-    client = context.read<User>() as Client;
-    setButtonState();
-    super.initState();
-  }
-
   Widget buildTopPart() {
     return Column(
       children: [
@@ -143,18 +146,41 @@ class _ClientEventCardState extends State<ClientEventCard> {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ClientEventDetailScreen(
-                      event: widget.event,
-                      eventsBloc: widget.eventsBloc,
-                    ),
-                  ),
-                );
-              },
-              icon: Icon(Icons.info_outline),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    if (isSaved == false) {
+                      widget.eventsBloc.saveEventToFavorite(widget.event);
+                      print("SAVE");
+
+                      isSaved = true;
+                    } else if (isSaved == true) {
+                      print("UNSAVE");
+                      widget.eventsBloc.unsaveEventFromFavorite(widget.event);
+                      isSaved = false;
+                    }
+                    setState(() {});
+                  },
+                  icon: Icon(isSaved
+                      ? Icons.bookmark
+                      : Icons.bookmark_border_outlined),
+                  color: Colors.black,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ClientEventDetailScreen(
+                          event: widget.event,
+                          eventsBloc: widget.eventsBloc,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.info_outline),
+                ),
+              ],
             ),
           ],
         ),
@@ -254,6 +280,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
   @override
   Widget build(BuildContext context) {
     setButtonState();
+
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: Card(

@@ -16,6 +16,7 @@ class PostBloc {
   final Database database;
 
   Future<bool> isLiked(Post post) async {
+    // todo @low decrease usage by downloading this doc once and then check it
     final List<String> list = await database.fetchCollection(
       path: APIPath.likesCollection(post.id),
       queryBuilder: (query) =>
