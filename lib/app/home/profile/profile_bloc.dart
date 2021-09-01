@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/conversation.dart';
+import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/message.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/saved_posts.dart';
@@ -287,5 +288,15 @@ class ProfileBloc {
     } else {
       return [];
     }
+  }
+
+  Stream<List<Event>> getClubAllEvents() {
+    return database.streamCollection(
+      path: APIPath.eventsCollection(),
+      builder: (data, documentId) => Event.fromMap(data, documentId),
+      queryBuilder: (query) =>
+          query.where('createdBy.id', isEqualTo: otherUser.id),
+      sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+    );
   }
 }

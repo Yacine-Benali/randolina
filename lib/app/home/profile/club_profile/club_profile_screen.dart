@@ -133,7 +133,10 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
                   isFollowingOther: widget.isFollowingOther,
                 ),
                 ...buildMiddleText(),
-                ClubProfileEventSlider(),
+                ClubProfileEventSlider(
+                  clubOrAgency: widget.clubOrAgency,
+                  profileBloc: widget.bloc,
+                ),
                 ProfilePostsTabBar(
                   onTabChanged: (t) {
                     type = t;
