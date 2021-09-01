@@ -132,7 +132,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
                   },
                   isFollowingOther: widget.isFollowingOther,
                 ),
-                ...buildMiddleText(),
+                // ...buildMiddleText(),
                 ClubProfileEventSlider(
                   clubOrAgency: widget.clubOrAgency,
                   profileBloc: widget.bloc,

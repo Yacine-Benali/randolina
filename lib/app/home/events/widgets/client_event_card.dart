@@ -149,26 +149,27 @@ class _ClientEventCardState extends State<ClientEventCard> {
             ),
             Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    if (isSaved == false) {
-                      widget.eventsBloc.saveEventToFavorite(widget.event);
-                      print("SAVE");
+                //! todo @low for later
+                // IconButton(
+                //   onPressed: () {
+                //     if (isSaved == false) {
+                //       widget.eventsBloc.saveEventToFavorite(widget.event);
+                //       print("SAVE");
 
-                      isSaved = true;
-                    } else if (isSaved == true) {
-                      print("UNSAVE");
-                      widget.eventsBloc.unsaveEventFromFavorite(widget.event);
-                      isSaved = false;
-                    }
-                    setState(() {});
-                  },
-                  icon: Icon(isSaved
-                      ? Icons.bookmark
-                      : Icons.bookmark_border_outlined),
-                  color: Colors.black,
-                  // iconSize: 28,
-                ),
+                //       isSaved = true;
+                //     } else if (isSaved == true) {
+                //       print("UNSAVE");
+                //       widget.eventsBloc.unsaveEventFromFavorite(widget.event);
+                //       isSaved = false;
+                //     }
+                //     setState(() {});
+                //   },
+                //   icon: Icon(isSaved
+                //       ? Icons.bookmark
+                //       : Icons.bookmark_border_outlined),
+                //   color: Colors.black,
+                //   // iconSize: 28,
+                // ),
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
