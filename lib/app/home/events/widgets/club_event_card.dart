@@ -1,7 +1,7 @@
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/events/event_more_info.dart';
+import 'package:randolina/app/home/events/club_participants_screen.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
 import 'package:randolina/app/models/event.dart';
@@ -199,7 +199,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>
-                                    EventMoreInfo(event: widget.event),
+                                    ClubParticipantScreen(event: widget.event),
                               ),
                             );
                           },
@@ -241,7 +241,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
                 height: 75,
                 margin: const EdgeInsets.only(left: 20),
                 child: CachedNetworkImage(
-                  imageUrl: 'https://source.unsplash.com/random/?sig=92',
+                  imageUrl: widget.event.createdBy.profilePicture,
                   imageBuilder: (context, imageProvider) =>
                       CircleAvatar(backgroundImage: imageProvider),
                   placeholder: (context, url) => CircularProgressIndicator(),

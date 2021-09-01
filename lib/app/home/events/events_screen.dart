@@ -134,7 +134,7 @@ class _EventsScreenState extends State<EventsScreen>
                     filled: true,
                   ),
                   onChanged: (t) {
-                    searchText = t;
+                    searchText = t.trim();
                     setState(() {});
                   },
                 ),
