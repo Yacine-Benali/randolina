@@ -231,4 +231,15 @@ class EventsBloc {
     }
     return participants;
   }
+
+  Future<void> saveParticipants(
+      List<Participant> participants, Event event) async {
+    await database.setData(
+      path: APIPath.eventDocument(event.id),
+      data: {
+        'subscribers':
+            participants.map((e) => e.toMiniSubscriber().toMap()).toList()
+      },
+    );
+  }
 }

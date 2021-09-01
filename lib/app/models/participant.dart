@@ -1,4 +1,5 @@
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/app/models/mini_subscriber.dart';
 
 class Participant {
   Participant({
@@ -15,7 +16,7 @@ class Participant {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {};
+  MiniSubscriber toMiniSubscriber() {
+    return MiniSubscriber(id: client.id, isConfirmed: isConfirmed);
   }
 }

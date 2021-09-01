@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/events/participant_detail_screen.dart';
 import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ParticipantCard extends StatefulWidget {
   const ParticipantCard({
     Key? key,
     required this.participant,
     required this.index,
+    required this.onSelected,
+    this.showInfo = true,
   }) : super(key: key);
   final Participant participant;
   final int index;
+  final ValueChanged<bool> onSelected;
+  final bool showInfo;
 
   @override
   _ParticipantCardState createState() => _ParticipantCardState();
@@ -24,9 +31,17 @@ class _ParticipantCardState extends State<ParticipantCard> {
     super.initState();
   }
 
+  Future<void> call() async {
+    if (await canLaunch('tel:${widget.participant.client.phoneNumber}')) {
+      await launch('tel:${widget.participant.client.phoneNumber}');
+    } else {
+      logger.severe('ERROR cant launch');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // todo will this look good on any device size ?
+    // todo @low will this look good on any device size ?
     return Row(
       children: [
         Expanded(
@@ -68,7 +83,7 @@ class _ParticipantCardState extends State<ParticipantCard> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 70.0),
                                   child: GestureDetector(
-                                    onTap: () {},
+                                    onTap: call,
                                     child: Text(
                                       widget.participant.client.phoneNumber,
                                       style: TextStyle(
@@ -82,10 +97,51 @@ class _ParticipantCardState extends State<ParticipantCard> {
                                 ),
                               ],
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.info_outline, size: 30),
-                            )
+                            if (widget.showInfo) ...[
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => ParticipantDetailScreen(
+                                        participant: widget.participant,
+                                        index: widget.index,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.info_outline, size: 30),
+                              )
+                            ],
+                            if (!widget.showInfo) ...[
+                              GestureDetector(
+                                onTap: call,
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFF334D73),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                      color: Colors.black.withOpacity(0.10),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Color.fromRGBO(51, 77, 115, 0.42),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 5),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    Icons.phone,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),
@@ -101,16 +157,19 @@ class _ParticipantCardState extends State<ParticipantCard> {
             ],
           ),
         ),
-        Checkbox(
-          value: isSelected,
-          onChanged: (t) {
-            if (t != null) {
-              setState(() {
-                isSelected = t;
-              });
-            }
-          },
-        ),
+        if (widget.showInfo) ...[
+          Checkbox(
+            value: isSelected,
+            onChanged: (t) {
+              if (t != null) {
+                setState(() {
+                  isSelected = t;
+                  widget.onSelected(t);
+                });
+              }
+            },
+          ),
+        ],
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Material(

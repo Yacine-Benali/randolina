@@ -23,3 +23,10 @@ String eventCardDateFormat(Timestamp date) {
   final String formatted = formatter.format(tempDay2);
   return formatted;
 }
+
+String particpantDateFormmater(Timestamp date) {
+  final DateTime tempDay2 = date.toDate();
+  final DateFormat formatter = DateFormat('dd/MM/yyyy');
+  final String formatted = formatter.format(tempDay2);
+  return formatted;
+}

@@ -6,7 +6,6 @@ import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 
 class ClubParticipantScreen extends StatefulWidget {
@@ -17,7 +16,6 @@ class ClubParticipantScreen extends StatefulWidget {
   }) : super(key: key);
   final Event event;
   final EventsBloc eventsBloc;
-
   @override
   _ClubParticipantScreenState createState() => _ClubParticipantScreenState();
 }
@@ -40,18 +38,30 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
           ),
         ],
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Particiapnt List',
-            style: TextStyle(
-              color: Color.fromRGBO(51, 77, 115, 0.7),
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: () async {
+              await widget.eventsBloc
+                  .saveParticipants(participants, widget.event);
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.save_outlined),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Particiapnt List',
+                style: TextStyle(
+                  color: Color.fromRGBO(51, 77, 115, 0.7),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -195,13 +205,15 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
             final List<Widget> widgets = [];
             int index = 1;
             for (final Participant participant in participants) {
-              logger.info(participant.isConfirmed);
               if (showConfirmedOnly) {
                 if (participant.isConfirmed) {
                   final w = Padding(
                     padding: const EdgeInsets.all(8),
                     child: ParticipantCard(
                       key: UniqueKey(),
+                      onSelected: (t) {
+                        participant.isConfirmed = t;
+                      },
                       participant: participant,
                       index: index,
                     ),
@@ -214,6 +226,9 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
                   padding: const EdgeInsets.all(8),
                   child: ParticipantCard(
                     key: UniqueKey(),
+                    onSelected: (t) {
+                      participant.isConfirmed = t;
+                    },
                     participant: participant,
                     index: index,
                   ),
