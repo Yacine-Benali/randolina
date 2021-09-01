@@ -304,7 +304,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
                 height: 75,
                 margin: const EdgeInsets.only(left: 20),
                 child: CachedNetworkImage(
-                  imageUrl: 'https://source.unsplash.com/random/?sig=92',
+                  imageUrl: widget.event.createdBy.profilePicture,
                   imageBuilder: (context, imageProvider) =>
                       CircleAvatar(backgroundImage: imageProvider),
                   placeholder: (context, url) => CircularProgressIndicator(),

@@ -39,8 +39,8 @@ class _ClubEventCardState extends State<ClubEventCard> {
   Widget buildTopPart() {
     return Column(
       children: [
-        Container(
-          color: Colors.white,
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0),
           child: Text(
             widget.event.createdBy.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -128,7 +128,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
           ),
           //textDirection: TextDirection.ltr,
           child: Container(
-            height: 230,
+            height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
@@ -198,8 +198,10 @@ class _ClubEventCardState extends State<ClubEventCard> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) =>
-                                    ClubParticipantScreen(event: widget.event),
+                                builder: (_) => ClubParticipantScreen(
+                                  event: widget.event,
+                                  eventsBloc: widget.eventsBloc,
+                                ),
                               ),
                             );
                           },

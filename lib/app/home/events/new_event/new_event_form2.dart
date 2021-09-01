@@ -128,7 +128,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
         availableSeats: availableSeats!,
         createdBy: context.read<User>().toMiniUser(),
         createdByType: createdByType,
-        subscribers: [],
+        subscribers: widget.event?.subscribers ?? [],
         subscribersLength: 0,
         createdAt: Timestamp.now(),
       );

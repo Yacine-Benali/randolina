@@ -1,12 +1,22 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/events/events_bloc.dart';
+import 'package:randolina/app/home/events/widgets/participant_card.dart';
 import 'package:randolina/app/models/event.dart';
+import 'package:randolina/app/models/participant.dart';
+import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:randolina/utils/utils.dart';
 
 class ClubParticipantScreen extends StatefulWidget {
   const ClubParticipantScreen({
     Key? key,
     required this.event,
+    required this.eventsBloc,
   }) : super(key: key);
   final Event event;
+  final EventsBloc eventsBloc;
 
   @override
   _ClubParticipantScreenState createState() => _ClubParticipantScreenState();
@@ -15,6 +25,7 @@ class ClubParticipantScreen extends StatefulWidget {
 class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
   bool isSelectAll = false;
   bool showConfirmedOnly = false;
+  final List<Participant> participants = [];
 
   Widget buildAppBar() {
     return Container(
@@ -68,6 +79,66 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
                 fit: BoxFit.cover,
               ),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        eventCardDateFormat(widget.event.startDateTime),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.33,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                      ).frosted(
+                        blur: 1,
+                        borderRadius: BorderRadius.circular(20),
+                        padding: EdgeInsets.all(8),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              widget.event.destination,
+                              style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.33,
+                                color: Colors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ).frosted(
+                              blur: 1,
+                              borderRadius: BorderRadius.circular(20),
+                              padding: EdgeInsets.all(8),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -82,46 +153,101 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
           children: [
             Text('select all'),
             Checkbox(
-                value: isSelectAll,
-                onChanged: (t) {
-                  if (t != null) {
-                    setState(() {
-                      isSelectAll = t;
-                    });
+              value: isSelectAll,
+              onChanged: (t) {
+                if (t != null) {
+                  if (t == true) {
+                    participants
+                        .forEach((element) => element.isConfirmed = true);
                   }
-                }),
+                  setState(() {
+                    isSelectAll = t;
+                  });
+                }
+              },
+            ),
           ],
         ),
-        Switch(
-          value: showConfirmedOnly,
-          onChanged: (t) {
-            setState(() {
-              showConfirmedOnly = t;
-            });
-          },
+        Row(
+          children: [
+            Text('show confirmed only'),
+            Switch(
+              value: showConfirmedOnly,
+              onChanged: (t) {
+                setState(() {
+                  showConfirmedOnly = t;
+                });
+              },
+            ),
+          ],
         )
       ],
     );
   }
 
-  Widget buildRow() {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 20,
-        ),
-        Container(
-          width: 60,
-          height: 20,
-          color: Colors.blueGrey,
-        ),
-      ],
+  Widget buildList() {
+    return FutureBuilder<List<Participant>>(
+      future: widget.eventsBloc.getEventParticipant(widget.event),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          if (participants.isEmpty) participants.addAll(snapshot.data!);
+          if (participants.isNotEmpty) {
+            final List<Widget> widgets = [];
+            int index = 1;
+            for (final Participant participant in participants) {
+              logger.info(participant.isConfirmed);
+              if (showConfirmedOnly) {
+                if (participant.isConfirmed) {
+                  final w = Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ParticipantCard(
+                      key: UniqueKey(),
+                      participant: participant,
+                      index: index,
+                    ),
+                  );
+                  widgets.add(w);
+                  index++;
+                }
+              } else {
+                final w = Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ParticipantCard(
+                    key: UniqueKey(),
+                    participant: participant,
+                    index: index,
+                  ),
+                );
+                widgets.add(w);
+                index++;
+              }
+            }
+
+            return Column(children: widgets);
+          } else {
+            return EmptyContent(
+              title: '',
+              message: 'You dont have any participants',
+            );
+          }
+        } else if (snapshot.hasError) {
+          return EmptyContent(
+            title: 'Something went wrong',
+            message:
+                "Can't load items right now\n ${snapshot.error.toString()}",
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: ListView(
         children: [
           buildAppBar(),
@@ -133,7 +259,21 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: buildTableOptions(),
           ),
-          buildRow(),
+          buildList(),
+          // FutureBuilder(
+          //     future: Future.delayed(Duration(seconds: 1)),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.connectionState == ConnectionState.done) {
+          //         return buildList();
+          //       } else {
+          //         return Padding(
+          //           padding: EdgeInsets.symmetric(
+          //             horizontal: SizeConfig.screenWidth / 2.2,
+          //           ),
+          //           child: CircularProgressIndicator(),
+          //         );
+          //       }
+          //     }),
         ],
       ),
     );

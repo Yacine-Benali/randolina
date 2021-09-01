@@ -106,7 +106,7 @@ class Event {
       'createdBy': createdBy.toMap(),
       'createdByType': createdByType,
       'subscribersLength': subscribersLength,
-      'subscribers': subscribers,
+      'subscribers': subscribers.map((e) => e.toMap()).toList(),
       'createdAt': FieldValue.serverTimestamp(),
     };
   }

@@ -5,8 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
+import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/app/models/saved_events.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
@@ -196,5 +198,37 @@ class EventsBloc {
       return true;
     }
     return false;
+  }
+
+  Future<List<Participant>> getEventParticipant(Event event) async {
+    final List<String> userIds = event.subscribers.map((e) => e.id).toList();
+
+    final List<Future<Client?>> futures = [];
+
+    for (final String id in userIds) {
+      final Future<Client?> futureClient = database.fetchDocument(
+        path: APIPath.userDocument(id),
+        builder: (data, id) => Client.fromMap(data, id),
+      );
+      futures.add(futureClient);
+    }
+
+    final List<Client?> dirtyClient = await Future.wait(futures);
+
+    final List<Participant> participants = [];
+    for (final MiniSubscriber miniSubscriber in event.subscribers) {
+      for (final Client? client in dirtyClient) {
+        if (client != null) {
+          if (miniSubscriber.id == client.id) {
+            final p = Participant(
+              client: client,
+              isConfirmed: miniSubscriber.isConfirmed,
+            );
+            participants.add(p);
+          }
+        }
+      }
+    }
+    return participants;
   }
 }
