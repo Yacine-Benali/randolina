@@ -10,6 +10,7 @@ import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/utils/utils.dart';
 
+// todo @low move this somewhere else
 enum ActionButtonState { subscribe, unsubscribe, unavailable }
 
 class ClientEventCard extends StatefulWidget {
@@ -100,8 +101,8 @@ class _ClientEventCardState extends State<ClientEventCard> {
   Widget buildTopPart() {
     return Column(
       children: [
-        Container(
-          color: Colors.white,
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0),
           child: Text(
             widget.event.createdBy.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -166,6 +167,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
                       ? Icons.bookmark
                       : Icons.bookmark_border_outlined),
                   color: Colors.black,
+                  // iconSize: 28,
                 ),
                 IconButton(
                   onPressed: () {
@@ -199,11 +201,10 @@ class _ClientEventCardState extends State<ClientEventCard> {
           textStyle: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 12.0,
-            letterSpacing: 1.0,
           ),
           //textDirection: TextDirection.ltr,
           child: Container(
-            height: 230,
+            height: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(

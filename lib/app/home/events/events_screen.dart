@@ -118,47 +118,66 @@ class _EventsScreenState extends State<EventsScreen>
   Widget build(BuildContext context) {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
-      borderSide: BorderSide(color: Colors.blueGrey),
+      borderSide: BorderSide(color: Colors.grey),
     );
     return SafeArea(
       child: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: Material(
-              color: Colors.white,
-              elevation: 2,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: BorderSide(color: Colors.red),
-                    ),
-                    enabledBorder: border,
-                    errorBorder: border,
-                    focusedBorder: border,
-                    prefixIcon: Icon(Icons.search),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    fillColor: backgroundColor,
-                    filled: true,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(25.0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF334D73).withOpacity(0.20),
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
                   ),
-                  onChanged: (t) {
-                    searchText = t.trim();
-                    setState(() {});
-                  },
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 20,
+                  left: 20,
+                  bottom: 10,
+                  top: 8,
+                ),
+                child: SizedBox(
+                  height: 35,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0)),
+                      enabledBorder: border,
+                      errorBorder: border,
+                      hintText: 'Search...',
+                      focusedBorder: border,
+                      prefixIcon: Icon(Icons.search),
+                      hintStyle: TextStyle(color: Colors.grey),
+                      suffixIcon: Icon(Icons.search, color: Colors.transparent),
+                      contentPadding: EdgeInsets.zero,
+                      fillColor: backgroundColor,
+                      filled: true,
+                    ),
+                    onChanged: (t) {
+                      searchText = t.trim();
+                      setState(() {});
+                    },
+                  ),
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(right: 16.0, left: 16.0),
             child: SizedBox(
-              height: 40,
+              height: 30,
               child: Material(
-                color: Colors.blueGrey[100],
+                color: Colors.grey[300],
                 elevation: 5,
                 child: TabBar(
                   controller: _tabController,
@@ -178,6 +197,7 @@ class _EventsScreenState extends State<EventsScreen>
               ),
             ),
           ),
+          if (isClient) ...[SizedBox(height: 36)],
           if (!isClient && _tabController.index == 0) ...[
             Padding(
               padding: const EdgeInsets.only(

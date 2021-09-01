@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/models/event.dart';
+import 'package:randolina/common_widgets/image_full_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/utils.dart';
 
@@ -60,7 +61,24 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
     for (final String url in widget.event.images) {
       final w = Padding(
         padding: const EdgeInsets.only(right: 8.0),
-        child: CachedNetworkImage(imageUrl: url),
+        child: CachedNetworkImage(
+          imageBuilder: (_, imageProvider) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageFullScreen(
+                      imageProvider: imageProvider,
+                    ),
+                  ),
+                );
+              },
+              child: Image(image: imageProvider),
+            );
+          },
+          imageUrl: url,
+        ),
       );
       items.add(w);
     }

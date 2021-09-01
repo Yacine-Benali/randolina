@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/chat/image_full_screen.dart';
 import 'package:randolina/app/models/message.dart';
+import 'package:randolina/common_widgets/image_full_screen.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 
