@@ -4,6 +4,7 @@ import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
 import 'package:randolina/app/home/events/widgets/client_event_card.dart';
 import 'package:randolina/app/home/events/widgets/club_event_card.dart';
+import 'package:randolina/app/home/events/widgets/events_search.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/event.dart';
@@ -30,6 +31,7 @@ class _EventsScreenState extends State<EventsScreen>
   late final Stream<List<Event>> myEventsStream;
   late final Stream<List<Event>> allEventsStream;
   String searchText = '';
+  EventCreatedBy eventCreatedBy = EventCreatedBy.both;
 
   @override
   void initState() {
@@ -114,67 +116,15 @@ class _EventsScreenState extends State<EventsScreen>
     );
   }
 
-  Widget buildSearchArea() {
-    final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(25.0),
-      borderSide: BorderSide(color: Colors.grey),
-    );
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(25.0)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFF334D73).withOpacity(0.20),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            right: 20,
-            left: 20,
-            bottom: 10,
-            top: 24,
-          ),
-          child: SizedBox(
-            height: 35,
-            child: TextField(
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0)),
-                enabledBorder: border,
-                errorBorder: border,
-                hintText: 'Search...',
-                focusedBorder: border,
-                prefixIcon: Icon(Icons.search),
-                hintStyle: TextStyle(color: Colors.grey),
-                suffixIcon: Icon(Icons.search, color: Colors.transparent),
-                contentPadding: EdgeInsets.zero,
-                fillColor: backgroundColor,
-                filled: true,
-              ),
-              onChanged: (t) {
-                searchText = t.trim();
-                setState(() {});
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
         children: [
-          buildSearchArea(),
+          EventsSearch(
+            onTextChanged: (t) => setState(() => searchText = t),
+            onEventCreatedByChanged: (t) => setState(() => eventCreatedBy = t),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 16.0, left: 16.0),
             child: SizedBox(

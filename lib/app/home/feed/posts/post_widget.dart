@@ -107,7 +107,7 @@ class _PostWidgetState extends State<PostWidget> {
               ),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 48,
+              width: SizeConfig.screenWidth,
               child: PostContentLoader(
                 type: widget.post.type,
                 content: widget.post.content,

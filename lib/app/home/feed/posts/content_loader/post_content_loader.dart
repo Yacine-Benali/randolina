@@ -38,8 +38,6 @@ class _PostContentLoaderState extends State<PostContentLoader> {
             widget.content.map((url) => PostVideoLoader(url: url)).toList();
         break;
       case 2:
-        //children = [Container()];
-
         children =
             widget.content.map((url) => PostYTVideoLoader(url: url)).toList();
         break;
@@ -53,21 +51,19 @@ class _PostContentLoaderState extends State<PostContentLoader> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: CarouselSlider(
-            items: children,
-            carouselController: _controller,
-            options: CarouselOptions(
-              aspectRatio: 1 / 1,
-              enableInfiniteScroll: false,
-              viewportFraction: 1.0,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                  widget.onIndexChanged(_current);
-                });
-              },
-            ),
+        CarouselSlider(
+          items: children,
+          carouselController: _controller,
+          options: CarouselOptions(
+            aspectRatio: 1 / 1,
+            enableInfiniteScroll: false,
+            viewportFraction: 1.0,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+                widget.onIndexChanged(_current);
+              });
+            },
           ),
         ),
         SizedBox(height: 5),
