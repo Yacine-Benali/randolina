@@ -114,64 +114,67 @@ class _EventsScreenState extends State<EventsScreen>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildSearchArea() {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
       borderSide: BorderSide(color: Colors.grey),
     );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(25.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFF334D73).withOpacity(0.20),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            right: 20,
+            left: 20,
+            bottom: 10,
+            top: 24,
+          ),
+          child: SizedBox(
+            height: 35,
+            child: TextField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0)),
+                enabledBorder: border,
+                errorBorder: border,
+                hintText: 'Search...',
+                focusedBorder: border,
+                prefixIcon: Icon(Icons.search),
+                hintStyle: TextStyle(color: Colors.grey),
+                suffixIcon: Icon(Icons.search, color: Colors.transparent),
+                contentPadding: EdgeInsets.zero,
+                fillColor: backgroundColor,
+                filled: true,
+              ),
+              onChanged: (t) {
+                searchText = t.trim();
+                setState(() {});
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(25.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFF334D73).withOpacity(0.20),
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 20,
-                  left: 20,
-                  bottom: 10,
-                  top: 8,
-                ),
-                child: SizedBox(
-                  height: 35,
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0)),
-                      enabledBorder: border,
-                      errorBorder: border,
-                      hintText: 'Search...',
-                      focusedBorder: border,
-                      prefixIcon: Icon(Icons.search),
-                      hintStyle: TextStyle(color: Colors.grey),
-                      suffixIcon: Icon(Icons.search, color: Colors.transparent),
-                      contentPadding: EdgeInsets.zero,
-                      fillColor: backgroundColor,
-                      filled: true,
-                    ),
-                    onChanged: (t) {
-                      searchText = t.trim();
-                      setState(() {});
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildSearchArea(),
           Padding(
             padding: const EdgeInsets.only(right: 16.0, left: 16.0),
             child: SizedBox(

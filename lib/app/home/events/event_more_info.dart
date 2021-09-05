@@ -18,10 +18,12 @@ class _EventMoreInfoState extends State<EventMoreInfo> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Material(
-        color: backgroundColor,
-        child: EventsDetailForm(
-          event: widget.event,
+      child: SingleChildScrollView(
+        child: Material(
+          color: backgroundColor,
+          child: EventsDetailForm(
+            event: widget.event,
+          ),
         ),
       ),
     );

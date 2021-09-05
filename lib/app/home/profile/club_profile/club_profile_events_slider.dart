@@ -1,10 +1,17 @@
 import 'package:blur/blur.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/events/client_event_detail_screen.dart';
+import 'package:randolina/app/home/events/event_more_info.dart';
+import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/services/auth.dart';
+import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/utils.dart';
 
 class ClubProfileEventSlider extends StatefulWidget {
@@ -22,126 +29,129 @@ class ClubProfileEventSlider extends StatefulWidget {
 
 class _ClubProfileEventSliderState extends State<ClubProfileEventSlider> {
   late final Stream<List<Event>> stream;
+  late final EventsBloc eventsBloc;
 
   @override
   void initState() {
-    // TODO: implement initState
+    final AuthUser auth = context.read<AuthUser>();
+    final Database database = context.read<Database>();
+    eventsBloc = EventsBloc(
+      database: database,
+      authUser: auth,
+    );
     super.initState();
   }
 
   Widget buildList(Event event) {
-    return SizedBox(
-      width: 400,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          elevation: 5,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 2, left: 2),
-                child: ClipRect(
-                  child: Banner(
-                    location: BannerLocation.topEnd,
-                    message: "${event.price.toInt()} DA",
-                    color: Colors.red.withOpacity(0.6),
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12.0,
-                    ),
-                    //textDirection: TextDirection.ltr,
-                    child: Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: NetworkImage(event.profileImage),
-                          fit: BoxFit.cover,
-                        ),
+    return GestureDetector(
+      onTap: () {
+        if (context.read<User>() is Client) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ClientEventDetailScreen(
+                event: event,
+                eventsBloc: eventsBloc,
+              ),
+            ),
+          );
+        } else {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => EventMoreInfo(event: event),
+            ),
+          );
+        }
+      },
+      child: SizedBox(
+        width: 400,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 2, left: 2),
+              child: ClipRect(
+                child: Banner(
+                  location: BannerLocation.topEnd,
+                  message: "${event.price.toInt()} DA",
+                  color: Colors.red.withOpacity(0.6),
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12.0,
+                  ),
+                  //textDirection: TextDirection.ltr,
+                  child: Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: NetworkImage(event.profileImage),
+                        fit: BoxFit.cover,
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Text(
-                                  eventCardDateFormat(event.startDateTime),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: -0.33,
-                                    color: Colors.black87,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ).frosted(
-                                  blur: 1,
-                                  borderRadius: BorderRadius.circular(20),
-                                  padding: EdgeInsets.all(8),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                eventCardDateFormat(event.startDateTime),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: -0.33,
+                                  color: Colors.black87,
                                 ),
+                                textAlign: TextAlign.center,
+                              ).frosted(
+                                blur: 1,
+                                borderRadius: BorderRadius.circular(20),
+                                padding: EdgeInsets.all(8),
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: BorderedText(
+                                      strokeColor: Colors.black,
+                                      strokeWidth: 3.0,
                                       child: Text(
                                         event.destination,
                                         style: TextStyle(
-                                          fontSize: 23,
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: -0.33,
-                                          color: Colors.black,
+                                          fontSize: 24,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                      ).frosted(
-                                        blur: 1,
-                                        borderRadius: BorderRadius.circular(20),
-                                        padding: EdgeInsets.all(8),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              Positioned(
-                top: 50,
-                child: Container(
-                  width: 75,
-                  height: 75,
-                  margin: const EdgeInsets.only(left: 20),
-                  child: CachedNetworkImage(
-                    imageUrl: event.createdBy.profilePicture,
-                    imageBuilder: (context, imageProvider) =>
-                        CircleAvatar(backgroundImage: imageProvider),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

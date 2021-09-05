@@ -1,4 +1,5 @@
 import 'package:blur/blur.dart';
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/widgets/participant_card.dart';
@@ -126,20 +127,17 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
                           decoration: BoxDecoration(),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              widget.event.destination,
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: -0.33,
-                                color: Colors.black,
+                            child: BorderedText(
+                              strokeColor: Colors.black,
+                              strokeWidth: 3.0,
+                              child: Text(
+                                widget.event.destination,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ).frosted(
-                              blur: 1,
-                              borderRadius: BorderRadius.circular(20),
-                              padding: EdgeInsets.all(8),
                             ),
                           ),
                         ),

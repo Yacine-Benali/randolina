@@ -1,4 +1,5 @@
 import 'package:blur/blur.dart';
+import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -98,6 +99,17 @@ class _ClientEventCardState extends State<ClientEventCard> {
     }
   }
 
+  void goToEventDetails() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ClientEventDetailScreen(
+          event: widget.event,
+          eventsBloc: widget.eventsBloc,
+        ),
+      ),
+    );
+  }
+
   Widget buildTopPart() {
     return Column(
       children: [
@@ -105,7 +117,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
           padding: const EdgeInsets.only(top: 4.0),
           child: Text(
             widget.event.createdBy.name,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
         Row(
@@ -171,16 +183,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
                 //   // iconSize: 28,
                 // ),
                 IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ClientEventDetailScreen(
-                          event: widget.event,
-                          eventsBloc: widget.eventsBloc,
-                        ),
-                      ),
-                    );
-                  },
+                  onPressed: goToEventDetails,
                   icon: Icon(Icons.info_outline),
                 ),
               ],
@@ -192,86 +195,86 @@ class _ClientEventCardState extends State<ClientEventCard> {
   }
 
   Widget buildBottomPart() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
-      child: ClipRect(
-        child: Banner(
-          location: BannerLocation.topEnd,
-          message: "${widget.event.price.toInt()} DA",
-          color: Colors.red.withOpacity(0.6),
-          textStyle: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 12.0,
-          ),
-          //textDirection: TextDirection.ltr,
-          child: Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: NetworkImage(widget.event.profileImage),
-                fit: BoxFit.cover,
-              ),
+    return GestureDetector(
+      onTap: goToEventDetails,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
+        child: ClipRect(
+          child: Banner(
+            location: BannerLocation.topEnd,
+            message: "${widget.event.price.toInt()} DA",
+            color: Colors.red.withOpacity(0.6),
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 12.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text(
-                        eventCardDateFormat(widget.event.startDateTime),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -0.33,
-                          color: Colors.black87,
+            //textDirection: TextDirection.ltr,
+            child: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: NetworkImage(widget.event.profileImage),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(
+                          eventCardDateFormat(widget.event.startDateTime),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.33,
+                            color: Colors.black87,
+                          ),
+                          textAlign: TextAlign.center,
+                        ).frosted(
+                          blur: 1,
+                          borderRadius: BorderRadius.circular(20),
+                          padding: EdgeInsets.all(8),
                         ),
-                        textAlign: TextAlign.center,
-                      ).frosted(
-                        blur: 1,
-                        borderRadius: BorderRadius.circular(20),
-                        padding: EdgeInsets.all(8),
                       ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              widget.event.destination,
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: -0.33,
-                                color: Colors.black,
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: BorderedText(
+                                strokeColor: Colors.black,
+                                strokeWidth: 3.0,
+                                child: Text(
+                                  widget.event.destination,
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ).frosted(
-                              blur: 1,
-                              borderRadius: BorderRadius.circular(20),
-                              padding: EdgeInsets.all(8),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -290,7 +293,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         elevation: 5,
         child: Stack(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           children: [
             Column(
               children: [
@@ -300,10 +303,9 @@ class _ClientEventCardState extends State<ClientEventCard> {
             ),
             Positioned(
               top: 50,
-              child: Container(
+              child: SizedBox(
                 width: 75,
                 height: 75,
-                margin: const EdgeInsets.only(left: 20),
                 child: CachedNetworkImage(
                   imageUrl: widget.event.createdBy.profilePicture,
                   imageBuilder: (context, imageProvider) =>

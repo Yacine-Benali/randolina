@@ -170,8 +170,9 @@ class _ParticipantCardState extends State<ParticipantCard> {
             },
           ),
         ],
+        if (!widget.showInfo) ...[SizedBox(width: 50)],
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 8.0, left: 8),
           child: Material(
             elevation: 3,
             child: Container(

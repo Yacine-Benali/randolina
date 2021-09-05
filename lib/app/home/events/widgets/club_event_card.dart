@@ -1,4 +1,5 @@
 import 'package:blur/blur.dart';
+import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/events/club_participants_screen.dart';
@@ -36,6 +37,17 @@ class _ClubEventCardState extends State<ClubEventCard> {
     }
   }
 
+  void goToEventDetails() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ClubParticipantScreen(
+          event: widget.event,
+          eventsBloc: widget.eventsBloc,
+        ),
+      ),
+    );
+  }
+
   Widget buildTopPart() {
     return Column(
       children: [
@@ -43,7 +55,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
           padding: const EdgeInsets.only(top: 4.0),
           child: Text(
             widget.event.createdBy.name,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
         if (widget.showControls) ...[
@@ -174,20 +186,17 @@ class _ClubEventCardState extends State<ClubEventCard> {
                           decoration: BoxDecoration(),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              widget.event.destination,
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: -0.33,
-                                color: Colors.black,
+                            child: BorderedText(
+                              strokeColor: Colors.black,
+                              strokeWidth: 3.0,
+                              child: Text(
+                                widget.event.destination,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ).frosted(
-                              blur: 1,
-                              borderRadius: BorderRadius.circular(20),
-                              padding: EdgeInsets.all(8),
                             ),
                           ),
                         ),
@@ -195,16 +204,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => ClubParticipantScreen(
-                                  event: widget.event,
-                                  eventsBloc: widget.eventsBloc,
-                                ),
-                              ),
-                            );
-                          },
+                          onPressed: goToEventDetails,
                           icon: Icon(Icons.info_outlined),
                         ),
                       ),
@@ -228,20 +228,22 @@ class _ClubEventCardState extends State<ClubEventCard> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         elevation: 5,
         child: Stack(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           children: [
             Column(
               children: [
                 buildTopPart(),
-                buildBottomPart(),
+                GestureDetector(
+                  onTap: goToEventDetails,
+                  child: buildBottomPart(),
+                ),
               ],
             ),
             Positioned(
               top: 50,
-              child: Container(
+              child: SizedBox(
                 width: 75,
                 height: 75,
-                margin: const EdgeInsets.only(left: 20),
                 child: CachedNetworkImage(
                   imageUrl: widget.event.createdBy.profilePicture,
                   imageBuilder: (context, imageProvider) =>
