@@ -77,7 +77,10 @@ class _ParticipantCardState extends State<ParticipantCard> {
                                   padding: const EdgeInsets.only(left: 40.0),
                                   child: Text(
                                     widget.participant.client.name,
-                                    style: TextStyle(fontSize: 18),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                                 Padding(

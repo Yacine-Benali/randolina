@@ -106,7 +106,8 @@ class _NewEventForm1State extends State<NewEventForm1> {
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: Text(
-              'Principal picture of event',
+              'Principal picture of event\nplease chose a horizontal picture ',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
                 color: Color.fromRGBO(34, 50, 99, 1),

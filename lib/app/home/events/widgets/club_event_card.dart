@@ -1,11 +1,14 @@
 import 'package:blur/blur.dart';
 import 'package:bordered_text/bordered_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/club_participants_screen.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
+import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/models/event.dart';
+import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/utils/utils.dart';
 
@@ -241,15 +244,22 @@ class _ClubEventCardState extends State<ClubEventCard> {
             ),
             Positioned(
               top: 50,
-              child: SizedBox(
-                width: 75,
-                height: 75,
-                child: CachedNetworkImage(
-                  imageUrl: widget.event.createdBy.profilePicture,
-                  imageBuilder: (context, imageProvider) =>
-                      CircleAvatar(backgroundImage: imageProvider),
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+              child: GestureDetector(
+                onTap: () {
+                  if (context.read<User>().id != widget.event.createdBy.id) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => MiniuserToProfile(
+                          miniUser: widget.event.createdBy,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: ImageProfile(
+                  url: widget.event.createdBy.profilePicture,
+                  width: 75,
+                  height: 75,
                 ),
               ),
             ),
