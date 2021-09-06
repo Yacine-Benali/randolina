@@ -49,13 +49,23 @@ class FeedBloc {
   }
 
   Future<List<UserFollowersStories>> getStoriesIdsAndUsers() async {
-    final List<UserFollowersStories> data = await database.fetchCollection(
+    final List<UserFollowersStories> data = [];
+    final List<UserFollowersStories> data2 = await database.fetchCollection(
       path: APIPath.userFollowerStoriesCollection(),
       queryBuilder: (query) =>
           query.where('followers', arrayContains: currentUser.id),
       builder: (data, documentId) =>
           UserFollowersStories.fromMap(data, documentId),
     );
+    final List<UserFollowersStories> data3 = await database.fetchCollection(
+      path: APIPath.userFollowerStoriesCollection(),
+      queryBuilder: (query) =>
+          query.where('miniUser.id', isEqualTo: currentUser.id),
+      builder: (data, documentId) =>
+          UserFollowersStories.fromMap(data, documentId),
+    );
+    data.addAll([...data3, ...data2]);
+
     storiesList = data;
 
     return data;
