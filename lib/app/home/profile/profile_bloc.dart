@@ -224,11 +224,12 @@ class ProfileBloc {
     await batch.commit();
   }
 
-  Future<List<Post>> getPosts() async {
+  Future<List<Post>> getPosts({required bool showProfileAsOther}) async {
+    String uid = showProfileAsOther ? otherUser.id : currentUser.id;
     return database.fetchCollection(
       path: APIPath.postsCollection(),
       queryBuilder: (query) => query
-          .where('miniUser.id', isEqualTo: otherUser.id)
+          .where('miniUser.id', isEqualTo: uid)
           .orderBy('createdAt', descending: true),
       builder: (data, id) => Post.fromMap(data, id),
     );

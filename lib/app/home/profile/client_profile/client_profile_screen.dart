@@ -43,7 +43,8 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   @override
   void initState() {
     postsWidget = [];
-    postsFuture = widget.bloc.getPosts();
+    postsFuture =
+        widget.bloc.getPosts(showProfileAsOther: widget.showProfileAsOther);
     postBloc = PostBloc(
       currentUser: context.read<User>(),
       database: context.read<Database>(),
@@ -93,7 +94,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                     );
                   },
                 ),
-                if (widget.isFollowingOther ?? false) ...[
+                if (true) ...[
                   ProfilePostsTabBar(
                     onTabChanged: (t) {
                       type = t;

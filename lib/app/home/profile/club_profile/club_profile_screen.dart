@@ -44,7 +44,8 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
   @override
   void initState() {
     postsWidget = [];
-    postsFuture = widget.bloc.getPosts();
+    postsFuture =
+        widget.bloc.getPosts(showProfileAsOther: widget.showProfileAsOther);
     postBloc = PostBloc(
       currentUser: context.read<User>(),
       database: context.read<Database>(),
