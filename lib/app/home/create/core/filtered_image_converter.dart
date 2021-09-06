@@ -16,7 +16,7 @@ class FilteredImageConverter {
     if (renderObject != null) {
       final RenderRepaintBoundary repaintBoundary =
           renderObject as RenderRepaintBoundary;
-      final ui.Image boxImage = await repaintBoundary.toImage(pixelRatio: 1);
+      final ui.Image boxImage = await repaintBoundary.toImage();
       final ByteData? byteData =
           await boxImage.toByteData(format: ui.ImageByteFormat.png);
 

@@ -165,8 +165,9 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
               onChanged: (t) {
                 if (t != null) {
                   if (t == true) {
-                    participants
-                        .forEach((element) => element.isConfirmed = true);
+                    for (final Participant element in participants) {
+                      element.isConfirmed = true;
+                    }
                   }
                   setState(() {
                     isSelectAll = t;

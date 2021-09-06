@@ -16,7 +16,9 @@ class LiquidSwipePagesService {
     );
 
     final List<Container> pages = [];
-    filters.forEach((filter) {
+
+    for (final Filter filter in filters) {
+      // ignore: sized_box_for_whitespace
       final Container colorFilterPage = Container(
         height: height,
         width: width,
@@ -26,7 +28,7 @@ class LiquidSwipePagesService {
         ),
       );
       pages.add(colorFilterPage);
-    });
+    }
     return pages;
   }
 }

@@ -225,7 +225,7 @@ class ProfileBloc {
   }
 
   Future<List<Post>> getPosts({required bool showProfileAsOther}) async {
-    String uid = showProfileAsOther ? otherUser.id : currentUser.id;
+    final String uid = showProfileAsOther ? otherUser.id : currentUser.id;
     return database.fetchCollection(
       path: APIPath.postsCollection(),
       queryBuilder: (query) => query

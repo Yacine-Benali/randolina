@@ -125,7 +125,6 @@ class EventsSearchState extends State<EventsSearch> {
                                     activeTrackColor: Colors.blue,
                                   ),
                                   child: SfRangeSlider(
-                                    min: 0.0,
                                     max: 100000.0,
                                     onChanged: (dynamic values) {
                                       setState(() {

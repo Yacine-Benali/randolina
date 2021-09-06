@@ -99,7 +99,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
                 Container(
                   color: Theme.of(context).backgroundColor,
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     height: 140,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -107,10 +107,13 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
+                            onTap: () {
+                              setState(() => _selectedIndex = index);
+                              _liquidController.jumpToPage(page: index);
+                            },
                             child: Container(
                               padding: EdgeInsets.all(10.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   _buildFilterThumbnail(index, size),
                                   SizedBox(
@@ -122,10 +125,6 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
                                 ],
                               ),
                             ),
-                            onTap: () {
-                              setState(() => _selectedIndex = index);
-                              _liquidController.jumpToPage(page: index);
-                            },
                           );
                         }),
                   ),

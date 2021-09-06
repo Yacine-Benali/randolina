@@ -139,7 +139,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           title: Text(widget.finalFiles == null ? 'Edit Post' : 'New Post'),
           actions: <Widget>[
             if (!_isLoading) ...[
-              FlatButton(
+              TextButton(
                 onPressed: _caption.trim().length > 3 ? _submit : null,
                 child: Text(
                   widget.finalFiles == null ? 'Save' : 'Share',

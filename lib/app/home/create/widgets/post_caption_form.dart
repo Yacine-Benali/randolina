@@ -29,7 +29,7 @@ class PostCaptionForm extends StatefulWidget {
 class _PostCaptionFormState extends State<PostCaptionForm> {
   Uint8List? videoThumbnailInMemory;
 
-  void temp() async {
+  Future<void> initVideoThumbnail() async {
     if (widget.contentFile != null &&
         widget.postContentType == PostContentType.video) {
       final Uint8List? v = await VideoThumbnail.thumbnailData(
@@ -46,7 +46,7 @@ class _PostCaptionFormState extends State<PostCaptionForm> {
 
   @override
   void initState() {
-    temp();
+    initVideoThumbnail();
     super.initState();
   }
 
@@ -90,7 +90,7 @@ class _PostCaptionFormState extends State<PostCaptionForm> {
               ),
             ),
           ),
-        Container(
+        SizedBox(
           width: widget.screenSize.width - 92,
           child: Padding(
             padding: const EdgeInsets.only(top: 10),

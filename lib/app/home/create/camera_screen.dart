@@ -121,6 +121,7 @@ class _CameraScreenState extends State<CameraScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // ignore: deprecated_member_use
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -143,6 +144,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                 ),
               ),
+              // ignore: deprecated_member_use
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -375,7 +377,7 @@ class _CameraScreenState extends State<CameraScreen> {
       //List<Asset> resultList = <Asset>[];
       List<AssetEntity>? resultList2 = <AssetEntity>[];
 
-      List<String> imagesPathsList = [];
+      final List<String> imagesPathsList = [];
       try {
         resultList2 = await AssetPicker.pickAssets(
           context,
@@ -392,7 +394,9 @@ class _CameraScreenState extends State<CameraScreen> {
         if (imagesPathsList.isNotEmpty) {
           prepareImagesToPublish(imagesPathsList);
         }
-      } on Exception {}
+      } on Exception catch (e) {
+        PlatformExceptionAlertDialog(exception: e).show(context);
+      }
     } else {
       // PickedFile? pickedFile =
       //     await _picker.getImage(source: ImageSource.gallery);
