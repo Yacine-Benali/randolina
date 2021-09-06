@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:randolina/app/home/create/nested_screens/create_post_screen.dart';
+import 'package:randolina/app/home/create/nested_screens/create_story_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/edit_photo_screen.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
@@ -450,12 +451,15 @@ class _CameraScreenState extends State<CameraScreen> {
         );
       }
     } else {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (_) => CreateStoryScreen(File(imagePath)),
-      //   ),
-      // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CreateStoryScreen(
+            imageFile: File(imagesPathsList[0]),
+            postContentType: PostContentType.image,
+          ),
+        ),
+      );
     }
   }
 

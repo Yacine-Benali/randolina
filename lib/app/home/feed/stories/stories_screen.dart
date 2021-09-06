@@ -126,9 +126,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
+                      const SizedBox(width: 8),
                       Text(
                         user.username,
                         style: TextStyle(

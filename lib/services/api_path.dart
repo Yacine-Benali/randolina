@@ -46,4 +46,7 @@ class APIPath {
 
   static String postFiles(String uid, String postId, String photoId) =>
       'users/$uid/posts/$postId/$photoId';
+
+  static String storyFiles(String uid, String postId, String photoId) =>
+      'users/$uid/stories/$postId/$photoId';
 }
