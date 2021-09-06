@@ -15,10 +15,8 @@ import 'package:randolina/services/firebase_auth.dart';
 import 'package:randolina/services/firestore_database.dart';
 import 'package:randolina/utils/logger.dart';
 
-const bool isLocal = false;
+const bool isLocal = true;
 const String userIndex = isLocal ? 'local_users_search' : 'dev_users_search';
-const String eventsIndex =
-    isLocal ? 'local_events_search' : 'dev_events_search';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +61,7 @@ class MyApp extends StatelessWidget {
               ),
           appBarTheme: AppBarTheme(),
         ),
+        locale: const Locale('fr'),
         debugShowCheckedModeBanner: false,
         title: 'Randolina',
         home: LandingScreen(),

@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home/create/camera_screen.dart';
 import 'package:randolina/app/home/events/events_screen.dart';
 import 'package:randolina/app/home/feed/feed_screen.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
@@ -7,7 +9,6 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/services/auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,12 +21,21 @@ class _HomeScreenState extends State<HomeScreen> {
   late final User user;
   int index = 0;
   late List<Widget> screens;
+  List<CameraDescription>? cameras;
+  CameraConsumer cameraConsumer = CameraConsumer.post;
 
   @override
   void initState() {
     user = context.read<User>();
     super.initState();
     screens = [];
+    initCamera();
+  }
+
+  Future<void> initCamera() async {
+    try {
+      cameras = await availableCameras();
+    } on CameraException catch (_) {}
   }
 
   Widget getScreen(int index) {
@@ -57,7 +67,17 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.only(bottom: 8.0),
         child: FloatingActionButton(
           onPressed: () {
-            context.read<Auth>().signOut();
+            if (cameras != null) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CameraScreen(
+                    cameras: cameras!,
+                    backToHomeScreen: () => Navigator.of(context).pop(),
+                    cameraConsumer: cameraConsumer,
+                  ),
+                ),
+              );
+            }
           },
           backgroundColor: darkBlue,
           elevation: 2.0,

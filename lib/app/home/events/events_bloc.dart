@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
@@ -14,6 +11,7 @@ import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
+import 'package:randolina/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class EventsBloc {
@@ -32,19 +30,6 @@ class EventsBloc {
       path: APIPath.eventsPictures(authUser.uid, eventId, uuid.v4()),
       filePath: file.path,
     );
-  }
-
-  Future<File> assetToFile(Asset asset) async {
-    // generate random number.
-    final rng = Random();
-    final Directory tempDir = await getTemporaryDirectory();
-    final String tempPath = tempDir.path;
-    // create a new file in temporary path with random file name.
-    final File file = File('$tempPath${rng.nextInt(100)}.png');
-    final ByteData byteData = await asset.getByteData();
-    await file.writeAsBytes(byteData.buffer.asUint8List());
-
-    return file;
   }
 
   Future<List<String>> uploadEventImages(List<Asset> images) async {
