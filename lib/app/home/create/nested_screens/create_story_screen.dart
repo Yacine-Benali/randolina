@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
@@ -11,22 +9,24 @@ import 'package:randolina/app/home/create/camera_screen.dart';
 import 'package:randolina/app/home/create/core/filtered_image_converter.dart';
 import 'package:randolina/app/home/create/core/filters.dart';
 import 'package:randolina/app/home/create/core/liquid_swipe_pages.dart';
-import 'package:randolina/app/models/story.dart';
+import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
-import 'package:randolina/services/api_path.dart';
-import 'package:randolina/services/database.dart';
 
 const kBlueColorTextStyle = TextStyle(color: Colors.blue);
 final Color kBlueColorWithOpacity = Colors.blue.withOpacity(0.8);
 
 class CreateStoryScreen extends StatefulWidget {
-  final File imageFile;
-  final PostContentType postContentType;
   const CreateStoryScreen({
     required this.imageFile,
     required this.postContentType,
+    required this.createBloc,
   });
+
+  final File imageFile;
+  final PostContentType postContentType;
+  final CreateBloc createBloc;
+
   @override
   _CreateStoryScreenState createState() => _CreateStoryScreenState();
 }
@@ -84,7 +84,7 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
             ),
 
           // displays post buttons on bottom of the screen
-          if (!_isLoading) _displayBottomButtons(_currentUser),
+          if (!_isLoading) _displayBottomButtons(),
         ],
       ),
     );
@@ -102,7 +102,7 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
     });
   }
 
-  Align _displayBottomButtons(User _currentUser) {
+  Align _displayBottomButtons() {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
@@ -112,17 +112,11 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
           RaisedButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            onPressed: () => _createStory(_currentUser.id),
+            onPressed: () => _createStory(),
             color: Theme.of(context).primaryColor.withOpacity(0.8),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  radius: 15.0,
-                  backgroundImage:
-                      CachedNetworkImageProvider(_currentUser.profilePicture),
-                ),
                 SizedBox(
                   width: 10.0,
                 ),
@@ -150,7 +144,7 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
     );
   }
 
-  Future<void> _createStory(String currentUserId) async {
+  Future<void> _createStory() async {
     if (!_isLoading) {
       setState(() => _isLoading = true);
       final File? imageFile =
@@ -162,27 +156,8 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
         ).show(context);
         return;
       }
-
-      final Database database = context.read<Database>();
-      final User user = context.read<User>();
-      final String storyId = database.getUniqueId();
-
-      final String imageUrl = await database.uploadFile(
-        path: APIPath.storyFiles(user.id, storyId, database.getUniqueId()),
-        filePath: widget.imageFile.path,
-      );
-
-      final Story story = Story(
-        type: widget.postContentType.index,
-        createdBy: context.read<User>().id,
-        createdAt: Timestamp.now(),
-        content: imageUrl,
-      );
-
-      await database.setData(
-        path: APIPath.storyDocument(storyId),
-        data: story.toMap(),
-      );
+      await widget.createBloc
+          .createStory(imageFile.path, widget.postContentType);
 
       setState(() => _isLoading == false);
       Navigator.of(context).pop();

@@ -1,15 +1,11 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:randolina/app/home/create/camera_screen.dart';
+import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/widgets/post_caption_form.dart';
 import 'package:randolina/app/models/post.dart';
-import 'package:randolina/app/models/user.dart';
-import 'package:randolina/services/api_path.dart';
-import 'package:randolina/services/database.dart';
 
 enum PostStatus {
   feedPost,
@@ -23,11 +19,13 @@ class CreatePostScreen extends StatefulWidget {
     this.postStatus,
     required this.finalFiles,
     required this.postContentType,
+    required this.createBloc,
   }) : assert(finalFiles != null || post != null);
   final Post? post;
   final PostStatus? postStatus;
   final List<File>? finalFiles;
   final PostContentType postContentType;
+  final CreateBloc createBloc;
 
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
@@ -64,8 +62,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
-    final Database database = context.read<Database>();
-    final User user = context.read<User>();
 
     if (!_isLoading && _formKey.currentState!.validate()) {
       _formKey.currentState?.save();
@@ -90,33 +86,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         // );
 
         // DatabaseService.editPost(post, widget.postStatus);
-      } else {
+      } else if (widget.finalFiles != null) {
         //Create new Post working
-        final String postId = database.getUniqueId();
-        final List<Future<String>> futureUrls = [];
-
-        for (final File asset in widget.finalFiles!) {
-          final futureImageUrl = database.uploadFile(
-            path: APIPath.postFiles(user.id, postId, database.getUniqueId()),
-            filePath: asset.path,
-          );
-          futureUrls.add(futureImageUrl);
-        }
-        final List<String> urls = await Future.wait(futureUrls);
-
-        final Post post = Post(
-          id: postId,
-          type: widget.postContentType.index,
-          description: _captionController.text,
-          content: urls,
-          createdAt: Timestamp.now(),
-          numberOfLikes: 0,
-          miniUser: user.toMiniUser(),
-        );
-
-        database.setData(
-          path: APIPath.postDocument(postId),
-          data: post.toMap(),
+        await widget.createBloc.createPost(
+          widget.finalFiles!,
+          widget.postContentType,
+          _caption,
         );
       }
       _goToHomeScreen();

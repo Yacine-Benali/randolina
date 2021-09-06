@@ -5,11 +5,15 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/nested_screens/create_post_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/create_story_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/edit_photo_screen.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -35,9 +39,15 @@ class _CameraScreenState extends State<CameraScreen> {
   bool _toggleCamera = false;
   CameraController? controller;
   CameraConsumer _cameraConsumer = CameraConsumer.post;
+  late CreateBloc createBloc;
 
   @override
   void initState() {
+    createBloc = CreateBloc(
+      database: context.read<Database>(),
+      currentUser: context.read<User>(),
+    );
+
     try {
       setCamera(widget.cameras[0]);
     } catch (e) {
@@ -352,6 +362,7 @@ class _CameraScreenState extends State<CameraScreen> {
               builder: (_) => CreatePostScreen(
                 finalFiles: finalFiles,
                 postContentType: PostContentType.video,
+                createBloc: createBloc,
               ),
             ),
           );
@@ -446,6 +457,7 @@ class _CameraScreenState extends State<CameraScreen> {
             builder: (_) => CreatePostScreen(
               finalFiles: finalFiles,
               postContentType: PostContentType.image,
+              createBloc: createBloc,
             ),
           ),
         );
@@ -457,6 +469,7 @@ class _CameraScreenState extends State<CameraScreen> {
           builder: (_) => CreateStoryScreen(
             imageFile: File(imagesPathsList[0]),
             postContentType: PostContentType.image,
+            createBloc: createBloc,
           ),
         ),
       );
