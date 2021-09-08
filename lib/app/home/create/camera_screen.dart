@@ -371,16 +371,39 @@ class _CameraScreenState extends State<CameraScreen> {
         PlatformExceptionAlertDialog(exception: e).show(context);
       }
     } else {
-      // PickedFile? pickedFile =
-      //     await _picker.getImage(source: ImageSource.gallery);
-      // if (pickedFile != null) {
-      //   setState(() {
-      //     imagesPathList = pickedFile.path;
-      //   });
-      //   setCameraResult();
-      // } else {
-      //   print('No image selected.');
-      // }
+      List<AssetEntity>? resultList2 = <AssetEntity>[];
+      final List<File> finalFiles = [];
+
+      try {
+        resultList2 = await AssetPicker.pickAssets(
+          context,
+          textDelegate: EnglishTextDelegate(),
+          maxAssets: 1,
+          selectedAssets: resultList2,
+          requestType: RequestType.video,
+        );
+
+        if (resultList2 == null) return;
+
+        for (final AssetEntity asset in resultList2) {
+          final File? file = await asset.file;
+          if (file != null) finalFiles.add(file);
+        }
+        if (finalFiles.isNotEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CreateStoryScreen(
+                finalFile: finalFiles[0],
+                postContentType: PostContentType.video,
+                createBloc: createBloc,
+              ),
+            ),
+          );
+        }
+      } on Exception catch (e) {
+        PlatformExceptionAlertDialog(exception: e).show(context);
+      }
     }
   }
 
@@ -410,16 +433,28 @@ class _CameraScreenState extends State<CameraScreen> {
         PlatformExceptionAlertDialog(exception: e).show(context);
       }
     } else {
-      // PickedFile? pickedFile =
-      //     await _picker.getImage(source: ImageSource.gallery);
-      // if (pickedFile != null) {
-      //   setState(() {
-      //     imagesPathList = pickedFile.path;
-      //   });
-      //   setCameraResult();
-      // } else {
-      //   print('No image selected.');
-      // }
+      List<AssetEntity>? resultList2 = <AssetEntity>[];
+      final List<String> imagesPathsList = [];
+
+      try {
+        resultList2 = await AssetPicker.pickAssets(
+          context,
+          textDelegate: EnglishTextDelegate(),
+          maxAssets: 1,
+          selectedAssets: resultList2,
+        );
+        if (resultList2 == null) return;
+
+        for (final AssetEntity asset in resultList2) {
+          final File? file = await asset.file;
+          if (file != null) imagesPathsList.add(file.path);
+        }
+        if (imagesPathsList.isNotEmpty) {
+          prepareImagesToPublish(imagesPathsList);
+        }
+      } on Exception catch (e) {
+        PlatformExceptionAlertDialog(exception: e).show(context);
+      }
     }
   }
 
@@ -467,7 +502,7 @@ class _CameraScreenState extends State<CameraScreen> {
         context,
         MaterialPageRoute(
           builder: (_) => CreateStoryScreen(
-            imageFile: File(imagesPathsList[0]),
+            finalFile: File(imagesPathsList[0]),
             postContentType: PostContentType.image,
             createBloc: createBloc,
           ),
