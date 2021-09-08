@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:randolina/app/home/events/widgets/events_search.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
@@ -12,6 +13,7 @@ import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:uuid/uuid.dart';
 
 class EventsBloc {
@@ -123,11 +125,27 @@ class EventsBloc {
     );
   }
 
-  List<Event> searchEvents(List<Event> events, String searchText) {
+  List<Event> filtreEvents(
+    List<Event> events,
+    String searchText,
+    EventCreatedBy eventCreatedBy,
+    SfRangeValues sfRangeValues,
+  ) {
     final List<Event> matchedEvents = [];
+
     for (final Event event in events) {
-      if (event.destination.contains(searchText)) {
-        matchedEvents.add(event);
+      if (event.destination.contains(searchText) &&
+          (event.price >= (sfRangeValues.start as num).toInt()) &&
+          event.price <= (sfRangeValues.end as num).toInt()) {
+        if (eventCreatedBy == EventCreatedBy.clubOnly &&
+            event.createdByType == 1) {
+          matchedEvents.add(event);
+        } else if (eventCreatedBy == EventCreatedBy.agencyOnly &&
+            event.createdByType == 2) {
+          matchedEvents.add(event);
+        } else if (eventCreatedBy == EventCreatedBy.both) {
+          matchedEvents.add(event);
+        }
       }
     }
     return matchedEvents;

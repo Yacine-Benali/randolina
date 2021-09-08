@@ -72,6 +72,8 @@ dependencies:
   liquid_swipe: ^2.1.0
   wechat_assets_picker: ^6.0.4
   video_thumbnail: ^0.4.3
+  multi_select_flutter: ^4.0.0
+
 
 
 

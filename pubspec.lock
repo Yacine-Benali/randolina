@@ -548,6 +548,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.0.02"
+  multi_select_flutter:
+    dependency: "direct main"
+    description:
+      name: multi_select_flutter
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.0"
   multiselect_formfield:
     dependency: "direct main"
     description:

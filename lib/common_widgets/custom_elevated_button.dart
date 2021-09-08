@@ -38,7 +38,7 @@ class CustomElevatedButton extends StatelessWidget {
               )
             : null,
         color: color ?? Colors.deepPurple.shade300,
-        borderRadius: BorderRadius.circular(60),
+        borderRadius: BorderRadius.circular(0),
       ),
       child: ElevatedButton(
         onPressed: onPressed,

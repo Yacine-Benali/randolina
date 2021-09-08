@@ -13,6 +13,8 @@ import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
@@ -32,6 +34,7 @@ class _EventsScreenState extends State<EventsScreen>
   late final Stream<List<Event>> allEventsStream;
   String searchText = '';
   EventCreatedBy eventCreatedBy = EventCreatedBy.both;
+  SfRangeValues sfRangeValues = SfRangeValues(500, 100000);
 
   @override
   void initState() {
@@ -71,8 +74,9 @@ class _EventsScreenState extends State<EventsScreen>
             if (snapshot.hasData && snapshot.data != null) {
               final List<Event> events = snapshot.data!;
               if (events.isNotEmpty) {
-                final List<Event> matchedEvents =
-                    eventsBloc.searchEvents(events, searchText);
+                logger.severe('rebbuild');
+                final List<Event> matchedEvents = eventsBloc.filtreEvents(
+                    events, searchText, eventCreatedBy, sfRangeValues);
 
                 final List<Widget> widgets = [];
                 for (final Event event in matchedEvents) {
@@ -121,10 +125,16 @@ class _EventsScreenState extends State<EventsScreen>
     return SafeArea(
       child: ListView(
         children: [
-          EventsSearch(
-            onTextChanged: (t) => setState(() => searchText = t),
-            onEventCreatedByChanged: (t) => setState(() => eventCreatedBy = t),
-          ),
+          EventsSearch(onTextChanged: (t) {
+            logger.info(t);
+            setState(() => searchText = t);
+          }, onEventCreatedByChanged: (t) {
+            logger.info(t);
+            setState(() => eventCreatedBy = t);
+          }, onRangeValueChanged: (t) {
+            sfRangeValues = t;
+            logger.info(t);
+          }),
           Padding(
             padding: const EdgeInsets.only(right: 16.0, left: 16.0),
             child: SizedBox(
