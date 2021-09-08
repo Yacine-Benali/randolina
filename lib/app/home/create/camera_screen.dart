@@ -3,13 +3,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/nested_screens/create_post_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/create_story_screen.dart';
-import 'package:randolina/app/home/create/nested_screens/edit_photo_screen.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
@@ -102,7 +100,7 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
           ),
           Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: CircularIconButton(
@@ -156,6 +154,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
               ),
               // ignore: deprecated_member_use
+
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -180,9 +179,7 @@ class _CameraScreenState extends State<CameraScreen> {
               ),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10),
           // capture image
           Container(
             width: double.infinity,
@@ -260,6 +257,8 @@ class _CameraScreenState extends State<CameraScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(width: 10),
+
                       //! todo @high change icon
                       Material(
                         color: Colors.transparent,
@@ -335,6 +334,7 @@ class _CameraScreenState extends State<CameraScreen> {
         prepareImagesToPublish([xfile.path]);
       }
     } on CameraException catch (e) {
+      logger.info(e);
       showException(e);
     }
   }
@@ -466,28 +466,29 @@ class _CameraScreenState extends State<CameraScreen> {
     if (_cameraConsumer == CameraConsumer.post) {
       final List<File> finalFiles = [];
       for (final String imagePath in imagesPathsList) {
-        final File? croppedImage = await ImageCropper.cropImage(
-          androidUiSettings: AndroidUiSettings(
-            backgroundColor: Theme.of(context).backgroundColor,
-            toolbarColor: Theme.of(context).appBarTheme.color,
-            toolbarWidgetColor: Theme.of(context).accentColor,
-            toolbarTitle: 'Crop Photo',
-            activeControlsWidgetColor: Colors.blue,
-          ),
-          sourcePath: imagePath,
-          aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-        );
+        // final File? croppedImage = await ImageCropper.cropImage(
+        //   androidUiSettings: AndroidUiSettings(
+        //     backgroundColor: Colors.black,
+        //     toolbarColor: Colors.white,
+        //     toolbarWidgetColor: Colors.black,
+        //     toolbarTitle: 'Crop Photo',
+        //     activeControlsWidgetColor: Colors.blue,
+        //   ),
+        //   sourcePath: imagePath,
+        //   aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        // );
 
-        if (croppedImage != null) {
-          final File editedImage = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => EditPhotoScreen(imageFile: croppedImage),
-            ),
-          ) as File;
-          finalFiles.add(editedImage);
-          logger.info('edited images ${editedImage.path}');
-        }
+        // if (croppedImage != null) {
+        //   final File editedImage = await Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (_) => EditPhotoScreen(imageFile: croppedImage),
+        //     ),
+        //   ) as File;
+        //   finalFiles.add(editedImage);
+        //   logger.info('edited images ${editedImage.path}');
+        // }
+        finalFiles.add(File(imagePath));
       }
       if (finalFiles.length == imagesPathsList.length) {
         Navigator.push(

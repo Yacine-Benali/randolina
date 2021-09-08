@@ -6,6 +6,7 @@ import 'package:randolina/app/home/create/camera_screen.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/widgets/post_caption_form.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/constants/app_colors.dart';
 
 enum PostStatus {
   feedPost,
@@ -108,10 +109,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        backgroundColor: backgroundColor,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Colors.white,
           centerTitle: true,
-          title: Text(widget.finalFiles == null ? 'Edit Post' : 'New Post'),
+          title: Text(
+            widget.finalFiles == null ? 'Edit Post' : 'Post',
+            style: TextStyle(color: Colors.black),
+          ),
           actions: <Widget>[
             if (!_isLoading) ...[
               TextButton(
@@ -119,11 +124,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 child: Text(
                   widget.finalFiles == null ? 'Save' : 'Share',
                   style: TextStyle(
-                      color: _caption.trim().length > 3
-                          ? Theme.of(context).accentColor
-                          : Theme.of(context).hintColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
+                    color:
+                        _caption.trim().length > 3 ? Colors.black : Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
                 ),
               )
             ],

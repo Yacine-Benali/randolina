@@ -10,6 +10,7 @@ import 'package:randolina/app/home/create/core/filtered_image_converter.dart';
 import 'package:randolina/app/home/create/core/filters.dart';
 import 'package:randolina/app/home/create/core/liquid_swipe_pages.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
+import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:video_player/video_player.dart';
 
@@ -105,46 +106,46 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
             ),
           ],
 
-          if (_isLoading)
-            // desplays circular indicator if posting story
-            Align(
-              child: CircularProgressIndicator(),
-            ),
-
-          // displays post buttons on bottom of the screen
-          if (!_isLoading) _displayBottomButtons(),
-        ],
-      ),
-    );
-  }
-
-  Align _displayBottomButtons() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          // ignore: deprecated_member_use
-          RaisedButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            onPressed: () => _createStory(),
-            color: Theme.of(context).primaryColor.withOpacity(0.8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 10.0,
-                ),
-                Text(
-                  'Post Story',
-                  style: TextStyle(
-                    fontSize: 18,
+          // desplays circular indicator if posting story
+          if (_isLoading) Align(child: CircularProgressIndicator()),
+          Padding(
+            padding: const EdgeInsets.only(top: 32.0, right: 16),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                onTap: _createStory,
+                child: Container(
+                  width: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                  ),
+                  child: Icon(
+                    Icons.east_outlined,
+                    size: 35,
+                    color: Colors.black,
                   ),
                 ),
-              ],
+              ),
             ),
           ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: CircularIconButton(
+                splashColor: Colors.blue.withOpacity(0.8),
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 22,
+                ),
+                onTap: Navigator.of(context).pop,
+              ),
+            ),
+          ),
+
+          // displays post buttons on bottom of the screen
         ],
       ),
     );

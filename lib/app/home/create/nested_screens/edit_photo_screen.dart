@@ -21,7 +21,6 @@ class EditPhotoScreen extends StatefulWidget {
 class _EditPhotoScreenState extends State<EditPhotoScreen>
     with TickerProviderStateMixin {
   final GlobalKey _globalKey = GlobalKey();
-  late TabController _tabController;
   final LiquidController _liquidController = LiquidController();
   late List<Container> _filterPages;
   String _filterTitle = '';
@@ -31,13 +30,11 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 1, vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -52,45 +49,42 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Edit Photo",
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).appBarTheme.color,
-        leading: Container(),
+        title: Text("Edit Photo", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        // leading: Container(),
         actions: [
           IconButton(
-              icon: Icon(
-                Icons.arrow_forward,
-                color: Colors.blue,
-              ),
-              onPressed: convertFilteredImageToImageFile)
+            icon: Icon(Icons.arrow_forward, color: Colors.black),
+            onPressed: convertFilteredImageToImageFile,
+          )
         ],
       ),
       body: Column(
         children: [
           RepaintBoundary(
-              key: _globalKey,
-              child: Stack(
-                children: [
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: size.width,
-                      maxHeight: size.width,
-                    ),
-                    child: LiquidSwipe(
-                      pages: _filterPages,
-                      onPageChangeCallback: (value) {
-                        setState(() => _selectedIndex = value);
-                        _setFilterTitle(value);
-                      },
-                      liquidController: _liquidController,
-                      ignoreUserGestureWhileAnimating: true,
-                    ),
+            key: _globalKey,
+            child: Stack(
+              children: [
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: size.width,
+                    maxHeight: size.width,
                   ),
-                  if (_newFilterTitle) _displayStoryTitle(size),
-                ],
-              )),
+                  child: LiquidSwipe(
+                    pages: _filterPages,
+                    onPageChangeCallback: (value) {
+                      setState(() => _selectedIndex = value);
+                      _setFilterTitle(value);
+                    },
+                    liquidController: _liquidController,
+                    ignoreUserGestureWhileAnimating: true,
+                  ),
+                ),
+                if (_newFilterTitle) _displayStoryTitle(size),
+              ],
+            ),
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -113,6 +107,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
                             },
                             child: Container(
                               padding: EdgeInsets.all(10.0),
+                              color: Colors.white,
                               child: Column(
                                 children: <Widget>[
                                   _buildFilterThumbnail(index, size),
@@ -130,22 +125,6 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
                   ),
                 ),
                 Expanded(child: SizedBox()),
-                TabBar(
-                  controller: _tabController,
-                  indicatorWeight: 3.0,
-                  indicatorColor: Colors.blue,
-                  labelColor: Colors.blue,
-                  labelStyle: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  unselectedLabelStyle: TextStyle(fontSize: 18.0),
-                  unselectedLabelColor:
-                      Theme.of(context).accentColor.withOpacity(0.7),
-                  tabs: <Widget>[
-                    Tab(text: 'Filters'),
-                  ],
-                ),
               ],
             ),
           )
