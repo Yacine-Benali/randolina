@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final User user;
-  int index = 0;
+  int index = 2;
   late List<Widget> screens;
   List<CameraDescription>? cameras;
   CameraConsumer cameraConsumer = CameraConsumer.post;

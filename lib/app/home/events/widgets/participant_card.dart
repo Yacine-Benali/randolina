@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/events/participant_detail_screen.dart';
+import 'package:randolina/app/home/events/nested_screens/participant_detail_screen.dart';
 import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/utils/logger.dart';
