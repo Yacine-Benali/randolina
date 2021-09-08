@@ -252,11 +252,10 @@ class _CameraScreenState extends State<CameraScreen> {
                           onTap: getGalleryImage,
                           child: Container(
                             padding: EdgeInsets.all(4.0),
-                            child: Image.asset(
-                              'assets/camera_images/gallery_button.png',
+                            child: Icon(
+                              Icons.photo_library_outlined,
                               color: Colors.grey[200],
-                              width: 42.0,
-                              height: 42.0,
+                              size: 25.0,
                             ),
                           ),
                         ),
@@ -269,11 +268,10 @@ class _CameraScreenState extends State<CameraScreen> {
                           onTap: getGalleryVideos,
                           child: Container(
                             padding: EdgeInsets.all(4.0),
-                            child: Image.asset(
-                              'assets/camera_images/gallery_button.png',
-                              color: Colors.red[200],
-                              width: 42.0,
-                              height: 42.0,
+                            child: Icon(
+                              Icons.video_library_outlined,
+                              color: Colors.grey[200],
+                              size: 25.0,
                             ),
                           ),
                         ),
@@ -296,9 +294,15 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> setCamera(CameraDescription cameraDescription) async {
-    if (controller != null) await controller?.dispose();
-    controller =
-        CameraController(cameraDescription, ResolutionPreset.ultraHigh);
+    if (controller != null) {
+      final CameraController oldController = controller!;
+      controller =
+          CameraController(cameraDescription, ResolutionPreset.ultraHigh);
+      await oldController.dispose();
+    } else {
+      controller =
+          CameraController(cameraDescription, ResolutionPreset.ultraHigh);
+    }
 
     controller?.addListener(() {
       if (mounted) setState(() {});
