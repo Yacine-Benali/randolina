@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/nested_screens/create_post_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/create_story_screen.dart';
+import 'package:randolina/app/home/create/nested_screens/edit_photo_screen.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
@@ -466,29 +468,28 @@ class _CameraScreenState extends State<CameraScreen> {
     if (_cameraConsumer == CameraConsumer.post) {
       final List<File> finalFiles = [];
       for (final String imagePath in imagesPathsList) {
-        // final File? croppedImage = await ImageCropper.cropImage(
-        //   androidUiSettings: AndroidUiSettings(
-        //     backgroundColor: Colors.black,
-        //     toolbarColor: Colors.white,
-        //     toolbarWidgetColor: Colors.black,
-        //     toolbarTitle: 'Crop Photo',
-        //     activeControlsWidgetColor: Colors.blue,
-        //   ),
-        //   sourcePath: imagePath,
-        //   aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-        // );
+        final File? croppedImage = await ImageCropper.cropImage(
+          androidUiSettings: AndroidUiSettings(
+            backgroundColor: Colors.black,
+            toolbarColor: Colors.white,
+            toolbarWidgetColor: Colors.black,
+            toolbarTitle: 'Crop Photo',
+            activeControlsWidgetColor: Colors.blue,
+          ),
+          sourcePath: imagePath,
+          aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        );
 
-        // if (croppedImage != null) {
-        //   final File editedImage = await Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (_) => EditPhotoScreen(imageFile: croppedImage),
-        //     ),
-        //   ) as File;
-        //   finalFiles.add(editedImage);
-        //   logger.info('edited images ${editedImage.path}');
-        // }
-        finalFiles.add(File(imagePath));
+        if (croppedImage != null) {
+          final File editedImage = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditPhotoScreen(imageFile: croppedImage),
+            ),
+          ) as File;
+          finalFiles.add(editedImage);
+          logger.info('edited images ${editedImage.path}');
+        }
       }
       if (finalFiles.length == imagesPathsList.length) {
         Navigator.push(
