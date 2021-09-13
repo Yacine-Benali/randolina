@@ -102,6 +102,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
@@ -115,15 +116,14 @@ class _NewEventForm1State extends State<NewEventForm1> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0),
-            child: (imageFile == null && widget.profilePicture == null)
-                ? buildUploadButton()
-                : buildPhoto(),
-          ),
+          SizedBox(height: 30),
+          if (imageFile == null && widget.profilePicture == null)
+            buildUploadButton(),
+          if (!(imageFile == null && widget.profilePicture == null))
+            buildPhoto(),
           Expanded(child: Container()),
           Padding(
-            padding: const EdgeInsets.only(bottom: 32.0, right: 8, left: 8),
+            padding: const EdgeInsets.only(right: 8, left: 8),
             child: NextButton(
               onPressed: () {
                 if (imageFile != null) {
@@ -134,6 +134,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
               },
             ),
           ),
+          SizedBox(height: 30),
         ],
       ),
     );

@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/nested_screens/create_post_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/create_story_screen.dart';
-import 'package:randolina/app/home/create/nested_screens/edit_photo_screen.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
@@ -84,22 +83,17 @@ class _CameraScreenState extends State<CameraScreen> {
     if (!(controller?.value.isInitialized ?? false)) {
       return Container();
     }
-    final size = MediaQuery.of(context).size;
-    final deviceRatio = size.width / size.height;
+    final scale = 1 /
+        (controller!.value.aspectRatio *
+            MediaQuery.of(context).size.aspectRatio);
 
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Center(
-            child: Transform.scale(
-              scale: controller!.value.aspectRatio / deviceRatio,
-              child: AspectRatio(
-                aspectRatio: controller!.value.aspectRatio,
-                child: controller == null
-                    ? Container()
-                    : CameraPreview(controller!),
-              ),
-            ),
+          Transform.scale(
+            scale: scale,
+            alignment: Alignment.topCenter,
+            child: CameraPreview(controller!),
           ),
           Align(
             alignment: Alignment.topLeft,
@@ -354,6 +348,7 @@ class _CameraScreenState extends State<CameraScreen> {
           maxAssets: 5,
           selectedAssets: resultList2,
           requestType: RequestType.video,
+          themeColor: Colors.blue,
         );
         if (resultList2 == null) return;
 
@@ -425,6 +420,7 @@ class _CameraScreenState extends State<CameraScreen> {
           textDelegate: EnglishTextDelegate(),
           maxAssets: 5,
           selectedAssets: resultList2,
+          themeColor: Colors.blue,
         );
         if (resultList2 == null) return;
 
@@ -481,14 +477,48 @@ class _CameraScreenState extends State<CameraScreen> {
         );
 
         if (croppedImage != null) {
-          final File editedImage = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => EditPhotoScreen(imageFile: croppedImage),
-            ),
-          ) as File;
-          finalFiles.add(editedImage);
-          logger.info('edited images ${editedImage.path}');
+          // late final File editedImage;
+          // final croppedImage2 =
+          //     imageLib.decodeImage(await croppedImage.readAsBytes());
+
+          // final Map? imagefileMap = await Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => PhotoFilterSelector(
+          //       title: Text(
+          //         "Photo Filter Example",
+          //         style: TextStyle(color: Colors.blueGrey),
+          //       ),
+          //       appBarColor: Colors.white,
+          //       circleShape: false,
+          //       image: croppedImage2!,
+          //       filters: presetFiltersList,
+          //       filename: path.basename(croppedImage.path),
+          //       loader: Center(
+          //         child: CircularProgressIndicator(),
+          //       ),
+          //       fit: BoxFit.contain,
+          //     ),
+          //   ),
+          // ) as Map?;
+          // if (imagefileMap != null &&
+          //     imagefileMap.containsKey('image_filtered')) {
+          //   editedImage = imagefileMap['image_filtered'] as File;
+
+          //   finalFiles.add(editedImage);
+          //   logger.info('edited images ${editedImage.path}');
+          // }
+
+          // editedImage = await Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (_) => EditPhotoScreen(imageFile: croppedImage),
+          //   ),
+          // ) as File;
+          // final File editedImage = imagefileMap['image_filtered'] as File;
+
+          finalFiles.add(croppedImage);
+          logger.info('edited images ${croppedImage.path}');
         }
       }
       if (finalFiles.length == imagesPathsList.length) {

@@ -28,7 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     user = context.read<User>();
     super.initState();
-    screens = [];
+    screens = [
+      FeedScreen(),
+      Container(color: backgroundColor),
+      EventsScreen(),
+      ProfileScreen(user: user),
+    ];
     initCamera();
   }
 
@@ -59,50 +64,68 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      resizeToAvoidBottomInset: false,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            if (cameras != null) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CameraScreen(
-                    cameras: cameras!,
-                    backToHomeScreen: () => Navigator.of(context).pop(),
-                    cameraConsumer: cameraConsumer,
+    return WillPopScope(
+      onWillPop: () async {
+        if (index == 0) {
+          return true;
+        } else {
+          setState(() {
+            index = 0;
+          });
+          return false;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        resizeToAvoidBottomInset: false,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              if (cameras != null) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CameraScreen(
+                      cameras: cameras!,
+                      backToHomeScreen: () => Navigator.of(context).pop(),
+                      cameraConsumer: cameraConsumer,
+                    ),
                   ),
-                ),
-              );
-            }
-          },
-          backgroundColor: darkBlue,
-          elevation: 2.0,
-          child: Icon(Icons.add),
+                );
+              }
+            },
+            backgroundColor: darkBlue,
+            elevation: 2.0,
+            child: Icon(Icons.add),
+          ),
         ),
-      ),
-      body: getScreen(index),
-      bottomNavigationBar: FABBottomAppBar(
-        height: 55,
-        iconSize: 32,
-        centerItemText: '',
-        color: Colors.grey,
-        selectedColor: darkBlue,
-        notchedShape: CircularNotchedRectangle(),
-        onTabSelected: (int index) {
-          setState(() => this.index = index);
-        },
-        items: [
-          FABBottomAppBarItem(iconData: Icons.home, notification: 0),
-          FABBottomAppBarItem(iconData: Icons.store, notification: 0),
-          FABBottomAppBarItem(iconData: Icons.calendar_today, notification: 0),
-          FABBottomAppBarItem(
-              iconData: Icons.account_circle_outlined, notification: 0),
-        ],
-        backgroundColor: Colors.white,
+        body: getScreen(index),
+        //! need pull to refresh for this
+        // IndexedStack(
+        //   index: index,
+        //   children: screens,
+        // ),
+        bottomNavigationBar: FABBottomAppBar(
+          height: 55,
+          iconSize: 32,
+          centerItemText: '',
+          color: Colors.grey,
+          selectedColor: darkBlue,
+          notchedShape: CircularNotchedRectangle(),
+          onTabSelected: (int index) {
+            setState(() => this.index = index);
+          },
+          items: [
+            FABBottomAppBarItem(iconData: Icons.home, notification: 0),
+            FABBottomAppBarItem(iconData: Icons.store, notification: 0),
+            FABBottomAppBarItem(
+                iconData: Icons.calendar_today, notification: 0),
+            FABBottomAppBarItem(
+                iconData: Icons.account_circle_outlined, notification: 0),
+          ],
+          backgroundColor: Colors.white,
+        ),
       ),
     );
   }

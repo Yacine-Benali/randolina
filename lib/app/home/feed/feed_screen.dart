@@ -4,7 +4,7 @@ import 'package:randolina/app/home/feed/feed_app_bar.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/home/feed/posts/post_widget.dart';
-import 'package:randolina/app/home/feed/stories/stories_widget.dart';
+import 'package:randolina/app/home/feed/stories/stories_list_widget.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
@@ -90,7 +90,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       if (index == 0) {
                         return FeedAppBar();
                       } else if (index == 1) {
-                        return StoriesWidget(
+                        return StoriesListWidget(
                           feedBloc: bloc,
                         );
                       }
@@ -111,7 +111,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   return Column(
                     children: [
                       FeedAppBar(),
-                      StoriesWidget(feedBloc: bloc),
+                      StoriesListWidget(feedBloc: bloc),
                       EmptyContent(
                         title: 'feed is empty',
                         message: '',
@@ -128,7 +128,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 return Column(
                   children: [
                     FeedAppBar(),
-                    StoriesWidget(feedBloc: bloc),
+                    StoriesListWidget(feedBloc: bloc),
                     CircularProgressIndicator(),
                   ],
                 );

@@ -6,6 +6,7 @@ import 'package:randolina/common_widgets/followers_header.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/common_widgets/visit_followers_header.dart';
+import 'package:randolina/constants/app_colors.dart';
 import 'package:readmore/readmore.dart';
 
 class ClubHeader extends StatelessWidget {
@@ -46,7 +47,7 @@ class ClubHeader extends StatelessWidget {
           ),
         ),
         Container(
-          color: Colors.white,
+          color: backgroundColor,
           child: Stack(
             alignment: Alignment.bottomLeft,
             children: [

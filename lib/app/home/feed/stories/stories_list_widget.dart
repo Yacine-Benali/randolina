@@ -6,8 +6,8 @@ import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 
-class StoriesWidget extends StatelessWidget {
-  const StoriesWidget({
+class StoriesListWidget extends StatelessWidget {
+  const StoriesListWidget({
     Key? key,
     required this.feedBloc,
   }) : super(key: key);

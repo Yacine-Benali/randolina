@@ -1,3 +1,4 @@
+import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/story.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:story/story_page_view/story_page_view.dart';
 
 class StoriesScreen extends StatefulWidget {
@@ -24,12 +26,26 @@ class StoriesScreen extends StatefulWidget {
 
 class _StoriesScreenState extends State<StoriesScreen> {
   late ValueNotifier<IndicatorAnimationCommand> indicatorAnimationController;
-
+  late final BetterPlayerConfiguration betterPlayerConfiguration;
   @override
   void initState() {
     super.initState();
     indicatorAnimationController = ValueNotifier<IndicatorAnimationCommand>(
         IndicatorAnimationCommand.resume);
+
+    betterPlayerConfiguration = BetterPlayerConfiguration(
+      autoPlay: true,
+      fit: BoxFit.cover,
+      controlsConfiguration: BetterPlayerControlsConfiguration(
+        enableProgressText: false,
+        enableSkips: false,
+        showControlsOnInitialize: false,
+        showControls: false,
+        enableSubtitles: false,
+        enableMute: false,
+        enableAudioTracks: false,
+      ),
+    );
   }
 
   @override
@@ -63,9 +79,19 @@ class _StoriesScreenState extends State<StoriesScreen> {
         ),
       );
     } else if (story.type == 1) {
+      // final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
+      //   BetterPlayerDataSourceType.network,
+      //   story.content,
+      // );
+      // final BetterPlayerController betterPlayerController =
+      //     BetterPlayerController(betterPlayerConfiguration);
+      // betterPlayerController.setupDataSource(dataSource);
+
       return StoryVideoLoader(
+        key: Key(story.content),
         indicatorAnimationController: indicatorAnimationController,
         url: story.content,
+        //  betterPlayerController: betterPlayerController,
       );
     } else {
       return Container();
@@ -77,6 +103,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
     return SafeArea(
       child: Material(
         child: StoryPageView(
+          indicatorDuration: Duration(seconds: 30),
           indicatorAnimationController: indicatorAnimationController,
 
           initialPage: widget.initialPage,
@@ -91,6 +118,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
           onPageLimitReached: () => Navigator.pop(context),
           //
           itemBuilder: (context, pageIndex, storyIndex) {
+            logger.info('build page $pageIndex story: $storyIndex');
             final MiniUser user = widget.usersStories[pageIndex].miniUser;
             final MiniStory miniStory =
                 widget.usersStories[pageIndex].storiesIds[storyIndex];
@@ -98,9 +126,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
             return Stack(
               key: UniqueKey(),
               children: [
-                Positioned.fill(
-                  child: Container(color: Colors.black),
-                ),
+                Positioned.fill(child: Container(color: Colors.black)),
                 FutureBuilder<Story?>(
                   future: widget.feedBloc.getStory(miniStory),
                   builder: (context, snapshot) {
@@ -115,16 +141,19 @@ class _StoriesScreenState extends State<StoriesScreen> {
                   padding: const EdgeInsets.only(top: 44, left: 8),
                   child: Row(
                     children: [
-                      Container(
-                        height: 32,
-                        width: 32,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(user.profilePicture),
-                            fit: BoxFit.cover,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
+                      CachedNetworkImage(
+                        imageUrl: user.profilePicture,
+                        imageBuilder: (_, imageProvider) {
+                          return Container(
+                            height: 32,
+                            width: 32,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 8),
                       Text(
