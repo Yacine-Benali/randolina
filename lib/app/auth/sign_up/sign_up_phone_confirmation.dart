@@ -70,6 +70,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
                     ),
                   ),
                   CustomTextForm(
+                    fillColor: Colors.white70,
                     title: '',
                     hintText: 'CODE',
                     maxLength: 6,

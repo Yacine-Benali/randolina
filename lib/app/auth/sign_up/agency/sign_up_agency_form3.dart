@@ -76,6 +76,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
                     ),
                   ),
                   CustomTextForm(
+                    fillColor: Colors.white70,
                     lines: 4,
                     hintText: 'Bio...',
                     maxLength: 200,

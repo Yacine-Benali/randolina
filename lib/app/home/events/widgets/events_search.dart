@@ -29,17 +29,24 @@ class EventsSearch extends StatefulWidget {
 
 class EventsSearchState extends State<EventsSearch>
     with SingleTickerProviderStateMixin {
-  SfRangeValues _activeRangeSliderValue = const SfRangeValues(500, 100000);
+  SfRangeValues _activeRangeSliderValue = SfRangeValues(0, 100000);
   late TabController _tabController;
+  late TextEditingController textEditingController1;
+  late TextEditingController textEditingController2;
 
   String searchText = '';
   EventCreatedBy dropdownValue = EventCreatedBy.clubOnly;
+
+  String toIntToString(dynamic value) => (value as num).toInt().toString();
+
   @override
   void initState() {
     _tabController = TabController(vsync: this, length: 3);
-    _tabController.addListener(() {
-      //widget.onTabChanged(_tabController.index);
-    });
+    _tabController.addListener(() {});
+    textEditingController1 = TextEditingController();
+    textEditingController2 = TextEditingController();
+    textEditingController1.text = toIntToString(_activeRangeSliderValue.start);
+    textEditingController2.text = toIntToString(_activeRangeSliderValue.end);
     super.initState();
   }
 
@@ -82,7 +89,7 @@ class EventsSearchState extends State<EventsSearch>
     );
   }
 
-  Widget buildTextBox(num x) {
+  Widget buildSliderInput1(StateSetter setState) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blue[300]!),
@@ -90,16 +97,52 @@ class EventsSearchState extends State<EventsSearch>
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RichText(
-          text: TextSpan(
-            text: x.toInt().toString(),
-            style: TextStyle(color: Colors.black87),
-            children: const <TextSpan>[
-              TextSpan(
-                  text: '  DA',
-                  style: TextStyle(
-                      color: Colors.blue, fontWeight: FontWeight.bold)),
-            ],
+        child: SizedBox(
+          width: 100,
+          child: TextField(
+            controller: textEditingController1,
+            decoration: InputDecoration(border: InputBorder.none),
+            keyboardType: TextInputType.number,
+            onSubmitted: (t) {
+              final num number = num.tryParse(t) ?? 0;
+              if (number > 0 && number < 300000) {
+                _activeRangeSliderValue = SfRangeValues(
+                  number,
+                  _activeRangeSliderValue.end as num,
+                );
+                setState(() {});
+              }
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildSliderInput2(StateSetter setState) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.blue[300]!),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 100,
+          child: TextField(
+            controller: textEditingController2,
+            decoration: InputDecoration(border: InputBorder.none),
+            keyboardType: TextInputType.number,
+            onSubmitted: (t) {
+              final num number = num.tryParse(t) ?? 0;
+              if (number > 0 && number < 300000) {
+                _activeRangeSliderValue = SfRangeValues(
+                  _activeRangeSliderValue.start as num,
+                  number,
+                );
+                setState(() {});
+              }
+            },
           ),
         ),
       ),
@@ -118,9 +161,9 @@ class EventsSearchState extends State<EventsSearch>
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildTextBox(_activeRangeSliderValue.start as num),
+          buildSliderInput1(setState),
           SizedBox(width: 10),
-          buildTextBox(_activeRangeSliderValue.end as num),
+          buildSliderInput2(setState),
         ],
       ),
       SizedBox(height: 16),
@@ -135,9 +178,13 @@ class EventsSearchState extends State<EventsSearch>
           min: 0,
           max: 300000,
           onChanged: (dynamic values) {
-            setState(() {
-              _activeRangeSliderValue = values as SfRangeValues;
-            });
+            _activeRangeSliderValue = values as SfRangeValues;
+            textEditingController1.text =
+                toIntToString(_activeRangeSliderValue.start);
+            textEditingController2.text =
+                toIntToString(_activeRangeSliderValue.end);
+
+            setState(() {});
           },
           values: _activeRangeSliderValue,
           enableTooltip: true,
@@ -157,50 +204,51 @@ class EventsSearchState extends State<EventsSearch>
     ];
   }
 
-  Widget buildTextBox2(EventCreatedBy eventCreatedBy, StateSetter setState) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {
-          dropdownValue = eventCreatedBy;
-          setState(() {});
-        },
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0, 4),
-                blurRadius: 5.0,
-              )
-            ],
-            gradient: dropdownValue == eventCreatedBy
-                ? LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: const [0, 1],
-                    colors: [gradientStart, gradientEnd],
-                  )
-                : LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: const [0, 1],
-                    colors: [Colors.white, Colors.white],
-                  ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              eventSearchText[eventCreatedBy]!,
-              style: TextStyle(
-                color: dropdownValue == eventCreatedBy
-                    ? Colors.white
-                    : Colors.blueGrey,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+  Widget buildTabBarItem(EventCreatedBy eventCreatedBy, StateSetter setState) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            dropdownValue = eventCreatedBy;
+            setState(() {});
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 4),
+                  blurRadius: 5.0,
+                )
+              ],
+              gradient: dropdownValue == eventCreatedBy
+                  ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: const [0, 1],
+                      colors: [gradientStart, gradientEnd],
+                    )
+                  : LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: const [0, 1],
+                      colors: [Colors.white, Colors.white],
+                    ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                eventSearchText[eventCreatedBy]!,
+                style: TextStyle(
+                  color: dropdownValue == eventCreatedBy
+                      ? Colors.white
+                      : Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),
@@ -213,9 +261,9 @@ class EventsSearchState extends State<EventsSearch>
     return StatefulBuilder(builder: (context, StateSetter setState) {
       return Row(
         children: [
-          buildTextBox2(EventCreatedBy.both, setState),
-          buildTextBox2(EventCreatedBy.clubOnly, setState),
-          buildTextBox2(EventCreatedBy.agencyOnly, setState)
+          buildTabBarItem(EventCreatedBy.both, setState),
+          buildTabBarItem(EventCreatedBy.clubOnly, setState),
+          buildTabBarItem(EventCreatedBy.agencyOnly, setState)
         ],
       );
     });
@@ -290,8 +338,10 @@ class EventsSearchState extends State<EventsSearch>
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SizedBox(width: SizeConfig.screenWidth - 50),
-                                buildTabBar(setState),
+                                SizedBox(
+                                  width: SizeConfig.screenWidth - 50,
+                                  child: buildTabBar(setState),
+                                ),
                                 SizedBox(height: 16),
                                 ...buildSlider(setState),
                                 buildDoneButton(context),

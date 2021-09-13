@@ -444,6 +444,7 @@ class _CameraScreenState extends State<CameraScreen> {
           textDelegate: EnglishTextDelegate(),
           maxAssets: 1,
           selectedAssets: resultList2,
+          themeColor: Colors.blue,
         );
         if (resultList2 == null) return;
 

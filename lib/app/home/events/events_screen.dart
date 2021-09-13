@@ -34,7 +34,7 @@ class _EventsScreenState extends State<EventsScreen>
   late final Stream<List<Event>> allEventsStream;
   String searchText = '';
   EventCreatedBy eventCreatedBy = EventCreatedBy.both;
-  SfRangeValues sfRangeValues = SfRangeValues(500, 100000);
+  SfRangeValues sfRangeValues = SfRangeValues(0, 100000);
 
   @override
   void initState() {
@@ -74,9 +74,9 @@ class _EventsScreenState extends State<EventsScreen>
             if (snapshot.hasData && snapshot.data != null) {
               final List<Event> events = snapshot.data!;
               if (events.isNotEmpty) {
-                logger.severe('rebbuild');
                 final List<Event> matchedEvents = eventsBloc.filtreEvents(
                     events, searchText, eventCreatedBy, sfRangeValues);
+                logger.info(searchText);
 
                 final List<Widget> widgets = [];
                 for (final Event event in matchedEvents) {
@@ -190,7 +190,10 @@ class _EventsScreenState extends State<EventsScreen>
             ),
           ],
           if (_tabController.index == 0) ...[buildEvents(isMyEvent: true)],
-          if (_tabController.index == 1) ...[buildEvents(isMyEvent: false)],
+          if (_tabController.index == 1) ...[
+            SizedBox(height: 20),
+            buildEvents(isMyEvent: false)
+          ],
         ],
       ),
     );

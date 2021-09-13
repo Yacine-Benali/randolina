@@ -20,6 +20,7 @@ class CustomTextForm extends StatelessWidget {
     this.textInputAction,
     this.textInputType = TextInputType.text,
     this.lines,
+    this.fillColor = Colors.white,
   }) : super(key: key);
 
   final TextInputType textInputType;
@@ -36,6 +37,8 @@ class CustomTextForm extends StatelessWidget {
   final Widget? prefix;
   final TextInputAction? textInputAction;
   final int? lines;
+  final Color fillColor;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -78,7 +81,7 @@ class CustomTextForm extends StatelessWidget {
                 contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 12),
                 prefixIcon: prefix,
                 hintText: hintText,
-                fillColor: Colors.white,
+                fillColor: fillColor,
                 filled: true,
                 counterText: '',
                 focusColor: backgroundColor,

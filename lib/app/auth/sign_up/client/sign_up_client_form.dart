@@ -76,6 +76,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: CustomTextForm(
+                        fillColor: Colors.white70,
                         title: 'Full name:',
                         hintText: 'Name...',
                         maxLength: 50,
@@ -94,6 +95,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: CustomTextForm(
+                        fillColor: Colors.white70,
                         title: 'User Name:',
                         hintText: 'User Name...',
                         textInputAction: TextInputAction.next,
@@ -111,6 +113,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: CustomDropDown(
+                        fillColor: Colors.white70,
                         title: 'Wilaya',
                         hint: 'Wilaya',
                         validator: (String? value) {
@@ -146,6 +149,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: CustomTextForm(
+                        fillColor: Colors.white70,
                         title: 'Password:',
                         hintText: 'Password...',
                         isPassword: true,
@@ -164,6 +168,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: CustomTextForm(
+                        fillColor: Colors.white70,
                         title: 'Phone number:',
                         maxLength: 10,
                         isPhoneNumber: true,

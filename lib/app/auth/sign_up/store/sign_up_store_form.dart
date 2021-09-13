@@ -64,6 +64,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Full name:',
                       hintText: 'Name...',
                       maxLength: 50,
@@ -82,6 +83,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Store name:',
                       hintText: 'Store name...',
                       textInputAction: TextInputAction.next,
@@ -99,6 +101,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Localisation:',
                       hintText: 'Oran,Alger...',
                       textInputAction: TextInputAction.next,

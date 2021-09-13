@@ -64,6 +64,7 @@ class _SignUpAgencyForm2State extends State<SignUpAgencyForm2> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Use name:',
                       hintText: 'User name...',
                       maxLength: 50,
@@ -82,6 +83,7 @@ class _SignUpAgencyForm2State extends State<SignUpAgencyForm2> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Email',
                       hintText: 'Examle@gmail.co...',
                       textInputAction: TextInputAction.next,
@@ -99,6 +101,7 @@ class _SignUpAgencyForm2State extends State<SignUpAgencyForm2> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Password:',
                       hintText: 'Password...',
                       isPassword: true,
@@ -117,6 +120,7 @@ class _SignUpAgencyForm2State extends State<SignUpAgencyForm2> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Phone number:',
                       maxLength: 10,
                       textInputAction: TextInputAction.done,

@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class NewEventForm1 extends StatefulWidget {
   const NewEventForm1({
@@ -21,6 +22,37 @@ class NewEventForm1 extends StatefulWidget {
 class _NewEventForm1State extends State<NewEventForm1> {
   File? imageFile;
 
+  Future<void> pickImage() async {
+    List<AssetEntity>? pickedAssets = <AssetEntity>[];
+    pickedAssets = await AssetPicker.pickAssets(
+      context,
+      textDelegate: EnglishTextDelegate(),
+      maxAssets: 1,
+      selectedAssets: pickedAssets,
+      themeColor: Colors.blue,
+    );
+    if (pickedAssets != null) {
+      final File? file = await pickedAssets[0].file;
+      if (file != null) {
+        final File? croppedImage = await ImageCropper.cropImage(
+          androidUiSettings: AndroidUiSettings(
+            backgroundColor: Colors.black,
+            toolbarColor: Colors.white,
+            toolbarWidgetColor: Colors.black,
+            toolbarTitle: 'Crop Photo',
+            activeControlsWidgetColor: Colors.blue,
+          ),
+          sourcePath: file.path,
+          aspectRatio: CropAspectRatio(ratioX: 16.0, ratioY: 9.0),
+        );
+        if (croppedImage != null) {
+          imageFile = croppedImage;
+          setState(() {});
+        }
+      }
+    }
+  }
+
   Widget buildUploadButton() {
     return Container(
       decoration: BoxDecoration(
@@ -34,15 +66,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: ElevatedButton(
-        onPressed: () async {
-          final ImagePicker _picker = ImagePicker();
-          final XFile? image =
-              await _picker.pickImage(source: ImageSource.gallery);
-          if (image != null) {
-            imageFile = File(image.path);
-            setState(() {});
-          }
-        },
+        onPressed: pickImage,
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
@@ -79,15 +103,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
     return SizedBox(
       height: 400,
       child: GestureDetector(
-        onTap: () async {
-          final ImagePicker _picker = ImagePicker();
-          final XFile? image =
-              await _picker.pickImage(source: ImageSource.gallery);
-          if (image != null) {
-            imageFile = File(image.path);
-            setState(() {});
-          }
-        },
+        onTap: pickImage,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: imageFile != null

@@ -42,7 +42,7 @@ class InputDropdown extends StatelessWidget {
           Container(
             height: 55,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white70,
               borderRadius: BorderRadius.circular(25.0),
               border: Border.all(
                 color: Colors.blueGrey,

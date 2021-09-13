@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:randolina/app/home/create/camera_screen.dart';
-import 'package:randolina/app/home/create/core/filtered_image_converter.dart';
-import 'package:randolina/app/home/create/core/filters.dart';
 import 'package:randolina/app/home/create/core/liquid_swipe_pages.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
@@ -57,29 +56,30 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
       body: Stack(
         children: <Widget>[
           if (widget.postContentType == PostContentType.image) ...[
-            Center(
-              child: RepaintBoundary(
-                key: _globalKey,
-                child: SizedBox(
-                  child: LiquidSwipe(
-                    pages: _filterPages,
-                    onPageChangeCallback: (value) {
-                      setState(() {
-                        _filterTitle = filters[value].name;
-                        _newFilterTitle = true;
-                      });
-                      Timer(Duration(milliseconds: 1000), () {
-                        if (_filterTitle == filters[value].name) {
-                          setState(() => _newFilterTitle = false);
-                        }
-                      });
-                    },
-                    liquidController: _liquidController,
-                    ignoreUserGestureWhileAnimating: true,
-                  ),
-                ),
-              ),
-            ),
+            Center(child: Image.file(widget.finalFile)),
+            // Center(
+            //   child: RepaintBoundary(
+            //     key: _globalKey,
+            //     child: SizedBox(
+            //       child: LiquidSwipe(
+            //         pages: _filterPages,
+            //         onPageChangeCallback: (value) {
+            //           setState(() {
+            //             _filterTitle = filters[value].name;
+            //             _newFilterTitle = true;
+            //           });
+            //           Timer(Duration(milliseconds: 1000), () {
+            //             if (_filterTitle == filters[value].name) {
+            //               setState(() => _newFilterTitle = false);
+            //             }
+            //           });
+            //         },
+            //         liquidController: _liquidController,
+            //         ignoreUserGestureWhileAnimating: true,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             if (_newFilterTitle)
               // displays filter title once filtered changed
               _displayStoryFilterTitle(),
@@ -163,11 +163,11 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
 
   Future<void> _createStory() async {
     if (!_isLoading) {
-      setState(() => _isLoading = true);
-      final File? finalFile;
+      //setState(() => _isLoading = true);
+      File finalFile = widget.finalFile;
 
       if (widget.postContentType == PostContentType.image) {
-        finalFile = await FilteredImageConverter.convert(globalKey: _globalKey);
+        // finalFile = await FilteredImageConverter.convert(globalKey: _globalKey);
         if (finalFile == null) {
           PlatformAlertDialog(
             title: 'Could not convert image.',
@@ -191,10 +191,17 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
         }
       }
 
-      await widget.createBloc
-          .createStory(finalFile.path, widget.postContentType);
+      widget.createBloc
+          .createStory(finalFile.path, widget.postContentType)
+          .then(
+            (value) => Fluttertoast.showToast(
+              msg: 'Story successfully published',
+              toastLength: Toast.LENGTH_SHORT,
+            ),
+          );
 
       setState(() => _isLoading == false);
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
     }
   }

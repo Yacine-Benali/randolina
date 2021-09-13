@@ -72,6 +72,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Full name:',
                       hintText: 'Name...',
                       maxLength: 50,
@@ -90,6 +91,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Club name:',
                       hintText: 'Club name...',
                       textInputAction: TextInputAction.next,
@@ -117,6 +119,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Localisation:',
                       hintText: 'Oran,Alger...',
                       textInputAction: TextInputAction.next,
@@ -134,6 +137,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                   Padding(
                     padding: padding,
                     child: CustomTextForm(
+                      fillColor: Colors.white70,
                       title: 'Number of members:',
                       hintText: 'Number of members:',
                       maxLength: 6,

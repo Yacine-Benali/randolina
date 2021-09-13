@@ -82,6 +82,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                     ),
                   ),
                   CustomTextForm(
+                    fillColor: Colors.white70,
                     lines: 4,
                     hintText: 'Bio...',
                     maxLength: 200,
@@ -98,6 +99,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                     },
                   ),
                   CustomDropDown(
+                    fillColor: Colors.white70,
                     validator: (String? value) {
                       if (value == null) {
                         return invalidActivityError;

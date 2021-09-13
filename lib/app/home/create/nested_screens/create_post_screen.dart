@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randolina/app/home/create/camera_screen.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/app/home/create/widgets/post_caption_form.dart';
@@ -89,11 +90,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         // DatabaseService.editPost(post, widget.postStatus);
       } else if (widget.finalFiles != null) {
         //Create new Post working
-        await widget.createBloc.createPost(
-          widget.finalFiles!,
-          widget.postContentType,
-          _caption,
-        );
+        await widget.createBloc
+            .createPost(
+              widget.finalFiles!,
+              widget.postContentType,
+              _caption,
+            )
+            .then(
+              (value) => Fluttertoast.showToast(
+                msg: 'post successfully published',
+                toastLength: Toast.LENGTH_SHORT,
+              ),
+            );
       }
       _goToHomeScreen();
     }

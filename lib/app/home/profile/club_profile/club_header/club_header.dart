@@ -110,7 +110,7 @@ class ClubHeader extends StatelessWidget {
               ],
               if (showProfileAsOther && isFollowingOther != null) ...[
                 Positioned(
-                  left: SizeConfig.blockSizeHorizontal * 28,
+                  left: SizeConfig.blockSizeHorizontal * 30,
                   bottom: 0,
                   child: VisitFollowersHeader(
                     isExpanded: false,

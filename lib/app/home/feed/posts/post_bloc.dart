@@ -15,6 +15,21 @@ class PostBloc {
   final User currentUser;
   final Database database;
 
+  Future<void> deletePost(Post post) async {
+    await database.deleteDocument(path: APIPath.postDocument(post.id));
+    // todo @average call a CF here
+    await database.updateData(
+        path: APIPath.userFollowerPostsDocument(currentUser.id),
+        data: {
+          'postsIds': FieldValue.arrayRemove([
+            {
+              'postId': post.id,
+              'createdAt': post.createdAt,
+            }
+          ]),
+        });
+  }
+
   Future<bool> isLiked(Post post) async {
     // todo @low decrease usage by downloading this doc once and then check it
     final List<String> list = await database.fetchCollection(

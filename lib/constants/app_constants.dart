@@ -1,10 +1,15 @@
-enum Role { client, club, agency, store }
-//
+enum Role {
+  client,
+  club,
+  agency,
+  // store,
+}
+
 const Map<Role, String> roleToText = {
   Role.client: 'User',
   Role.club: 'Club',
   Role.agency: 'Agency',
-  Role.store: 'Store',
+  // Role.store: 'Store',
 };
 
 List<String> clientActivities = [

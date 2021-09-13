@@ -82,6 +82,7 @@ class _SignUpClubForm3State extends State<SignUpClubForm3> {
                     ),
                   ),
                   CustomTextForm(
+                    fillColor: Colors.white70,
                     lines: 4,
                     hintText: 'Bio...',
                     maxLength: 200,

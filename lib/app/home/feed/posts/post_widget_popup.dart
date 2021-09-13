@@ -4,23 +4,30 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:uuid/uuid.dart';
 
 enum PopUpOptions {
   reportPost,
   downloadPhoto,
+  deletePost,
 }
 
 Map<PopUpOptions, String> popOptionsText = {
   PopUpOptions.reportPost: 'report post',
   PopUpOptions.downloadPhoto: 'download photo',
+  PopUpOptions.deletePost: 'delete post',
 };
 
 Map<PopUpOptions, Icon> popOptionsIcon = {
   PopUpOptions.reportPost: Icon(Icons.report_gmailerrorred_outlined),
   PopUpOptions.downloadPhoto: Icon(Icons.download_outlined),
+  PopUpOptions.deletePost: Icon(Icons.delete_outline),
 };
 
 //? should i stop passing values to widget and just use provider ?
@@ -28,16 +35,26 @@ class PostWidgetPopUp extends StatefulWidget {
   const PostWidgetPopUp({
     Key? key,
     required this.post,
+    required this.postBloc,
     required this.contentIndex,
   }) : super(key: key);
   final Post post;
   final int contentIndex;
+  final PostBloc postBloc;
 
   @override
   _PostWidgetPopUpState createState() => _PostWidgetPopUpState();
 }
 
 class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
+  late final User currentUser;
+
+  @override
+  void initState() {
+    currentUser = context.read<User>();
+    super.initState();
+  }
+
   PopupMenuItem<PopUpOptions> buildTile(PopUpOptions value) {
     return PopupMenuItem(
       value: value,
@@ -114,6 +131,7 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
         bottomRight: Radius.circular(10),
       )),
       onSelected: (PopUpOptions selectedValue) async {
+        logger.info(selectedValue);
         if (selectedValue == PopUpOptions.reportPost) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: const Text('Post reported to admins')));
@@ -125,6 +143,14 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
           } on Exception catch (e) {
             PlatformExceptionAlertDialog(exception: e).show(context);
           }
+        } else if (selectedValue == PopUpOptions.deletePost) {
+          widget.postBloc
+              .deletePost(widget.post)
+              .then((value) => Fluttertoast.showToast(
+                    msg:
+                        'post deleted successfully, refresh the page to see changes',
+                    toastLength: Toast.LENGTH_LONG,
+                  ));
         }
       },
       icon: Padding(
@@ -135,6 +161,9 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
         return [
           buildTile(PopUpOptions.reportPost),
           if (widget.post.type == 0) ...[buildTile(PopUpOptions.downloadPhoto)],
+          if (widget.post.miniUser.id == currentUser.id) ...[
+            buildTile(PopUpOptions.deletePost)
+          ],
         ];
       },
     );

@@ -12,6 +12,7 @@ class CustomDropDown extends StatefulWidget {
     this.validator,
     this.options,
     this.initialValue,
+    this.fillColor = Colors.white,
   }) : super(key: key);
 
   final ValueChanged<String> onChanged;
@@ -21,6 +22,7 @@ class CustomDropDown extends StatefulWidget {
   final List<String>? options;
   final String? initialValue;
   final String? Function(String?)? validator;
+  final Color fillColor;
   @override
   _WilayaPickerState createState() => _WilayaPickerState();
 }
@@ -83,7 +85,7 @@ class _WilayaPickerState extends State<CustomDropDown> {
           decoration: InputDecoration(
             isDense: true,
             contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 12),
-            fillColor: Colors.white,
+            fillColor: widget.fillColor,
             filled: true,
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(

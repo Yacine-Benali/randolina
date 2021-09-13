@@ -102,6 +102,7 @@ class _PostWidgetState extends State<PostWidget> {
                   PostWidgetPopUp(
                     post: widget.post,
                     contentIndex: contentIndex,
+                    postBloc: postBloc,
                   ),
                 ],
               ),

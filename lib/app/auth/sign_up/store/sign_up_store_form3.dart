@@ -76,6 +76,7 @@ class _SignUpStoreForm3State extends State<SignUpStoreForm3> {
                     ),
                   ),
                   CustomTextForm(
+                    fillColor: Colors.white70,
                     lines: 4,
                     hintText: 'Bio...(you can put your website here',
                     maxLength: 200,
