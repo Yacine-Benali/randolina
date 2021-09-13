@@ -5,9 +5,7 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:randolina/app/home/create/camera_screen.dart';
-import 'package:randolina/app/home/create/core/liquid_swipe_pages.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
@@ -32,24 +30,25 @@ class CreateStoryScreen extends StatefulWidget {
 }
 
 class _CreateStoryScreenState extends State<CreateStoryScreen> {
-  final GlobalKey _globalKey = GlobalKey();
-  String _filterTitle = '';
-  bool _newFilterTitle = false;
-  bool _isLoading = false;
-  final LiquidController _liquidController = LiquidController();
-  late Size _screenSize;
-  late List<Container> _filterPages;
+  // final GlobalKey _globalKey = GlobalKey();
+  // final LiquidController _liquidController = LiquidController();
+  // late List<Container> _filterPages;
+  // late Size _screenSize;
+
+  final String _filterTitle = '';
+  final bool _newFilterTitle = false;
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      _screenSize = MediaQuery.of(context).size;
-      _filterPages = LiquidSwipePagesService.getImageFilteredPaged(
-        imageFile: widget.finalFile,
-        height: _screenSize.height,
-        width: _screenSize.width,
-      );
-    });
+    // setState(() {
+    //  _screenSize = MediaQuery.of(context).size;
+    //   _filterPages = LiquidSwipePagesService.getImageFilteredPaged(
+    //     imageFile: widget.finalFile,
+    //     height: _screenSize.height,
+    //     width: _screenSize.width,
+    //   );
+    // });
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -164,17 +163,17 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
   Future<void> _createStory() async {
     if (!_isLoading) {
       //setState(() => _isLoading = true);
-      File finalFile = widget.finalFile;
+      File? finalFile = widget.finalFile;
 
       if (widget.postContentType == PostContentType.image) {
         // finalFile = await FilteredImageConverter.convert(globalKey: _globalKey);
-        if (finalFile == null) {
-          PlatformAlertDialog(
-            title: 'Could not convert image.',
-            content: '',
-          ).show(context);
-          return;
-        }
+        // if (finalFile == null) {
+        //   PlatformAlertDialog(
+        //     title: 'Could not convert image.',
+        //     content: '',
+        //   ).show(context);
+        //   return;
+        // }
       } else {
         // its a video
         finalFile = widget.finalFile;
@@ -182,7 +181,7 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
         final VideoPlayerController controller =
             VideoPlayerController.file(widget.finalFile);
         await controller.initialize();
-        if (controller.value.duration.inSeconds > 15) {
+        if (controller.value.duration.inSeconds > 30) {
           PlatformAlertDialog(
             title: 'Video exceeds 15 seconds can not post it to stories',
             content: '',

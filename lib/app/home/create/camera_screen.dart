@@ -151,6 +151,7 @@ class _CameraScreenState extends State<CameraScreen> {
               ),
               // ignore: deprecated_member_use
 
+              // ignore: deprecated_member_use
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
