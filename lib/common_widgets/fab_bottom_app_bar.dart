@@ -20,6 +20,7 @@ class FABBottomAppBar extends StatefulWidget {
     required this.selectedColor,
     required this.notchedShape,
     required this.onTabSelected,
+    required this.selectedIndex,
   });
   final List<FABBottomAppBarItem> items;
   final String centerItemText;
@@ -30,19 +31,15 @@ class FABBottomAppBar extends StatefulWidget {
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
+  final int selectedIndex;
 
   @override
   State<StatefulWidget> createState() => FABBottomAppBarState();
 }
 
 class FABBottomAppBarState extends State<FABBottomAppBar> {
-  int _selectedIndex = 0;
-
   void _updateIndex(int index) {
     widget.onTabSelected(index);
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override
@@ -81,7 +78,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     required ValueChanged<int> onPressed,
   }) {
     final Color color =
-        (_selectedIndex == index) ? widget.selectedColor : widget.color;
+        (widget.selectedIndex == index) ? widget.selectedColor : widget.color;
 
     return Expanded(
       child: SizedBox(
