@@ -1,5 +1,6 @@
 import 'package:blur/blur.dart';
 import 'package:bordered_text/bordered_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
@@ -147,7 +148,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: NetworkImage(widget.event.profileImage),
+                image: CachedNetworkImageProvider(widget.event.profileImage),
                 fit: BoxFit.cover,
               ),
             ),

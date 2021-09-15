@@ -100,12 +100,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Icon(Icons.add),
           ),
         ),
-        body: getScreen(index),
-        //! need pull to refresh for this
-        // IndexedStack(
-        //   index: index,
-        //   children: screens,
-        // ),
+        body: IndexedStack(
+          index: index,
+          children: screens,
+        ),
         bottomNavigationBar: FABBottomAppBar(
           height: 55,
           iconSize: 32,
