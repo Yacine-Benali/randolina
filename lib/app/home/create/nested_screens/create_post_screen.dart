@@ -90,7 +90,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         // DatabaseService.editPost(post, widget.postStatus);
       } else if (widget.finalFiles != null) {
         //Create new Post working
-        await widget.createBloc
+        widget.createBloc
             .createPost(
               widget.finalFiles!,
               widget.postContentType,
@@ -108,6 +108,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   void _goToHomeScreen() {
+    Navigator.of(context).pop();
     Navigator.of(context).pop();
   }
 

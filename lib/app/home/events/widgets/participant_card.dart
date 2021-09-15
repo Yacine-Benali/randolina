@@ -101,18 +101,21 @@ class _ParticipantCardState extends State<ParticipantCard> {
                               ],
                             ),
                             if (widget.showInfo) ...[
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => ParticipantDetailScreen(
-                                        participant: widget.participant,
-                                        index: widget.index,
+                              Container(
+                                margin: const EdgeInsets.only(right: 8),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => ParticipantDetailScreen(
+                                          participant: widget.participant,
+                                          index: widget.index,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                icon: Icon(Icons.info_outline, size: 30),
+                                    );
+                                  },
+                                  icon: Icon(Icons.info_outline, size: 30),
+                                ),
                               )
                             ],
                             if (!widget.showInfo) ...[
