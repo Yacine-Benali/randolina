@@ -255,8 +255,6 @@ class _CameraScreenState extends State<CameraScreen> {
                         ),
                       ),
                       SizedBox(width: 10),
-
-                      //! todo @high change icon
                       Material(
                         color: Colors.transparent,
                         child: InkWell(

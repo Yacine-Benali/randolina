@@ -43,23 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     } on CameraException catch (_) {}
   }
 
-  Widget getScreen(int index) {
-    switch (index) {
-      case 0:
-        return FeedScreen();
-
-      case 1:
-        return Container(color: backgroundColor);
-
-      case 2:
-        return EventsScreen();
-
-      case 3:
-        return ProfileScreen(user: user);
-    }
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
@@ -79,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: backgroundColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: false,
+        body: IndexedStack(index: index, children: screens),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: FloatingActionButton(
@@ -99,10 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 2.0,
             child: Icon(Icons.add),
           ),
-        ),
-        body: IndexedStack(
-          index: index,
-          children: screens,
         ),
         bottomNavigationBar: FABBottomAppBar(
           height: 55,

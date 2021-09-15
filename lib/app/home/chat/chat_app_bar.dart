@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({

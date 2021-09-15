@@ -17,7 +17,7 @@ class PostBloc {
 
   Future<void> deletePost(Post post) async {
     await database.deleteDocument(path: APIPath.postDocument(post.id));
-    // todo @average call a CF here
+    // todo @average call a CF here, delete storage media
     await database.updateData(
         path: APIPath.userFollowerPostsDocument(currentUser.id),
         data: {

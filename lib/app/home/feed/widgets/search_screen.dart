@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/feed/miniuser_to_profile.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/algolia_service.dart';
 
