@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/feed/feed_app_bar.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
@@ -26,6 +27,7 @@ class _FeedScreenState extends State<FeedScreen> {
   late PostBloc postBloc;
   final ScrollController listScrollController = ScrollController();
   late bool isLoadingNextMessages;
+  final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
@@ -73,6 +75,11 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
+  Future<void> _onRefresh() async {
+    await bloc.startFresh();
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -85,38 +92,44 @@ class _FeedScreenState extends State<FeedScreen> {
                 posts = snapshot.data!;
 
                 if (posts.isNotEmpty) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return FeedAppBar();
-                      } else if (index == 1) {
-                        return StoriesListWidget(
-                          feedBloc: bloc,
-                        );
-                      }
-                      if (index == posts.length + 2) {
-                        return _buildProgressIndicator();
-                      } else {
-                        return PostWidget(
-                          post: posts[index - 1 - 1],
-                          postBloc: postBloc,
-                        );
-                      }
-                    },
-                    // +1 to include the loading widget
-                    itemCount: posts.length + 1 + 1 + 1,
-                    controller: listScrollController,
+                  return SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    child: ListView.builder(
+                      // +1 to include the loading widget
+                      itemCount: posts.length + 1 + 1 + 1,
+                      controller: listScrollController,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return FeedAppBar();
+                        } else if (index == 1) {
+                          return StoriesListWidget(feedBloc: bloc);
+                        }
+                        if (index == posts.length + 2) {
+                          return _buildProgressIndicator();
+                        } else {
+                          return PostWidget(
+                            post: posts[index - 1 - 1],
+                            postBloc: postBloc,
+                          );
+                        }
+                      },
+                    ),
                   );
                 } else {
-                  return Column(
-                    children: [
-                      FeedAppBar(),
-                      StoriesListWidget(feedBloc: bloc),
-                      EmptyContent(
-                        title: 'feed is empty',
-                        message: '',
-                      ),
-                    ],
+                  return SmartRefresher(
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    child: Column(
+                      children: [
+                        FeedAppBar(),
+                        StoriesListWidget(feedBloc: bloc),
+                        EmptyContent(
+                          title: 'feed is empty',
+                          message: '',
+                        ),
+                      ],
+                    ),
                   );
                 }
               } else if (snapshot.hasError) {

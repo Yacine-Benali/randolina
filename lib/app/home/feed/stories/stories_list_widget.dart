@@ -6,12 +6,36 @@ import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 
-class StoriesListWidget extends StatelessWidget {
+class StoriesListWidget extends StatefulWidget {
   const StoriesListWidget({
     Key? key,
     required this.feedBloc,
   }) : super(key: key);
   final FeedBloc feedBloc;
+
+  @override
+  _StoriesListWidgetState createState() => _StoriesListWidgetState();
+}
+
+class _StoriesListWidgetState extends State<StoriesListWidget>
+    with AutomaticKeepAliveClientMixin {
+  late Future<List<UserFollowersStories>> future;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    future = widget.feedBloc.getStoriesIdsAndUsers();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(StoriesListWidget oldWidget) {
+    future = widget.feedBloc.getStoriesIdsAndUsers();
+
+    super.didUpdateWidget(oldWidget);
+  }
 
   Widget buildStoryAvatar(
     BuildContext context,
@@ -28,7 +52,7 @@ class StoriesListWidget extends StatelessWidget {
                 builder: (context) => StoriesScreen(
                   usersStories: list,
                   initialPage: index,
-                  feedBloc: feedBloc,
+                  feedBloc: widget.feedBloc,
                 ),
               ),
             );
@@ -75,7 +99,7 @@ class StoriesListWidget extends StatelessWidget {
           ),
         ),
         FutureBuilder<List<UserFollowersStories>>(
-            future: feedBloc.getStoriesIdsAndUsers(),
+            future: future,
             builder: (context, snapshot) {
               if (snapshot.hasData && (snapshot.data != null)) {
                 final List<UserFollowersStories> usersStories = snapshot.data!;
@@ -90,7 +114,7 @@ class StoriesListWidget extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final MiniUser user = usersStories[index].miniUser;
 
-                        if (feedBloc.haveStories(user)) {
+                        if (widget.feedBloc.haveStories(user)) {
                           return buildStoryAvatar(
                               context, user, snapshot.data!, index);
                         }

@@ -18,9 +18,9 @@ class FeedBloc {
   final Database database;
   final User currentUser;
 
-  List<String> postsIds = [];
   List<UserFollowersStories> storiesList = [];
 
+  List<String> postsIds = [];
   List<Post> postsList = [];
   BehaviorSubject<List<Post>> postsListController =
       BehaviorSubject<List<Post>>();
@@ -28,6 +28,13 @@ class FeedBloc {
   Stream<List<Post>> get postsStream => postsListController.stream;
 
   int index = 0;
+
+  Future<void> startFresh() async {
+    index = 0;
+    postsList.clear();
+    postsIds.clear();
+    await fetch10Posts();
+  }
 
   Future<void> getPostsIds() async {
     final List<UserFollowersPosts> data = await database.fetchCollection(
@@ -89,17 +96,14 @@ class FeedBloc {
   }
 
   Future<bool> fetch10Posts() async {
-    if (postsIds.isEmpty) {
-      await getPostsIds();
-    }
-    if (postsIds.isEmpty) {
-      if (!postsListController.isClosed) {
-        postsListController.sink.add([]);
-      }
+    if (postsIds.isEmpty) await getPostsIds();
+
+    if (postsIds.isEmpty && !postsListController.isClosed) {
+      postsListController.sink.add([]);
+      return true;
     }
     final List<String> postIdsSublit = [];
 
-    // logger.info('postsIds: ${postsIds.length}\t index: $index');
     if (index == postsIds.length) {
       return true;
     } else if ((postsIds.length - index) < 10) {

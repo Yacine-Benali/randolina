@@ -62,18 +62,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void rebuildAllChildren(BuildContext context) {
-    void rebuild(Element el) {
-      el.markNeedsBuild();
-      el.visitChildren(rebuild);
-    }
-
-    (context as Element).visitChildren(rebuild);
-  }
-
   Future<void> _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 1000));
-    rebuildAllChildren(context);
+    setState(() {});
     _refreshController.refreshCompleted();
   }
 
