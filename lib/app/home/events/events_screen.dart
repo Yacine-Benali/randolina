@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
 import 'package:randolina/app/home/events/widgets/client_event_card.dart';
@@ -30,7 +31,7 @@ class _EventsScreenState extends State<EventsScreen>
   late final bool isClient;
   late final Stream<List<Event>> myEventsStream;
   late final Stream<List<Event>> allEventsStream;
-
+  final RefreshController _refreshController = RefreshController();
   late ValueNotifier<List<Event>> currentlyChosenEventsNotifier;
 
   String searchText = '';
@@ -122,81 +123,90 @@ class _EventsScreenState extends State<EventsScreen>
     );
   }
 
+  Future<void> _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView(
-        children: [
-          ChangeNotifierProvider.value(
-            value: currentlyChosenEventsNotifier,
-            child: EventsSearch(
-              eventsBloc: eventsBloc,
-              isMyevent: _tabController.index == 0 ? true : false,
-              onTextChanged: (t) {
-                setState(() => searchText = t);
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-            child: SizedBox(
-              height: 30,
-              child: Material(
-                color: Colors.grey[300],
-                elevation: 5,
-                child: TabBar(
-                  controller: _tabController,
-                  labelStyle: textstyle,
-                  labelPadding: EdgeInsets.zero,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  labelColor: Color.fromRGBO(51, 77, 115, 0.78),
-                  unselectedLabelColor: Color.fromRGBO(51, 77, 115, 0.78),
-                  tabs: [
-                    Tab(text: 'My events'),
-                    Tab(text: 'All events'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          if (isClient) ...[SizedBox(height: 36)],
-          if (!isClient && _tabController.index == 0) ...[
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 30, bottom: 8.0, right: 8, left: 8),
-              child: ElevatedButton(
-                onPressed: () async {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => NewEventScreen(),
-                    ),
-                  );
+      child: SmartRefresher(
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        child: ListView(
+          children: [
+            ChangeNotifierProvider.value(
+              value: currentlyChosenEventsNotifier,
+              child: EventsSearch(
+                eventsBloc: eventsBloc,
+                isMyevent: _tabController.index == 0 ? true : false,
+                onTextChanged: (t) {
+                  setState(() => searchText = t);
                 },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Add',
-                      style:
-                          TextStyle(color: Color.fromRGBO(51, 77, 115, 0.78)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+              child: SizedBox(
+                height: 30,
+                child: Material(
+                  color: Colors.grey[300],
+                  elevation: 5,
+                  child: TabBar(
+                    controller: _tabController,
+                    labelStyle: textstyle,
+                    labelPadding: EdgeInsets.zero,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicator: BoxDecoration(
+                      color: Colors.white,
                     ),
-                    Icon(Icons.add, color: Color.fromRGBO(51, 77, 115, 0.78))
-                  ],
+                    labelColor: Color.fromRGBO(51, 77, 115, 0.78),
+                    unselectedLabelColor: Color.fromRGBO(51, 77, 115, 0.78),
+                    tabs: [
+                      Tab(text: 'My events'),
+                      Tab(text: 'All events'),
+                    ],
+                  ),
                 ),
               ),
             ),
+            if (isClient) ...[SizedBox(height: 36)],
+            if (!isClient && _tabController.index == 0) ...[
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 30, bottom: 8.0, right: 8, left: 8),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => NewEventScreen(),
+                      ),
+                    );
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Add',
+                        style:
+                            TextStyle(color: Color.fromRGBO(51, 77, 115, 0.78)),
+                      ),
+                      Icon(Icons.add, color: Color.fromRGBO(51, 77, 115, 0.78))
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            if (_tabController.index == 0) ...[buildEvents(isMyEvent: true)],
+            if (_tabController.index == 1) ...[
+              SizedBox(height: 20),
+              buildEvents(isMyEvent: false)
+            ],
           ],
-          if (_tabController.index == 0) ...[buildEvents(isMyEvent: true)],
-          if (_tabController.index == 1) ...[
-            SizedBox(height: 20),
-            buildEvents(isMyEvent: false)
-          ],
-        ],
+        ),
       ),
     );
   }

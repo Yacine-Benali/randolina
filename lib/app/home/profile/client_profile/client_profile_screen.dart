@@ -13,7 +13,6 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class ClientProfileScreen extends StatefulWidget {
   const ClientProfileScreen({
@@ -38,7 +37,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   late List<Post> sortedPosts;
   late final PostBloc postBloc;
   late final List<Widget> postsWidget;
-  late final Future<List<Post>> postsFuture;
+  late Future<List<Post>> postsFuture;
 
   @override
   void initState() {
@@ -52,6 +51,13 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(ClientProfileScreen oldWidget) {
+    postsFuture =
+        widget.bloc.getPosts(showProfileAsOther: widget.showProfileAsOther);
+    super.didUpdateWidget(oldWidget);
+  }
+
   List<Widget> buildList() {
     postsWidget.clear();
     sortedPosts = widget.bloc.sortPost(posts, type);
@@ -62,7 +68,6 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('rebuilding the whole screen');
     return FutureBuilder<List<Post>>(
       future: postsFuture,
       builder: (context, snapshot) {

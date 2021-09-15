@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_screen.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
@@ -27,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late final ProfileBloc bloc;
   late final bool showProfileAsOther;
   Future<bool>? isFollowingOther;
+  final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
@@ -60,6 +62,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (context as Element).visitChildren(rebuild);
+  }
+
+  Future<void> _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    rebuildAllChildren(context);
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
     currentUser = context.read<User>();
@@ -71,41 +88,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
       value: bloc,
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: FutureBuilder<bool>(
-          future: isFollowingOther,
-          builder: (context, snapshot) {
-            if (snapshot.hasData || showProfileAsOther == false) {
-              late Widget child;
-              if (otherUser is Client) {
-                child = ClientProfileScreen(
-                  client: otherUser as Client,
-                  bloc: bloc,
-                  isFollowingOther: snapshot.data,
-                  showProfileAsOther: showProfileAsOther,
-                );
-              } else if (otherUser is Club) {
-                child = ClubProfileScreen(
-                  clubOrAgency: otherUser,
-                  bloc: bloc,
-                  isFollowingOther: snapshot.data,
-                  showProfileAsOther: showProfileAsOther,
-                );
-              } else if (otherUser is Agency) {
-                child = ClubProfileScreen(
-                  clubOrAgency: otherUser,
-                  bloc: bloc,
-                  isFollowingOther: snapshot.data,
-                  showProfileAsOther: showProfileAsOther,
+        body: SmartRefresher(
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          child: FutureBuilder<bool>(
+            future: isFollowingOther,
+            builder: (context, snapshot) {
+              if (snapshot.hasData || showProfileAsOther == false) {
+                late Widget child;
+                if (otherUser is Client) {
+                  child = ClientProfileScreen(
+                    client: otherUser as Client,
+                    bloc: bloc,
+                    isFollowingOther: snapshot.data,
+                    showProfileAsOther: showProfileAsOther,
+                  );
+                } else if (otherUser is Club) {
+                  child = ClubProfileScreen(
+                    clubOrAgency: otherUser,
+                    bloc: bloc,
+                    isFollowingOther: snapshot.data,
+                    showProfileAsOther: showProfileAsOther,
+                  );
+                } else if (otherUser is Agency) {
+                  child = ClubProfileScreen(
+                    clubOrAgency: otherUser,
+                    bloc: bloc,
+                    isFollowingOther: snapshot.data,
+                    showProfileAsOther: showProfileAsOther,
+                  );
+                }
+                return SafeArea(
+                  child: SingleChildScrollView(
+                    child: child,
+                  ),
                 );
               }
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: child,
-                ),
-              );
-            }
-            return LoadingScreen(showAppBar: false);
-          },
+              return LoadingScreen(showAppBar: false);
+            },
+          ),
         ),
       ),
     );

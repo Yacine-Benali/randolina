@@ -39,7 +39,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
   late List<Post> sortedPosts;
   late final PostBloc postBloc;
   late final List<Widget> postsWidget;
-  late final Future<List<Post>> postsFuture;
+  late Future<List<Post>> postsFuture;
 
   @override
   void initState() {
@@ -51,6 +51,13 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
       database: context.read<Database>(),
     );
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(ClubProfileScreen oldWidget) {
+    postsFuture =
+        widget.bloc.getPosts(showProfileAsOther: widget.showProfileAsOther);
+    super.didUpdateWidget(oldWidget);
   }
 
   List<Widget> buildList() {

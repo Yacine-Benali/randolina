@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/landing_screen.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -48,23 +49,29 @@ class MyApp extends StatelessWidget {
         Provider<Auth>(create: (context) => FirebaseAuthService()),
         Provider<Database>(create: (context) => FirestoreDatabase()),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: Colors.blueGrey,
-          //fontFamily: 'Lato-Black',
-          textTheme: TextTheme(
-              // bodyText2: TextStyle(
-              //   color: Color.fromRGBO(41, 67, 107, 1),
-              //   fontWeight: FontWeight.w500,
-              //   fontSize: 16,
-              // ),
-              ),
-          appBarTheme: AppBarTheme(),
+      child: RefreshConfiguration(
+        headerBuilder: () => MaterialClassicHeader(
+          backgroundColor: Colors.blue,
+          color: Colors.white,
         ),
-        locale: const Locale('fr'),
-        debugShowCheckedModeBanner: false,
-        title: 'Randolina',
-        home: LandingScreen(),
+        child: MaterialApp(
+          theme: ThemeData(
+            primaryColor: Colors.blueGrey,
+            //fontFamily: 'Lato-Black',
+            textTheme: TextTheme(
+                // bodyText2: TextStyle(
+                //   color: Color.fromRGBO(41, 67, 107, 1),
+                //   fontWeight: FontWeight.w500,
+                //   fontSize: 16,
+                // ),
+                ),
+            appBarTheme: AppBarTheme(),
+          ),
+          locale: const Locale('fr'),
+          debugShowCheckedModeBanner: false,
+          title: 'Randolina',
+          home: LandingScreen(),
+        ),
       ),
     );
   }
