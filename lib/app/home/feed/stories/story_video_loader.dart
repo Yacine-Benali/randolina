@@ -80,9 +80,21 @@ class _StoryVideoLoaderState extends State<StoryVideoLoader> {
 
   @override
   Widget build(BuildContext context) {
-    return BetterPlayer(
-      key: Key(widget.url),
-      controller: _betterPlayerController,
-    );
+    if (mounted) {
+      logger.info('video is mounted');
+      return Container(
+        color: Colors.green,
+      );
+      // return BetterPlayer(
+      //   key: Key(widget.url),
+      //   controller: _betterPlayerController,
+      // );
+    } else {
+      logger.info('video is not  mounted');
+
+      return Container(
+        color: Colors.red,
+      );
+    }
   }
 }

@@ -13,8 +13,6 @@ import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
@@ -32,12 +30,14 @@ class _EventsScreenState extends State<EventsScreen>
   late final bool isClient;
   late final Stream<List<Event>> myEventsStream;
   late final Stream<List<Event>> allEventsStream;
+
+  late ValueNotifier<List<Event>> currentlyChosenEventsNotifier;
+
   String searchText = '';
-  EventCreatedBy eventCreatedBy = EventCreatedBy.both;
-  SfRangeValues sfRangeValues = SfRangeValues(0, 100000);
 
   @override
   void initState() {
+    currentlyChosenEventsNotifier = ValueNotifier([]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(() => setState(() {}));
     textstyle = TextStyle(
@@ -74,10 +74,12 @@ class _EventsScreenState extends State<EventsScreen>
             if (snapshot.hasData && snapshot.data != null) {
               final List<Event> events = snapshot.data!;
               if (events.isNotEmpty) {
-                final List<Event> matchedEvents = eventsBloc.filtreEvents(
-                    events, searchText, eventCreatedBy, sfRangeValues);
-                logger.info(searchText);
-
+                final List<Event> matchedEvents = eventsBloc.eventsTextSearch(
+                  events,
+                  searchText,
+                );
+                Future.delayed(Duration(milliseconds: 500)).then((value) =>
+                    currentlyChosenEventsNotifier.value = matchedEvents);
                 final List<Widget> widgets = [];
                 for (final Event event in matchedEvents) {
                   Widget w;
@@ -125,16 +127,16 @@ class _EventsScreenState extends State<EventsScreen>
     return SafeArea(
       child: ListView(
         children: [
-          EventsSearch(onTextChanged: (t) {
-            logger.info(t);
-            setState(() => searchText = t);
-          }, onEventCreatedByChanged: (t) {
-            logger.info(t);
-            setState(() => eventCreatedBy = t);
-          }, onRangeValueChanged: (t) {
-            sfRangeValues = t;
-            logger.info(t);
-          }),
+          ChangeNotifierProvider.value(
+            value: currentlyChosenEventsNotifier,
+            child: EventsSearch(
+              eventsBloc: eventsBloc,
+              isMyevent: _tabController.index == 0 ? true : false,
+              onTextChanged: (t) {
+                setState(() => searchText = t);
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 16.0, left: 16.0),
             child: SizedBox(

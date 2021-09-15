@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
+import 'package:provider/provider.dart';
+import 'package:randolina/app/home/events/events_bloc.dart';
+import 'package:randolina/app/home/events/nested_screens/search_result_screen.dart';
+import 'package:randolina/app/models/event.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -16,12 +21,12 @@ class EventsSearch extends StatefulWidget {
   const EventsSearch({
     Key? key,
     required this.onTextChanged,
-    required this.onEventCreatedByChanged,
-    required this.onRangeValueChanged,
+    required this.eventsBloc,
+    required this.isMyevent,
   }) : super(key: key);
   final ValueChanged<String> onTextChanged;
-  final ValueChanged<EventCreatedBy> onEventCreatedByChanged;
-  final ValueChanged<SfRangeValues> onRangeValueChanged;
+  final EventsBloc eventsBloc;
+  final bool isMyevent;
 
   @override
   EventsSearchState createState() => EventsSearchState();
@@ -74,9 +79,25 @@ class EventsSearchState extends State<EventsSearch>
       ),
       child: ElevatedButton(
         onPressed: () {
-          widget.onEventCreatedByChanged(dropdownValue);
-          widget.onRangeValueChanged(_activeRangeSliderValue);
+          final chosenEvents = context.read<ValueNotifier<List<Event>>>().value;
+          logger.info(_activeRangeSliderValue);
+          final List<Event> matchedEvents = widget.eventsBloc.filtreEvents(
+            chosenEvents,
+            searchText,
+            dropdownValue,
+            _activeRangeSliderValue,
+          );
+
           Navigator.of(context2).pop();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (c) => SearchResultScreen(
+                eventsBloc: widget.eventsBloc,
+                events: matchedEvents,
+                isMyevent: widget.isMyevent,
+              ),
+            ),
+          );
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.transparent),
@@ -103,7 +124,7 @@ class EventsSearchState extends State<EventsSearch>
             controller: textEditingController1,
             decoration: InputDecoration(border: InputBorder.none),
             keyboardType: TextInputType.number,
-            onSubmitted: (t) {
+            onChanged: (t) {
               final num number = num.tryParse(t) ?? 0;
               if (number > 0 && number < 300000) {
                 _activeRangeSliderValue = SfRangeValues(
@@ -133,7 +154,7 @@ class EventsSearchState extends State<EventsSearch>
             controller: textEditingController2,
             decoration: InputDecoration(border: InputBorder.none),
             keyboardType: TextInputType.number,
-            onSubmitted: (t) {
+            onChanged: (t) {
               final num number = num.tryParse(t) ?? 0;
               if (number > 0 && number < 300000) {
                 _activeRangeSliderValue = SfRangeValues(

@@ -11,7 +11,6 @@ import 'package:randolina/app/models/saved_events.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:uuid/uuid.dart';
@@ -125,6 +124,19 @@ class EventsBloc {
     );
   }
 
+  List<Event> eventsTextSearch(
+    List<Event> events,
+    String searchText,
+  ) {
+    final List<Event> matchedEvents = [];
+    for (final Event event in events) {
+      if (event.destination.contains(searchText)) {
+        matchedEvents.add(event);
+      }
+    }
+    return matchedEvents;
+  }
+
   List<Event> filtreEvents(
     List<Event> events,
     String searchText,
@@ -186,20 +198,20 @@ class EventsBloc {
   }
 
   bool isEventSaved(Event event) {
-    if (savedEvents == null) {
-      logger.severe('ERROR savedEvents should be initialized');
-      return false;
-    } else {
-      logger.warning(savedEvents!.list.length);
-    }
-    // ignore: unnecessary_nullable_for_final_variable_declarations
-    final SavedEvent savedEvent = savedEvents!.list.firstWhere(
-      (element) => element.eventId == event.id,
-      orElse: () => SavedEvent(eventId: 'error', savedAt: Timestamp.now()),
-    );
-    if (savedEvent.eventId != 'error') {
-      return true;
-    }
+    // if (savedEvents == null) {
+    //   logger.severe('ERROR savedEvents should be initialized');
+    //   return false;
+    // } else {
+    //   logger.warning(savedEvents!.list.length);
+    // }
+    // // ignore: unnecessary_nullable_for_final_variable_declarations
+    // final SavedEvent savedEvent = savedEvents!.list.firstWhere(
+    //   (element) => element.eventId == event.id,
+    //   orElse: () => SavedEvent(eventId: 'error', savedAt: Timestamp.now()),
+    // );
+    // if (savedEvent.eventId != 'error') {
+    //   return true;
+    // }
     return false;
   }
 
