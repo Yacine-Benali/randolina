@@ -2,12 +2,13 @@ import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
-import 'package:randolina/app/home/feed/stories/story_video_loader.dart';
+import 'package:randolina/app/home/feed/stories/video_full_screen.dart';
 import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/story.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
-import 'package:randolina/utils/logger.dart';
+import 'package:randolina/common_widgets/custom_elevated_button.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 import 'package:story/story_page_view/story_page_view.dart';
 
 class StoriesScreen extends StatefulWidget {
@@ -27,6 +28,8 @@ class StoriesScreen extends StatefulWidget {
 class _StoriesScreenState extends State<StoriesScreen> {
   late ValueNotifier<IndicatorAnimationCommand> indicatorAnimationController;
   late final BetterPlayerConfiguration betterPlayerConfiguration;
+
+  bool buildVideoPlayer = false;
   @override
   void initState() {
     super.initState();
@@ -79,19 +82,12 @@ class _StoriesScreenState extends State<StoriesScreen> {
         ),
       );
     } else if (story.type == 1) {
-      // final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-      //   BetterPlayerDataSourceType.network,
-      //   story.content,
-      // );
-      // final BetterPlayerController betterPlayerController =
-      //     BetterPlayerController(betterPlayerConfiguration);
-      // betterPlayerController.setupDataSource(dataSource);
+      indicatorAnimationController.value = IndicatorAnimationCommand.resume;
 
-      return StoryVideoLoader(
-        key: Key(story.content),
-        indicatorAnimationController: indicatorAnimationController,
-        url: story.content,
-        //  betterPlayerController: betterPlayerController,
+      return Container(
+        color: Colors.black,
+        height: SizeConfig.screenHeight,
+        width: SizeConfig.screenWidth,
       );
     } else {
       return Container();
@@ -103,9 +99,8 @@ class _StoriesScreenState extends State<StoriesScreen> {
     return SafeArea(
       child: Material(
         child: StoryPageView(
-          indicatorDuration: Duration(seconds: 30),
+          indicatorDuration: Duration(seconds: 15),
           indicatorAnimationController: indicatorAnimationController,
-
           initialPage: widget.initialPage,
           //
           pageLength: widget.usersStories.length,
@@ -118,11 +113,9 @@ class _StoriesScreenState extends State<StoriesScreen> {
           onPageLimitReached: () => Navigator.pop(context),
           //
           itemBuilder: (context, pageIndex, storyIndex) {
-            logger.info('build page $pageIndex story: $storyIndex');
             final MiniUser user = widget.usersStories[pageIndex].miniUser;
             final MiniStory miniStory =
                 widget.usersStories[pageIndex].storiesIds[storyIndex];
-
             return Stack(
               key: UniqueKey(),
               children: [
@@ -132,6 +125,9 @@ class _StoriesScreenState extends State<StoriesScreen> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData && (snapshot.data != null)) {
                       final Story story = snapshot.data!;
+                      if (story.type == 1) {
+                        buildVideoPlayer = true;
+                      }
                       return buildStoryView(story);
                     }
                     return Center(child: CircularProgressIndicator());
@@ -150,7 +146,9 @@ class _StoriesScreenState extends State<StoriesScreen> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           );
                         },
@@ -171,22 +169,43 @@ class _StoriesScreenState extends State<StoriesScreen> {
             );
           },
           gestureItemBuilder: (context, pageIndex, storyIndex) {
-            return Stack(children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 32),
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    color: Colors.white,
-                    icon: Icon(Icons.close),
+            final MiniStory miniStory =
+                widget.usersStories[pageIndex].storiesIds[storyIndex];
+            return Stack(
+              children: [
+                Align(
+                  child: CustomElevatedButton(
+                    buttonText: Text('open video'),
+                    minHeight: 30,
+                    minWidth: 300,
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => VideoFullScreen(
+                            miniStory: miniStory,
+                            feedBloc: widget.feedBloc,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ),
-              ),
-            ]);
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 32),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            );
           },
         ),
       ),

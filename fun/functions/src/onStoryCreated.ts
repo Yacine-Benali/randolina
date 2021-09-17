@@ -24,6 +24,7 @@ functions.firestore.document("stories/{storyId}").onCreate(
               {
                 "storyId": storyId,
                 "createdAt": data.createdAt,
+                "type": data.type,
               }
           ),
           "lastStoryTimestamp": data.createdAt,

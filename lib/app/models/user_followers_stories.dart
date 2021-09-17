@@ -25,10 +25,14 @@ class UserFollowersStories {
         MiniUser.fromMap(data['miniUser'] as Map<String, dynamic>);
     final List<String> followers =
         (data['followers'] as List<dynamic>).map((e) => e as String).toList();
-
-    final List<MiniStory> storiesIds = (data['storiesIds'] as List<dynamic>)
-        .map((e) => MiniStory.fromMap(e as Map<String, dynamic>))
-        .toList();
+    late List<MiniStory> storiesIds;
+    if ((data['storiesIds'] as List<dynamic>).isNotEmpty) {
+      storiesIds = (data['storiesIds'] as List<dynamic>)
+          .map((e) => MiniStory.fromMap(e as Map<String, dynamic>))
+          .toList();
+    } else {
+      storiesIds = [];
+    }
 
     return UserFollowersStories(
       id: id,

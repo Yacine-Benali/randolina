@@ -56,7 +56,6 @@ class FeedBloc {
   }
 
   Future<List<UserFollowersStories>> getStoriesIdsAndUsers() async {
-    final List<UserFollowersStories> data = [];
     final List<UserFollowersStories> data2 = await database.fetchCollection(
       path: APIPath.userFollowerStoriesCollection(),
       queryBuilder: (query) =>
@@ -71,21 +70,27 @@ class FeedBloc {
       builder: (data, documentId) =>
           UserFollowersStories.fromMap(data, documentId),
     );
-    data.addAll([...data3, ...data2]);
+    final List<UserFollowersStories> list = List.empty(growable: true);
+    list.addAll([...data3, ...data2]);
+    final List<UserFollowersStories> listCleaned = [];
+    storiesList = list;
 
-    storiesList = data;
+    for (final UserFollowersStories element in list) {
+      if (haveStories(element.miniUser)) {
+        listCleaned.add(element);
+      }
+    }
 
-    return data;
+    return listCleaned;
   }
 
   bool haveStories(MiniUser miniUser) {
-    final UserFollowersStories data2 =
-        storiesList.firstWhere((element) => element.miniUser.id == miniUser.id);
-    if (data2.storiesIds.isNotEmpty) {
-      return true;
-    } else {
-      return false;
+    if (storiesList.isNotEmpty) {
+      final UserFollowersStories data2 = storiesList
+          .firstWhere((element) => element.miniUser.id == miniUser.id);
+      if (data2.storiesIds.isNotEmpty) return true;
     }
+    return false;
   }
 
   Future<Story?> getStory(MiniStory miniStory) {

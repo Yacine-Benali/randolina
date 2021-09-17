@@ -101,28 +101,33 @@ class _StoriesListWidgetState extends State<StoriesListWidget>
         FutureBuilder<List<UserFollowersStories>>(
             future: future,
             builder: (context, snapshot) {
-              if (snapshot.hasData && (snapshot.data != null)) {
-                final List<UserFollowersStories> usersStories = snapshot.data!;
-                return Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: SizedBox(
-                    height: 110,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: usersStories.length,
-                      itemBuilder: (context, index) {
-                        final MiniUser user = usersStories[index].miniUser;
+              if (snapshot.hasData) {
+                if (snapshot.data != null) {
+                  final List<UserFollowersStories> usersStories =
+                      snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: SizedBox(
+                      height: 110,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: usersStories.length,
+                        itemBuilder: (context, index) {
+                          final MiniUser user = usersStories[index].miniUser;
 
-                        if (widget.feedBloc.haveStories(user)) {
-                          return buildStoryAvatar(
-                              context, user, snapshot.data!, index);
-                        }
-                        return Container();
-                      },
+                          if (widget.feedBloc.haveStories(user)) {
+                            return buildStoryAvatar(
+                                context, user, snapshot.data!, index);
+                          }
+                          return Container();
+                        },
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  return Container();
+                }
               }
               return CircularProgressIndicator();
             }),
