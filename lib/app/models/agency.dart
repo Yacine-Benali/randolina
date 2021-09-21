@@ -13,6 +13,7 @@ class Agency extends User {
     required int followers,
     required int following,
     required String phoneNumber,
+    required bool isModerator,
     //
     required this.address,
     required this.presidentName,
@@ -29,6 +30,7 @@ class Agency extends User {
           followers: followers,
           following: following,
           phoneNumber: phoneNumber,
+          isModerator: isModerator,
         );
 
   final String address;
@@ -52,6 +54,7 @@ class Agency extends User {
     final String presidentName = data['presidentName'] as String;
     final Timestamp creationDate = data['creationDate'] as Timestamp;
     final String email = data['email'] as String;
+    final bool isModerator = data['isModerator'] as bool;
 
     return Agency(
       id: id,
@@ -64,6 +67,7 @@ class Agency extends User {
       followers: followers,
       following: following,
       phoneNumber: phoneNumber,
+      isModerator: isModerator,
       //
       address: address,
       presidentName: presidentName,

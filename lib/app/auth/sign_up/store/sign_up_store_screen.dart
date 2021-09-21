@@ -79,6 +79,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
         followers: 0,
         following: 0,
         phoneNumber: _phoneNumber,
+        isModerator: false,
         address: _address,
         name: _storeName,
         email: _email,

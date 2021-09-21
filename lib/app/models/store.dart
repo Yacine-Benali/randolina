@@ -12,6 +12,7 @@ class Store extends User {
     required int followers,
     required int following,
     required String phoneNumber,
+    required bool isModerator,
     //
     required this.address,
     required this.ownerName,
@@ -27,6 +28,7 @@ class Store extends User {
           followers: followers,
           following: following,
           phoneNumber: phoneNumber,
+          isModerator: isModerator,
         );
 
   final String address;
@@ -48,6 +50,7 @@ class Store extends User {
     final String address = data['address'] as String;
     final String ownerName = data['ownerName'] as String;
     final String email = data['email'] as String;
+    final bool isModerator = data['isModerator'] as bool;
 
     return Store(
       id: id,
@@ -60,6 +63,7 @@ class Store extends User {
       followers: followers,
       following: following,
       phoneNumber: phoneNumber,
+      isModerator: isModerator,
       //
       address: address,
       ownerName: ownerName,

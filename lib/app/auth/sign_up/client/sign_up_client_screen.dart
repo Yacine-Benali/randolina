@@ -79,6 +79,7 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
         following: 0,
         wilaya: _wilaya,
         phoneNumber: _phoneNumber,
+        isModerator: false,
         activity: _activity,
         dateOfBirth: _dateOfBirth,
 

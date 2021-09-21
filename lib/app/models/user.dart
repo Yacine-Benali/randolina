@@ -15,6 +15,7 @@ class User {
     required this.followers,
     required this.following,
     required this.phoneNumber,
+    required this.isModerator,
   });
 
   final String id;
@@ -27,6 +28,7 @@ class User {
   final int followers;
   final int following;
   final String phoneNumber;
+  final bool isModerator;
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
@@ -39,6 +41,7 @@ class User {
     final int followers = data['followers'] as int;
     final int following = data['following'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
+    final bool isModerator = data['isModerator'] as bool;
 
     return User(
       id: id,
@@ -51,6 +54,7 @@ class User {
       followers: followers,
       following: following,
       phoneNumber: phoneNumber,
+      isModerator: isModerator,
     );
   }
 
@@ -77,6 +81,7 @@ class User {
       'followers': followers,
       'following': following,
       'phoneNumber': phoneNumber,
+      'isModerator': isModerator,
     };
   }
 

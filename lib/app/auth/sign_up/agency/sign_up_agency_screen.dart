@@ -82,6 +82,7 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
         followers: 0,
         following: 0,
         phoneNumber: _phoneNumber,
+        isModerator: false,
         address: _address,
         presidentName: _fullname,
         creationDate: _creationDate,

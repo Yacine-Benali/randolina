@@ -13,6 +13,7 @@ class Client extends User {
     required int followers,
     required int following,
     required String phoneNumber,
+    required bool isModerator,
     //
     required this.wilaya,
     required this.activity,
@@ -29,6 +30,7 @@ class Client extends User {
           followers: followers,
           following: following,
           phoneNumber: phoneNumber,
+          isModerator: isModerator,
         );
 
   final int wilaya;
@@ -52,6 +54,7 @@ class Client extends User {
     final String activity = data['activity'] as String;
     final Timestamp dateOfBirth = data['dateOfBirth'] as Timestamp;
     final String physicalCondition = data['physicalCondition'] as String;
+    final bool isModerator = data['isModerator'] as bool;
 
     return Client(
       id: id,
@@ -65,6 +68,7 @@ class Client extends User {
       following: following,
       wilaya: wilaya,
       phoneNumber: phoneNumber,
+      isModerator: isModerator,
       activity: activity,
       dateOfBirth: dateOfBirth,
       physicalCondition: physicalCondition,
