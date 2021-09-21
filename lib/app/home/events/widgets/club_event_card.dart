@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/nested_screens/club_participants_screen.dart';
 import 'package:randolina/app/home/events/new_event/new_event_screen.dart';
+import 'package:randolina/app/home/events/widgets/events_detail_form.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
+import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/utils/utils.dart';
 
 class ClubEventCard extends StatefulWidget {
@@ -42,11 +44,36 @@ class _ClubEventCardState extends State<ClubEventCard> {
   }
 
   void goToEventDetails() {
+    context.read<User>();
+    if (context.read<User>().id == widget.event.createdBy.id) {
+      goToEventDetailsAsClub();
+    } else {
+      goToEventDetailsAsClient();
+    }
+  }
+
+  void goToEventDetailsAsClub() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ClubParticipantScreen(
           event: widget.event,
           eventsBloc: widget.eventsBloc,
+        ),
+      ),
+    );
+  }
+
+  void goToEventDetailsAsClient() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Material(
+          color: backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 32.0),
+            child: SingleChildScrollView(
+              child: EventsDetailForm(event: widget.event),
+            ),
+          ),
         ),
       ),
     );

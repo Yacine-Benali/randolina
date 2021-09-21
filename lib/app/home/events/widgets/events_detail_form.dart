@@ -43,12 +43,15 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
           fontSize: 12.0,
           letterSpacing: 1.0,
         ),
-        child: SizedBox(
+        child: Container(
           width: SizeConfig.screenWidth,
           height: 200,
-          child: CachedNetworkImage(
-            imageUrl: widget.event.profileImage,
-            fit: BoxFit.cover,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(widget.event.profileImage),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:randolina/app/models/admin.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/services/auth.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);
@@ -26,7 +27,19 @@ class _AdminHomeState extends State<AdminHome> {
       ModeratorsScreen(),
       Container(color: Colors.pink),
       Container(color: Colors.blue),
-      Container(color: Colors.brown),
+      Container(
+        color: Colors.brown,
+        child: InkWell(
+          onTap: () {
+            context.read<Auth>().signOut();
+          },
+          child: Container(
+            height: 200,
+            width: 200,
+            color: Colors.red,
+          ),
+        ),
+      ),
     ];
   }
 
