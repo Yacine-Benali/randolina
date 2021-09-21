@@ -7,7 +7,7 @@ import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class AdminHome extends StatefulWidget {
-  AdminHome({Key? key}) : super(key: key);
+  const AdminHome({Key? key}) : super(key: key);
 
   @override
   _AdminHomeState createState() => _AdminHomeState();

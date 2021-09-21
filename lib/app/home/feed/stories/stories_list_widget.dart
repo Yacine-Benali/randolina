@@ -82,7 +82,9 @@ class _StoriesListWidgetState extends State<StoriesListWidget>
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
+    // super.build(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

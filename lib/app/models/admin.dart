@@ -2,7 +2,7 @@ import 'package:randolina/app/models/user.dart';
 
 class Admin extends User {
   Admin({
-    required this.id,
+    required String id,
   }) : super(
           id: id,
           type: 0,
@@ -17,13 +17,10 @@ class Admin extends User {
           isModerator: false,
         );
 
-  final String id;
-
+  // ignore: avoid_unused_constructor_parameters
   factory Admin.fromMap(Map<String, dynamic> data, String documentId) {
-    final String id = documentId;
-
     return Admin(
-      id: id,
+      id: documentId,
     );
   }
 }

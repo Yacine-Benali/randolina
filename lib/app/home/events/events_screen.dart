@@ -140,6 +140,7 @@ class _EventsScreenState extends State<EventsScreen>
               value: currentlyChosenEventsNotifier,
               child: EventsSearch(
                 eventsBloc: eventsBloc,
+                // ignore: avoid_bool_literals_in_conditional_expressions
                 isMyevent: _tabController.index == 0 ? true : false,
                 onTextChanged: (t) {
                   setState(() => searchText = t);
