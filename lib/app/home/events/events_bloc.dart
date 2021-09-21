@@ -130,7 +130,7 @@ class EventsBloc {
   ) {
     final List<Event> matchedEvents = [];
     for (final Event event in events) {
-      if (event.destination.contains(searchText)) {
+      if (event.destination.toLowerCase().contains(searchText.toLowerCase())) {
         matchedEvents.add(event);
       }
     }
@@ -146,7 +146,7 @@ class EventsBloc {
     final List<Event> matchedEvents = [];
 
     for (final Event event in events) {
-      if (event.destination.contains(searchText) &&
+      if (event.destination.toLowerCase().contains(searchText.toLowerCase()) &&
           (event.price >= (sfRangeValues.start as num).toInt()) &&
           event.price <= (sfRangeValues.end as num).toInt()) {
         if (eventCreatedBy == EventCreatedBy.clubOnly &&
