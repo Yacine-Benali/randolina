@@ -7,6 +7,7 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/algolia_service.dart';
+import 'package:randolina/utils/logger.dart';
 
 class AdminSearch extends SearchDelegate<String> {
   AdminSearch({
@@ -47,6 +48,7 @@ class AdminSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) => buildResult(context);
 
   Widget buildResult(BuildContext context) {
+    logger.info('search bar=> modsIdsList: ${modsIds.length}');
     final User currentUser = context.read<User>();
     return FutureBuilder<List<MiniUser>>(
       future: algoliaService.performUserQuery(text: query),
@@ -58,6 +60,7 @@ class AdminSearch extends SearchDelegate<String> {
                 moderatorsBloc: moderatorsBloc,
                 miniUser: f,
                 initialValue: modsIds.contains(f.id),
+                onCheckBoxClicked: () {},
               );
             } else {
               return Container();

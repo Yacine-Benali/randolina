@@ -4,7 +4,6 @@ import 'package:randolina/app/home_admin/moderators/moderators_bloc.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
-import 'package:randolina/utils/logger.dart';
 
 class UserTile extends StatefulWidget {
   const UserTile({
@@ -12,10 +11,12 @@ class UserTile extends StatefulWidget {
     required this.miniUser,
     required this.initialValue,
     required this.moderatorsBloc,
+    required this.onCheckBoxClicked,
   }) : super(key: key);
   final MiniUser miniUser;
   final bool initialValue;
   final ModeratorsBloc moderatorsBloc;
+  final VoidCallback onCheckBoxClicked;
 
   @override
   _UserTileState createState() => _UserTileState();
@@ -70,7 +71,7 @@ class _UserTileState extends State<UserTile> {
               setState(() {
                 isMod = t;
               });
-              logger.severe(t);
+              widget.onCheckBoxClicked();
             }
           }
         },

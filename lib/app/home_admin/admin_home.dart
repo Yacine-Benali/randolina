@@ -63,8 +63,8 @@ class _AdminHomeState extends State<AdminHome> {
             setState(() => this.index = index);
           },
           items: [
-            FABBottomAppBarItem(iconData: Icons.home, notification: 0),
-            FABBottomAppBarItem(iconData: Icons.store, notification: 0),
+            FABBottomAppBarItem(iconData: Icons.people, notification: 0),
+            FABBottomAppBarItem(iconData: Icons.report, notification: 0),
             FABBottomAppBarItem(
                 iconData: Icons.calendar_today, notification: 0),
             FABBottomAppBarItem(
