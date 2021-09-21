@@ -21,6 +21,7 @@ class FABBottomAppBar extends StatefulWidget {
     required this.notchedShape,
     required this.onTabSelected,
     required this.selectedIndex,
+    this.buildCenterSpace = true,
   });
   final List<FABBottomAppBarItem> items;
   final String centerItemText;
@@ -32,6 +33,7 @@ class FABBottomAppBar extends StatefulWidget {
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
   final int selectedIndex;
+  final bool buildCenterSpace;
 
   @override
   State<StatefulWidget> createState() => FABBottomAppBarState();
@@ -51,7 +53,9 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
         onPressed: _updateIndex,
       );
     });
-    items.insert(items.length >> 1, _buildMiddleTabItem());
+    if (widget.buildCenterSpace) {
+      items.insert(items.length >> 1, _buildMiddleTabItem());
+    }
 
     return BottomAppBar(
       shape: widget.notchedShape,

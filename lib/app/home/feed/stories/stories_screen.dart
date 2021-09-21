@@ -7,8 +7,8 @@ import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/story.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
-import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:story/story_page_view/story_page_view.dart';
 
 class StoriesScreen extends StatefulWidget {
@@ -173,23 +173,38 @@ class _StoriesScreenState extends State<StoriesScreen> {
                 widget.usersStories[pageIndex].storiesIds[storyIndex];
             return Stack(
               children: [
-                Align(
-                  child: CustomElevatedButton(
-                    buttonText: Text('open video'),
-                    minHeight: 30,
-                    minWidth: 300,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => VideoFullScreen(
-                            miniStory: miniStory,
-                            feedBloc: widget.feedBloc,
+                if (miniStory.type == 1)
+                  Align(
+                    child: InkWell(
+                      onTap: () {
+                        logger.info('***');
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => VideoFullScreen(
+                              miniStory: miniStory,
+                              feedBloc: widget.feedBloc,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.play_arrow, size: 45),
+                              Text('play video'),
+                            ],
                           ),
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
-                ),
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
