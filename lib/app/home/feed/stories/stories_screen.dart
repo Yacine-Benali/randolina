@@ -212,6 +212,20 @@ class _StoriesScreenState extends State<StoriesScreen> {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       color: Colors.white,
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 32),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
                       icon: Icon(Icons.close),
                       onPressed: () {
                         Navigator.pop(context);

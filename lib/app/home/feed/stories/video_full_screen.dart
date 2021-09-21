@@ -34,10 +34,17 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
         enableMute: false,
         enableAudioTracks: false,
         enableQualities: false,
+        showControlsOnInitialize: false,
       ),
     );
 
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
+    _betterPlayerController.addEventsListener((BetterPlayerEvent event) {
+      if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+        _betterPlayerController.setOverriddenAspectRatio(
+            _betterPlayerController.videoPlayerController!.value.aspectRatio);
+      }
+    });
 
     super.initState();
   }
@@ -53,7 +60,9 @@ class _VideoFullScreenState extends State<VideoFullScreen> {
             if (snapshot.hasData && (snapshot.data != null)) {
               final Story story = snapshot.data!;
               final BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-                  BetterPlayerDataSourceType.network, story.content);
+                BetterPlayerDataSourceType.network,
+                story.content,
+              );
               _betterPlayerController.setupDataSource(dataSource);
 
               return BetterPlayer(controller: _betterPlayerController);
