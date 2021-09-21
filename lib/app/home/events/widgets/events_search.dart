@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 import 'package:provider/provider.dart';
@@ -261,8 +262,10 @@ class EventsSearchState extends State<EventsSearch>
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
+              child: AutoSizeText(
                 eventSearchText[eventCreatedBy]!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: dropdownValue == eventCreatedBy
                       ? Colors.white
@@ -313,12 +316,7 @@ class EventsSearchState extends State<EventsSearch>
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.only(
-              right: 20,
-              left: 20,
-              bottom: 10,
-              top: 24,
-            ),
+            padding: EdgeInsets.only(right: 20, left: 20, bottom: 10, top: 24),
             child: Row(
               children: [
                 Expanded(
@@ -356,17 +354,22 @@ class EventsSearchState extends State<EventsSearch>
                         return AlertDialog(
                           content: StatefulBuilder(
                               builder: (context, StateSetter setState) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width: SizeConfig.screenWidth - 50,
-                                  child: buildTabBar(setState),
-                                ),
-                                SizedBox(height: 16),
-                                ...buildSlider(setState),
-                                buildDoneButton(context),
-                              ],
+                            return Container(
+                              height: SizeConfig.screenHeight / 2.2,
+                              width: SizeConfig.screenWidth - 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  buildTabBar(setState),
+                                  SizedBox(height: 16),
+                                  ...buildSlider(setState),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: buildDoneButton(context),
+                                  ),
+                                ],
+                              ),
                             );
                           }),
                         );

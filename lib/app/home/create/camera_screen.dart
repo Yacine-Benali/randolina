@@ -323,6 +323,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       final XFile xfile = await controller!.takePicture();
+      // final image =
+      //     await FlutterExifRotation.rotateAndSaveImage(path: xfile.path);
+
+      //  final File compressedFile = await fixExifRotation(File(xfile.path));
+
       if (mounted) {
         setState(() {});
         showMessage('Picture saved to ${xfile.path}');

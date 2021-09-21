@@ -75,6 +75,9 @@ dependencies:
   multi_select_flutter: ^4.0.0
   photofilters: ^3.0.1
   pull_to_refresh: ^2.0.0
+  flutter_exif_rotation: ^0.4.1
+  flutter_image_compress: ^1.1.0
+
 
 
 
