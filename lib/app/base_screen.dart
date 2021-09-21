@@ -45,12 +45,12 @@ class _BaseScreenState extends State<BaseScreen> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData && (snapshot.data != null)) {
           if (snapshot.data! is Admin) {
-            final Admin user = snapshot.data! as Admin;
+            final Admin admin = snapshot.data! as Admin;
 
-            return Provider<Admin>.value(
-              value: user,
+            return Provider<User>.value(
+              value: admin,
               child: Provider.value(
-                value: user,
+                value: admin,
                 child: WillPopScope(
                   onWillPop: () async {
                     final bool a = !await navigatorKey.currentState!.maybePop();

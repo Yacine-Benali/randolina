@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home_admin/moderators/moderators_screen.dart';
 import 'package:randolina/app/models/admin.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/common_widgets/size_config.dart';
@@ -22,7 +23,7 @@ class _AdminHomeState extends State<AdminHome> {
     admin = context.read<Admin>();
     super.initState();
     screens = [
-      Container(color: Colors.red),
+      ModeratorsScreen(),
       Container(color: Colors.pink),
       Container(color: Colors.blue),
       Container(color: Colors.brown),

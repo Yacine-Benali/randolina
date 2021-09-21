@@ -36,7 +36,10 @@ class FeedAppBar extends StatelessWidget {
               ),
               color: darkBlue,
               onPressed: () {
-                showSearch(context: context, delegate: DataSearch());
+                showSearch(
+                  context: context,
+                  delegate: DataSearch(),
+                );
               },
             ),
           ),
