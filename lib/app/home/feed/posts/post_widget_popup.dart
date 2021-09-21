@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:uuid/uuid.dart';
@@ -144,13 +145,21 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
             PlatformExceptionAlertDialog(exception: e).show(context);
           }
         } else if (selectedValue == PopUpOptions.deletePost) {
-          widget.postBloc
-              .deletePost(widget.post)
-              .then((value) => Fluttertoast.showToast(
-                    msg:
-                        'post deleted successfully, refresh the page to see changes',
-                    toastLength: Toast.LENGTH_LONG,
-                  ));
+          final bool? didRequestSignOut = await PlatformAlertDialog(
+            title: 'Confirm',
+            content: 'are you sure you ?',
+            cancelActionText: 'cancel',
+            defaultActionText: 'yes',
+          ).show(context);
+          if (didRequestSignOut == true) {
+            widget.postBloc
+                .deletePost(widget.post)
+                .then((value) => Fluttertoast.showToast(
+                      msg:
+                          'post deleted successfully, refresh the page to see changes',
+                      toastLength: Toast.LENGTH_LONG,
+                    ));
+          }
         }
       },
       icon: Padding(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/mini_post.dart';
 import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
@@ -28,6 +29,17 @@ class FeedBloc {
   Stream<List<Post>> get postsStream => postsListController.stream;
 
   int index = 0;
+
+  Future<void> deleteStory(
+      UserFollowersStories userFollowersStory, MiniStory story) async {
+    database.deleteDocument(path: APIPath.storyDocument(story.storyId));
+    database.setData(
+      path: APIPath.userFollowerStoriesDocument(userFollowersStory.id),
+      data: {
+        'storiesIds': FieldValue.arrayRemove([story.toMap()])
+      },
+    );
+  }
 
   Future<void> startFresh() async {
     index = 0;

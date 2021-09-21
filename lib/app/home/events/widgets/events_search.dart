@@ -354,7 +354,7 @@ class EventsSearchState extends State<EventsSearch>
                         return AlertDialog(
                           content: StatefulBuilder(
                               builder: (context, StateSetter setState) {
-                            return Container(
+                            return SizedBox(
                               height: SizeConfig.screenHeight / 2.2,
                               width: SizeConfig.screenWidth - 50,
                               child: Column(

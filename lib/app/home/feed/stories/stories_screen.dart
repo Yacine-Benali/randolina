@@ -1,12 +1,16 @@
 import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/feed/feed_bloc.dart';
 import 'package:randolina/app/home/feed/stories/video_full_screen.dart';
 import 'package:randolina/app/models/mini_story.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/story.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/app/models/user_followers_stories.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:story/story_page_view/story_page_view.dart';
@@ -205,20 +209,42 @@ class _StoriesScreenState extends State<StoriesScreen> {
                       ),
                     ),
                   ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 32),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      color: Colors.white,
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                if (widget.usersStories[pageIndex].miniUser.id ==
+                    context.read<User>().id) ...[
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 32, right: 60),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        color: Colors.white,
+                        icon: Icon(Icons.delete),
+                        onPressed: () async {
+                          final bool? didRequestSignOut =
+                              await PlatformAlertDialog(
+                            title: 'Confirm',
+                            content: 'are you sure you ?',
+                            cancelActionText: 'cancel',
+                            defaultActionText: 'yes',
+                          ).show(context);
+                          if (didRequestSignOut == true) {
+                            widget.feedBloc
+                                .deleteStory(
+                                  widget.usersStories[pageIndex],
+                                  miniStory,
+                                )
+                                .then(
+                                  (value) => Fluttertoast.showToast(
+                                    msg: 'story successfully deleted',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                  ),
+                                );
+                          }
+                        },
+                      ),
                     ),
                   ),
-                ),
+                ],
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(

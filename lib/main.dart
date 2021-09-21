@@ -16,7 +16,7 @@ import 'package:randolina/services/firebase_auth.dart';
 import 'package:randolina/services/firestore_database.dart';
 import 'package:randolina/utils/logger.dart';
 
-const bool isLocal = false;
+const bool isLocal = true;
 const String userIndex = isLocal ? 'local_users_search' : 'dev_users_search';
 
 Future<void> main() async {
