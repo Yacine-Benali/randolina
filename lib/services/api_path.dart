@@ -51,4 +51,7 @@ class APIPath {
 
   static String storyFiles(String uid, String storyId) =>
       'users/$uid/stories/$storyId';
+
+  static String sitesCollection() => 'sites/';
+  static String sitesDocument(String siteId) => 'sites/$siteId';
 }
