@@ -1,8 +1,6 @@
 class APIPath {
   static String userDocument(String uid) => 'users/$uid/';
   static String usersCollection() => 'users/';
-  static String userProfilePicture(String uid, String photoId) =>
-      'users/$uid/profile_picutres/$photoId';
 
   static String userFollowerStoriesDocument(String uid) =>
       'user_followers_stories/$uid/';
@@ -37,7 +35,7 @@ class APIPath {
   static String chatPhotosCollection(String uid, String photoId) =>
       'conversations/$uid/messages/$photoId';
 
-  static String eventsPictures(String userId, String eventId, String photoId) =>
+  static String eventsFiles(String userId, String eventId, String photoId) =>
       'events/user_$userId/event_$eventId/$photoId';
 
   static String eventDocument(String eventId) => 'events/$eventId';
@@ -45,9 +43,12 @@ class APIPath {
   static String savedEventDocument(String userId) =>
       'users/$userId/savedEvents/savedEvents';
 
+  static String userProfilePicture(String uid, String photoId) =>
+      'users/$uid/profile_picutres/$photoId';
+
   static String postFiles(String uid, String postId, String photoId) =>
       'users/$uid/posts/$postId/$photoId';
 
-  static String storyFiles(String uid, String postId, String photoId) =>
-      'users/$uid/stories/$postId/$photoId';
+  static String storyFiles(String uid, String storyId) =>
+      'users/$uid/stories/$storyId';
 }

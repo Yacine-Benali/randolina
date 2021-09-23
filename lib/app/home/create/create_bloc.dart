@@ -21,7 +21,7 @@ class CreateBloc {
     final String storyId = database.getUniqueId();
 
     final String imageUrl = await database.uploadFile(
-      path: APIPath.storyFiles(currentUser.id, storyId, database.getUniqueId()),
+      path: APIPath.storyFiles(currentUser.id, storyId),
       filePath: imagePath,
     );
 

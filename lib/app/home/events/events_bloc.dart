@@ -28,7 +28,7 @@ class EventsBloc {
 
   Future<String> uploadEventProfileImage(File file, String eventId) async {
     return database.uploadFile(
-      path: APIPath.eventsPictures(authUser.uid, eventId, uuid.v4()),
+      path: APIPath.eventsFiles(authUser.uid, eventId, uuid.v4()),
       filePath: file.path,
     );
   }
@@ -38,7 +38,7 @@ class EventsBloc {
     for (final Asset asset in images) {
       final File file = await assetToFile(asset);
       final t = database.uploadFile(
-        path: APIPath.eventsPictures(authUser.uid, '', uuid.v4()),
+        path: APIPath.eventsFiles(authUser.uid, '', uuid.v4()),
         filePath: file.path,
       );
       urls.add(t);

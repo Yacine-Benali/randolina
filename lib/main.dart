@@ -16,7 +16,7 @@ import 'package:randolina/services/firebase_auth.dart';
 import 'package:randolina/services/firestore_database.dart';
 import 'package:randolina/utils/logger.dart';
 
-const bool isLocal = true;
+const bool isLocal = false;
 const String userIndex = isLocal ? 'local_users_search' : 'dev_users_search';
 
 Future<void> main() async {
@@ -25,7 +25,7 @@ Future<void> main() async {
 
   if (isLocal) {
     final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8080';
-    FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
+    FirebaseFirestore.instance.useFirestoreEmulator(host, 8083);
     FirebaseAuth.instance.useAuthEmulator(host, 9099);
     FirebaseStorage.instance.useStorageEmulator(host, 9199);
     FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
