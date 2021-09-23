@@ -31,7 +31,9 @@ class FeedBloc {
   int index = 0;
 
   Future<void> deleteStory(
-      UserFollowersStories userFollowersStory, MiniStory story) async {
+    UserFollowersStories userFollowersStory,
+    MiniStory story,
+  ) async {
     database.deleteDocument(path: APIPath.storyDocument(story.storyId));
     database.setData(
       path: APIPath.userFollowerStoriesDocument(userFollowersStory.id),
@@ -75,6 +77,7 @@ class FeedBloc {
       builder: (data, documentId) =>
           UserFollowersStories.fromMap(data, documentId),
     );
+    // todo @low sort between stories that have been seen or not
     final List<UserFollowersStories> data3 = await database.fetchCollection(
       path: APIPath.userFollowerStoriesCollection(),
       queryBuilder: (query) =>
