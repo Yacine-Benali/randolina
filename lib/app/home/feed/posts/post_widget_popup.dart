@@ -38,11 +38,12 @@ class PostWidgetPopUp extends StatefulWidget {
     required this.post,
     required this.postBloc,
     required this.contentIndex,
+    this.showDeleteOption = false,
   }) : super(key: key);
   final Post post;
   final int contentIndex;
   final PostBloc postBloc;
-
+  final bool showDeleteOption;
   @override
   _PostWidgetPopUpState createState() => _PostWidgetPopUpState();
 }
@@ -134,10 +135,12 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
       onSelected: (PopUpOptions selectedValue) async {
         logger.info(selectedValue);
         if (selectedValue == PopUpOptions.reportPost) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: const Text('Post reported to admins')));
-          // todo @average call the report function
-          //
+          await widget.postBloc.reportPost(widget.post);
+
+          Fluttertoast.showToast(
+            msg: 'Post reported to admins',
+            toastLength: Toast.LENGTH_LONG,
+          );
         } else if (selectedValue == PopUpOptions.downloadPhoto) {
           try {
             downloadPhoto();
@@ -152,13 +155,13 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
             defaultActionText: 'yes',
           ).show(context);
           if (didRequestSignOut == true) {
-            widget.postBloc
-                .deletePost(widget.post)
-                .then((value) => Fluttertoast.showToast(
-                      msg:
-                          'post deleted successfully, refresh the page to see changes',
-                      toastLength: Toast.LENGTH_LONG,
-                    ));
+            widget.postBloc.deletePost(widget.post).then(
+                  (value) => Fluttertoast.showToast(
+                    msg:
+                        'post deleted successfully, refresh the page to see changes',
+                    toastLength: Toast.LENGTH_LONG,
+                  ),
+                );
           }
         }
       },
@@ -170,9 +173,8 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
         return [
           buildTile(PopUpOptions.reportPost),
           if (widget.post.type == 0) ...[buildTile(PopUpOptions.downloadPhoto)],
-          if (widget.post.miniUser.id == currentUser.id) ...[
-            buildTile(PopUpOptions.deletePost)
-          ],
+          if (widget.post.miniUser.id == currentUser.id ||
+              widget.showDeleteOption) ...[buildTile(PopUpOptions.deletePost)],
         ];
       },
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home_admin/moderators/moderators_screen.dart';
+import 'package:randolina/app/home_admin/reported_posts/reported_posts_screen.dart';
 import 'package:randolina/app/home_admin/sites/sites_screen.dart';
 import 'package:randolina/app/models/admin.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
@@ -17,7 +18,7 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   late final Admin admin;
-  int index = 1;
+  int index = 2;
   late List<Widget> screens;
 
   @override
@@ -27,7 +28,7 @@ class _AdminHomeState extends State<AdminHome> {
     screens = [
       ModeratorsScreen(),
       SitesScreen(),
-      Container(color: Colors.blue),
+      ReportedPostsScreen(),
       Container(
         color: Colors.brown,
         child: InkWell(

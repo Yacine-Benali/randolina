@@ -28,6 +28,12 @@ class PostBloc {
             }
           ]),
         });
+    await database.setData(
+      path: APIPath.reportedPostsDocument(),
+      data: {
+        'reportedPosts': FieldValue.arrayRemove([post.id])
+      },
+    );
   }
 
   Future<bool> isLiked(Post post) async {
@@ -118,6 +124,15 @@ class PostBloc {
       data: {
         'postsId': FieldValue.arrayRemove([savedPost.postId]),
         'savedAt': FieldValue.arrayRemove([savedPost.savedAt])
+      },
+    );
+  }
+
+  Future<void> reportPost(Post post) async {
+    database.setData(
+      path: APIPath.reportedPostsDocument(),
+      data: {
+        'reportedPosts': FieldValue.arrayUnion([post.id])
       },
     );
   }

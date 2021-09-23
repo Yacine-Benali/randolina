@@ -15,9 +15,11 @@ class PostWidget extends StatefulWidget {
     Key? key,
     required this.post,
     required this.postBloc,
+    this.showDeleteOption = false,
   }) : super(key: key);
   final Post post;
   final PostBloc postBloc;
+  final bool showDeleteOption;
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
@@ -103,6 +105,7 @@ class _PostWidgetState extends State<PostWidget> {
                     post: widget.post,
                     contentIndex: contentIndex,
                     postBloc: postBloc,
+                    showDeleteOption: widget.showDeleteOption,
                   ),
                 ],
               ),

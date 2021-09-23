@@ -54,4 +54,5 @@ class APIPath {
 
   static String sitesCollection() => 'sites/';
   static String sitesDocument(String siteId) => 'sites/$siteId';
+  static String reportedPostsDocument() => 'reportedPosts/reportedPosts';
 }
