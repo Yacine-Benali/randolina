@@ -7,6 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
+import 'package:randolina/app/home/create/nested_screens/create_post_from_yt.dart';
 import 'package:randolina/app/home/create/nested_screens/create_post_screen.dart';
 import 'package:randolina/app/home/create/nested_screens/create_story_screen.dart';
 import 'package:randolina/app/models/user.dart';
@@ -18,6 +19,20 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 enum CameraConsumer { post, story }
 enum PostContentType { image, video }
+
+class _MediaSizeClipper extends CustomClipper<Rect> {
+  final Size mediaSize;
+  const _MediaSizeClipper(this.mediaSize);
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(0, 0, mediaSize.width, mediaSize.height);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Rect> oldClipper) {
+    return true;
+  }
+}
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({
@@ -83,17 +98,19 @@ class _CameraScreenState extends State<CameraScreen> {
     if (!(controller?.value.isInitialized ?? false)) {
       return Container();
     }
-    final scale = 1 /
-        (controller!.value.aspectRatio *
-            MediaQuery.of(context).size.aspectRatio);
+    final mediaSize = MediaQuery.of(context).size;
+    final scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
 
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Transform.scale(
-            scale: scale,
-            alignment: Alignment.topCenter,
-            child: CameraPreview(controller!),
+          ClipRect(
+            clipper: _MediaSizeClipper(mediaSize),
+            child: Transform.scale(
+              scale: scale,
+              alignment: Alignment.topCenter,
+              child: CameraPreview(controller!),
+            ),
           ),
           Align(
             alignment: Alignment.topLeft,
@@ -270,6 +287,23 @@ class _CameraScreenState extends State<CameraScreen> {
                           ),
                         ),
                       ),
+                      // if (_cameraConsumer == CameraConsumer.post)
+                      // Material(
+                      //   color: Colors.transparent,
+                      //   child: InkWell(
+                      //     borderRadius:
+                      //         BorderRadius.all(Radius.circular(50.0)),
+                      //     onTap: publishFromYoutube,
+                      //     child: Container(
+                      //       padding: EdgeInsets.only(left: 8.0),
+                      //       child: Icon(
+                      //         Icons.smart_display_outlined,
+                      //         color: Colors.grey[200],
+                      //         size: 25.0,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -277,6 +311,15 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void publishFromYoutube() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CreatePostFromYt(),
       ),
     );
   }
