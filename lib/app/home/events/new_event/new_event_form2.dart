@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/widgets/event_date_picker.dart';
@@ -20,6 +20,7 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/logger.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class NewEventForm2 extends StatefulWidget {
   const NewEventForm2({
@@ -35,7 +36,7 @@ class NewEventForm2 extends StatefulWidget {
   final Event? event;
   final void Function({
     required Event event,
-    required List<Asset> images,
+    required List<File> images,
   }) onNextPressed;
   @override
   _NewEventForm2State createState() => _NewEventForm2State();
@@ -47,7 +48,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
   final List<Widget> items = <Widget>[];
 
   //
-  List<Asset> images = <Asset>[];
+  List<File> images = <File>[];
   String? destination;
   int? price;
   String? description;
@@ -140,31 +141,52 @@ class _NewEventForm2State extends State<NewEventForm2> {
   }
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = <Asset>[];
+    List<AssetEntity>? resultList = <AssetEntity>[];
+
+    final List<String> imagesPathsList = [];
     try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 10,
-        selectedAssets: images,
-        cupertinoOptions: CupertinoOptions(
-          takePhotoIcon: "chat",
-          doneButtonTitle: "Fatto",
-        ),
-        materialOptions: MaterialOptions(
-          actionBarColor: "#679cdb",
-          lightStatusBar: true,
-          statusBarColor: "#ffffff",
-          actionBarTitle: "",
-          allViewTitle: "",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#ffffff",
-        ),
+      resultList = await AssetPicker.pickAssets(
+        context,
+        textDelegate: EnglishTextDelegate(),
+        maxAssets: 5,
+        selectedAssets: resultList,
+        themeColor: Colors.blue,
       );
-      // ignore: empty_catches
-    } on Exception {}
-    if (!mounted) return;
-    setState(() {
-      images = resultList;
-    });
+      if (resultList == null) return;
+
+      for (final AssetEntity asset in resultList) {
+        final File? file = await asset.file;
+        if (file != null) imagesPathsList.add(file.path);
+      }
+      if (imagesPathsList.isNotEmpty) {
+        final List<File> finalFiles = [];
+        for (final String imagePath in imagesPathsList) {
+          final File? croppedImage = await ImageCropper.cropImage(
+            androidUiSettings: AndroidUiSettings(
+              backgroundColor: Colors.black,
+              toolbarColor: Colors.white,
+              toolbarWidgetColor: Colors.black,
+              toolbarTitle: 'Crop Photo',
+              activeControlsWidgetColor: Colors.blue,
+            ),
+            sourcePath: imagePath,
+            aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+          );
+
+          if (croppedImage != null) {
+            finalFiles.add(croppedImage);
+            logger.info('edited images ${croppedImage.path}');
+          }
+        }
+        if (finalFiles.length == imagesPathsList.length) {
+          setState(() {
+            images = finalFiles;
+          });
+        }
+      }
+    } on Exception catch (e) {
+      PlatformExceptionAlertDialog(exception: e).show(context);
+    }
   }
 
   // todo @low same button in form 1
@@ -249,24 +271,24 @@ class _NewEventForm2State extends State<NewEventForm2> {
   void buildCarousel() {
     items.clear();
     if (images.isNotEmpty) {
-      for (final Asset asset in images) {
-        if (asset.originalWidth == null || asset.originalHeight == null) {
-          logger.severe('null height or width ');
-        }
-
+      for (final File file in images) {
         final w = Stack(
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: AssetThumb(
-                asset: asset,
-                width: asset.originalWidth ?? 300,
-                height: asset.originalHeight ?? 300,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: Image.file(
+                    file,
+                  ),
+                ),
               ),
             ),
             IconButton(
               onPressed: () {
-                images.remove(asset);
+                images.remove(file);
                 setState(() {});
               },
               icon: Icon(

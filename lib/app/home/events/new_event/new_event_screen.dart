@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event/new_event_form1.dart';
@@ -29,7 +28,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
 
   Event? event;
   File? profilePicture;
-  List<Asset>? images;
+  List<File>? images;
 
   @override
   void initState() {
@@ -102,7 +101,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
               eventsBloc: eventsBloc,
               onNextPressed: ({
                 required Event event,
-                required List<Asset> images,
+                required List<File> images,
               }) {
                 this.event = event;
                 this.images = images;

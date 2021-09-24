@@ -100,7 +100,7 @@ class ClubHeader extends StatelessWidget {
               ),
               if (!showProfileAsOther) ...[
                 Positioned(
-                  left: SizeConfig.blockSizeHorizontal * 28,
+                  left: SizeConfig.blockSizeHorizontal * 30,
                   bottom: 0,
                   child: FollowersHeader(
                     followers: 0,

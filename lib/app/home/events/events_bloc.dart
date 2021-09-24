@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:randolina/app/home/events/widgets/events_search.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
@@ -11,7 +10,6 @@ import 'package:randolina/app/models/saved_events.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/utils.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:uuid/uuid.dart';
 
@@ -33,10 +31,9 @@ class EventsBloc {
     );
   }
 
-  Future<List<String>> uploadEventImages(List<Asset> images) async {
+  Future<List<String>> uploadEventImages(List<File> images) async {
     final List<Future<String>> urls = [];
-    for (final Asset asset in images) {
-      final File file = await assetToFile(asset);
+    for (final File file in images) {
       final t = database.uploadFile(
         path: APIPath.eventsFiles(authUser.uid, '', uuid.v4()),
         filePath: file.path,

@@ -482,46 +482,6 @@ class _CameraScreenState extends State<CameraScreen> {
         );
 
         if (croppedImage != null) {
-          // late final File editedImage;
-          // final croppedImage2 =
-          //     imageLib.decodeImage(await croppedImage.readAsBytes());
-
-          // final Map? imagefileMap = await Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => PhotoFilterSelector(
-          //       title: Text(
-          //         "Photo Filter Example",
-          //         style: TextStyle(color: Colors.blueGrey),
-          //       ),
-          //       appBarColor: Colors.white,
-          //       circleShape: false,
-          //       image: croppedImage2!,
-          //       filters: presetFiltersList,
-          //       filename: path.basename(croppedImage.path),
-          //       loader: Center(
-          //         child: CircularProgressIndicator(),
-          //       ),
-          //       fit: BoxFit.contain,
-          //     ),
-          //   ),
-          // ) as Map?;
-          // if (imagefileMap != null &&
-          //     imagefileMap.containsKey('image_filtered')) {
-          //   editedImage = imagefileMap['image_filtered'] as File;
-
-          //   finalFiles.add(editedImage);
-          //   logger.info('edited images ${editedImage.path}');
-          // }
-
-          // editedImage = await Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (_) => EditPhotoScreen(imageFile: croppedImage),
-          //   ),
-          // ) as File;
-          // final File editedImage = imagefileMap['image_filtered'] as File;
-
           finalFiles.add(croppedImage);
           logger.info('edited images ${croppedImage.path}');
         }

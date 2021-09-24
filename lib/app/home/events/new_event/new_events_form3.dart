@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
@@ -26,7 +25,7 @@ class NewEventsForm3 extends StatefulWidget {
 
   final Event? event;
   final File? profilePicture;
-  final List<Asset>? images;
+  final List<File>? images;
   final EventsBloc eventsBloc;
   @override
   _NewEventsForm3State createState() => _NewEventsForm3State();
@@ -81,17 +80,10 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
   void buildCarousel() {
     items.clear();
     if (widget.images?.isNotEmpty ?? false) {
-      for (final Asset asset in widget.images!) {
-        if (asset.originalWidth == null || asset.originalHeight == null) {
-          logger.severe('null height or width ');
-        }
+      for (final File asset in widget.images!) {
         final w = Padding(
           padding: const EdgeInsets.only(right: 8.0),
-          child: AssetThumb(
-            asset: asset,
-            width: asset.originalWidth ?? 300,
-            height: asset.originalHeight ?? 300,
-          ),
+          child: Image.file(asset),
         );
         items.add(w);
       }
@@ -136,9 +128,11 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
         );
       }
       if (widget.images != null) {
-        imagesUrls.addAll(await widget.eventsBloc.uploadEventImages(
-          widget.images!,
-        ));
+        imagesUrls.addAll(
+          await widget.eventsBloc.uploadEventImages(
+            widget.images!,
+          ),
+        );
       }
       final Event event = Event(
         id: eventId,
