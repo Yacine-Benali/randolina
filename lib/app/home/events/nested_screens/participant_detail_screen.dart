@@ -23,6 +23,7 @@ class ParticipantDetailScreen extends StatefulWidget {
 class _ParticipantDetailScreenState extends State<ParticipantDetailScreen> {
   Widget buildText(String title, String value) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
@@ -31,7 +32,6 @@ class _ParticipantDetailScreenState extends State<ParticipantDetailScreen> {
             fontSize: 16,
           ),
         ),
-        SizedBox(width: 30),
         Text(
           value,
           style: TextStyle(
@@ -107,7 +107,7 @@ class _ParticipantDetailScreenState extends State<ParticipantDetailScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 45),
+                  padding: const EdgeInsets.only(left: 8, top: 45, right: 8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

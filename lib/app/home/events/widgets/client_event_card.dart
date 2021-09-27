@@ -11,6 +11,7 @@ import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 
 // todo @low move this somewhere else
@@ -34,6 +35,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
   late String actionButtonText;
   late VoidCallback callback;
   late bool isSaved;
+  double? topPartHeight;
   late final Client client;
 
   @override
@@ -113,87 +115,91 @@ class _ClientEventCardState extends State<ClientEventCard> {
   }
 
   Widget buildTopPart() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 4.0),
-          child: Text(
-            widget.event.createdBy.name,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return LayoutBuilder(builder: (context, boxConstraints) {
+      topPartHeight = boxConstraints.maxHeight;
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(
+              widget.event.createdBy.name,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Container(
-                height: 30,
-                width: 80,
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, 4),
-                      blurRadius: 5.0,
-                    )
-                  ],
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: const [0, 1],
-                    colors: actionButtonGradient,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Container(
+                  height: 30,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 4),
+                        blurRadius: 5.0,
+                      )
+                    ],
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: const [0, 1],
+                      colors: actionButtonGradient,
+                    ),
+                    color: Colors.deepPurple.shade300,
+                    borderRadius: BorderRadius.circular(60),
                   ),
-                  color: Colors.deepPurple.shade300,
-                  borderRadius: BorderRadius.circular(60),
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    callback();
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    shadowColor: MaterialStateProperty.all(Colors.transparent),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      callback();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
+                    ),
+                    child: Text(actionButtonText),
                   ),
-                  child: Text(actionButtonText),
                 ),
               ),
-            ),
-            Row(
-              children: [
-                //! todo @low for later
-                // IconButton(
-                //   onPressed: () {
-                //     if (isSaved == false) {
-                //       widget.eventsBloc.saveEventToFavorite(widget.event);
-                //       print("SAVE");
+              Row(
+                children: [
+                  //! todo @low for later
+                  // IconButton(
+                  //   onPressed: () {
+                  //     if (isSaved == false) {
+                  //       widget.eventsBloc.saveEventToFavorite(widget.event);
+                  //       print("SAVE");
 
-                //       isSaved = true;
-                //     } else if (isSaved == true) {
-                //       print("UNSAVE");
-                //       widget.eventsBloc.unsaveEventFromFavorite(widget.event);
-                //       isSaved = false;
-                //     }
-                //     setState(() {});
-                //   },
-                //   icon: Icon(isSaved
-                //       ? Icons.bookmark
-                //       : Icons.bookmark_border_outlined),
-                //   color: Colors.black,
-                //   // iconSize: 28,
-                // ),
-                IconButton(
-                  onPressed: goToEventDetails,
-                  icon: Icon(Icons.info_outline),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
+                  //       isSaved = true;
+                  //     } else if (isSaved == true) {
+                  //       print("UNSAVE");
+                  //       widget.eventsBloc.unsaveEventFromFavorite(widget.event);
+                  //       isSaved = false;
+                  //     }
+                  //     setState(() {});
+                  //   },
+                  //   icon: Icon(isSaved
+                  //       ? Icons.bookmark
+                  //       : Icons.bookmark_border_outlined),
+                  //   color: Colors.black,
+                  //   // iconSize: 28,
+                  // ),
+                  IconButton(
+                    onPressed: goToEventDetails,
+                    icon: Icon(Icons.info_outline),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
+    });
   }
 
   Widget buildBottomPart() {
@@ -287,6 +293,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
   @override
   Widget build(BuildContext context) {
     setButtonState();
+    logger.info('hello $topPartHeight');
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
@@ -304,7 +311,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
               ],
             ),
             Positioned(
-              top: 50,
+              top: 0,
               child: GestureDetector(
                 onTap: () {
                   if (context.read<User>().id != widget.event.createdBy.id) {

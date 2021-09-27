@@ -100,16 +100,13 @@ class _NewEventForm1State extends State<NewEventForm1> {
   }
 
   Widget buildPhoto() {
-    return SizedBox(
-      height: 400,
-      child: GestureDetector(
-        onTap: pickImage,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: imageFile != null
-              ? Image.memory(imageFile!.readAsBytesSync())
-              : CachedNetworkImage(imageUrl: widget.profilePicture!),
-        ),
+    return GestureDetector(
+      onTap: pickImage,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: imageFile != null
+            ? Image.memory(imageFile!.readAsBytesSync())
+            : CachedNetworkImage(imageUrl: widget.profilePicture!),
       ),
     );
   }
@@ -132,14 +129,12 @@ class _NewEventForm1State extends State<NewEventForm1> {
               ),
             ),
           ),
-          SizedBox(height: 30),
           if (imageFile == null && widget.profilePicture == null)
             buildUploadButton(),
           if (!(imageFile == null && widget.profilePicture == null))
             buildPhoto(),
-          Expanded(child: Container()),
           Padding(
-            padding: const EdgeInsets.only(right: 8, left: 8),
+            padding: const EdgeInsets.only(right: 8, left: 8, bottom: 20),
             child: NextButton(
               onPressed: () {
                 if (imageFile != null) {
@@ -150,7 +145,6 @@ class _NewEventForm1State extends State<NewEventForm1> {
               },
             ),
           ),
-          SizedBox(height: 30),
         ],
       ),
     );

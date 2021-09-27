@@ -8,8 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randolina/app/home/create/camera_screen.dart';
 import 'package:randolina/app/home/create/create_bloc.dart';
 import 'package:randolina/common_widgets/circular_icon_button.dart';
-import 'package:randolina/common_widgets/platform_alert_dialog.dart';
-import 'package:video_player/video_player.dart';
 
 const kBlueColorTextStyle = TextStyle(color: Colors.blue);
 final Color kBlueColorWithOpacity = Colors.blue.withOpacity(0.8);
@@ -177,17 +175,6 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
       } else {
         // its a video
         finalFile = widget.finalFile;
-
-        final VideoPlayerController controller =
-            VideoPlayerController.file(widget.finalFile);
-        await controller.initialize();
-        if (controller.value.duration.inSeconds > 30) {
-          PlatformAlertDialog(
-            title: 'Video exceeds 15 seconds can not post it to stories',
-            content: '',
-          ).show(context);
-          return;
-        }
       }
 
       widget.createBloc

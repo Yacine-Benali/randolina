@@ -96,7 +96,7 @@ String eventDateFormat(DateTime date) {
 
 String eventCardDateFormat(Timestamp date) {
   final DateTime tempDay2 = date.toDate();
-  final DateFormat formatter = DateFormat('dd LLLL');
+  final DateFormat formatter = DateFormat('dd LLL');
   final String formatted = formatter.format(tempDay2);
   return formatted;
 }

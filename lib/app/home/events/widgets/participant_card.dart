@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/events/nested_screens/participant_detail_screen.dart';
 import 'package:randolina/app/models/participant.dart';
@@ -64,8 +65,11 @@ class _ParticipantCardState extends State<ParticipantCard> {
                 height: 60,
                 width: 60,
               ),
-              title: Text(
+              title: AutoSizeText(
                 widget.participant.client.name,
+                maxLines: 1,
+                minFontSize: 10,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -75,8 +79,11 @@ class _ParticipantCardState extends State<ParticipantCard> {
                 padding: const EdgeInsets.only(left: 30.0),
                 child: GestureDetector(
                   onTap: call,
-                  child: Text(
+                  child: AutoSizeText(
                     widget.participant.client.phoneNumber,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    minFontSize: 10,
                     style: TextStyle(
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
