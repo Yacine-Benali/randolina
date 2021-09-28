@@ -297,7 +297,7 @@ class ProfileBloc {
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) =>
           query.where('createdBy.id', isEqualTo: otherUser.id),
-      sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+      sort: (a, b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
 }

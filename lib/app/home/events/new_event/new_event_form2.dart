@@ -170,7 +170,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
               activeControlsWidgetColor: Colors.blue,
             ),
             sourcePath: imagePath,
-            aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+            aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
           );
 
           if (croppedImage != null) {
@@ -272,54 +272,53 @@ class _NewEventForm2State extends State<NewEventForm2> {
     items.clear();
     if (images.isNotEmpty) {
       for (final File file in images) {
-        final w = Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: Image.file(
-                    file,
-                  ),
-                ),
+        final w = Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Stack(
+            children: [
+              Image.file(
+                file,
+                fit: BoxFit.contain,
+                height: SizeConfig.blockSizeVertical * 102,
+                width: SizeConfig.blockSizeVertical * 102,
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                images.remove(file);
-                setState(() {});
-              },
-              icon: Icon(
-                Icons.cancel,
-                color: Colors.grey,
+              IconButton(
+                onPressed: () {
+                  images.remove(file);
+                  setState(() {});
+                },
+                icon: Icon(Icons.cancel, color: Colors.grey),
               ),
-            ),
-          ],
+            ],
+          ),
         );
         items.add(w);
       }
     }
     if (widget.event != null) {
       for (final String url in widget.event!.images) {
-        final w = Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: CachedNetworkImage(imageUrl: url),
-            ),
-            IconButton(
-              onPressed: () {
-                widget.event!.images.remove(url);
-                setState(() {});
-              },
-              icon: Icon(
-                Icons.cancel,
-                color: Colors.grey,
+        final w = Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: CachedNetworkImage(
+                  imageUrl: url,
+                  fit: BoxFit.contain,
+                  height: SizeConfig.blockSizeVertical * 102,
+                  width: SizeConfig.blockSizeVertical * 102,
+                ),
               ),
-            ),
-          ],
+              IconButton(
+                onPressed: () {
+                  widget.event!.images.remove(url);
+                  setState(() {});
+                },
+                icon: Icon(Icons.cancel, color: Colors.grey),
+              ),
+            ],
+          ),
         );
         items.add(w);
       }
@@ -341,7 +340,11 @@ class _NewEventForm2State extends State<NewEventForm2> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: CarouselSlider(
-                  options: CarouselOptions(enableInfiniteScroll: false),
+                  options: CarouselOptions(
+                    viewportFraction: 0.5,
+                    enableInfiniteScroll: false,
+                    aspectRatio: 2,
+                  ),
                   items: items,
                 ),
               ),

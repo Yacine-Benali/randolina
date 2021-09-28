@@ -80,10 +80,15 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
   void buildCarousel() {
     items.clear();
     if (widget.images?.isNotEmpty ?? false) {
-      for (final File asset in widget.images!) {
+      for (final File file in widget.images!) {
         final w = Padding(
           padding: const EdgeInsets.only(right: 8.0),
-          child: Image.file(asset),
+          child: Image.file(
+            file,
+            fit: BoxFit.contain,
+            height: SizeConfig.blockSizeVertical * 102,
+            width: SizeConfig.blockSizeVertical * 102,
+          ),
         );
         items.add(w);
       }
@@ -92,7 +97,12 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
       for (final String url in widget.event!.images) {
         final w = Padding(
           padding: const EdgeInsets.only(right: 8.0),
-          child: CachedNetworkImage(imageUrl: url),
+          child: CachedNetworkImage(
+            imageUrl: url,
+            fit: BoxFit.contain,
+            height: SizeConfig.blockSizeVertical * 102,
+            width: SizeConfig.blockSizeVertical * 102,
+          ),
         );
         items.add(w);
       }
@@ -186,7 +196,11 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: CarouselSlider(
-                  options: CarouselOptions(enableInfiniteScroll: false),
+                  options: CarouselOptions(
+                    viewportFraction: 0.5,
+                    enableInfiniteScroll: false,
+                    aspectRatio: 2,
+                  ),
                   items: items,
                 ),
               ),

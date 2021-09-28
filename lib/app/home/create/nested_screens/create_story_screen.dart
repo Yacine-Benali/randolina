@@ -28,79 +28,58 @@ class CreateStoryScreen extends StatefulWidget {
 }
 
 class _CreateStoryScreenState extends State<CreateStoryScreen> {
-  // final GlobalKey _globalKey = GlobalKey();
-  // final LiquidController _liquidController = LiquidController();
-  // late List<Container> _filterPages;
-  // late Size _screenSize;
+  late final BetterPlayerController _betterPlayerController;
 
   final String _filterTitle = '';
   final bool _newFilterTitle = false;
   final bool _isLoading = false;
 
   @override
-  Widget build(BuildContext context) {
-    // setState(() {
-    //  _screenSize = MediaQuery.of(context).size;
-    //   _filterPages = LiquidSwipePagesService.getImageFilteredPaged(
-    //     imageFile: widget.finalFile,
-    //     height: _screenSize.height,
-    //     width: _screenSize.width,
-    //   );
-    // });
+  void initState() {
+    if (widget.postContentType == PostContentType.video) {
+      _betterPlayerController = BetterPlayerController(
+        BetterPlayerConfiguration(
+          fit: BoxFit.contain,
+          aspectRatio: 1,
+          autoDetectFullscreenDeviceOrientation: true,
+          controlsConfiguration: BetterPlayerControlsConfiguration(
+            enableProgressText: false,
+            enableSkips: false,
+            enableFullscreen: false,
+            enableSubtitles: false,
+            enableMute: false,
+            enableAudioTracks: false,
+            enableQualities: false,
+          ),
+        ),
+        betterPlayerDataSource:
+            BetterPlayerDataSource.file(widget.finalFile.path),
+      );
 
+      _betterPlayerController.addEventsListener((BetterPlayerEvent event) {
+        if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+          _betterPlayerController.setOverriddenAspectRatio(
+              _betterPlayerController.videoPlayerController!.value.aspectRatio);
+        }
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
           if (widget.postContentType == PostContentType.image) ...[
             Center(child: Image.file(widget.finalFile)),
-            // Center(
-            //   child: RepaintBoundary(
-            //     key: _globalKey,
-            //     child: SizedBox(
-            //       child: LiquidSwipe(
-            //         pages: _filterPages,
-            //         onPageChangeCallback: (value) {
-            //           setState(() {
-            //             _filterTitle = filters[value].name;
-            //             _newFilterTitle = true;
-            //           });
-            //           Timer(Duration(milliseconds: 1000), () {
-            //             if (_filterTitle == filters[value].name) {
-            //               setState(() => _newFilterTitle = false);
-            //             }
-            //           });
-            //         },
-            //         liquidController: _liquidController,
-            //         ignoreUserGestureWhileAnimating: true,
-            //       ),
-            //     ),
-            //   ),
-            // ),
             if (_newFilterTitle)
               // displays filter title once filtered changed
               _displayStoryFilterTitle(),
           ],
           if (widget.postContentType == PostContentType.video) ...[
-            Center(
-              child: BetterPlayer.file(
-                widget.finalFile.path,
-                betterPlayerConfiguration: BetterPlayerConfiguration(
-                  fit: BoxFit.contain,
-                  aspectRatio: 1,
-                  autoDetectFullscreenDeviceOrientation: true,
-                  controlsConfiguration: BetterPlayerControlsConfiguration(
-                    enableProgressText: false,
-                    enableSkips: false,
-                    enableFullscreen: false,
-                    enableSubtitles: false,
-                    enableMute: false,
-                    enableAudioTracks: false,
-                    enableQualities: false,
-                  ),
-                ),
-              ),
-            ),
+            Center(child: BetterPlayer(controller: _betterPlayerController)),
           ],
 
           // desplays circular indicator if posting story
@@ -187,8 +166,17 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
           );
 
       setState(() => _isLoading == false);
+
       Navigator.of(context).pop();
+
       Navigator.of(context).pop();
     }
+  }
+
+  @override
+  void dispose() {
+    _betterPlayerController.dispose();
+
+    super.dispose();
   }
 }

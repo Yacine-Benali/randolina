@@ -75,68 +75,33 @@ class _ParticipantCardState extends State<ParticipantCard> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(left: 30.0),
-                child: GestureDetector(
-                  onTap: call,
-                  child: AutoSizeText(
-                    widget.participant.client.phoneNumber,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    minFontSize: 10,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                      //  fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+              subtitle: GestureDetector(
+                onTap: call,
+                child: AutoSizeText(
+                  widget.participant.client.phoneNumber,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  minFontSize: 10,
+                  style: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                    //  fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ),
-              trailing: widget.showInfo
-                  ? Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => ParticipantDetailScreen(
-                                participant: widget.participant,
-                                index: widget.index,
-                              ),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.info_outline, size: 30),
-                      ),
-                    )
-                  : GestureDetector(
-                      onTap: call,
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 8),
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF334D73),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.black.withOpacity(0.10),
+              onTap: widget.showInfo
+                  ? () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ParticipantDetailScreen(
+                            participant: widget.participant,
+                            index: widget.index,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromRGBO(51, 77, 115, 0.42),
-                              blurRadius: 4,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
                         ),
-                        child: Icon(
-                          Icons.phone,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
+                      );
+                    }
+                  : call,
             ),
           ),
         ),

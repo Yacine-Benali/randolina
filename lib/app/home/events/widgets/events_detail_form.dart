@@ -1,10 +1,11 @@
+import 'package:blur/blur.dart';
+import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/common_widgets/image_full_screen.dart';
-import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/utils.dart';
 
 class EventsDetailForm extends StatefulWidget {
@@ -33,24 +34,83 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
   }
 
   Widget buildProfilePicture() {
-    return ClipRect(
-      child: Banner(
-        location: BannerLocation.topEnd,
-        message: "${widget.event.price.toInt()} DA",
-        color: Colors.red.withOpacity(0.6),
-        textStyle: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 12.0,
-          letterSpacing: 1.0,
-        ),
-        child: Container(
-          width: SizeConfig.screenWidth,
-          height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(widget.event.profileImage),
-              fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
+      child: ClipRect(
+        child: Banner(
+          location: BannerLocation.topEnd,
+          message: "${widget.event.price.toInt()} DA",
+          color: Colors.red.withOpacity(0.6),
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 12.0,
+          ),
+          //textDirection: TextDirection.ltr,
+          child: Container(
+            height: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(widget.event.profileImage),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        eventCardDateFormat(widget.event.startDateTime),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.33,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                      ).frosted(
+                        blur: 1,
+                        borderRadius: BorderRadius.circular(20),
+                        padding: EdgeInsets.all(8),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: BorderedText(
+                              strokeColor: Colors.black,
+                              strokeWidth: 3.0,
+                              child: Text(
+                                widget.event.destination,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -64,23 +124,25 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
     for (final String url in widget.event.images) {
       final w = Padding(
         padding: const EdgeInsets.only(right: 8.0),
-        child: CachedNetworkImage(
-          imageBuilder: (_, imageProvider) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ImageFullScreen(
-                      imageProvider: imageProvider,
+        child: Center(
+          child: CachedNetworkImage(
+            imageBuilder: (_, imageProvider) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ImageFullScreen(
+                        imageProvider: imageProvider,
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: Image(image: imageProvider),
-            );
-          },
-          imageUrl: url,
+                  );
+                },
+                child: Image(image: imageProvider, fit: BoxFit.contain),
+              );
+            },
+            imageUrl: url,
+          ),
         ),
       );
       items.add(w);
@@ -107,7 +169,10 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: CarouselSlider(
-                options: CarouselOptions(enableInfiniteScroll: false),
+                options: CarouselOptions(
+                  enableInfiniteScroll: false,
+                  aspectRatio: 1,
+                ),
                 items: items,
               ),
             ),

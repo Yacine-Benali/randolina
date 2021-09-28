@@ -311,7 +311,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
               ],
             ),
             Positioned(
-              top: 0,
+              top: 50,
               child: GestureDetector(
                 onTap: () {
                   if (context.read<User>().id != widget.event.createdBy.id) {
