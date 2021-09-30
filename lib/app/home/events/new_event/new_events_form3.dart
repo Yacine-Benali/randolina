@@ -112,8 +112,8 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
   Future<void> finish() async {
     final ProgressDialog progressDialog = ProgressDialog(
       context,
-      message: Text("Loading"),
-      title: Text("uploading images"),
+      message: Text("Chargement"),
+      title: Text("téléchargement des images"),
       dismissable: false,
     );
     final Uuid uuid = Uuid();

@@ -49,7 +49,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Photo", style: TextStyle(color: Colors.black)),
+        title: Text("Modifier la photo", style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         // leading: Container(),

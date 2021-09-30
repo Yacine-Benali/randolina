@@ -249,7 +249,7 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
           return EmptyContent(
             title: 'Something went wrong',
             message:
-                "Can't load items right now\n ${snapshot.error.toString()}",
+                "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
           );
         }
         return Center(

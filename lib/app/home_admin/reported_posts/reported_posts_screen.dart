@@ -127,7 +127,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
               } else if (snapshot.hasError) {
                 return EmptyContent(
                   title: 'Something went wrong',
-                  message: "Can't load items right now",
+                  message: "Impossible de charger les éléments pour le moment",
                 );
               } else {
                 return Column(

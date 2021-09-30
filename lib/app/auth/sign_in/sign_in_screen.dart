@@ -49,7 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "Don't have an account ?",
+            "Vous n'avez pas de compte ?",
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w400,
