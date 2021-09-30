@@ -104,12 +104,12 @@ class _EventsScreenState extends State<EventsScreen>
               } else {
                 return EmptyContent(
                   title: '',
-                  message: 'You dont have any events',
+                  message: "Vous n'avez aucun événement",
                 );
               }
             } else if (snapshot.hasError) {
               return EmptyContent(
-                title: 'Something went wrong',
+                title: "Quelque chose s'est mal passé",
                 message:
                     "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
               );
@@ -165,8 +165,8 @@ class _EventsScreenState extends State<EventsScreen>
                     labelColor: Color.fromRGBO(51, 77, 115, 0.78),
                     unselectedLabelColor: Color.fromRGBO(51, 77, 115, 0.78),
                     tabs: [
-                      Tab(text: 'My events'),
-                      Tab(text: 'All events'),
+                      Tab(text: 'Mes événements'),
+                      Tab(text: 'Tous les évènements'),
                     ],
                   ),
                 ),
@@ -191,7 +191,7 @@ class _EventsScreenState extends State<EventsScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Add',
+                        'Ajouter',
                         style:
                             TextStyle(color: Color.fromRGBO(51, 77, 115, 0.78)),
                       ),

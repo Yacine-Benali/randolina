@@ -39,7 +39,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
             backgroundColor: Colors.black,
             toolbarColor: Colors.white,
             toolbarWidgetColor: Colors.black,
-            toolbarTitle: 'Crop Photo',
+            toolbarTitle: 'Recadrer la photo',
             activeControlsWidgetColor: Colors.blue,
           ),
           sourcePath: file.path,
@@ -79,7 +79,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Upload picture',
+              'Charger une photo',
               style: TextStyle(
                 color: Color.fromRGBO(51, 77, 115, 0.88),
                 fontSize: 18,
@@ -120,7 +120,7 @@ class _NewEventForm1State extends State<NewEventForm1> {
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: Text(
-              'Principal picture of event\nplease chose a horizontal picture ',
+              "Image principale de l'événement\nVeuillez choisir une image horizontale ",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,

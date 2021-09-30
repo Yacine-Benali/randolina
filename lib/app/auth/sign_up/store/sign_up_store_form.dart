@@ -84,8 +84,8 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Store name:',
-                      hintText: 'Store name...',
+                      title: 'Nom du magasin:',
+                      hintText: 'Nom du magasin...',
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
                         agencyname = value;
@@ -134,7 +134,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(width: 30),
-                        Text('Next'),
+                        Text('Suivant'),
                         Icon(
                           Icons.chevron_right,
                           size: 30,

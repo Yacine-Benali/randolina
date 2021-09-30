@@ -179,12 +179,12 @@ class _ClubProfileEventSliderState extends State<ClubProfileEventSlider> {
             } else {
               return EmptyContent(
                 title: '',
-                message: 'this club does not have any events',
+                message: "ce club n'a pas d'événements",
               );
             }
           } else if (snapshot.hasError) {
             return EmptyContent(
-              title: 'Something went wrong',
+              title: "Quelque chose s'est mal passé",
               message:
                   "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
             );

@@ -35,7 +35,7 @@ class _ConfirmPhoneNumberState extends State<ConfirmPhoneNumber> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              'Next',
+              'Suivant',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -79,7 +79,7 @@ class _ConfirmPhoneNumberState extends State<ConfirmPhoneNumber> {
               ),
               SizedBox(height: 30),
               Text(
-                'to confirm your phone number, enter the SMS code here:',
+                "pour confirmer votre numéro de téléphone, entrez le code SMS ici:",
                 textAlign: TextAlign.center,
               ),
               Form(

@@ -31,7 +31,7 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
           children: [
             SizedBox(height: 40),
             Text(
-              'Click on the correct option to choose',
+              'Cliquez sur la bonne option pour choisir',
               style: customBodyText2,
             ),
             SizedBox(height: 40),
@@ -55,7 +55,7 @@ class _RoleSelectorScreenState extends State<RoleSelectorScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: CustomElevatedButton(
-                buttonText: Text('Next'),
+                buttonText: Text('Suivant'),
                 minHeight: 35,
                 minWidth: 130,
                 onPressed: selectedRole == null

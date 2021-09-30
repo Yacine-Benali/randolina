@@ -53,7 +53,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          SignUpTitle(title: 'Login information'),
+          SignUpTitle(title: 'Informations de connexion'),
           SizedBox(height: 30),
           SignUpDivider(
               imagePath: 'assets/sign_up/icons/1.png', start: 1, end: 10),
@@ -69,8 +69,8 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Full name:',
-                      hintText: 'Name...',
+                      title: 'Nom et prénom:',
+                      hintText: 'Nom...',
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
@@ -88,8 +88,8 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Agency name:',
-                      hintText: 'Agency name...',
+                      title: "Nom d'agence:",
+                      hintText: "'Nom d'agence...",
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
                         agencyname = value;
@@ -103,7 +103,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                     ),
                   ),
                   DatePicker(
-                    title: 'creation date',
+                    title: 'date de création',
                     hintText: 'DD/MM/YYYY',
                     selectedDate: creationDate,
                     onSelectedDate: (Timestamp date) {
@@ -148,7 +148,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(width: 30),
-                        Text('Next'),
+                        Text('Suivant'),
                         Icon(
                           Icons.chevron_right,
                           size: 30,
@@ -161,7 +161,7 @@ class _SignUpAgencyFormState extends State<SignUpAgencyForm> {
                       if (creationDate == null) {
                         final PlatformException e = PlatformException(
                           code: 'BIRTHDAY_NULL',
-                          message: 'You must select a birthday',
+                          message: 'Vous devez sélectionner un anniversaire',
                         );
                         PlatformExceptionAlertDialog(exception: e)
                             .show(context);

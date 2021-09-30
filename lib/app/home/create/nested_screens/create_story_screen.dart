@@ -160,7 +160,7 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
           .createStory(finalFile.path, widget.postContentType)
           .then(
             (value) => Fluttertoast.showToast(
-              msg: 'Story successfully published',
+              msg: 'Article publié avec succès',
               toastLength: Toast.LENGTH_SHORT,
             ),
           );

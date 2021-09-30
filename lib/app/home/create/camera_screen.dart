@@ -86,7 +86,7 @@ class _CameraScreenState extends State<CameraScreen> {
         alignment: Alignment.center,
         padding: EdgeInsets.all(16.0),
         child: Text(
-          'No Camera Found',
+          'Aucune caméra trouvée',
           style: TextStyle(
             fontSize: 16.0,
             color: Colors.white,
@@ -517,7 +517,7 @@ class _CameraScreenState extends State<CameraScreen> {
             backgroundColor: Colors.black,
             toolbarColor: Colors.white,
             toolbarWidgetColor: Colors.black,
-            toolbarTitle: 'Crop Photo',
+            toolbarTitle: 'Recadrer la photo',
             activeControlsWidgetColor: Colors.blue,
           ),
           sourcePath: imagePath,

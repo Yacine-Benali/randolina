@@ -20,7 +20,7 @@ class _CommentInputState extends State<CommentInput> {
       title: TextFormField(
         controller: _commentController,
         decoration: InputDecoration(
-          hintText: 'Write a comment',
+          hintText: 'Écrire un commentaire',
         ),
         onChanged: (value) {
           setState(() {});

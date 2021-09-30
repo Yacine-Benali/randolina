@@ -135,7 +135,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
                           MaterialStateProperty.all(Colors.transparent),
                       padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
                     ),
-                    child: Text('Edit'),
+                    child: Text('Éditer'),
                   ),
                 ),
               ),

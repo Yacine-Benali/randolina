@@ -73,8 +73,8 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Full name:',
-                      hintText: 'Name...',
+                      title: 'Nom et prénom:',
+                      hintText: 'Nom et prénom...',
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
@@ -92,8 +92,8 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Club name:',
-                      hintText: 'Club name...',
+                      title: 'Nom du club:',
+                      hintText: 'Nom du club...',
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
                         clubname = value;
@@ -107,7 +107,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                     ),
                   ),
                   DatePicker(
-                    title: 'creation date',
+                    title: 'date de création',
                     hintText: 'DD/MM/YYYY',
                     selectedDate: creationDate,
                     onSelectedDate: (Timestamp date) {
@@ -138,8 +138,8 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Number of members:',
-                      hintText: 'Number of members:',
+                      title: 'Nombre de membres:',
+                      hintText: 'Nombre de membres:',
                       maxLength: 6,
                       isPhoneNumber: true,
                       onChanged: (var value) {
@@ -171,7 +171,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(width: 30),
-                        Text('Next'),
+                        Text('Suivant'),
                         Icon(
                           Icons.chevron_right,
                           size: 30,
@@ -184,7 +184,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                       if (creationDate == null) {
                         final PlatformException e = PlatformException(
                           code: 'BIRTHDAY_NULL',
-                          message: 'You must select a birthday',
+                          message: 'Vous devez sélectionner un anniversaire',
                         );
                         PlatformExceptionAlertDialog(exception: e)
                             .show(context);

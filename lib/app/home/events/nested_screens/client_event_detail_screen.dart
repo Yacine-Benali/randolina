@@ -91,7 +91,7 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            'event info',
+            "informations sur l'événement",
             style: TextStyle(color: Colors.black),
           ),
           iconTheme: IconThemeData(color: Colors.black),

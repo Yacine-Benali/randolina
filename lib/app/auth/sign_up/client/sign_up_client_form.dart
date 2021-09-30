@@ -58,7 +58,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
         child: Column(
           children: [
             SizedBox(height: 30),
-            SignUpTitle(title: 'Login information'),
+            SignUpTitle(title: 'Informations de connexion'),
             SizedBox(height: 30),
             SignUpDivider(
               imagePath: 'assets/sign_up/icons/account.png',
@@ -77,8 +77,8 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                       padding: padding,
                       child: CustomTextForm(
                         fillColor: Colors.white70,
-                        title: 'Full name:',
-                        hintText: 'Name...',
+                        title: 'Nom et prénom:',
+                        hintText: 'Nom et prénom...',
                         maxLength: 50,
                         textInputAction: TextInputAction.next,
                         onChanged: (var value) {
@@ -96,8 +96,8 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                       padding: padding,
                       child: CustomTextForm(
                         fillColor: Colors.white70,
-                        title: 'User Name:',
-                        hintText: 'User Name...',
+                        title: "Nom d'utilisateur:",
+                        hintText: "Nom d'utilisateur...",
                         textInputAction: TextInputAction.next,
                         onChanged: (var value) {
                           username = value;
@@ -136,7 +136,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                     Padding(
                       padding: padding,
                       child: DatePicker(
-                        title: 'date of birth',
+                        title: 'date de naissance',
                         hintText: 'DD/MM/YYYY',
                         selectedDate: dateOfBirth,
                         onSelectedDate: (Timestamp date) {
@@ -150,8 +150,8 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                       padding: padding,
                       child: CustomTextForm(
                         fillColor: Colors.white70,
-                        title: 'Password:',
-                        hintText: 'Password...',
+                        title: 'Mot de passe:',
+                        hintText: 'Mot de passe...',
                         isPassword: true,
                         textInputAction: TextInputAction.next,
                         onChanged: (var t) {
@@ -169,7 +169,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                       padding: padding,
                       child: CustomTextForm(
                         fillColor: Colors.white70,
-                        title: 'Phone number:',
+                        title: 'Numéro de téléphone:',
                         maxLength: 10,
                         isPhoneNumber: true,
                         onChanged: (var value) {
@@ -230,7 +230,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(width: 30),
-                          Text('Next'),
+                          Text('Suivant'),
                           Icon(
                             Icons.chevron_right,
                             size: 30,
@@ -243,7 +243,7 @@ class _SignUpClientFormState extends State<SignUpClientForm> {
                         if (dateOfBirth == null) {
                           final PlatformException e = PlatformException(
                             code: 'BIRTHDAY_NULL',
-                            message: 'You must select a birthday',
+                            message: 'Vous devez sélectionner un anniversaire',
                           );
                           PlatformExceptionAlertDialog(exception: e)
                               .show(context);

@@ -125,7 +125,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         FeedAppBar(),
                         StoriesListWidget(feedBloc: bloc),
                         EmptyContent(
-                          title: 'feed is empty',
+                          title: "fil d'actualite est vide",
                           message: '',
                         ),
                       ],
@@ -134,7 +134,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 }
               } else if (snapshot.hasError) {
                 return EmptyContent(
-                  title: 'Something went wrong',
+                  title: "Quelque chose s'est mal passé",
                   message: "Impossible de charger les éléments pour le moment",
                 );
               } else {

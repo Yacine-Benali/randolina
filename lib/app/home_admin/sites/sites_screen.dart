@@ -63,7 +63,7 @@ class _SitesScreenState extends State<SitesScreen> {
               }
             } else if (snapshot.hasError) {
               return EmptyContent(
-                title: 'Something went wrong',
+                title: "Quelque chose s'est mal passé",
                 message: "Impossible de charger les éléments pour le moment",
               );
             }
@@ -129,7 +129,7 @@ class _SitesScreenState extends State<SitesScreen> {
                             padding:
                                 MaterialStateProperty.all(EdgeInsets.all(0.0)),
                           ),
-                          child: Text('Edit'),
+                          child: Text('Éditer'),
                         ),
                       ),
                     ),

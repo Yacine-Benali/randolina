@@ -42,7 +42,7 @@ class ForgotPassBloc {
     if (verificationId == null) {
       throw firebase_auth.FirebaseAuthException(
         code: 'CODE_NOT_SENT_YET',
-        message: 'verification code has not been sent yet',
+        message: "le code de vérification n'a pas encore été envoyé",
       );
     }
 

@@ -99,10 +99,10 @@ class _PostCaptionFormState extends State<PostCaptionForm> {
               validator: (String? input) {
                 if (input != null) {
                   if (input.trim().length > 150) {
-                    return 'Please enter a caption less than 150 characters';
+                    return 'Veuillez saisir une légende de moins de 150 caractères';
                   }
                   if (input.trim().length < 3) {
-                    return 'Please enter a caption more than 3 characters';
+                    return 'Veuillez saisir une légende de plus de 3 caractères';
                   }
                 }
               },
@@ -113,7 +113,7 @@ class _PostCaptionFormState extends State<PostCaptionForm> {
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  hintText: 'Write a caption...',
+                  hintText: 'Écrivez une légende...',
                   border: InputBorder.none),
             ),
           ),

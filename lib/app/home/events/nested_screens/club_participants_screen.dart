@@ -54,7 +54,7 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Particiapnt List',
+                'Liste des participants',
                 style: TextStyle(
                   color: Color.fromRGBO(51, 77, 115, 0.7),
                   fontSize: 18,
@@ -160,7 +160,7 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
       children: [
         Row(
           children: [
-            Text('select all'),
+            Text('tout sélectionner'),
             Checkbox(
               value: isSelectAll,
               onChanged: (t) {
@@ -180,7 +180,7 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
         ),
         Row(
           children: [
-            Text('show confirmed only'),
+            Text('spectacle confirmé seulement'),
             Switch(
               value: showConfirmedOnly,
               onChanged: (t) {
@@ -247,7 +247,7 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
           }
         } else if (snapshot.hasError) {
           return EmptyContent(
-            title: 'Something went wrong',
+            title: "Quelque chose s'est mal passé",
             message:
                 "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
           );

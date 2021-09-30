@@ -81,7 +81,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
           errorWidget: (context, url, error) {
             indicatorAnimationController.value =
                 IndicatorAnimationCommand.resume;
-            return Text('Unable to load story');
+            return Text("Impossible de charger l'histoire");
           },
         ),
       );
@@ -202,7 +202,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.play_arrow, size: 45),
-                              Text('play video'),
+                              Text('lire la vidéo'),
                             ],
                           ),
                         ),
@@ -235,7 +235,7 @@ class _StoriesScreenState extends State<StoriesScreen> {
                                 )
                                 .then(
                                   (value) => Fluttertoast.showToast(
-                                    msg: 'story successfully deleted',
+                                    msg: 'histoire supprimée avec succès',
                                     toastLength: Toast.LENGTH_SHORT,
                                   ),
                                 );

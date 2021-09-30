@@ -45,7 +45,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          SignUpTitle(title: 'Complete the registration'),
+          SignUpTitle(title: "Compléter l'inscription"),
           SizedBox(height: 30),
           SignUpDivider(
             imagePath: 'assets/sign_up/icons/correct_icon.png',
@@ -87,7 +87,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
                       if (v != null) {
                         final numLines = '\n'.allMatches(v).length + 1;
                         if (numLines > 3) {
-                          return 'number of lines cant exceed 3';
+                          return "le nombre de lignes ne peut pas dépasser 3";
                         }
                       }
                     },
@@ -113,7 +113,7 @@ class _SignUpAgencyForm3State extends State<SignUpAgencyForm3> {
                     } else {
                       throw PlatformException(
                         code: 'PROFILE_PICTURE_NULL',
-                        message: 'Profile picture is mandatory',
+                        message: 'La photo de profil est obligatoire',
                       );
                     }
                   } on Exception catch (e) {

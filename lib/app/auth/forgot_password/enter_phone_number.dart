@@ -34,7 +34,7 @@ class _EnterPhoneNumberState extends State<EnterPhoneNumber> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              'Next',
+              'Suivant',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -85,7 +85,7 @@ class _EnterPhoneNumberState extends State<EnterPhoneNumber> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 1),
                   child: CustomTextForm(
-                    title: 'Your phone number:',
+                    title: 'Votre numéro de téléphone:',
                     titleStyle: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.6)),
                     maxLength: 10,
                     isPhoneNumber: true,

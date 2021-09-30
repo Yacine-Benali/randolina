@@ -117,7 +117,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
                     child: Column(
                       children: [
                         EmptyContent(
-                          title: 'feed is empty',
+                          title: "fil d'actualité est vide",
                           message: '',
                         ),
                       ],
@@ -126,7 +126,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
                 }
               } else if (snapshot.hasError) {
                 return EmptyContent(
-                  title: 'Something went wrong',
+                  title: "Quelque chose s'est mal passé",
                   message: "Impossible de charger les éléments pour le moment",
                 );
               } else {

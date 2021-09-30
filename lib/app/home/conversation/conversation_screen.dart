@@ -82,14 +82,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: EmptyContent(
-            title: 'No Messages follow people to get started',
+            title: 'Aucun message ne suit les personnes pour commencer',
             message: '',
           ),
         );
       }
     } else if (snapshot.hasError) {
       return EmptyContent(
-        title: 'Something went wrong',
+        title: "Quelque chose s'est mal passé",
         message: "Impossible de charger les éléments pour le moment",
       );
     }

@@ -14,7 +14,7 @@ class _CreatePostFromYtState extends State<CreatePostFromYt> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'publish youtube video',
+          'publier une vidéo youtube',
           style: TextStyle(color: Colors.black),
         ),
       ),

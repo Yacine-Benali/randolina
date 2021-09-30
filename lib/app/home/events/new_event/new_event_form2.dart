@@ -90,8 +90,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
       if (images.isEmpty && (widget.event?.images.isEmpty ?? true)) {
         PlatformExceptionAlertDialog(
           exception: PlatformException(
-            code: 'Error',
-            message: 'pelase select at least one image',
+            code: 'Erreur',
+            message: 'veuillez sélectionner au moins une image',
           ),
         ).show(context);
         return;
@@ -99,8 +99,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
       if (startDateTime == null || endDateTime == null) {
         PlatformExceptionAlertDialog(
           exception: PlatformException(
-            code: 'Error',
-            message: 'pelase select start and end date',
+            code: 'Erreur',
+            message: 'veuillez sélectionner la date de début et de fin',
           ),
         ).show(context);
         return;
@@ -166,7 +166,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
               backgroundColor: Colors.black,
               toolbarColor: Colors.white,
               toolbarWidgetColor: Colors.black,
-              toolbarTitle: 'Crop Photo',
+              toolbarTitle: 'Recadrer la photo',
               activeControlsWidgetColor: Colors.blue,
             ),
             sourcePath: imagePath,
@@ -218,7 +218,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Add pictures',
+              'Ajouter des photos',
               style: TextStyle(
                 color: Color.fromRGBO(51, 77, 115, 0.88),
                 fontSize: 18,
@@ -360,13 +360,13 @@ class _NewEventForm2State extends State<NewEventForm2> {
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'please enter the name of the destination';
+                  return 'veuillez entrer le nom de la destination';
                 }
               },
             ),
             EventField(
               initialValue: price != null ? '$price' : null,
-              title: 'Price :',
+              title: 'Prix :',
               hint: 'Prix...',
               textInputAction: TextInputAction.next,
               textInputType: TextInputType.number,
@@ -392,13 +392,13 @@ class _NewEventForm2State extends State<NewEventForm2> {
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'please enter a price';
+                  return 'veuillez entrer un prix';
                 }
                 if (int.tryParse(value) == null) {
-                  return 'incorrect format';
+                  return 'format incorrect';
                 }
                 if (isClub && int.parse(value) > 13000) {
-                  return 'max price for clubs is 13000';
+                  return 'le prix maximum pour les clubs est 13000';
                 }
               },
             ),
@@ -414,7 +414,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'please enter the description';
+                  return 'veuillez entrer la description';
                 }
               },
             ),
@@ -425,7 +425,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
                 startDateTime = t;
                 setState(() {});
               },
-              hintText: 'select date and time',
+              hintText: "sélectionner la date et l'heure",
             ),
             EventDatePicker(
               title: "date et heure de d'arriver",
@@ -434,7 +434,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
                 endDateTime = t;
                 setState(() {});
               },
-              hintText: 'select date and time',
+              hintText: "sélectionner la date et l'heure",
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16),
@@ -461,7 +461,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'please enter the distance in km';
+                      return 'veuillez entrer la distance en km';
                     }
                   },
                 ),
@@ -479,7 +479,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'please enter the instructions';
+                  return 'veuillez entrer les instructions';
                 }
               },
             ),
@@ -499,7 +499,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'please enter number of available seats';
+                      return 'veuillez entrer le nombre de places disponibles';
                     }
                   },
                 ),

@@ -70,7 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
             );
           },
           child: Text(
-            'Creat an account Now',
+            'Créer un compte maintenant',
             style: TextStyle(
               fontSize: 15,
               color: Color.fromRGBO(64, 163, 219, 1.0),
@@ -90,7 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              'SIGN IN',
+              "S'IDENTIFIER",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -112,7 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
   List<Widget> _buildInput() {
     return [
       CustomTextForm(
-        hintText: 'User Name...',
+        hintText: "Nom d'utilisateur...",
         textInputAction: TextInputAction.next,
         onChanged: (var value) {
           username = value;
@@ -125,7 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
         },
       ),
       CustomTextForm(
-        hintText: 'Password...',
+        hintText: 'Mot de passe...',
         isPassword: true,
         textInputAction: TextInputAction.done,
         onChanged: (var t) {
@@ -183,7 +183,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           );
                         },
                         child: const Text(
-                          'Forgot password ?',
+                          'Mot de passe oublié ?',
                           style: TextStyle(color: Colors.blueGrey),
                         ),
                       ),

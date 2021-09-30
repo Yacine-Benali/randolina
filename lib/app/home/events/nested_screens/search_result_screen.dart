@@ -82,7 +82,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     } else {
       return EmptyContent(
         title: '',
-        message: 'no events match the search filter ',
+        message: 'aucun événement ne correspond au filtre de recherche ',
       );
     }
   }

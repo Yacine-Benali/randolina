@@ -60,7 +60,8 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
             backgroundColor: backgroundColor,
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.black),
-              title: Text('Saved posts', style: TextStyle(color: Colors.black)),
+              title: Text('Publications enregistrées',
+                  style: TextStyle(color: Colors.black)),
               backgroundColor: Colors.white,
             ),
             body: DefaultTabController(

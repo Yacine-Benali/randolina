@@ -93,7 +93,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                       if (v != null) {
                         final numLines = '\n'.allMatches(v).length + 1;
                         if (numLines > 3) {
-                          return 'number of lines cant exceed 3';
+                          return 'le nombre de lignes ne peut pas dépasser 3';
                         }
                       }
                     },
@@ -106,8 +106,8 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                       }
                       return null;
                     },
-                    title: 'Activity:',
-                    hint: 'Chose...',
+                    title: 'Activité:',
+                    hint: 'choisi...',
                     options: clientActivities,
                     onChanged: (String value) {
                       activity = value;
@@ -122,7 +122,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
             child: CustomElevatedButton(
               minHeight: 35,
               minWidth: 150,
-              buttonText: Text('Finish'),
+              buttonText: Text('Finir'),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   // widget.onNextPressed(summery);
@@ -136,7 +136,7 @@ class _SignUpClientForm2State extends State<SignUpClientForm2> {
                     } else {
                       throw PlatformException(
                         code: 'PROFILE_PICTURE_NULL',
-                        message: 'Profile picture is mandatory',
+                        message: 'La photo de profil est obligatoire',
                       );
                     }
                   } on Exception catch (e) {

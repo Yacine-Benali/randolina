@@ -78,7 +78,7 @@ class _SignUpStoreForm3State extends State<SignUpStoreForm3> {
                   CustomTextForm(
                     fillColor: Colors.white70,
                     lines: 4,
-                    hintText: 'Bio...(you can put your website here',
+                    hintText: 'Bio...(vous pouvez mettre votre site ici)',
                     maxLength: 200,
                     onChanged: (String value) {
                       bio = value;
@@ -87,7 +87,7 @@ class _SignUpStoreForm3State extends State<SignUpStoreForm3> {
                       if (v != null) {
                         final numLines = '\n'.allMatches(v).length + 1;
                         if (numLines > 3) {
-                          return 'number of lines cant exceed 3';
+                          return 'le nombre de lignes ne peut pas dépasser 3';
                         }
                       }
                     },
@@ -113,7 +113,8 @@ class _SignUpStoreForm3State extends State<SignUpStoreForm3> {
                     } else {
                       throw PlatformException(
                         code: 'PROFILE_PICTURE_NULL',
-                        message: 'Profile picture is mandatory',
+                        message:
+                            'La photo de profil est obligatoireis mandatory',
                       );
                     }
                   } on Exception catch (e) {

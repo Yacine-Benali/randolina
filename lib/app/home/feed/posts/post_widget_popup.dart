@@ -20,9 +20,9 @@ enum PopUpOptions {
 }
 
 Map<PopUpOptions, String> popOptionsText = {
-  PopUpOptions.reportPost: 'report post',
-  PopUpOptions.downloadPhoto: 'download photo',
-  PopUpOptions.deletePost: 'delete post',
+  PopUpOptions.reportPost: 'signaler la publication',
+  PopUpOptions.downloadPhoto: 'télécharger la photo',
+  PopUpOptions.deletePost: 'Supprimer la publication',
 };
 
 Map<PopUpOptions, Icon> popOptionsIcon = {
@@ -138,7 +138,7 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
           await widget.postBloc.reportPost(widget.post);
 
           Fluttertoast.showToast(
-            msg: 'Post reported to admins',
+            msg: 'publication signalé aux administrateurs',
             toastLength: Toast.LENGTH_LONG,
           );
         } else if (selectedValue == PopUpOptions.downloadPhoto) {
@@ -158,7 +158,7 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
             widget.postBloc.deletePost(widget.post).then(
                   (value) => Fluttertoast.showToast(
                     msg:
-                        'post deleted successfully, refresh the page to see changes',
+                        'message supprimé avec succès, actualisez la page pour voir les changements',
                     toastLength: Toast.LENGTH_LONG,
                   ),
                 );

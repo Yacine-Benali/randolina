@@ -83,7 +83,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                         if (v != null) {
                           final numLines = '\n'.allMatches(v).length + 1;
                           if (numLines > 3) {
-                            return 'number of lines cant exceed 3';
+                            return "le nombre de lignes ne peut pas dépasser 3";
                           }
                         }
                       },
@@ -114,12 +114,13 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                           dialogTextStyle: TextStyle(color: Colors.black),
                           checkBoxActiveColor: Colors.blue,
                           checkBoxCheckColor: Colors.white,
-                          title: Text('Choose activities', style: titleStyle),
+                          title: Text('Choisissez des activités',
+                              style: titleStyle),
                           dataSource: clubActivities,
                           textField: clubKey,
                           valueField: clubValue,
                           hintWidget: Text(
-                            'Please choose one or more activities',
+                            'Veuillez choisir une ou plusieurs activités',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -140,7 +141,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                     SizedBox(height: 70),
                     CustomElevatedButton(
                       buttonText: Text(
-                        'Save',
+                        'sauvegarder',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 16,

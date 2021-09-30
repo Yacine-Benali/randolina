@@ -37,7 +37,7 @@ class _NewPasswordState extends State<NewPassword> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: Text(
-              'Save',
+              'Sauvegarder',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -58,7 +58,7 @@ class _NewPasswordState extends State<NewPassword> {
                 exception: PlatformException(
                   code: 'PASSWORDS_DOES_NOT_MATCH',
                   message:
-                      'the two password does not match, please rewrite your password',
+                      'les deux mots de passe ne correspondent pas, veuillez réécrire votre mot de passe',
                 ),
               ).show(context);
             } else {
@@ -91,7 +91,7 @@ class _NewPasswordState extends State<NewPassword> {
               ),
               SizedBox(height: 30),
               Text(
-                'Enter your new password',
+                'Entrez votre nouveau mot de passe',
                 textAlign: TextAlign.center,
               ),
               Form(
@@ -99,12 +99,12 @@ class _NewPasswordState extends State<NewPassword> {
                 child: Column(
                   children: [
                     CustomTextForm(
-                      title: 'new assword:',
+                      title: 'nouveau mot de passe:',
                       titleStyle: TextStyle(
                         color: Color.fromRGBO(0, 0, 0, 0.6),
                         fontSize: 16,
                       ),
-                      hintText: 'Password...',
+                      hintText: 'mot de passe...',
                       isPassword: true,
                       textInputAction: TextInputAction.next,
                       onChanged: (var t) {
@@ -118,7 +118,7 @@ class _NewPasswordState extends State<NewPassword> {
                       },
                     ),
                     CustomTextForm(
-                      hintText: 'Confirm your password...',
+                      hintText: 'Confirmer votre mot de passe...',
                       isPassword: true,
                       textInputAction: TextInputAction.next,
                       onChanged: (var t) {

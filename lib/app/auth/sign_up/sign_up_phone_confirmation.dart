@@ -43,7 +43,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          SignUpTitle(title: 'confirmation of number'),
+          SignUpTitle(title: 'confirmation du numéro'),
           SizedBox(height: 30),
           SignUpDivider(
             imagePath: 'assets/sign_up/icons/phone_confirmation_icon.png',
@@ -62,7 +62,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'to confirm your number, enter the SMS code here:',
+                      'pour confirmer votre numéro, entrez le code SMS ici :',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white70,
@@ -104,7 +104,7 @@ class _SignUpPhoneConfirmationState extends State<SignUpPhoneConfirmation> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(width: 30),
-                      Text('Next'),
+                      Text('Suivant'),
                       Icon(
                         Icons.chevron_right,
                         size: 30,

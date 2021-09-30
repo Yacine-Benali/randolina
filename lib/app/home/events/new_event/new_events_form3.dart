@@ -188,7 +188,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'event pictures',
+                "photos de l'événement",
                 style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             ),
@@ -299,7 +299,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          buildTitle('Price :'),
+                          buildTitle('Prix :'),
                           Text(
                             "${widget.event!.price.toInt()} DA",
                             style: TextStyle(
@@ -316,7 +316,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
                       padding: const EdgeInsets.only(
                           bottom: 32.0, right: 8, left: 8),
                       child: NextButton(
-                        title: 'Finish',
+                        title: 'Finir',
                         onPressed: finish,
                       ),
                     ),

@@ -133,7 +133,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
 
       widget.bloc.sendMessage(content, 0);
     } else {
-      Fluttertoast.showToast(msg: 'Nothing to send');
+      Fluttertoast.showToast(msg: 'Rien à envoyer');
     }
   }
 

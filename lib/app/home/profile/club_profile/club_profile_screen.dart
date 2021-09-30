@@ -75,7 +75,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
         child: TextButton(
           onPressed: () {},
           child: Text(
-            'See all events',
+            'Voir tous les événements',
             style: TextStyle(
               color: Colors.blue,
               fontSize: 16,
@@ -89,7 +89,7 @@ class _ClubProfileScreenState extends State<ClubProfileScreen> {
         padding: const EdgeInsets.only(left: 24.0),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text('recent events...'),
+          child: Text('événements récents...'),
         ),
       ),
     ];

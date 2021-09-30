@@ -161,7 +161,7 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'event pictures',
+              "photos de l'événement",
               style: TextStyle(color: Colors.grey, fontSize: 14),
             ),
           ),
@@ -271,7 +271,7 @@ class _EventsDetailFormState extends State<EventsDetailForm> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buildTitle('Price :'),
+                        buildTitle('Prix :'),
                         Text(
                           "${widget.event.price.toInt()} DA",
                           style: TextStyle(

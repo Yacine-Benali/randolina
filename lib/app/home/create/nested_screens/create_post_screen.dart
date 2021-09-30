@@ -98,7 +98,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             )
             .then(
               (value) => Fluttertoast.showToast(
-                msg: 'post successfully published',
+                msg: 'publication publié avec succès',
                 toastLength: Toast.LENGTH_SHORT,
               ),
             );
@@ -123,7 +123,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
-            widget.finalFiles == null ? 'Edit Post' : 'Post',
+            widget.finalFiles == null ? 'Modifier la publication' : 'publier',
             style: TextStyle(color: Colors.black),
           ),
           actions: <Widget>[
@@ -131,7 +131,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               TextButton(
                 onPressed: _caption.trim().length > 3 ? _submit : null,
                 child: Text(
-                  widget.finalFiles == null ? 'Save' : 'Share',
+                  widget.finalFiles == null ? 'sauvegarder' : 'Partager',
                   style: TextStyle(
                     color:
                         _caption.trim().length > 3 ? Colors.black : Colors.grey,

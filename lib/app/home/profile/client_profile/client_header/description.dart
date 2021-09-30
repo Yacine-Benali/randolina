@@ -47,8 +47,8 @@ class Description extends StatelessWidget {
           key: UniqueKey(),
           trimLines: 3,
           trimMode: TrimMode.Line,
-          trimCollapsedText: ' More',
-          trimExpandedText: 'less',
+          trimCollapsedText: 'Suite',
+          trimExpandedText: 'Moins',
           // callback: (value) {
           //   onExpanded(!value);
           // },

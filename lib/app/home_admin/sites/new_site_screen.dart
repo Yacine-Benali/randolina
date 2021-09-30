@@ -47,7 +47,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          'add',
+          'Ajouter',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -96,7 +96,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 32),
                 child: CustomElevatedButton(
-                  buttonText: Text('save'),
+                  buttonText: Text('enregistrer'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       final Site site = Site(title: title, url: url, id: id);

@@ -63,7 +63,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
     // start loading widget
     try {
       final ProgressDialog pd = ProgressDialog(context: context);
-      pd.show(max: 100, msg: 'Image uploading...');
+      pd.show(max: 100, msg: "Téléchargement d'images...");
 
       final String profilePictureUrl =
           await bloc.uploadProfilePicture(_imageFile);

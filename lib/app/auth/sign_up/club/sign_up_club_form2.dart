@@ -65,8 +65,8 @@ class _SignUpClubForm2State extends State<SignUpClubForm2> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Use name:',
-                      hintText: 'User name...',
+                      title: "Nom d'utilisation:",
+                      hintText: "Nom d'utilisation...",
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
@@ -102,8 +102,8 @@ class _SignUpClubForm2State extends State<SignUpClubForm2> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Password:',
-                      hintText: 'Password...',
+                      title: 'Mot de passe:',
+                      hintText: 'Mot de passe...',
                       isPassword: true,
                       textInputAction: TextInputAction.next,
                       onChanged: (var t) {
@@ -121,7 +121,7 @@ class _SignUpClubForm2State extends State<SignUpClubForm2> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Phone number:',
+                      title: 'Numéro de téléphone:',
                       maxLength: 10,
                       textInputAction: TextInputAction.done,
                       isPhoneNumber: true,
@@ -182,7 +182,7 @@ class _SignUpClubForm2State extends State<SignUpClubForm2> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(width: 30),
-                        Text('Next'),
+                        Text('Suivant'),
                         Icon(
                           Icons.chevron_right,
                           size: 30,

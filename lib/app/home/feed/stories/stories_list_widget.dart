@@ -92,7 +92,7 @@ class _StoriesListWidgetState extends State<StoriesListWidget>
           padding: const EdgeInsets.only(top: 9.0, left: 21.0, bottom: 4),
           alignment: Alignment.centerLeft,
           child: Text(
-            'recent stories ...',
+            'histoires récentes ...',
             style: TextStyle(
               color: Color.fromRGBO(0, 0, 0, 0.58),
               fontSize: 12,

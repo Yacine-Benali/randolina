@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 
 class NextButton extends StatelessWidget {
-  const NextButton({Key? key, required this.onPressed, this.title = 'Next'})
+  const NextButton({Key? key, required this.onPressed, this.title = 'Suivant'})
       : super(key: key);
   final VoidCallback onPressed;
   final String title;

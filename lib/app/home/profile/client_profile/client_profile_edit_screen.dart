@@ -85,7 +85,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                         if (v != null) {
                           final numLines = '\n'.allMatches(v).length + 1;
                           if (numLines > 3) {
-                            return 'number of lines cant exceed 3';
+                            return 'le nombre de lignes ne peut pas dépasser 3';
                           }
                         }
                       },
@@ -101,8 +101,8 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                           }
                           return null;
                         },
-                        title: 'Activity:',
-                        hint: 'Chose...',
+                        title: 'Activité:',
+                        hint: 'a choisi...',
                         options: clientActivities,
                         onChanged: (String value) {
                           activity = value;
@@ -112,7 +112,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                     SizedBox(height: 70),
                     CustomElevatedButton(
                       buttonText: Text(
-                        'Save',
+                        'sauvegarder',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 16,

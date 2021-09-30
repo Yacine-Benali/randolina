@@ -103,13 +103,12 @@ class _ChatListState extends State<ChatList> {
           } else {
             return EmptyContent(
               title: '',
-              message:
-                  'here you can send and recieve message from the teachers',
+              message: 'ici vous pouvez envoyer et recevoir un message',
             );
           }
         } else if (snapshot.hasError) {
           return EmptyContent(
-            title: 'Something went wrong',
+            title: "Quelque chose s'est mal passé",
             message: "Impossible de charger les éléments pour le moment",
           );
         }

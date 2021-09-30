@@ -137,7 +137,7 @@ class _ParticipantDetailScreenState extends State<ParticipantDetailScreen> {
                             );
                           },
                           child: Text(
-                            'visit profile',
+                            'visiter le profil',
                             style: TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,

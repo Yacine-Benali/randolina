@@ -106,7 +106,7 @@ class EventsSearchState extends State<EventsSearch>
           shadowColor: MaterialStateProperty.all(Colors.transparent),
           padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
         ),
-        child: Text('Done'),
+        child: Text('Terminé'),
       ),
     );
   }
@@ -329,7 +329,7 @@ class EventsSearchState extends State<EventsSearch>
                             borderRadius: BorderRadius.circular(25.0)),
                         enabledBorder: border,
                         errorBorder: border,
-                        hintText: 'Search...',
+                        hintText: 'Chercher...',
                         focusedBorder: border,
                         prefixIcon: Icon(Icons.search),
                         hintStyle: TextStyle(color: Colors.grey),

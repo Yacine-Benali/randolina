@@ -83,8 +83,8 @@ class ClubHeader extends StatelessWidget {
                             clubOrAgency.bio ?? '',
                             trimLines: 3,
                             trimMode: TrimMode.Line,
-                            trimCollapsedText: ' More',
-                            trimExpandedText: 'less',
+                            trimCollapsedText: 'Suite',
+                            trimExpandedText: 'Moins',
                             callback: (value) {},
                             style: TextStyle(
                               fontSize: 14,
