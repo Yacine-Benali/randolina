@@ -58,10 +58,10 @@ class _UserTileState extends State<UserTile> {
         onChanged: (t) async {
           if (t != null) {
             final bool? didRequestSignOut = await PlatformAlertDialog(
-              title: 'Confirm',
-              content: 'are you sure you want to make this user a mod',
-              cancelActionText: 'cancel',
-              defaultActionText: 'yes',
+              title: 'Confirmer',
+              content: 'es-tu sûr want to make this user a mod',
+              cancelActionText: 'annuler',
+              defaultActionText: 'oui',
             ).show(context);
             if (didRequestSignOut == true) {
               widget.moderatorsBloc.makeUserMod(

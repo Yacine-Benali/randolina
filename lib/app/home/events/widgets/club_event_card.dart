@@ -33,10 +33,10 @@ class ClubEventCard extends StatefulWidget {
 class _ClubEventCardState extends State<ClubEventCard> {
   Future<void> deleteEvent() async {
     final bool? didRequestSignOut = await PlatformAlertDialog(
-      title: 'Confirm',
-      content: 'are you sure you want to delete this event',
-      cancelActionText: 'cancel',
-      defaultActionText: 'yes',
+      title: 'Confirmer',
+      content: 'es-tu sûr want to delete this event',
+      cancelActionText: 'annuler',
+      defaultActionText: 'oui',
     ).show(context);
     if (didRequestSignOut == true) {
       widget.eventsBloc.deleteEvent(widget.event);

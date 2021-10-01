@@ -149,10 +149,10 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
           }
         } else if (selectedValue == PopUpOptions.deletePost) {
           final bool? didRequestSignOut = await PlatformAlertDialog(
-            title: 'Confirm',
-            content: 'are you sure you ?',
-            cancelActionText: 'cancel',
-            defaultActionText: 'yes',
+            title: 'Confirmer',
+            content: 'es-tu sûr ?',
+            cancelActionText: 'annuler',
+            defaultActionText: 'oui',
           ).show(context);
           if (didRequestSignOut == true) {
             widget.postBloc.deletePost(widget.post).then(

@@ -222,10 +222,10 @@ class _StoriesScreenState extends State<StoriesScreen> {
                         onPressed: () async {
                           final bool? didRequestSignOut =
                               await PlatformAlertDialog(
-                            title: 'Confirm',
-                            content: 'are you sure you ?',
-                            cancelActionText: 'cancel',
-                            defaultActionText: 'yes',
+                            title: 'Confirmer',
+                            content: 'es-tu sûr ?',
+                            cancelActionText: 'annuler',
+                            defaultActionText: 'oui',
                           ).show(context);
                           if (didRequestSignOut == true) {
                             widget.feedBloc
