@@ -11,7 +11,6 @@ import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 
 // todo @low move this somewhere else
@@ -293,7 +292,6 @@ class _ClientEventCardState extends State<ClientEventCard> {
   @override
   Widget build(BuildContext context) {
     setButtonState();
-    logger.info('hello $topPartHeight');
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),

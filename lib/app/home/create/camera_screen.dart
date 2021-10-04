@@ -18,7 +18,7 @@ import 'package:randolina/utils/logger.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 enum CameraConsumer { post, story }
-enum PostContentType { image, video }
+enum PostContentType { image, video, youtube }
 
 class _MediaSizeClipper extends CustomClipper<Rect> {
   final Size mediaSize;
@@ -287,23 +287,23 @@ class _CameraScreenState extends State<CameraScreen> {
                           ),
                         ),
                       ),
-                      // if (_cameraConsumer == CameraConsumer.post)
-                      // Material(
-                      //   color: Colors.transparent,
-                      //   child: InkWell(
-                      //     borderRadius:
-                      //         BorderRadius.all(Radius.circular(50.0)),
-                      //     onTap: publishFromYoutube,
-                      //     child: Container(
-                      //       padding: EdgeInsets.only(left: 8.0),
-                      //       child: Icon(
-                      //         Icons.smart_display_outlined,
-                      //         color: Colors.grey[200],
-                      //         size: 25.0,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      if (_cameraConsumer == CameraConsumer.post)
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50.0)),
+                            onTap: publishFromYoutube,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.smart_display_outlined,
+                                color: Colors.grey[200],
+                                size: 25.0,
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -319,7 +319,9 @@ class _CameraScreenState extends State<CameraScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => CreatePostFromYt(),
+        builder: (_) => CreatePostFromYt(
+          createBloc: createBloc,
+        ),
       ),
     );
   }

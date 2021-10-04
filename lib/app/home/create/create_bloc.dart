@@ -69,4 +69,23 @@ class CreateBloc {
       data: post.toMap(),
     );
   }
+
+  Future<void> createPostFromYoutube(String caption, List<String> urls) async {
+    final String postId = database.getUniqueId();
+
+    final Post post = Post(
+      id: postId,
+      type: PostContentType.youtube.index,
+      description: caption,
+      content: urls,
+      createdAt: Timestamp.now(),
+      numberOfLikes: 0,
+      miniUser: currentUser.toMiniUser(),
+    );
+
+    database.setData(
+      path: APIPath.postDocument(postId),
+      data: post.toMap(),
+    );
+  }
 }
