@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/event.dart';
@@ -11,6 +13,7 @@ import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
+import 'package:uuid/uuid.dart';
 
 class ProfileBloc {
   ProfileBloc({
@@ -25,33 +28,91 @@ class ProfileBloc {
   //! todo @average add a provider and refactor
   // after doing the agency/club profile
 
-  Future<void> saveClientProfile(String? bio, String activity) async {
-    await database.setData(
-      path: APIPath.userDocument(currentUser.id),
-      data: {
-        'bio': bio,
-        'activity': activity,
-      },
-    );
+  Future<void> saveClientProfile(
+    String? bio,
+    String activity,
+    File? profileImage,
+  ) async {
+    if (profileImage != null) {
+      final Uuid uuid = Uuid();
+      final String url = await database.uploadFile(
+        path: APIPath.userProfilePicture(currentUser.id, uuid.v4()),
+        filePath: profileImage.path,
+      );
+      await database.setData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {
+          'profilePicture': url,
+          'bio': bio,
+          'activity': activity,
+        },
+      );
+    } else {
+      await database.setData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {
+          'bio': bio,
+          'activity': activity,
+        },
+      );
+    }
   }
 
-  Future<void> saveClubProfile(String? bio, List<String> activity) async {
-    await database.setData(
-      path: APIPath.userDocument(currentUser.id),
-      data: {
-        'bio': bio,
-        'activities': activity,
-      },
-    );
+  Future<void> saveClubProfile(
+    String? bio,
+    List<String> activity,
+    File? profileImage,
+  ) async {
+    if (profileImage != null) {
+      final Uuid uuid = Uuid();
+      final String url = await database.uploadFile(
+        path: APIPath.userProfilePicture(currentUser.id, uuid.v4()),
+        filePath: profileImage.path,
+      );
+      await database.setData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {
+          'profilePicture': url,
+          'bio': bio,
+          'activities': activity,
+        },
+      );
+    } else {
+      await database.setData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {
+          'bio': bio,
+          'activities': activity,
+        },
+      );
+    }
   }
 
-  Future<void> saveAgencyProfile(String? bio) async {
-    await database.setData(
-      path: APIPath.userDocument(currentUser.id),
-      data: {
-        'bio': bio,
-      },
-    );
+  Future<void> saveAgencyProfile(
+    String? bio,
+    File? profileImage,
+  ) async {
+    if (profileImage != null) {
+      final Uuid uuid = Uuid();
+      final String url = await database.uploadFile(
+        path: APIPath.userProfilePicture(currentUser.id, uuid.v4()),
+        filePath: profileImage.path,
+      );
+      await database.setData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {
+          'profilePicture': url,
+          'bio': bio,
+        },
+      );
+    } else {
+      await database.setData(
+        path: APIPath.userDocument(currentUser.id),
+        data: {
+          'bio': bio,
+        },
+      );
+    }
   }
 
   Future<bool> isFollowing() async {

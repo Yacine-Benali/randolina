@@ -35,13 +35,16 @@ class APIPath {
   static String chatPhotosCollection(String uid, String photoId) =>
       'conversations/$uid/messages/$photoId';
 
-  static String eventsFiles(String userId, String eventId, String photoId) =>
-      'events/user_$userId/event_$eventId/$photoId';
-
   static String eventDocument(String eventId) => 'events/$eventId';
   static String eventsCollection() => 'events/';
   static String savedEventDocument(String userId) =>
       'users/$userId/savedEvents/savedEvents';
+
+  static String sitesCollection() => 'sites/';
+  static String sitesDocument(String siteId) => 'sites/$siteId';
+  static String reportedPostsDocument() => 'reportedPosts/reportedPosts';
+
+  // files
 
   static String userProfilePicture(String uid, String photoId) =>
       'users/$uid/profile_picutres/$photoId';
@@ -52,7 +55,6 @@ class APIPath {
   static String storyFiles(String uid, String storyId) =>
       'users/$uid/stories/$storyId';
 
-  static String sitesCollection() => 'sites/';
-  static String sitesDocument(String siteId) => 'sites/$siteId';
-  static String reportedPostsDocument() => 'reportedPosts/reportedPosts';
+  static String eventsFiles(String userId, String eventId, String photoId) =>
+      'events/user_$userId/event_$eventId/$photoId';
 }

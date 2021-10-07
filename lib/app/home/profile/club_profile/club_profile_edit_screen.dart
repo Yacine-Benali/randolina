@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
@@ -28,6 +31,8 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
   String? bio;
   late List<String>? activities;
   late User clubOrAgency;
+  late File? profileImage;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -58,6 +63,11 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
               bloc: widget.bloc,
               onSavePressed: () {},
               onEditPressed: () {},
+              onImageChange: (f) {
+                profileImage = f;
+                setState(() {});
+              },
+              isImageChangable: true,
               isFollowingOther: false,
               onMoreInfoPressed: () {},
             ),
@@ -150,9 +160,23 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           if (clubOrAgency is Club && activities != null) {
-                            await widget.bloc.saveClubProfile(bio, activities!);
+                            widget.bloc
+                                .saveClubProfile(
+                                  bio,
+                                  activities!,
+                                  profileImage,
+                                )
+                                .then((value) => Fluttertoast.showToast(
+                                    msg:
+                                        'photo de profil mise a jour avec succès'));
+                            ;
                           } else if (clubOrAgency is Agency) {
-                            await widget.bloc.saveAgencyProfile(bio);
+                            widget.bloc
+                                .saveAgencyProfile(bio, profileImage)
+                                .then((value) => Fluttertoast.showToast(
+                                    msg:
+                                        'photo de profil mise a jour avec succès'));
+                            ;
                           }
                           Navigator.of(context).pop();
                         }

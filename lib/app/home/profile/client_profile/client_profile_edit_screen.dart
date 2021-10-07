@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
 import 'package:randolina/app/home/profile/common/saved_posts_screen.dart';
@@ -29,6 +32,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
   late final TextStyle titleStyle;
   String? bio;
   late String activity;
+  late File? profileImage;
   late Client currentClient;
   final _formKey = GlobalKey<FormState>();
 
@@ -55,6 +59,11 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
               isFollowingOther: false,
               onEditPressed: () {},
               showProfileAsOther: false,
+              onImageChange: (f) {
+                profileImage = f;
+                setState(() {});
+              },
+              isImageChangable: true,
               onSavePressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -120,7 +129,11 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await widget.bloc.saveClientProfile(bio, activity);
+                          widget.bloc
+                              .saveClientProfile(bio, activity, profileImage)
+                              .then((value) => Fluttertoast.showToast(
+                                  msg:
+                                      'photo de profil mise a jour avec succès'));
                           Navigator.of(context).pop();
                         }
                       },

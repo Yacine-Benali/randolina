@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/description.dart';
 import 'package:randolina/app/home/profile/client_profile/client_header/header_top_part.dart';
+import 'package:randolina/app/home/profile/editable_image_profile.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
@@ -17,6 +20,8 @@ class ClientHeader extends StatefulWidget {
     required this.onEditPressed,
     required this.onSavePressed,
     this.profileBloc,
+    this.isImageChangable = false,
+    this.onImageChange,
   }) : super(key: key);
   final Client client;
   final bool showProfileAsOther;
@@ -24,6 +29,8 @@ class ClientHeader extends StatefulWidget {
   final VoidCallback onEditPressed;
   final VoidCallback onSavePressed;
   final ProfileBloc? profileBloc;
+  final bool isImageChangable;
+  final ValueChanged<File>? onImageChange;
 
   @override
   _ClientHeaderState createState() => _ClientHeaderState();
@@ -87,13 +94,27 @@ class _ClientHeaderState extends State<ClientHeader> {
             ],
           ),
         ),
-        Positioned(
-          top: SizeConfig.blockSizeVertical * 3.8,
-          left: SizeConfig.blockSizeHorizontal * 4,
-          child: ImageProfile(
-            url: widget.client.profilePicture,
+        if (widget.isImageChangable)
+          Positioned(
+            top: SizeConfig.blockSizeVertical * 3.8,
+            left: SizeConfig.blockSizeHorizontal * 4,
+            child: EditableImageProfile(
+              url: widget.client.profilePicture,
+              onImageChange: (f) {
+                if (widget.onImageChange != null) {
+                  widget.onImageChange!(f);
+                }
+              },
+            ),
           ),
-        ),
+        if (!widget.isImageChangable)
+          Positioned(
+            top: SizeConfig.blockSizeVertical * 3.8,
+            left: SizeConfig.blockSizeHorizontal * 4,
+            child: ImageProfile(
+              url: widget.client.profilePicture,
+            ),
+          ),
       ],
     );
   }

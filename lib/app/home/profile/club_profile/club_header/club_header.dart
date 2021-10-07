@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_top_header.dart';
+import 'package:randolina/app/home/profile/editable_image_profile.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/followers_header.dart';
@@ -19,6 +22,8 @@ class ClubHeader extends StatelessWidget {
     required this.isFollowingOther,
     required this.bloc,
     required this.onSavePressed,
+    this.isImageChangable = false,
+    this.onImageChange,
   }) : super(key: key);
 
   final User clubOrAgency;
@@ -28,6 +33,8 @@ class ClubHeader extends StatelessWidget {
   final VoidCallback onMoreInfoPressed;
   final ProfileBloc bloc;
   final VoidCallback onSavePressed;
+  final bool isImageChangable;
+  final ValueChanged<File>? onImageChange;
 
   @override
   Widget build(BuildContext context) {
@@ -119,14 +126,33 @@ class ClubHeader extends StatelessWidget {
                   ),
                 ),
               ],
-              Positioned(
-                left: 18,
-                bottom: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: ImageProfile(url: clubOrAgency.profilePicture),
+              if (isImageChangable)
+                Positioned(
+                  left: 18,
+                  bottom: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: EditableImageProfile(
+                      url: clubOrAgency.profilePicture,
+                      onImageChange: (f) {
+                        if (onImageChange != null) {
+                          onImageChange!(f);
+                        }
+                      },
+                    ),
+                  ),
                 ),
-              ),
+              if (!isImageChangable)
+                Positioned(
+                  left: 18,
+                  bottom: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ImageProfile(
+                      url: clubOrAgency.profilePicture,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
