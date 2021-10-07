@@ -106,7 +106,6 @@ class _ConversationTileState extends State<ConversationTile> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => ChatScreen(
-                key: Key(otherUser.id),
                 conversation: widget.conversation,
                 currentUser: widget.currentUser,
                 otherUser: otherUser,

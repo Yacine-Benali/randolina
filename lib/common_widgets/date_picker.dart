@@ -12,12 +12,16 @@ class DatePicker extends StatelessWidget {
     required this.selectedDate,
     required this.onSelectedDate,
     required this.hintText,
+    this.titleStyle,
+    this.isEnabled = true,
   }) : super(key: key);
 
   final String hintText;
   final String title;
   final Timestamp? selectedDate;
   final ValueChanged<Timestamp> onSelectedDate;
+  final TextStyle? titleStyle;
+  final bool isEnabled;
 
   static String date(DateTime date) {
     return DateFormat.yMMMd().format(date);
@@ -54,11 +58,14 @@ class DatePicker extends StatelessWidget {
         Expanded(
           flex: 5,
           child: InputDropdown(
+            textStyle: titleStyle,
             title: title,
             valueText: selectedDate != null
                 ? Text(date(selectedDate!.toDate()), style: on)
                 : Text(hintText, style: off),
-            onPressed: () => _selectDate(context),
+            onPressed: () {
+              if (isEnabled) _selectDate(context);
+            },
           ),
         ),
       ],

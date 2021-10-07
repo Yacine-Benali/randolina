@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home_admin/approved/approved_screen.dart';
 import 'package:randolina/app/home_admin/moderators/moderators_screen.dart';
 import 'package:randolina/app/home_admin/reported_posts/reported_posts_screen.dart';
 import 'package:randolina/app/home_admin/sites/sites_screen.dart';
@@ -18,7 +19,7 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   late final Admin admin;
-  int index = 2;
+  int index = 3;
   late List<Widget> screens;
 
   @override
@@ -29,6 +30,7 @@ class _AdminHomeState extends State<AdminHome> {
       ModeratorsScreen(),
       SitesScreen(),
       ReportedPostsScreen(),
+      ApprovedScreen(),
       Container(
         color: Colors.brown,
         child: InkWell(
@@ -82,6 +84,8 @@ class _AdminHomeState extends State<AdminHome> {
             FABBottomAppBarItem(iconData: Icons.report, notification: 0),
             FABBottomAppBarItem(
                 iconData: Icons.calendar_today, notification: 0),
+            FABBottomAppBarItem(
+                iconData: Icons.account_circle_outlined, notification: 0),
             FABBottomAppBarItem(
                 iconData: Icons.account_circle_outlined, notification: 0),
           ],

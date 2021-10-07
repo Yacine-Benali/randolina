@@ -169,14 +169,12 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                                 .then((value) => Fluttertoast.showToast(
                                     msg:
                                         'photo de profil mise a jour avec succès'));
-                            ;
                           } else if (clubOrAgency is Agency) {
                             widget.bloc
                                 .saveAgencyProfile(bio, profileImage)
                                 .then((value) => Fluttertoast.showToast(
                                     msg:
                                         'photo de profil mise a jour avec succès'));
-                            ;
                           }
                           Navigator.of(context).pop();
                         }

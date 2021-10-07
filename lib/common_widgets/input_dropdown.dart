@@ -7,9 +7,11 @@ class InputDropdown extends StatelessWidget {
     this.title,
     required this.valueText,
     this.onPressed,
+    this.textStyle,
   }) : super(key: key);
 
   final String? title;
+  final TextStyle? textStyle;
   final Text valueText;
   final VoidCallback? onPressed;
 
@@ -20,7 +22,7 @@ class InputDropdown extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (title != null) ...[
+          if (textStyle == null) ...[
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: BorderedText(
@@ -37,6 +39,16 @@ class InputDropdown extends StatelessWidget {
             ),
             SizedBox(height: 2),
           ],
+          if (textStyle != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                title!,
+                style: textStyle,
+              ),
+            ),
+            SizedBox(height: 2),
+          ],
           // because it not redondant
           // ignore: avoid_unnecessary_containers
           Container(
@@ -46,6 +58,7 @@ class InputDropdown extends StatelessWidget {
               borderRadius: BorderRadius.circular(25.0),
               border: Border.all(
                 color: Colors.blueGrey,
+                width: textStyle != null ? 0 : 1,
               ),
             ),
             child: InkWell(

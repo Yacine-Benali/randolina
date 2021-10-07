@@ -12,7 +12,6 @@ import 'package:randolina/services/database.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
-    Key? key,
     required this.conversation,
     required this.currentUser,
     required this.otherUser,
