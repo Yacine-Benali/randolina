@@ -88,45 +88,56 @@ class _StoriesListWidgetState extends State<StoriesListWidget>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.only(top: 9.0, left: 21.0, bottom: 4),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'histoires récentes ...',
-            style: TextStyle(
-              color: Color.fromRGBO(0, 0, 0, 0.58),
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
         FutureBuilder<List<UserFollowersStories>>(
             future: future,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data != null) {
-                  final List<UserFollowersStories> usersStories =
-                      snapshot.data!;
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: SizedBox(
-                      height: 110,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: usersStories.length,
-                        itemBuilder: (context, index) {
-                          final MiniUser user = usersStories[index].miniUser;
+                  if (snapshot.data!.isNotEmpty) {
+                    final List<UserFollowersStories> usersStories =
+                        snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(
+                              top: 9.0, left: 21.0, bottom: 4),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'histoires récentes ...',
+                            style: TextStyle(
+                              color: Color.fromRGBO(0, 0, 0, 0.58),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: SizedBox(
+                            height: 110,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: usersStories.length,
+                              itemBuilder: (context, index) {
+                                final MiniUser user =
+                                    usersStories[index].miniUser;
 
-                          if (widget.feedBloc.haveStories(user)) {
-                            return buildStoryAvatar(
-                                context, user, snapshot.data!, index);
-                          }
-                          return Container();
-                        },
-                      ),
-                    ),
-                  );
+                                if (widget.feedBloc.haveStories(user)) {
+                                  return buildStoryAvatar(
+                                      context, user, snapshot.data!, index);
+                                }
+                                return Container();
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Container();
+                  }
                 } else {
                   return Container();
                 }
