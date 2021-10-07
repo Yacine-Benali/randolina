@@ -5,6 +5,7 @@ import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ConversationTile extends StatefulWidget {
   const ConversationTile({
@@ -36,6 +37,8 @@ class _ConversationTileState extends State<ConversationTile> {
 
     if (widget.conversation.latestMessage.createdBy != widget.currentUser.id) {
       notification = !widget.conversation.latestMessage.seen;
+      logger.info(
+          'message: ${widget.conversation.latestMessage.content}=> ${widget.conversation.latestMessage.seen}');
     } else {
       notification = false;
     }
@@ -103,6 +106,7 @@ class _ConversationTileState extends State<ConversationTile> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => ChatScreen(
+                key: Key(otherUser.id),
                 conversation: widget.conversation,
                 currentUser: widget.currentUser,
                 otherUser: otherUser,

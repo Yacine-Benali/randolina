@@ -7,6 +7,7 @@ import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -58,7 +59,9 @@ class ChatBloc {
           messagesListController.sink.add(messagesList);
           if (latestMessageList.elementAt(0).createdBy != currentUser.id &&
               latestMessageList.elementAt(0).seen == false) {
-            setLatesttMessageToSeen(latestMessageList.elementAt(0));
+            // logger.info(
+            //     'setting ${latestMessageList.elementAt(0).content} to seen true');
+            // setLatesttMessageToSeen(latestMessageList.elementAt(0));
           }
         }
       } else {
@@ -74,7 +77,7 @@ class ChatBloc {
       path: APIPath.messagesCollection(conversation.id),
       builder: (data, documentId) => Message.fromMap(data, documentId),
       queryBuilder: (query) => query
-          .orderBy('timestamp', descending: true)
+          .orderBy('createdAt', descending: true)
           .startAfter([message.createdAt]).limit(20),
     );
     messagesList.addAll(moreMessages);
@@ -145,6 +148,7 @@ class ChatBloc {
 
   void setLatesttMessageToSeen(Message message) {
     message.seen = true;
+    logger.info('setting ${message.content} to true');
     database.updateData(
       path: APIPath.conversationDocument(conversation.id),
       data: {'latestMessage': message.toMap()},

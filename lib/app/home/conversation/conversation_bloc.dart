@@ -17,7 +17,7 @@ class ConversationBloc {
       builder: (data, documentId) => Conversation.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('usersIds', arrayContains: currentUser.id)
-          .orderBy('latestMessage.seen', descending: false),
+          .orderBy('latestMessage.createdAt', descending: true),
     );
   }
 }

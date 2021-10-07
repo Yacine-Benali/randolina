@@ -22,7 +22,8 @@ class Message {
     final String content = data['content'] as String;
     final bool seen = data['seen'] as bool;
     final String createdBy = data['createdBy'] as String;
-    final Timestamp createdAt = data['createdAt'] as Timestamp;
+    final Timestamp createdAt =
+        (data['createdAt'] as Timestamp?) ?? Timestamp.now();
 
     return Message(
       id: id,

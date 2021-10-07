@@ -8,6 +8,7 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ConversationScreen extends StatefulWidget {
   const ConversationScreen({Key? key}) : super(key: key);
@@ -88,6 +89,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
         );
       }
     } else if (snapshot.hasError) {
+      logger.severe(snapshot.error);
       return EmptyContent(
         title: "Quelque chose s'est mal passé",
         message: "Impossible de charger les éléments pour le moment",
