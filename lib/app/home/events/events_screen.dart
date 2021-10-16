@@ -14,6 +14,7 @@ import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
@@ -139,6 +140,9 @@ class _EventsScreenState extends State<EventsScreen>
             ChangeNotifierProvider.value(
               value: currentlyChosenEventsNotifier,
               child: EventsSearch(
+                onWilayaChanged: (int wilaya) {
+                  logger.severe(wilaya);
+                },
                 eventsBloc: eventsBloc,
                 // ignore: avoid_bool_literals_in_conditional_expressions
                 isMyevent: _tabController.index == 0 ? true : false,

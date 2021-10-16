@@ -1,11 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
+import 'package:menu_button/menu_button.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/nested_screens/search_result_screen.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/constants/algeria_cities.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -22,10 +24,12 @@ class EventsSearch extends StatefulWidget {
   const EventsSearch({
     Key? key,
     required this.onTextChanged,
+    required this.onWilayaChanged,
     required this.eventsBloc,
     required this.isMyevent,
   }) : super(key: key);
   final ValueChanged<String> onTextChanged;
+  final ValueChanged<int> onWilayaChanged;
   final EventsBloc eventsBloc;
   final bool isMyevent;
 
@@ -42,8 +46,10 @@ class EventsSearchState extends State<EventsSearch>
 
   String searchText = '';
   EventCreatedBy dropdownValue = EventCreatedBy.clubOnly;
-
+  String? wilayaDropDown;
+  late int wilayaNumber;
   String toIntToString(dynamic value) => (value as num).toInt().toString();
+  late Set<String> options;
 
   @override
   void initState() {
@@ -53,6 +59,19 @@ class EventsSearchState extends State<EventsSearch>
     textEditingController2 = TextEditingController();
     textEditingController1.text = toIntToString(_activeRangeSliderValue.start);
     textEditingController2.text = toIntToString(_activeRangeSliderValue.end);
+    //! fix this, this is a temp fixs
+
+    options = algeriaCities
+        .map((e) {
+          return "${e['wilaya_code']} - ${e["wilaya_name_ascii"]}";
+        })
+        .toList()
+        .toSet();
+
+    // final User currentUser = context.read<User>();
+    // final rs = algeriaCities
+    //     .firstWhere((e) => e['wilaya_code'] as int == currentUser.wilaya);
+
     super.initState();
   }
 
@@ -299,6 +318,39 @@ class EventsSearchState extends State<EventsSearch>
       borderRadius: BorderRadius.circular(25.0),
       borderSide: BorderSide(color: Colors.grey),
     );
+    final Widget normalChildButton = Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        border: Border.all(color: Colors.grey),
+      ),
+      height: 40,
+      padding: const EdgeInsets.all(4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Flexible(
+            child: Text(
+              wilayaDropDown ?? 'Depart',
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+            height: 20,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Icon(
+                Icons.arrow_drop_down,
+                color: Colors.black,
+                size: 50,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
     return SizedBox(
       width: SizeConfig.screenWidth,
       child: Padding(
@@ -329,7 +381,7 @@ class EventsSearchState extends State<EventsSearch>
                             borderRadius: BorderRadius.circular(25.0)),
                         enabledBorder: border,
                         errorBorder: border,
-                        hintText: 'Chercher...',
+                        hintText: 'Destination...',
                         focusedBorder: border,
                         prefixIcon: Icon(Icons.search),
                         hintStyle: TextStyle(color: Colors.grey),
@@ -346,7 +398,48 @@ class EventsSearchState extends State<EventsSearch>
                     ),
                   ),
                 ),
-                
+                SizedBox(
+                  width: 100,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 4),
+                    child: MenuButton<String>(
+                      items: options.toList(),
+                      scrollPhysics: AlwaysScrollableScrollPhysics(),
+                      crossTheEdge: true,
+                      edgeMargin: 12,
+                      selectedItem: wilayaDropDown,
+                      itemBuilder: (String value) {
+                        return Container(
+                          color: backgroundColor,
+                          height: 40,
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            value,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        );
+                      },
+                      decoration: BoxDecoration(),
+                      toggledChild: normalChildButton,
+                      divider: Container(
+                        height: 0,
+                        color: Colors.white,
+                      ),
+                      onItemSelected: (String? newValue) {
+                        if (newValue == null) {
+                        } else {
+                          final int? wilayaN =
+                              int.tryParse(newValue[0] + newValue[1]);
+                          wilayaDropDown = newValue;
+                          setState(() => wilayaNumber = wilayaN!);
+                          widget.onWilayaChanged(wilayaNumber);
+                        }
+                      },
+                      child: normalChildButton,
+                    ),
+                  ),
+                ),
                 IconButton(
                   onPressed: () {
                     showDialog(
