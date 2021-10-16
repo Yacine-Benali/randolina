@@ -16,6 +16,7 @@ class User {
     required this.following,
     required this.phoneNumber,
     required this.isModerator,
+    required this.wilaya,
   });
 
   final String id;
@@ -29,6 +30,7 @@ class User {
   final int following;
   final String phoneNumber;
   final bool isModerator;
+  final int wilaya;
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
@@ -42,6 +44,7 @@ class User {
     final int following = data['following'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
     final bool isModerator = data['isModerator'] as bool;
+    final int wilaya = data['wilaya'] as int;
 
     return User(
       id: id,
@@ -55,6 +58,7 @@ class User {
       following: following,
       phoneNumber: phoneNumber,
       isModerator: isModerator,
+      wilaya: wilaya,
     );
   }
 
@@ -82,6 +86,7 @@ class User {
       'following': following,
       'phoneNumber': phoneNumber,
       'isModerator': isModerator,
+      'wilaya': wilaya,
     };
   }
 

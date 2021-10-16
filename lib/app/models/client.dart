@@ -14,8 +14,9 @@ class Client extends User {
     required int following,
     required String phoneNumber,
     required bool isModerator,
+    required int wilaya,
+
     //
-    required this.wilaya,
     required this.activity,
     required this.dateOfBirth,
     required this.physicalCondition,
@@ -31,9 +32,9 @@ class Client extends User {
           following: following,
           phoneNumber: phoneNumber,
           isModerator: isModerator,
+          wilaya: wilaya,
         );
 
-  final int wilaya;
   final String activity;
   final Timestamp dateOfBirth;
   final String physicalCondition;

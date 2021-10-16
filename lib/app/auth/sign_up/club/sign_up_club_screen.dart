@@ -41,6 +41,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
   late String _phoneNumber;
   late File _imageFile;
   late String? _bio;
+  late int _wilaya;
   late List<String> _clubActivities;
 
   @override
@@ -84,6 +85,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
         following: 0,
         address: _address,
         phoneNumber: _phoneNumber,
+        wilaya: _wilaya,
         isModerator: false,
         activities: _clubActivities,
         presidentName: _fullname,
@@ -127,12 +129,14 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
               required Timestamp creationDate,
               required String address,
               required int members,
+              required int wilaya,
             }) {
               _fullname = fullname;
               _clubname = clubname;
               _creationDate = creationDate;
               _address = address;
               _members = members;
+              _wilaya = wilaya;
               swipePage(1);
             },
           ),

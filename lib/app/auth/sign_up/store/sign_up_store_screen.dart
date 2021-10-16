@@ -38,6 +38,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
   late String _phoneNumber;
   late File _imageFile;
   late String? _bio;
+  late int _wilaya;
 
   @override
   void initState() {
@@ -83,6 +84,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
         address: _address,
         name: _storeName,
         email: _email,
+        wilaya: _wilaya,
       );
       await bloc.saveClientInfo(store);
       pd.close();
@@ -118,10 +120,12 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
               required String fullname,
               required String clubname,
               required String address,
+              required int wilaya,
             }) {
               _fullname = fullname;
               _storeName = clubname;
               _address = address;
+              _wilaya = wilaya;
               swipePage(1);
             },
           ),

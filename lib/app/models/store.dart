@@ -13,6 +13,7 @@ class Store extends User {
     required int following,
     required String phoneNumber,
     required bool isModerator,
+    required int wilaya,
     //
     required this.address,
     required this.ownerName,
@@ -28,6 +29,7 @@ class Store extends User {
           followers: followers,
           following: following,
           phoneNumber: phoneNumber,
+          wilaya: wilaya,
           isModerator: isModerator,
         );
 
@@ -51,6 +53,7 @@ class Store extends User {
     final String ownerName = data['ownerName'] as String;
     final String email = data['email'] as String;
     final bool isModerator = data['isModerator'] as bool;
+    final int wilaya = data['wilaya'] as int;
 
     return Store(
       id: id,
@@ -64,6 +67,7 @@ class Store extends User {
       following: following,
       phoneNumber: phoneNumber,
       isModerator: isModerator,
+      wilaya: wilaya,
       //
       address: address,
       ownerName: ownerName,

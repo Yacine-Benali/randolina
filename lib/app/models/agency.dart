@@ -14,6 +14,7 @@ class Agency extends User {
     required int following,
     required String phoneNumber,
     required bool isModerator,
+    required int wilaya,
     //
     required this.address,
     required this.presidentName,
@@ -30,6 +31,7 @@ class Agency extends User {
           followers: followers,
           following: following,
           phoneNumber: phoneNumber,
+          wilaya: wilaya,
           isModerator: isModerator,
         );
 
@@ -49,6 +51,8 @@ class Agency extends User {
     final int followers = data['followers'] as int;
     final int following = data['following'] as int;
     final String phoneNumber = data['phoneNumber'] as String;
+    final int wilaya = data['wilaya'] as int;
+
     //
     final String address = data['address'] as String;
     final String presidentName = data['presidentName'] as String;
@@ -68,6 +72,7 @@ class Agency extends User {
       following: following,
       phoneNumber: phoneNumber,
       isModerator: isModerator,
+      wilaya: wilaya,
       //
       address: address,
       presidentName: presidentName,

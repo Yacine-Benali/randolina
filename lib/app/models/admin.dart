@@ -15,6 +15,7 @@ class Admin extends User {
           following: 0,
           phoneNumber: '0',
           isModerator: false,
+          wilaya: 31,
         );
 
   // ignore: avoid_unused_constructor_parameters

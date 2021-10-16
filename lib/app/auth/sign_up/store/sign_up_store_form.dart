@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:randolina/common_widgets/custom_app_bar.dart';
+import 'package:randolina/common_widgets/custom_drop_down.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
@@ -19,6 +20,7 @@ class SignUpStoreForm extends StatefulWidget {
     required String fullname,
     required String clubname,
     required String address,
+    required int wilaya,
   }) onSaved;
 
   @override
@@ -30,6 +32,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
   late String agencyname;
   // Timestamp? creationDate;
   late String address;
+  late int wilaya;
 
   late final GlobalKey<FormState> _formKey;
   bool isButtonEnabled = true;
@@ -102,8 +105,8 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Localisation:',
-                      hintText: 'Oran,Alger...',
+                      title: 'adresse:',
+                      hintText: 'adresse...',
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {
                         address = value;
@@ -113,6 +116,29 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                           return invalidUsernameSignUpError;
                         }
                         return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: padding,
+                    child: CustomDropDown(
+                      fillColor: Colors.white70,
+                      title: 'Wilaya',
+                      hint: 'Wilaya',
+                      validator: (String? value) {
+                        if (value == null) {
+                          return invalidWilayaError;
+                        }
+                        return null;
+                      },
+                      onChanged: (String? value) {
+                        if (value == null) {
+                        } else {
+                          final int? wilayaN =
+                              int.tryParse(value[0] + value[1]);
+
+                          wilaya = wilayaN!;
+                        }
                       },
                     ),
                   ),
@@ -148,6 +174,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                         fullname: fullname,
                         clubname: agencyname,
                         address: address,
+                        wilaya: wilaya,
                       );
                     }
                   }),

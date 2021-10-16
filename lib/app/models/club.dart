@@ -13,6 +13,7 @@ class Club extends User {
     required int followers,
     required int following,
     required String phoneNumber,
+    required int wilaya,
     required bool isModerator,
     //
     required this.address,
@@ -32,6 +33,7 @@ class Club extends User {
           followers: followers,
           following: following,
           phoneNumber: phoneNumber,
+          wilaya: wilaya,
           isModerator: isModerator,
         );
   final String address;
@@ -54,6 +56,8 @@ class Club extends User {
     final int following = data['following'] as int;
 
     final String phoneNumber = data['phoneNumber'] as String;
+    final int wilaya = data['wilaya'] as int;
+
     //
     final String address = data['address'] as String;
     final List<String> activities =
@@ -78,7 +82,7 @@ class Club extends User {
       address: address,
       phoneNumber: phoneNumber,
       isModerator: isModerator,
-
+      wilaya: wilaya,
       //
       activities: activities,
       presidentName: presidentName,
