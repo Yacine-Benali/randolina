@@ -105,11 +105,15 @@ class _NewEventForm2State extends State<NewEventForm2> {
         ).show(context);
         return;
       }
+      final User user = context.read<User>();
       late int createdByType;
-      if (context.read<User>() is Club) {
+      late int wilaya;
+      if (user is Club) {
         createdByType = 1;
+        wilaya = user.wilaya;
       } else if (context.read<User>() is Agency) {
         createdByType = 2;
+        wilaya = user.wilaya;
       } else {
         throw PlatformException(code: 'INSUFFICIENT_PERMISSION');
       }
@@ -132,6 +136,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
         subscribers: widget.event?.subscribers ?? [],
         subscribersLength: 0,
         createdAt: Timestamp.now(),
+        wilaya: wilaya,
       );
       widget.onNextPressed(
         event: event,

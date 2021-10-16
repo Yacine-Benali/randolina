@@ -162,6 +162,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
         subscribers: widget.event!.subscribers,
         subscribersLength: widget.event!.subscribersLength,
         createdAt: widget.event!.createdAt,
+        wilaya: widget.event!.wilaya,
       );
       await widget.eventsBloc.saveEvent(event);
       progressDialog.dismiss();

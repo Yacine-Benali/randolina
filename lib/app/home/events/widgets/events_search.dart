@@ -346,6 +346,7 @@ class EventsSearchState extends State<EventsSearch>
                     ),
                   ),
                 ),
+                
                 IconButton(
                   onPressed: () {
                     showDialog(

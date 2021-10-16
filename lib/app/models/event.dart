@@ -21,6 +21,7 @@ class Event {
     required this.subscribersLength,
     required this.subscribers,
     required this.createdAt,
+    required this.wilaya,
   });
   final String id;
   final List<String> images;
@@ -39,6 +40,7 @@ class Event {
   final int subscribersLength;
   final List<MiniSubscriber> subscribers;
   final Timestamp createdAt;
+  final int wilaya;
 
   // ignore: avoid_unused_constructor_parameters
   factory Event.fromMap(Map<String, dynamic> data, String documentId) {
@@ -68,6 +70,7 @@ class Event {
 
     final Timestamp createdAt =
         data['createdAt'] as Timestamp? ?? Timestamp.now();
+    final int wilaya = data['wilaya'] as int;
 
     return Event(
       id: documentId,
@@ -87,6 +90,7 @@ class Event {
       subscribersLength: subscribersLength,
       subscribers: subscribers,
       createdAt: createdAt,
+      wilaya: wilaya,
     );
   }
 
@@ -108,6 +112,7 @@ class Event {
       'subscribersLength': subscribersLength,
       'subscribers': subscribers.map((e) => e.toMap()).toList(),
       'createdAt': FieldValue.serverTimestamp(),
+      'wilaya': FieldValue.serverTimestamp(),
     };
   }
 }
