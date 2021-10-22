@@ -27,11 +27,13 @@ class EventsSearch extends StatefulWidget {
     required this.onWilayaChanged,
     required this.eventsBloc,
     required this.isMyevent,
+    required this.searchWilayaInitValue,
   }) : super(key: key);
   final ValueChanged<String> onTextChanged;
   final ValueChanged<int> onWilayaChanged;
   final EventsBloc eventsBloc;
   final bool isMyevent;
+  final int searchWilayaInitValue;
 
   @override
   EventsSearchState createState() => EventsSearchState();
@@ -46,10 +48,10 @@ class EventsSearchState extends State<EventsSearch>
 
   String searchText = '';
   EventCreatedBy dropdownValue = EventCreatedBy.clubOnly;
-  String? wilayaDropDown;
+  late String wilayaDropDown;
   late int wilayaNumber;
   String toIntToString(dynamic value) => (value as num).toInt().toString();
-  late Set<String> options;
+  late List<String> options;
 
   @override
   void initState() {
@@ -65,8 +67,12 @@ class EventsSearchState extends State<EventsSearch>
         .map((e) {
           return "${e['wilaya_code']} - ${e["wilaya_name_ascii"]}";
         })
-        .toList()
-        .toSet();
+        .toSet()
+        .toList();
+
+    options.insert(0, 'Depart');
+    wilayaNumber = widget.searchWilayaInitValue;
+    wilayaDropDown = options.elementAt(wilayaNumber);
 
     // final User currentUser = context.read<User>();
     // final rs = algeriaCities
@@ -331,7 +337,7 @@ class EventsSearchState extends State<EventsSearch>
         children: <Widget>[
           Flexible(
             child: Text(
-              wilayaDropDown ?? 'Depart',
+              wilayaDropDown,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Colors.black),
             ),
@@ -428,6 +434,10 @@ class EventsSearchState extends State<EventsSearch>
                       ),
                       onItemSelected: (String? newValue) {
                         if (newValue == null) {
+                        } else if (newValue == 'Depart') {
+                          wilayaDropDown = newValue;
+                          setState(() => wilayaNumber = 0);
+                          widget.onWilayaChanged(wilayaNumber);
                         } else {
                           final int? wilayaN =
                               int.tryParse(newValue[0] + newValue[1]);

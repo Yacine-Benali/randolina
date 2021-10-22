@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
@@ -14,7 +15,6 @@ import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
@@ -34,8 +34,9 @@ class _EventsScreenState extends State<EventsScreen>
   late final Stream<List<Event>> allEventsStream;
   final RefreshController _refreshController = RefreshController();
   late ValueNotifier<List<Event>> currentlyChosenEventsNotifier;
-
+  late final Box userBox;
   String searchText = '';
+  int searchWilaya = 0;
 
   @override
   void initState() {
@@ -61,6 +62,10 @@ class _EventsScreenState extends State<EventsScreen>
       myEventsStream = eventsBloc.getClientMyEvents();
       allEventsStream = eventsBloc.getClubAllEvents();
     }
+    userBox = Hive.box('userBox');
+    final int? temp = userBox.get('searchWilaya') as int?;
+    if (temp != null) searchWilaya = temp;
+
     super.initState();
   }
 
@@ -79,6 +84,7 @@ class _EventsScreenState extends State<EventsScreen>
                 final List<Event> matchedEvents = eventsBloc.eventsTextSearch(
                   events,
                   searchText,
+                  searchWilaya,
                 );
                 Future.delayed(Duration(milliseconds: 500)).then((value) =>
                     currentlyChosenEventsNotifier.value = matchedEvents);
@@ -115,9 +121,7 @@ class _EventsScreenState extends State<EventsScreen>
                     "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
               );
             }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Center(child: CircularProgressIndicator());
           },
         );
       },
@@ -140,11 +144,12 @@ class _EventsScreenState extends State<EventsScreen>
             ChangeNotifierProvider.value(
               value: currentlyChosenEventsNotifier,
               child: EventsSearch(
+                searchWilayaInitValue: searchWilaya,
                 onWilayaChanged: (int wilaya) {
-                  logger.severe(wilaya);
+                  userBox.put('searchWilaya', wilaya);
+                  setState(() => searchWilaya = wilaya);
                 },
                 eventsBloc: eventsBloc,
-                // ignore: avoid_bool_literals_in_conditional_expressions
                 isMyevent: _tabController.index == 0 ? true : false,
                 onTextChanged: (t) {
                   setState(() => searchText = t);

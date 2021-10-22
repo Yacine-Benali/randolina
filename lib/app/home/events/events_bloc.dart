@@ -124,11 +124,23 @@ class EventsBloc {
   List<Event> eventsTextSearch(
     List<Event> events,
     String searchText,
+    int searchWilaya,
   ) {
     final List<Event> matchedEvents = [];
     for (final Event event in events) {
-      if (event.destination.toLowerCase().contains(searchText.toLowerCase())) {
-        matchedEvents.add(event);
+      if (searchWilaya == 0) {
+        if (event.destination
+            .toLowerCase()
+            .contains(searchText.toLowerCase())) {
+          matchedEvents.add(event);
+        }
+      } else {
+        if (event.destination
+                .toLowerCase()
+                .contains(searchText.toLowerCase()) &&
+            event.wilaya == searchWilaya) {
+          matchedEvents.add(event);
+        }
       }
     }
     return matchedEvents;

@@ -112,7 +112,7 @@ class Event {
       'subscribersLength': subscribersLength,
       'subscribers': subscribers.map((e) => e.toMap()).toList(),
       'createdAt': FieldValue.serverTimestamp(),
-      'wilaya': FieldValue.serverTimestamp(),
+      'wilaya': wilaya,
     };
   }
 }

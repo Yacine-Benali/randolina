@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as pp;
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/landing_screen.dart';
@@ -22,6 +24,9 @@ const String userIndex = isLocal ? 'local_users_search' : 'dev_users_search';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final a = await pp.getApplicationDocumentsDirectory();
+  Hive.init(a.path);
+  await Hive.openBox('userBox');
 
   if (isLocal) {
     final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8080';
