@@ -54,14 +54,13 @@ class EventsBloc {
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('createdBy.id', isEqualTo: authUser.uid)
-          //  .where('createdAt', isGreaterThan: Timestamp.now())
+          .where('createdAt', isGreaterThan: Timestamp.now())
           .orderBy('createdAt', descending: true),
     );
   }
 
   Stream<List<Event>> getClubAllEvents() {
     //! todo @high paginate
-    //! todo @high need to add expired events filter here
     return database
         .streamCollection(
       path: APIPath.eventsCollection(),

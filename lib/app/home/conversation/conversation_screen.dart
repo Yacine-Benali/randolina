@@ -105,6 +105,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       itemBuilder: (context, index) {
         //return Container();
         return ConversationTile(
+          key: Key(items[index].id),
           conversation: items[index],
           currentUser: currentUser,
         );

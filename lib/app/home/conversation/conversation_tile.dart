@@ -112,6 +112,7 @@ class _ConversationTileState extends State<ConversationTile> {
               ),
             ),
           );
+          logger.info(widget.conversation.id);
         },
       ),
     );
