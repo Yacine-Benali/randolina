@@ -18,7 +18,7 @@
    <application
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
-        android:label="randolina"
+        android:label="Randolina"
         android:icon="@mipmap/launcher_icon">
 
         <activity
