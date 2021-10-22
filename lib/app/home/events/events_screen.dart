@@ -60,7 +60,7 @@ class _EventsScreenState extends State<EventsScreen>
     } else {
       isClient = true;
       myEventsStream = eventsBloc.getClientMyEvents();
-      allEventsStream = eventsBloc.getClubAllEvents();
+      allEventsStream = eventsBloc.getClientAllEvents();
     }
     userBox = Hive.box('userBox');
     final int? temp = userBox.get('searchWilaya') as int?;

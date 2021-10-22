@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:blur/blur.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -155,43 +156,60 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
   }
 
   Widget buildTableOptions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Text('tout sélectionner'),
-            Checkbox(
-              value: isSelectAll,
-              onChanged: (t) {
-                if (t != null) {
-                  if (t == true) {
-                    for (final Participant element in participants) {
-                      element.isConfirmed = true;
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              AutoSizeText(
+                'tout sélectionner',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Checkbox(
+                value: isSelectAll,
+                onChanged: (t) {
+                  if (t != null) {
+                    if (t == true) {
+                      for (final Participant element in participants) {
+                        element.isConfirmed = true;
+                      }
+                    } else if (t == false) {
+                      for (final Participant element in participants) {
+                        element.isConfirmed = false;
+                      }
                     }
+                    setState(() {
+                      isSelectAll = t;
+                    });
                   }
-                  setState(() {
-                    isSelectAll = t;
-                  });
-                }
-              },
+                },
+              ),
+            ],
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                    child: AutoSizeText(
+                  'spectacle confirmé seulement',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )),
+                Switch(
+                  value: showConfirmedOnly,
+                  onChanged: (t) {
+                    setState(() {
+                      showConfirmedOnly = t;
+                    });
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-        Row(
-          children: [
-            Text('spectacle confirmé seulement'),
-            Switch(
-              value: showConfirmedOnly,
-              onChanged: (t) {
-                setState(() {
-                  showConfirmedOnly = t;
-                });
-              },
-            ),
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 

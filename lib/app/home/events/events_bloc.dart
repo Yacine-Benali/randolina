@@ -54,32 +54,43 @@ class EventsBloc {
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('createdBy.id', isEqualTo: authUser.uid)
+          //  .where('createdAt', isGreaterThan: Timestamp.now())
           .orderBy('createdAt', descending: true),
     );
+  }
+
+  Stream<List<Event>> getClubAllEvents() {
+    //! todo @high paginate
+    //! todo @high need to add expired events filter here
+    return database
+        .streamCollection(
+      path: APIPath.eventsCollection(),
+      builder: (data, documentId) => Event.fromMap(data, documentId),
+      queryBuilder: (query) =>
+          query.where('createdBy.id', isNotEqualTo: authUser.uid),
+      sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
+    )
+        .map((events) {
+      return events.where((event) {
+        return event.createdAt.compareTo(Timestamp.now()) == 0;
+      }).toList();
+    });
   }
 
   Stream<List<Event>> getClientMyEvents() {
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
-      queryBuilder: (query) => query.where(
-        'subscribers',
-        arrayContainsAny: [
-          {'id': authUser.uid, 'isConfirmed': false},
-          {'id': authUser.uid, 'isConfirmed': true}
-        ],
-      ).orderBy('createdAt', descending: true),
-    );
-  }
-
-  Stream<List<Event>> getClubAllEvents() {
-    //! todo @high paginate
-    return database.streamCollection(
-      path: APIPath.eventsCollection(),
-      builder: (data, documentId) => Event.fromMap(data, documentId),
-      queryBuilder: (query) =>
-          query.where('createdBy.id', isNotEqualTo: authUser.uid),
-      sort: (a, b) => a.createdAt.compareTo(b.createdAt),
+      queryBuilder: (query) => query
+          .where(
+            'subscribers',
+            arrayContainsAny: [
+              {'id': authUser.uid, 'isConfirmed': false},
+              {'id': authUser.uid, 'isConfirmed': true}
+            ],
+          )
+          .where('createdAt', isGreaterThan: Timestamp.now())
+          .orderBy('createdAt', descending: true),
     );
   }
 
@@ -88,7 +99,9 @@ class EventsBloc {
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
-      queryBuilder: (query) => query.orderBy('createdAt', descending: true),
+      queryBuilder: (query) => query
+          .where('createdAt', isGreaterThan: Timestamp.now())
+          .orderBy('createdAt', descending: true),
     );
   }
 
