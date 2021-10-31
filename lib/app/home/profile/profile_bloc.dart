@@ -195,9 +195,6 @@ class ProfileBloc {
     batch.update(
         FirebaseFirestore.instance.doc(APIPath.userDocument(otherUser.id)),
         {'followers': FieldValue.increment(1)});
-    batch.update(
-        FirebaseFirestore.instance.doc(APIPath.userDocument(otherUser.id)),
-        {'followers': FieldValue.increment(1)});
 
     batch.set(
         FirebaseFirestore.instance
