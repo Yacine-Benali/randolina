@@ -1,15 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home_admin/approved/agency_detail_screen.dart';
 import 'package:randolina/app/home_admin/approved/approved_bloc.dart';
-import 'package:randolina/app/home_admin/approved/club_detail_screen.dart';
-import 'package:randolina/app/models/agency.dart';
-import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/home_admin/approved/approved_user_tile.dart';
+import 'package:randolina/app/home_admin/approved/nested_screens/approved_screen_search.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ApprovedScreen extends StatefulWidget {
   const ApprovedScreen({Key? key}) : super(key: key);
@@ -21,6 +19,7 @@ class ApprovedScreen extends StatefulWidget {
 class _ApprovedScreenState extends State<ApprovedScreen> {
   late Stream<List<User>> unapprovedUsers;
   late final ApprovedBloc bloc;
+  late List<User> usersList = [];
 
   @override
   void initState() {
@@ -45,6 +44,28 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
                 'Club et Agence',
                 style: TextStyle(color: Colors.black),
               ),
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    size: 25,
+                  ),
+                  color: darkBlue,
+                  onPressed: () {
+                    logger.info(usersList.length);
+                    if (usersList.isNotEmpty) {
+                      showSearch(
+                        context: context,
+                        delegate: ApproveSearch(
+                          approvedBloc: bloc,
+                          users: usersList,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
             ),
             body: buildBody(snapshot),
           );
@@ -56,8 +77,14 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
   Widget buildBody(AsyncSnapshot<List<User>> snapshot) {
     if (snapshot.hasData && snapshot.data != null) {
       final List<User> items = snapshot.data!;
+      usersList = items;
       if (items.isNotEmpty) {
-        return _buildList(items);
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (_, index) {
+            return ApprovedUserTile(user: items[index], bloc: bloc);
+          },
+        );
       } else {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -74,54 +101,5 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
       );
     }
     return Center(child: CircularProgressIndicator());
-  }
-
-  Widget _buildList(List<User> items) {
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (_, index) {
-        final miniUser = items[index];
-        return ListTile(
-          leading: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(47),
-              border: Border.all(
-                width: 2,
-                color: Colors.white,
-              ),
-            ),
-            child: CachedNetworkImage(
-              imageUrl: miniUser.profilePicture,
-              imageBuilder: (context, imageProvider) => CircleAvatar(
-                backgroundImage: imageProvider,
-              ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
-          title: Text(miniUser.name),
-          subtitle: Text(miniUser.username),
-          onTap: () {
-            if (miniUser is Club) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      ClubDetailScreen(club: miniUser, bloc: bloc),
-                ),
-              );
-            }
-            if (miniUser is Agency) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AgencyDetailScreen(agency: miniUser, bloc: bloc),
-                ),
-              );
-            }
-          },
-        );
-      },
-    );
   }
 }
