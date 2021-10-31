@@ -353,12 +353,15 @@ class ProfileBloc {
   }
 
   Stream<List<Event>> getClubAllEvents() {
+    final enddate = Timestamp.fromDate(DateTime.now());
+
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
-      queryBuilder: (query) =>
-          query.where('createdBy.id', isEqualTo: otherUser.id),
-      sort: (a, b) => a.createdAt.compareTo(b.createdAt) * -1,
+      queryBuilder: (query) => query
+          .where('createdBy.id', isEqualTo: otherUser.id)
+          .where('endDateTime', isGreaterThan: enddate),
+      sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
 }

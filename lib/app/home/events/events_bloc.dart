@@ -23,6 +23,8 @@ class EventsBloc {
   final AuthUser authUser;
   final Uuid uuid = Uuid();
   SavedEvents? savedEvents;
+  final testDate =
+      Timestamp.fromDate(DateTime.now().subtract(Duration(days: 365)));
 
   Future<String> uploadEventProfileImage(File file, String eventId) async {
     return database.uploadFile(
@@ -49,58 +51,63 @@ class EventsBloc {
       );
 
   Stream<List<Event>> getClubMyEvents() {
+    final enddate = Timestamp.fromDate(DateTime.now().add(Duration(days: 1)));
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('createdBy.id', isEqualTo: authUser.uid)
-          .where('createdAt', isGreaterThan: Timestamp.now())
-          .orderBy('createdAt', descending: true),
+          .where('endDateTime', isGreaterThan: enddate),
+      sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
 
   Stream<List<Event>> getClubAllEvents() {
-    //! todo @high paginate
+    final enddate = Timestamp.fromDate(DateTime.now().add(Duration(days: 1)));
+    //! todo @high paginate, combine allevents
+    //! only show myevents from all events
     return database
         .streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) =>
-          query.where('createdBy.id', isNotEqualTo: authUser.uid),
+          query.where('endDateTime', isGreaterThan: enddate),
       sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
     )
         .map((events) {
       return events.where((event) {
-        return event.createdAt.compareTo(Timestamp.now()) == 0;
+        return event.createdBy.id != authUser.uid;
       }).toList();
     });
   }
 
   Stream<List<Event>> getClientMyEvents() {
+    final enddate = Timestamp.fromDate(DateTime.now());
+
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
-      queryBuilder: (query) => query
-          .where(
-            'subscribers',
-            arrayContainsAny: [
-              {'id': authUser.uid, 'isConfirmed': false},
-              {'id': authUser.uid, 'isConfirmed': true}
-            ],
-          )
-          .where('createdAt', isGreaterThan: Timestamp.now())
-          .orderBy('createdAt', descending: true),
+      queryBuilder: (query) => query.where(
+        'subscribers',
+        arrayContainsAny: [
+          {'id': authUser.uid, 'isConfirmed': false},
+          {'id': authUser.uid, 'isConfirmed': true}
+        ],
+      ).where('endDateTime', isGreaterThan: enddate),
+      sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
 
   Stream<List<Event>> getClientAllEvents() {
+    final enddate = Timestamp.fromDate(DateTime.now());
+
     //! todo @high paginate
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
-      queryBuilder: (query) => query
-          .where('createdAt', isGreaterThan: Timestamp.now())
-          .orderBy('createdAt', descending: true),
+      queryBuilder: (query) =>
+          query.where('endDateTime', isGreaterThan: enddate),
+      sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
 

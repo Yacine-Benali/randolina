@@ -32,7 +32,7 @@ Future<void> main() async {
     final String host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8080';
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8083);
     FirebaseAuth.instance.useAuthEmulator(host, 9099);
-    FirebaseStorage.instance.useStorageEmulator(host, 9199);
+    FirebaseStorage.instance.useStorageEmulator(host, 9199); 
     FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
   }
 
