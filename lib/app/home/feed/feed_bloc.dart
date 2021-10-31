@@ -53,16 +53,13 @@ class FeedBloc {
   Future<void> getPostsIds() async {
     final List<UserFollowersPosts> data = await database.fetchCollection(
         path: APIPath.userFollowerPostsCollection(),
-        queryBuilder: (query) =>
-            query.where('followers', arrayContains: currentUser.id),
+        queryBuilder: (query) => query
+            .where('followers', arrayContains: currentUser.id)
+            .orderBy('lastPostTimestamp', descending: true),
         builder: (data, documentId) =>
             UserFollowersPosts.fromMap(data, documentId));
 
-    final List<List<MiniPost>> data2 = data.map((e) {
-      // logger.info(e.userId);
-      // logger.info(e.postsIds);
-      return e.postsIds;
-    }).toList();
+    final List<List<MiniPost>> data2 = data.map((e) => e.postsIds).toList();
 
     final List<MiniPost> data3 = data2.expand((element) => element).toList();
 
@@ -116,12 +113,15 @@ class FeedBloc {
   }
 
   Future<bool> fetch10Posts() async {
-    if (postsIds.isEmpty) await getPostsIds();
+    if (postsIds.isEmpty) {
+      await getPostsIds();
+    }
 
     if (postsIds.isEmpty && !postsListController.isClosed) {
       postsListController.sink.add([]);
       return true;
     }
+
     final List<String> postIdsSublit = [];
 
     if (index == postsIds.length) {
@@ -139,12 +139,13 @@ class FeedBloc {
     final List<Post> morePosts = await database.fetchCollection(
       path: APIPath.postsCollection(),
       queryBuilder: (query) => query.where(
-        'id',
+        FieldPath.documentId,
         whereIn: postIdsSublit,
       ),
       builder: (data, documentId) => Post.fromMap(data, documentId),
     );
 
+    morePosts.sort((a, b) => a.createdAt.compareTo(b.createdAt) * -1);
     postsList.addAll(morePosts);
     if (!postsListController.isClosed) {
       postsListController.sink.add(postsList);
