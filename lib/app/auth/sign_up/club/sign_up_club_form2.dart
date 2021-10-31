@@ -65,8 +65,8 @@ class _SignUpClubForm2State extends State<SignUpClubForm2> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: "Nom d'utilisation:",
-                      hintText: "Nom d'utilisation...",
+                      title: "Nom d'utilisateur:",
+                      hintText: "Nom d'utilisateur...",
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {

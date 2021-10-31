@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ApprovedBloc {
   ApprovedBloc({required this.database});
@@ -32,5 +33,13 @@ class ApprovedBloc {
       }),
     );
     return result;
+  }
+
+  Future<void> approveUser(User user) async {
+    logger.info('approving this user ${user.id}');
+    database.setData(
+      path: 'subscriptions/${user.id}',
+      data: {'isApproved': true},
+    );
   }
 }

@@ -65,8 +65,8 @@ class _SignUpStoreForm2State extends State<SignUpStoreForm2> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: "Nom d'utilisation:",
-                      hintText: "Nom d'utilisation...",
+                      title: "Nom d'utilisateur:",
+                      hintText: "Nom d'utilisateur...",
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home_admin/approved/agency_detail_screen.dart';
 import 'package:randolina/app/home_admin/approved/approved_bloc.dart';
 import 'package:randolina/app/home_admin/approved/club_detail_screen.dart';
+import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
@@ -18,10 +20,11 @@ class ApprovedScreen extends StatefulWidget {
 
 class _ApprovedScreenState extends State<ApprovedScreen> {
   late Stream<List<User>> unapprovedUsers;
+  late final ApprovedBloc bloc;
 
   @override
   void initState() {
-    final ApprovedBloc bloc = ApprovedBloc(database: context.read<Database>());
+    bloc = ApprovedBloc(database: context.read<Database>());
     unapprovedUsers = bloc.getUnApporvedUsers();
     super.initState();
   }
@@ -39,7 +42,7 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
               centerTitle: true,
               iconTheme: IconThemeData(color: darkBlue),
               title: Text(
-                'utilisateur',
+                'Club et Agence',
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -103,7 +106,16 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
             if (miniUser is Club) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ClubDetailScreen(club: miniUser),
+                  builder: (context) =>
+                      ClubDetailScreen(club: miniUser, bloc: bloc),
+                ),
+              );
+            }
+            if (miniUser is Agency) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AgencyDetailScreen(agency: miniUser, bloc: bloc),
                 ),
               );
             }

@@ -8,7 +8,6 @@ import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 
 class ModeratorsScreen extends StatefulWidget {
   const ModeratorsScreen({Key? key}) : super(key: key);
@@ -77,8 +76,7 @@ class _ModeratorsScreenState extends State<ModeratorsScreen> {
                             );
                           } else {
                             modsIdsList.value = mods.map((e) => e.id).toList();
-                            logger.info(
-                                'screen=> modsIdsList: ${modsIdsList.value.length}');
+
                             return ListView.builder(
                               key: UniqueKey(),
                               itemCount: mods.length,

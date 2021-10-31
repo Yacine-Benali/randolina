@@ -59,7 +59,8 @@ class _UserTileState extends State<UserTile> {
           if (t != null) {
             final bool? didRequestSignOut = await PlatformAlertDialog(
               title: 'Confirmer',
-              content: 'es-tu sûr want to make this user a mod',
+              content:
+                  'êtes-vous sûr de vouloir faire de cet utilisateur un moderateur',
               cancelActionText: 'annuler',
               defaultActionText: 'oui',
             ).show(context);
