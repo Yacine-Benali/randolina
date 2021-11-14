@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home_admin/admin_logout.dart';
 import 'package:randolina/app/home_admin/approved/approved_bloc.dart';
 import 'package:randolina/app/home_admin/approved/approved_user_tile.dart';
 import 'package:randolina/app/home_admin/approved/nested_screens/approved_screen_search.dart';
@@ -39,6 +40,7 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
             appBar: AppBar(
               backgroundColor: Colors.white,
               centerTitle: true,
+              actions: [AdminLogout()],
               iconTheme: IconThemeData(color: darkBlue),
               title: Text(
                 'Club et Agence',

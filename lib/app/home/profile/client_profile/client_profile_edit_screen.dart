@@ -32,7 +32,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
   late final TextStyle titleStyle;
   String? bio;
   late String activity;
-  late File? profileImage;
+  File? profileImage;
   late Client currentClient;
   final _formKey = GlobalKey<FormState>();
 
@@ -44,6 +44,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
     );
     currentClient = context.read<User>() as Client;
     activity = currentClient.activity;
+
     super.initState();
   }
 

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
 import 'package:randolina/app/home/feed/posts/post_widget.dart';
+import 'package:randolina/app/home_admin/admin_logout.dart';
 import 'package:randolina/app/home_admin/reported_posts/reported_posts_bloc.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
@@ -79,6 +80,10 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          actions: [AdminLogout()],
+          backgroundColor: Colors.white,
+        ),
         backgroundColor: backgroundColor,
         body: StreamBuilder<List<Post>>(
             stream: postsStream,

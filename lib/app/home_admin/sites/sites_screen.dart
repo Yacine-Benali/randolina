@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home_admin/admin_logout.dart';
 import 'package:randolina/app/home_admin/sites/new_site_screen.dart';
 import 'package:randolina/app/home_admin/sites/site.dart';
 import 'package:randolina/app/home_admin/sites/sites_bloc.dart';
@@ -38,17 +39,13 @@ class _SitesScreenState extends State<SitesScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => NewSiteScreen(
-                      sitesBloc: sitesBloc,
-                    ),
+                    builder: (context) => NewSiteScreen(sitesBloc: sitesBloc),
                   ),
                 );
               },
-              icon: Icon(
-                Icons.add,
-                color: Colors.blueGrey,
-              ),
-            )
+              icon: Icon(Icons.add, color: Colors.blueGrey),
+            ),
+            AdminLogout(),
           ],
         ),
         body: StreamBuilder<List<Site>>(

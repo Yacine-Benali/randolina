@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home_admin/admin_logout.dart';
 import 'package:randolina/app/home_admin/moderators/admin_search.dart';
 import 'package:randolina/app/home_admin/moderators/moderators_bloc.dart';
 import 'package:randolina/app/home_admin/moderators/user_tile.dart';
@@ -44,6 +45,7 @@ class _ModeratorsScreenState extends State<ModeratorsScreen> {
                 child: Scaffold(
                   appBar: AppBar(
                     backgroundColor: Colors.white,
+                    actions: [AdminLogout()],
                     leading: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: IconButton(

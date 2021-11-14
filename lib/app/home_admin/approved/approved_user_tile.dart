@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home_admin/approved/approved_bloc.dart';
-import 'package:randolina/app/home_admin/approved/club_detail_screen.dart';
+import 'package:randolina/app/home_admin/approved/nested_screens/club_detail_screen.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/user.dart';
