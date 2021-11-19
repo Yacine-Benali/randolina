@@ -1,32 +1,45 @@
 import 'dart:async';
 
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:tuple/tuple.dart';
 
 class SubBloc {
   final Database database;
 
   SubBloc({required this.database});
 
-  Stream<List<User>> getUnApporvedUsers() {
-    final Stream<List<String>> unApprovedIdsStream = database.streamCollection(
+  Stream<List<Tuple2<Subscription, User>>> getUnApporvedUsers() {
+    final Stream<List<Subscription>> unApprovedIdsStream =
+        database.streamCollection(
       path: 'subscriptions',
-      builder: (data, id) => id,
+      builder: (data, id) => Subscription.fromMap(data, id),
       queryBuilder: (query) => query.where('isApproved', isEqualTo: true),
     );
 
-    final Stream<List<User>> result = unApprovedIdsStream.transform(
-      StreamTransformer.fromHandlers(
-          handleData: (List<String> event, EventSink output) async {
-        final List<Future<User?>> a = event.map((userId) async {
-          return database.fetchDocument(
-            path: APIPath.userDocument(userId),
+    final Stream<List<Tuple2<Subscription, User>>> result =
+        unApprovedIdsStream.transform(
+      StreamTransformer.fromHandlers(handleData:
+          (List<Subscription> subscriptionsList, EventSink output) async {
+        final List<Future<Tuple2<Subscription, User>?>> a =
+            subscriptionsList.map((subscriber) async {
+          final User? user = await database.fetchDocument(
+            path: APIPath.userDocument(subscriber.id),
             builder: (data, id) => User.fromMap2(data, id),
           );
+          if (user != null) {
+            return Tuple2(subscriber, user);
+          } else {
+            return null;
+          }
         }).toList();
-        final List<User?> b = await Future.wait(a);
-        final List<User> c = b.whereType<User>().toList();
+        final List<Tuple2<Subscription, User>?> b = await Future.wait(a);
+        final List<Tuple2<Subscription, User>> c =
+            b.whereType<Tuple2<Subscription, User>>().toList();
+        logger.severe(c.length);
 
         output.add(c);
       }),

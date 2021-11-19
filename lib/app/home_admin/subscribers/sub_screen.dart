@@ -3,10 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home_admin/admin_logout.dart';
 import 'package:randolina/app/home_admin/subscribers/sub_bloc.dart';
 import 'package:randolina/app/home_admin/subscribers/sub_tile.dart';
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
+import 'package:tuple/tuple.dart';
 
 class SubScreen extends StatefulWidget {
   const SubScreen({Key? key}) : super(key: key);
@@ -16,9 +19,9 @@ class SubScreen extends StatefulWidget {
 }
 
 class _SubScreenState extends State<SubScreen> {
-  late Stream<List<User>> unapprovedUsers;
+  late Stream<List<Tuple2<Subscription, User>>> unapprovedUsers;
   late final SubBloc bloc;
-  late List<User> usersList = [];
+  late List<Tuple2<Subscription, User>> usersList = [];
 
   @override
   void initState() {
@@ -31,7 +34,7 @@ class _SubScreenState extends State<SubScreen> {
   Widget build(BuildContext context) {
     return Material(
       color: backgroundColor,
-      child: StreamBuilder<List<User>>(
+      child: StreamBuilder<List<Tuple2<Subscription, User>>>(
         stream: unapprovedUsers,
         builder: (context, snapshot) {
           return Scaffold(
@@ -74,13 +77,14 @@ class _SubScreenState extends State<SubScreen> {
     );
   }
 
-  Widget buildBody(AsyncSnapshot<List<User>> snapshot) {
+  Widget buildBody(AsyncSnapshot<List<Tuple2<Subscription, User>>> snapshot) {
     if (snapshot.hasData && snapshot.data != null) {
-      final List<User> items = snapshot.data!;
+      logger.info(snapshot.data?.length);
+      final List<Tuple2<Subscription, User>> items = snapshot.data!;
       usersList = items;
       if (items.isNotEmpty) {
         final List<Widget> list = [];
-        for (final User user in items) {
+        for (final Tuple2<Subscription, User> user in items) {
           list.add(SubTile(user: user));
           // list.add(Container(color: Colors.red, width: 50, height: 50));
         }
@@ -96,6 +100,7 @@ class _SubScreenState extends State<SubScreen> {
         );
       }
     } else if (snapshot.hasError) {
+      logger.severe(snapshot.error);
       return EmptyContent(
         title: "Quelque chose s'est mal passé",
         message: "Impossible de charger les éléments pour le moment",

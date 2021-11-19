@@ -1,10 +1,10 @@
 import 'package:blur/blur.dart';
-import 'package:bordered_text/bordered_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:tuple/tuple.dart';
 
 // todo @low move this somewhere else
 enum ActionButtonState { subscribe, unsubscribe, unavailable }
@@ -17,7 +17,7 @@ class SubTile extends StatefulWidget {
   }) : super(key: key);
 
   // final EventsBloc eventsBloc;
-  final User user;
+  final Tuple2<Subscription, User> user;
   @override
   _SubTileState createState() => _SubTileState();
 }
@@ -98,9 +98,13 @@ class _SubTileState extends State<SubTile> {
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
-              widget.user.name,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              widget.user.item2.name,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+          ),
+          Text(
+            widget.user.runtimeType.toString(),
+            style: TextStyle(fontSize: 14, color: Colors.blue),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,92 +166,75 @@ class _SubTileState extends State<SubTile> {
       onTap: () {},
       child: Padding(
         padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
-        child: ClipRect(
-          child: Banner(
-            location: BannerLocation.topEnd,
-            message: "0 DA",
-            color: Colors.red.withOpacity(0.6),
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 12.0,
+        child: Container(
+          height: 150,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: const [0, 0.9],
+              colors: [
+                Color.fromRGBO(64, 163, 219, 0.0),
+                Color.fromRGBO(64, 163, 219, 0.8)
+              ],
             ),
-            //textDirection: TextDirection.ltr,
-            child: Container(
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider('widget.user.profileImage'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text(
-                          'widget.user.startDateTime',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: -0.33,
-                            color: Colors.black87,
-                          ),
-                          textAlign: TextAlign.center,
-                        ).frosted(
-                          blur: 1,
-                          borderRadius: BorderRadius.circular(20),
-                          padding: EdgeInsets.all(8),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: BorderedText(
-                                strokeColor: Colors.black,
-                                strokeWidth: 3.0,
-                                child: Text(
-                                  'widget.user.destination',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildStart(),
+              buildStart(),
+            ],
           ),
         ),
       ),
     );
   }
 
+  Widget buildStart() {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            'Du:',
+            style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+          ),
+          GestureDetector(
+            onTap: () async {
+              // final DateTime temp = selectedDate != null
+              //     ? selectedDate!.toDate()
+              //     : DateTime.now();
+              // final pickedDate = await showDatePicker(
+              //   context: context,
+              //   initialDate: temp,
+              //   firstDate: DateTime(1960),
+              //   lastDate: DateTime(2100),
+              // );
+              // if (pickedDate != null) {
+              //   onSelectedDate(Timestamp.fromDate(pickedDate));
+              // }
+            },
+            child: Text(
+              '15/08/2021',
+              style: TextStyle(fontSize: 16),
+            ).frosted(
+              blur: 5,
+              padding: EdgeInsets.all(8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    setButtonState();
+    //setButtonState();
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
@@ -267,19 +254,9 @@ class _SubTileState extends State<SubTile> {
             Positioned(
               top: 50,
               child: GestureDetector(
-                onTap: () {
-                  // if (context.read<User>().id != widget.user.createdBy.id) {
-                  //   Navigator.of(context).push(
-                  //     MaterialPageRoute(
-                  //       builder: (_) => MiniuserToProfile(
-                  //         miniUser: widget.user.createdBy,
-                  //       ),
-                  //     ),
-                  //   );
-                  // }
-                },
+                onTap: () {},
                 child: ImageProfile(
-                  url: widget.user.profilePicture,
+                  url: widget.user.item2.profilePicture,
                   width: 75,
                   height: 75,
                 ),
