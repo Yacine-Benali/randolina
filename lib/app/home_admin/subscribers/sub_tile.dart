@@ -2,45 +2,37 @@ import 'package:blur/blur.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:randolina/app/home/events/events_bloc.dart';
-import 'package:randolina/app/home/events/nested_screens/client_event_detail_screen.dart';
-import 'package:randolina/app/models/event.dart';
-import 'package:randolina/app/models/mini_subscriber.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
-import 'package:randolina/common_widgets/miniuser_to_profile.dart';
-import 'package:randolina/utils/utils.dart';
 
 // todo @low move this somewhere else
 enum ActionButtonState { subscribe, unsubscribe, unavailable }
 
-class ClientEventCard extends StatefulWidget {
-  const ClientEventCard({
+class SubTile extends StatefulWidget {
+  const SubTile({
     Key? key,
-    required this.event,
-    required this.eventsBloc,
+    required this.user,
+    //  required this.eventsBloc,
   }) : super(key: key);
 
-  final EventsBloc eventsBloc;
-  final Event event;
+  // final EventsBloc eventsBloc;
+  final User user;
   @override
-  _ClientEventCardState createState() => _ClientEventCardState();
+  _SubTileState createState() => _SubTileState();
 }
 
-class _ClientEventCardState extends State<ClientEventCard> {
+class _SubTileState extends State<SubTile> {
   late List<Color> actionButtonGradient;
   late String actionButtonText;
   late VoidCallback callback;
   late bool isSaved;
   double? topPartHeight;
-  late final User client;
+  late final Client client;
 
   @override
   void initState() {
-    client = context.read<User>() ;
     setButtonState();
-    isSaved = widget.eventsBloc.isEventSaved(widget.event);
 
     super.initState();
   }
@@ -54,7 +46,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
         ];
         actionButtonText = 'Participer';
         callback = () {
-          widget.eventsBloc.subscribeToEvent(widget.event);
+          // widget.eventsBloc.subscribeToEvent(widget.user);
           // buttonState(ActionButtonState.unsubscribe);
           // setState(() {});
         };
@@ -66,7 +58,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
         ];
         actionButtonText = 'Annuler';
         callback = () {
-          widget.eventsBloc.unsubscribeFromEvent(widget.event);
+          // widget.eventsBloc.unsubscribeFromEvent(widget.user);
           // buttonState(ActionButtonState.subscribe);
           // setState(() {});
         };
@@ -84,32 +76,18 @@ class _ClientEventCardState extends State<ClientEventCard> {
   }
 
   void setButtonState() {
-    bool isSet = false;
-
-    if (widget.event.subscribersLength == widget.event.availableSeats) {
-      setbuttonProperties(ActionButtonState.unavailable);
-      isSet = true;
-    }
-    for (final MiniSubscriber miniSubscriber in widget.event.subscribers) {
-      if (miniSubscriber.id == client.id) {
-        setbuttonProperties(ActionButtonState.unsubscribe);
-        isSet = true;
-      }
-    }
-    if (!isSet) {
-      setbuttonProperties(ActionButtonState.subscribe);
-    }
+    setbuttonProperties(ActionButtonState.subscribe);
   }
 
   void goToEventDetails() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ClientEventDetailScreen(
-          event: widget.event,
-          eventsBloc: widget.eventsBloc,
-        ),
-      ),
-    );
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => ClientEventDetailScreen(
+    //       event: widget.user,
+    //       eventsBloc: widget.eventsBloc,
+    //     ),
+    //   ),
+    // );
   }
 
   Widget buildTopPart() {
@@ -120,7 +98,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
-              widget.event.createdBy.name,
+              widget.user.name,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
@@ -166,29 +144,8 @@ class _ClientEventCardState extends State<ClientEventCard> {
               ),
               Row(
                 children: [
-                  //! todo @low for later
-                  // IconButton(
-                  //   onPressed: () {
-                  //     if (isSaved == false) {
-                  //       widget.eventsBloc.saveEventToFavorite(widget.event);
-                  //       print("SAVE");
-
-                  //       isSaved = true;
-                  //     } else if (isSaved == true) {
-                  //       print("UNSAVE");
-                  //       widget.eventsBloc.unsaveEventFromFavorite(widget.event);
-                  //       isSaved = false;
-                  //     }
-                  //     setState(() {});
-                  //   },
-                  //   icon: Icon(isSaved
-                  //       ? Icons.bookmark
-                  //       : Icons.bookmark_border_outlined),
-                  //   color: Colors.black,
-                  //   // iconSize: 28,
-                  // ),
                   IconButton(
-                    onPressed: goToEventDetails,
+                    onPressed: () {},
                     icon: Icon(Icons.info_outline),
                   ),
                 ],
@@ -202,13 +159,13 @@ class _ClientEventCardState extends State<ClientEventCard> {
 
   Widget buildBottomPart() {
     return GestureDetector(
-      onTap: goToEventDetails,
+      onTap: () {},
       child: Padding(
         padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
         child: ClipRect(
           child: Banner(
             location: BannerLocation.topEnd,
-            message: "${widget.event.price.toInt()} DA",
+            message: "0 DA",
             color: Colors.red.withOpacity(0.6),
             textStyle: TextStyle(
               fontWeight: FontWeight.w700,
@@ -220,7 +177,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
-                  image: CachedNetworkImageProvider(widget.event.profileImage),
+                  image: CachedNetworkImageProvider('widget.user.profileImage'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -234,7 +191,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Text(
-                          eventCardDateFormat(widget.event.startDateTime),
+                          'widget.user.startDateTime',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -265,7 +222,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
                                 strokeColor: Colors.black,
                                 strokeWidth: 3.0,
                                 child: Text(
-                                  widget.event.destination,
+                                  'widget.user.destination',
                                   style: TextStyle(
                                     fontSize: 24,
                                     color: Colors.white,
@@ -311,18 +268,18 @@ class _ClientEventCardState extends State<ClientEventCard> {
               top: 50,
               child: GestureDetector(
                 onTap: () {
-                  if (context.read<User>().id != widget.event.createdBy.id) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => MiniuserToProfile(
-                          miniUser: widget.event.createdBy,
-                        ),
-                      ),
-                    );
-                  }
+                  // if (context.read<User>().id != widget.user.createdBy.id) {
+                  //   Navigator.of(context).push(
+                  //     MaterialPageRoute(
+                  //       builder: (_) => MiniuserToProfile(
+                  //         miniUser: widget.user.createdBy,
+                  //       ),
+                  //     ),
+                  //   );
+                  // }
                 },
                 child: ImageProfile(
-                  url: widget.event.createdBy.profilePicture,
+                  url: widget.user.profilePicture,
                   width: 75,
                   height: 75,
                 ),

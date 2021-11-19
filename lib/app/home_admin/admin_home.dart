@@ -4,11 +4,11 @@ import 'package:randolina/app/home_admin/approved/approved_screen.dart';
 import 'package:randolina/app/home_admin/moderators/moderators_screen.dart';
 import 'package:randolina/app/home_admin/reported_posts/reported_posts_screen.dart';
 import 'package:randolina/app/home_admin/sites/sites_screen.dart';
+import 'package:randolina/app/home_admin/subscribers/sub_screen.dart';
 import 'package:randolina/app/models/admin.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/services/auth.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   late final Admin admin;
-  int index = 3;
+  int index = 4;
   late List<Widget> screens;
 
   @override
@@ -31,19 +31,7 @@ class _AdminHomeState extends State<AdminHome> {
       SitesScreen(),
       ReportedPostsScreen(),
       ApprovedScreen(),
-      Container(
-        color: Colors.brown,
-        child: InkWell(
-          onTap: () {
-            context.read<Auth>().signOut();
-          },
-          child: Container(
-            height: 200,
-            width: 200,
-            color: Colors.red,
-          ),
-        ),
-      ),
+      SubScreen(),
     ];
   }
 

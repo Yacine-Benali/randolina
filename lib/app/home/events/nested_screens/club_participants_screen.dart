@@ -156,60 +156,58 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
   }
 
   Widget buildTableOptions() {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            AutoSizeText(
+              'tout sélectionner',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Checkbox(
+              value: isSelectAll,
+              onChanged: (t) {
+                if (t != null) {
+                  if (t == true) {
+                    for (final Participant element in participants) {
+                      element.isConfirmed = true;
+                    }
+                  } else if (t == false) {
+                    for (final Participant element in participants) {
+                      element.isConfirmed = false;
+                    }
+                  }
+                  setState(() {
+                    isSelectAll = t;
+                  });
+                }
+              },
+            ),
+          ],
+        ),
+        Expanded(
+          child: Row(
             children: [
-              AutoSizeText(
-                'tout sélectionner',
+              Expanded(
+                  child: AutoSizeText(
+                'confirmé seulement',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-              ),
-              Checkbox(
-                value: isSelectAll,
+              )),
+              Switch(
+                value: showConfirmedOnly,
                 onChanged: (t) {
-                  if (t != null) {
-                    if (t == true) {
-                      for (final Participant element in participants) {
-                        element.isConfirmed = true;
-                      }
-                    } else if (t == false) {
-                      for (final Participant element in participants) {
-                        element.isConfirmed = false;
-                      }
-                    }
-                    setState(() {
-                      isSelectAll = t;
-                    });
-                  }
+                  setState(() {
+                    showConfirmedOnly = t;
+                  });
                 },
               ),
             ],
           ),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                    child: AutoSizeText(
-                  'spectacle confirmé seulement',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                )),
-                Switch(
-                  value: showConfirmedOnly,
-                  onChanged: (t) {
-                    setState(() {
-                      showConfirmedOnly = t;
-                    });
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 

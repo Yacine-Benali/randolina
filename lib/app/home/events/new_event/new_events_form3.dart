@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:ndialog/ndialog.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
@@ -110,16 +110,20 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
   }
 
   Future<void> finish() async {
-    final ProgressDialog progressDialog = ProgressDialog(
-      context,
-      message: Text("Chargement"),
-      title: Text("téléchargement des images"),
-      dismissable: false,
+    finish2().then(
+      (value) => Fluttertoast.showToast(
+        msg: 'Evenement publié avec succès',
+        toastLength: Toast.LENGTH_SHORT,
+      ),
     );
+
+    Navigator.of(context).pop();
+  }
+
+  Future<void> finish2() async {
     final Uuid uuid = Uuid();
     String eventId = uuid.v4();
 
-    progressDialog.show();
     try {
       late String profilePictureUrl;
       final List<String> imagesUrls = [];
@@ -165,11 +169,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
         wilaya: widget.event!.wilaya,
       );
       await widget.eventsBloc.saveEvent(event);
-      progressDialog.dismiss();
-      Navigator.of(context).pop();
     } on Exception catch (e) {
-      progressDialog.dismiss();
-
       PlatformExceptionAlertDialog(exception: e).show(context);
     } catch (e) {
       logger.warning('wtf');

@@ -108,7 +108,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     isFollowingOther: snapshot.data,
                     showProfileAsOther: showProfileAsOther,
                   );
+                } else {
+                  child = Container(color: Colors.blue);
                 }
+
                 return SafeArea(
                   child: SingleChildScrollView(
                     child: child,

@@ -1,10 +1,9 @@
-import 'package:blur/blur.dart';
-import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/nested_screens/client_event_detail_screen.dart';
 import 'package:randolina/app/home/events/widgets/event_more_info.dart';
+import 'package:randolina/app/home/profile/club_profile/club_profile_event_card.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
@@ -42,122 +41,6 @@ class _ClubProfileEventSliderState extends State<ClubProfileEventSlider> {
     super.initState();
   }
 
-  Widget buildList(Event event) {
-    return GestureDetector(
-      onTap: () {
-        if (context.read<User>() is Client) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ClientEventDetailScreen(
-                event: event,
-                eventsBloc: eventsBloc,
-              ),
-            ),
-          );
-        } else {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => EventMoreInfo(event: event),
-            ),
-          );
-        }
-      },
-      child: SizedBox(
-        width: 400,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 2, left: 2),
-              child: ClipRect(
-                child: Banner(
-                  location: BannerLocation.topEnd,
-                  message: "${event.price.toInt()} DA",
-                  color: Colors.red.withOpacity(0.6),
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12.0,
-                  ),
-                  //textDirection: TextDirection.ltr,
-                  child: Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                        image: NetworkImage(event.profileImage),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                eventCardDateFormat(event.startDateTime),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: -0.33,
-                                  color: Colors.black87,
-                                ),
-                                textAlign: TextAlign.center,
-                              ).frosted(
-                                blur: 1,
-                                borderRadius: BorderRadius.circular(20),
-                                padding: EdgeInsets.all(8),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: BorderedText(
-                                      strokeColor: Colors.black,
-                                      strokeWidth: 3.0,
-                                      child: Text(
-                                        event.destination,
-                                        style: TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -173,7 +56,10 @@ class _ClubProfileEventSliderState extends State<ClubProfileEventSlider> {
                 scrollDirection: Axis.horizontal,
                 itemCount: events.length,
                 itemBuilder: (contex, index) {
-                  return buildList(events[index]);
+                  return ClubProfileEventCard(
+                    event: events[index],
+                    eventsBloc: eventsBloc,
+                  );
                 },
               );
             } else {
