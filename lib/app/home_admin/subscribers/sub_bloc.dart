@@ -46,4 +46,11 @@ class SubBloc {
     );
     return result;
   }
+
+  Future<void> saveSubscription(Subscription subscription) async {
+    await database.updateData(
+      path: APIPath.subscriptionsDocument(subscription.id),
+      data: subscription.toMap(),
+    );
+  }
 }

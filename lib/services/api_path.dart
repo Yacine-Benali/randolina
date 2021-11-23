@@ -57,4 +57,6 @@ class APIPath {
 
   static String eventsFiles(String userId, String eventId, String photoId) =>
       'events/user_$userId/event_$eventId/$photoId';
+
+  static String subscriptionsDocument(String subId) => 'subscriptions/$subId';
 }

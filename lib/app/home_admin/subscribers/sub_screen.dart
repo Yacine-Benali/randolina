@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home_admin/admin_logout.dart';
 import 'package:randolina/app/home_admin/subscribers/sub_bloc.dart';
+import 'package:randolina/app/home_admin/subscribers/sub_search.dart';
 import 'package:randolina/app/home_admin/subscribers/sub_tile.dart';
 import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
@@ -56,15 +57,11 @@ class _SubScreenState extends State<SubScreen> {
                   ),
                   color: darkBlue,
                   onPressed: () {
-                    //logger.info(usersList.length);
                     if (usersList.isNotEmpty) {
-                      // showSearch(
-                      //   context: context,
-                      //   delegate: ApproveSearch(
-                      //     approvedBloc: bloc,
-                      //     users: usersList,
-                      //   ),
-                      // );
+                      showSearch(
+                        context: context,
+                        delegate: SubSearch(subBloc: bloc, users: usersList),
+                      );
                     }
                   },
                 ),
@@ -85,8 +82,10 @@ class _SubScreenState extends State<SubScreen> {
       if (items.isNotEmpty) {
         final List<Widget> list = [];
         for (final Tuple2<Subscription, User> user in items) {
-          list.add(SubTile(tuple: user));
-          // list.add(Container(color: Colors.red, width: 50, height: 50));
+          list.add(SubTile(
+            tuple: user,
+            subBloc: bloc,
+          ));
         }
 
         return SingleChildScrollView(child: Column(children: list));

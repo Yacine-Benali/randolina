@@ -1,84 +1,56 @@
 import 'package:blur/blur.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home_admin/subscribers/sub_bloc.dart';
+import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
+import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
 // todo @low move this somewhere else
-enum ActionButtonState { subscribe, unsubscribe, unavailable }
+enum ActionButtonState { active, inactive }
 
 class SubTile extends StatefulWidget {
   const SubTile({
     Key? key,
     required this.tuple,
-    //  required this.eventsBloc,
+    required this.subBloc,
   }) : super(key: key);
 
-  // final EventsBloc eventsBloc;
+  final SubBloc subBloc;
   final Tuple2<Subscription, User> tuple;
   @override
   _SubTileState createState() => _SubTileState();
 }
 
 class _SubTileState extends State<SubTile> {
-  late List<Color> actionButtonGradient;
-  late String actionButtonText;
-  late VoidCallback callback;
   late bool isSaved;
   double? topPartHeight;
   late final Client client;
   late Subscription subscription;
+  String userType = '';
+
   @override
   void initState() {
-    subscription = widget.tuple.item1;
-    setButtonState();
-    super.initState();
-  }
+    subscription =
+        Subscription.fromMap(widget.tuple.item1.toMap(), widget.tuple.item1.id);
 
-  void setbuttonProperties(ActionButtonState actionButtonState) {
-    switch (actionButtonState) {
-      case ActionButtonState.subscribe:
-        actionButtonGradient = [
-          Color.fromRGBO(125, 207, 123, 1),
-          Color.fromRGBO(125, 207, 123, 0.8),
-        ];
-        actionButtonText = 'Participer';
-        callback = () {
-          // widget.eventsBloc.subscribeToEvent(widget.user);
-          // buttonState(ActionButtonState.unsubscribe);
-          // setState(() {});
-        };
-        break;
-      case ActionButtonState.unsubscribe:
-        actionButtonGradient = [
-          Color.fromRGBO(251, 106, 106, 1),
-          Color.fromRGBO(251, 106, 106, 0.8),
-        ];
-        actionButtonText = 'Annuler';
-        callback = () {
-          // widget.eventsBloc.unsubscribeFromEvent(widget.user);
-          // buttonState(ActionButtonState.subscribe);
-          // setState(() {});
-        };
-        break;
-      case ActionButtonState.unavailable:
-        actionButtonGradient = [
-          Color.fromRGBO(251, 106, 106, 1),
-          Color.fromRGBO(251, 106, 106, 0.8),
-        ];
-        actionButtonText = 'Complet';
-        callback = () {};
-        break;
-      default:
+    if (widget.tuple.item2 is Club) {
+      userType = 'Club';
+    } else if (widget.tuple.item2 is Agency) {
+      userType = 'Agence';
+    } else if (widget.tuple.item2 is Store) {
+      userType = 'Magazin';
     }
-  }
-
-  void setButtonState() {
-    setbuttonProperties(ActionButtonState.subscribe);
+    super.initState();
   }
 
   void goToEventDetails() {
@@ -105,7 +77,7 @@ class _SubTileState extends State<SubTile> {
             ),
           ),
           Text(
-            widget.tuple.runtimeType.toString(),
+            userType,
             style: TextStyle(fontSize: 14, color: Colors.blue),
           ),
           Row(
@@ -124,18 +96,14 @@ class _SubTileState extends State<SubTile> {
                         blurRadius: 5.0,
                       )
                     ],
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      stops: const [0, 1],
-                      colors: actionButtonGradient,
-                    ),
-                    color: Colors.deepPurple.shade300,
+                    color: subscription.isActive ? Colors.red : Colors.green,
                     borderRadius: BorderRadius.circular(60),
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      callback();
+                      subscription.isActive = !subscription.isActive;
+                      setState(() {});
+                      save();
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -144,18 +112,19 @@ class _SubTileState extends State<SubTile> {
                           MaterialStateProperty.all(Colors.transparent),
                       padding: MaterialStateProperty.all(EdgeInsets.all(0.0)),
                     ),
-                    child: Text(actionButtonText),
+                    child:
+                        Text(subscription.isActive ? 'Desactiver' : 'Activer'),
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.info_outline),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     IconButton(
+              //       onPressed: () {},
+              //       icon: Icon(Icons.info_outline),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ],
@@ -163,10 +132,21 @@ class _SubTileState extends State<SubTile> {
     });
   }
 
-  void save() {
-    //TODO save data
+  Future<void> save() async {
+    print(subscription.startsAt);
+    print(widget.tuple.item1.startsAt);
+    try {
+      if (subscription.startsAt != widget.tuple.item1.startsAt ||
+          subscription.endsAt != widget.tuple.item1.endsAt ||
+          subscription.isActive != widget.tuple.item1.isActive) {
+        await widget.subBloc.saveSubscription(subscription);
+      }
+    } on Exception catch (e) {
+      logger.severe(e);
+      PlatformExceptionAlertDialog(exception: e).show(context);
+    }
   }
-  
+
   Widget buildBottomPart() {
     return GestureDetector(
       onTap: () {},
@@ -224,6 +204,7 @@ class _SubTileState extends State<SubTile> {
               if (pickedDate != null) {
                 subscription.startsAt = Timestamp.fromDate(pickedDate);
                 setState(() {});
+                save();
               }
             },
             child: Text(
@@ -254,6 +235,14 @@ class _SubTileState extends State<SubTile> {
           ),
           GestureDetector(
             onTap: () async {
+              if (subscription.startsAt == null) {
+                PlatformAlertDialog(
+                  title: 'Erreur',
+                  content: 'Veuillez commencer par la date de début',
+                ).show(context);
+                return;
+              }
+
               final DateTime temp = subscription.endsAt?.toDate() != null
                   ? subscription.endsAt!.toDate()
                   : DateTime.now();
@@ -264,8 +253,18 @@ class _SubTileState extends State<SubTile> {
                 lastDate: DateTime(2100),
               );
               if (pickedDate != null) {
+                if (pickedDate.isBefore(subscription.startsAt!.toDate())) {
+                  // ignore: use_build_context_synchronously
+                  PlatformAlertDialog(
+                    title: 'Erreur',
+                    content:
+                        'la date de fin ne peut pas être avant à la date de début',
+                  ).show(context);
+                  return;
+                }
                 subscription.endsAt = Timestamp.fromDate(pickedDate);
                 setState(() {});
+                save();
               }
             },
             child: Text(
@@ -284,8 +283,6 @@ class _SubTileState extends State<SubTile> {
 
   @override
   Widget build(BuildContext context) {
-    //setButtonState();
-
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: Card(
