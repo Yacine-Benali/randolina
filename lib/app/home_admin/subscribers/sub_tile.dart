@@ -53,6 +53,13 @@ class _SubTileState extends State<SubTile> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant SubTile oldWidget) {
+    subscription =
+        Subscription.fromMap(widget.tuple.item1.toMap(), widget.tuple.item1.id);
+    super.didUpdateWidget(oldWidget);
+  }
+
   void goToEventDetails() {
     // Navigator.of(context).push(
     //   MaterialPageRoute(

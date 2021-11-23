@@ -4,7 +4,6 @@ import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:tuple/tuple.dart';
 
 class SubBloc {
@@ -39,11 +38,11 @@ class SubBloc {
         final List<Tuple2<Subscription, User>?> b = await Future.wait(a);
         final List<Tuple2<Subscription, User>> c =
             b.whereType<Tuple2<Subscription, User>>().toList();
-        logger.severe(c.length);
 
         output.add(c);
       }),
     );
+
     return result;
   }
 

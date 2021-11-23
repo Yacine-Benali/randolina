@@ -84,7 +84,10 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
         return ListView.builder(
           itemCount: items.length,
           itemBuilder: (_, index) {
-            return ApprovedUserTile(user: items[index], bloc: bloc);
+            return ApprovedUserTile(
+              user: items[index],
+              bloc: bloc,
+            );
           },
         );
       } else {

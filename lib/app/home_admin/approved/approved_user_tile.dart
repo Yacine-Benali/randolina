@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home_admin/approved/approved_bloc.dart';
 import 'package:randolina/app/home_admin/approved/nested_screens/club_detail_screen.dart';
+import 'package:randolina/app/home_admin/approved/nested_screens/store_detail_screen.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 
 import 'nested_screens/agency_detail_screen.dart';
@@ -42,6 +44,7 @@ class ApprovedUserTile extends StatelessWidget {
       title: Text(user.name),
       subtitle: Text(user.username),
       onTap: () {
+        print(user.id);
         if (user is Club) {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -55,6 +58,14 @@ class ApprovedUserTile extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) =>
                   AgencyDetailScreen(agency: user as Agency, bloc: bloc),
+            ),
+          );
+        }
+        if (user is Store) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  StoreDetailScreen(store: user as Store, bloc: bloc),
             ),
           );
         }

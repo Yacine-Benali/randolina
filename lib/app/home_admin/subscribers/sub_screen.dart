@@ -61,7 +61,7 @@ class _SubScreenState extends State<SubScreen> {
                       showSearch(
                         context: context,
                         delegate: SubSearch(subBloc: bloc, users: usersList),
-                      );
+                      ).then((value) => setState(() {}));
                     }
                   },
                 ),
@@ -76,16 +76,18 @@ class _SubScreenState extends State<SubScreen> {
 
   Widget buildBody(AsyncSnapshot<List<Tuple2<Subscription, User>>> snapshot) {
     if (snapshot.hasData && snapshot.data != null) {
-      logger.info(snapshot.data?.length);
       final List<Tuple2<Subscription, User>> items = snapshot.data!;
       usersList = items;
+
       if (items.isNotEmpty) {
         final List<Widget> list = [];
         for (final Tuple2<Subscription, User> user in items) {
-          list.add(SubTile(
+          final temp = SubTile(
+            key: Key(user.item1.id),
             tuple: user,
             subBloc: bloc,
-          ));
+          );
+          list.add(temp);
         }
 
         return SingleChildScrollView(child: Column(children: list));

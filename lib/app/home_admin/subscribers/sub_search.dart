@@ -53,7 +53,11 @@ class SubSearch extends SearchDelegate<String> {
             .name
             .toLowerCase()
             .contains(query.toLowerCase())) {
-          return SubTile(tuple: users[index], subBloc: subBloc);
+          return SubTile(
+            key: Key(users[index].item1.id),
+            tuple: users[index],
+            subBloc: subBloc,
+          );
         } else {
           return Container();
         }
