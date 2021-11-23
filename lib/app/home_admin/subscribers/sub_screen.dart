@@ -85,7 +85,7 @@ class _SubScreenState extends State<SubScreen> {
       if (items.isNotEmpty) {
         final List<Widget> list = [];
         for (final Tuple2<Subscription, User> user in items) {
-          list.add(SubTile(user: user));
+          list.add(SubTile(tuple: user));
           // list.add(Container(color: Colors.red, width: 50, height: 50));
         }
 

@@ -11,7 +11,7 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/utils/utils.dart';
 
 class ClubProfileEventCard extends StatefulWidget {
-  ClubProfileEventCard({
+  const ClubProfileEventCard({
     Key? key,
     required this.event,
     required this.eventsBloc,

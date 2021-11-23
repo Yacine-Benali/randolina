@@ -130,30 +130,26 @@ class _SignUpStoreForm2State extends State<SignUpStoreForm2> {
                         phoneNumber = phoneNumber.replaceFirst(RegExp('0'), '');
                         phoneNumber = '+213$phoneNumber';
                       },
-                      prefix: Padding(
-                        //padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
-                        padding: const EdgeInsets.all(0),
-                        child: IntrinsicHeight(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  '+213',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
+                      prefix: IntrinsicHeight(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                '+213',
+                                style: TextStyle(color: Colors.grey),
                               ),
-                              SizedBox(
-                                height: 57,
-                                child: VerticalDivider(
-                                  thickness: 1,
-                                  width: 20,
-                                  color: Colors.grey,
-                                ),
+                            ),
+                            SizedBox(
+                              height: 57,
+                              child: VerticalDivider(
+                                thickness: 1,
+                                width: 20,
+                                color: Colors.grey,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                       validator: (String? value) {

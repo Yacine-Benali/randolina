@@ -14,7 +14,7 @@ class CircularIconButton extends StatelessWidget {
     this.containerRadius = 36,
     this.backColor = Colors.black26,
     required this.splashColor,
-    this.padding = const EdgeInsets.all(0),
+    this.padding = EdgeInsets.zero,
   });
   @override
   Widget build(BuildContext context) {

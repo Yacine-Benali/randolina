@@ -1,9 +1,11 @@
 import 'package:blur/blur.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
+import 'package:randolina/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
 // todo @low move this somewhere else
@@ -12,12 +14,12 @@ enum ActionButtonState { subscribe, unsubscribe, unavailable }
 class SubTile extends StatefulWidget {
   const SubTile({
     Key? key,
-    required this.user,
+    required this.tuple,
     //  required this.eventsBloc,
   }) : super(key: key);
 
   // final EventsBloc eventsBloc;
-  final Tuple2<Subscription, User> user;
+  final Tuple2<Subscription, User> tuple;
   @override
   _SubTileState createState() => _SubTileState();
 }
@@ -29,11 +31,11 @@ class _SubTileState extends State<SubTile> {
   late bool isSaved;
   double? topPartHeight;
   late final Client client;
-
+  late Subscription subscription;
   @override
   void initState() {
+    subscription = widget.tuple.item1;
     setButtonState();
-
     super.initState();
   }
 
@@ -98,12 +100,12 @@ class _SubTileState extends State<SubTile> {
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
-              widget.user.item2.name,
+              widget.tuple.item2.name,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Text(
-            widget.user.runtimeType.toString(),
+            widget.tuple.runtimeType.toString(),
             style: TextStyle(fontSize: 14, color: Colors.blue),
           ),
           Row(
@@ -161,6 +163,10 @@ class _SubTileState extends State<SubTile> {
     });
   }
 
+  void save() {
+    //TODO save data
+  }
+  
   Widget buildBottomPart() {
     return GestureDetector(
       onTap: () {},
@@ -185,7 +191,7 @@ class _SubTileState extends State<SubTile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildStart(),
-              buildStart(),
+              buildEnd(),
             ],
           ),
         ),
@@ -206,24 +212,68 @@ class _SubTileState extends State<SubTile> {
           ),
           GestureDetector(
             onTap: () async {
-              // final DateTime temp = selectedDate != null
-              //     ? selectedDate!.toDate()
-              //     : DateTime.now();
-              // final pickedDate = await showDatePicker(
-              //   context: context,
-              //   initialDate: temp,
-              //   firstDate: DateTime(1960),
-              //   lastDate: DateTime(2100),
-              // );
-              // if (pickedDate != null) {
-              //   onSelectedDate(Timestamp.fromDate(pickedDate));
-              // }
+              final DateTime temp = subscription.startsAt?.toDate() != null
+                  ? subscription.startsAt!.toDate()
+                  : DateTime.now();
+              final pickedDate = await showDatePicker(
+                context: context,
+                initialDate: temp,
+                firstDate: DateTime(1960),
+                lastDate: DateTime(2100),
+              );
+              if (pickedDate != null) {
+                subscription.startsAt = Timestamp.fromDate(pickedDate);
+                setState(() {});
+              }
             },
             child: Text(
-              '15/08/2021',
+              subscription.startsAt != null
+                  ? particpantDateFormmater(subscription.startsAt!)
+                  : 'Pas de date',
               style: TextStyle(fontSize: 16),
             ).frosted(
               blur: 5,
+              padding: EdgeInsets.all(8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildEnd() {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            'A:',
+            style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+          ),
+          GestureDetector(
+            onTap: () async {
+              final DateTime temp = subscription.endsAt?.toDate() != null
+                  ? subscription.endsAt!.toDate()
+                  : DateTime.now();
+              final pickedDate = await showDatePicker(
+                context: context,
+                initialDate: temp,
+                firstDate: DateTime(1960),
+                lastDate: DateTime(2100),
+              );
+              if (pickedDate != null) {
+                subscription.endsAt = Timestamp.fromDate(pickedDate);
+                setState(() {});
+              }
+            },
+            child: Text(
+              subscription.endsAt != null
+                  ? particpantDateFormmater(subscription.endsAt!)
+                  : 'Pas de date',
+              style: TextStyle(fontSize: 16),
+            ).frosted(
               padding: EdgeInsets.all(8),
             ),
           ),
@@ -256,7 +306,7 @@ class _SubTileState extends State<SubTile> {
               child: GestureDetector(
                 onTap: () {},
                 child: ImageProfile(
-                  url: widget.user.item2.profilePicture,
+                  url: widget.tuple.item2.profilePicture,
                   width: 75,
                   height: 75,
                 ),

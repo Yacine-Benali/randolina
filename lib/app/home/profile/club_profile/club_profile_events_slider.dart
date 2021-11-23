@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
-import 'package:randolina/app/home/events/nested_screens/client_event_detail_screen.dart';
-import 'package:randolina/app/home/events/widgets/event_more_info.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_event_card.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
-import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:randolina/utils/utils.dart';
 
 class ClubProfileEventSlider extends StatefulWidget {
   const ClubProfileEventSlider({
