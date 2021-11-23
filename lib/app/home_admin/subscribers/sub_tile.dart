@@ -107,10 +107,18 @@ class _SubTileState extends State<SubTile> {
                     borderRadius: BorderRadius.circular(60),
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
-                      subscription.isActive = !subscription.isActive;
-                      setState(() {});
-                      save();
+                    onPressed: () async {
+                      final bool? isSure = await PlatformAlertDialog(
+                        title: 'Confirmer',
+                        content: 'es-tu sûr',
+                        cancelActionText: 'non',
+                        defaultActionText: 'oui',
+                      ).show(context);
+                      if (isSure == true) {
+                        subscription.isActive = !subscription.isActive;
+                        setState(() {});
+                        save();
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor:
