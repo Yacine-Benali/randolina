@@ -9,6 +9,8 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:randolina/services/database.dart';
+import 'package:randolina/services/firebase_messaging_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,7 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     user = context.read<User>();
+    final Database database = context.read<Database>();
     super.initState();
+    final FirebaseMessagingService firebaseMessagingService =
+        FirebaseMessagingService();
+    firebaseMessagingService.configFirebaseNotification(user.id, database);
     screens = [
       FeedScreen(),
       Container(color: backgroundColor),
