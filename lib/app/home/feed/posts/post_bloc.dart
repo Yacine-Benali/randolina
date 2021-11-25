@@ -17,7 +17,7 @@ class PostBloc {
 
   Future<void> deletePost(Post post) async {
     await database.deleteDocument(path: APIPath.postDocument(post.id));
-    // todo @average call a CF here, delete storage media
+    // TODO @average call a CF here, delete storage media
     await database.updateData(
         path: APIPath.userFollowerPostsDocument(currentUser.id),
         data: {
@@ -37,7 +37,7 @@ class PostBloc {
   }
 
   Future<bool> isLiked(Post post) async {
-    // todo @low decrease usage by downloading this doc once and then check it
+    // TODO @low decrease usage by downloading this doc once and then check it
     final List<String> list = await database.fetchCollection(
       path: APIPath.likesCollection(post.id),
       queryBuilder: (query) =>
@@ -53,7 +53,7 @@ class PostBloc {
       .call({'postId': post.id});
 
   Future<void> unlike(Post post) async {
-    // todo @low for security purposes call a function here
+    // TODO @low for security purposes call a function here
     final List<String> list = await database.fetchCollection(
       path: APIPath.likesCollection(post.id),
       queryBuilder: (query) =>

@@ -74,7 +74,7 @@ class FeedBloc {
       builder: (data, documentId) =>
           UserFollowersStories.fromMap(data, documentId),
     );
-    // todo @low sort between stories that have been seen or not
+    // TODO @low sort between stories that have been seen or not
     final List<UserFollowersStories> data3 = await database.fetchCollection(
       path: APIPath.userFollowerStoriesCollection(),
       queryBuilder: (query) =>

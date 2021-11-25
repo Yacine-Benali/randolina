@@ -77,7 +77,7 @@ class SignUpBloc {
       _authUser = user;
       return true;
     }
-    //! todo @high if the user quits here he will be logged in without a profile
+    //! TODO @high if the user quits here he will be logged in without a profile
   }
 
   Future<String> uploadProfilePicture(File file) async {

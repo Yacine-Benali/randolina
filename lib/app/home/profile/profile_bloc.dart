@@ -25,7 +25,7 @@ class ProfileBloc {
   final User currentUser;
   final User otherUser;
 
-  //! todo @average add a provider and refactor
+  //! TODO @average add a provider and refactor
   // after doing the agency/club profile
 
   Future<void> saveClientProfile(
@@ -139,7 +139,7 @@ class ProfileBloc {
     }
   }
 
-  // todo @low this is bad for security and longterm use
+  // TODO @low this is bad for security and longterm use
   Future<void> followOtherUser() async {
     // call an api that gets user_followers_posts document that is not full
     // and do the following operations on it

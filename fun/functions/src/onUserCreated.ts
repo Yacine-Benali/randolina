@@ -53,7 +53,7 @@ export const onUserCreated = functions.firestore.document("users/{userId}").
               }
           );
 
-          // todo add this line when in prod
+          // TODO add this line when in prod
 
           // add mini user to algolia for full-text-search
 

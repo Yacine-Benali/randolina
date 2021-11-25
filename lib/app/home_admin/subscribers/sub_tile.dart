@@ -15,7 +15,7 @@ import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 import 'package:tuple/tuple.dart';
 
-// todo @low move this somewhere else
+// TODO @low move this somewhere else
 enum ActionButtonState { active, inactive }
 
 class SubTile extends StatefulWidget {

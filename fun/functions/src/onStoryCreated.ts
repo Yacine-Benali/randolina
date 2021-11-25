@@ -16,7 +16,7 @@ functions.firestore.document("stories/{storyId}").onCreate(
       const documentSnapshot =
             await db.collection("user_followers_stories").doc(uid).get();
 
-      // todo @low longterm this document can get full
+      // TODO @low longterm this document can get full
       if (documentSnapshot.exists) {
         const storyId: string = context.params.storyId;
         return documentSnapshot.ref.update({

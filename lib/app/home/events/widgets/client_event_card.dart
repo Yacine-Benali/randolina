@@ -12,7 +12,7 @@ import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:randolina/utils/utils.dart';
 
-// todo @low move this somewhere else
+// TODO @low move this somewhere else
 enum ActionButtonState { subscribe, unsubscribe, unavailable }
 
 class ClientEventCard extends StatefulWidget {
@@ -38,7 +38,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
 
   @override
   void initState() {
-    client = context.read<User>() ;
+    client = context.read<User>();
     setButtonState();
     isSaved = widget.eventsBloc.isEventSaved(widget.event);
 
@@ -166,7 +166,7 @@ class _ClientEventCardState extends State<ClientEventCard> {
               ),
               Row(
                 children: [
-                  //! todo @low for later
+                  //! TODO @low for later
                   // IconButton(
                   //   onPressed: () {
                   //     if (isSaved == false) {

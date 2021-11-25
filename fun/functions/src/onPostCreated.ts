@@ -13,7 +13,7 @@ export const onPostCreated =
           const data = snapshot.data();
 
           const uid: string = data.miniUser.id;
-          // todo @low longterm this document can get full
+          // TODO @low longterm this document can get full
 
           const querySnapshot =
             await db.collection("user_followers_posts").where("id", "==", uid).

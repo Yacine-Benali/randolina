@@ -64,7 +64,7 @@ class EventsBloc {
 
   Stream<List<Event>> getClubAllEvents() {
     final enddate = Timestamp.fromDate(DateTime.now().add(Duration(days: 1)));
-    //! todo @high paginate, combine allevents
+    //! TODO @high paginate, combine allevents
     //! only show myevents from all events
     return database
         .streamCollection(
@@ -101,7 +101,7 @@ class EventsBloc {
   Stream<List<Event>> getClientAllEvents() {
     final enddate = Timestamp.fromDate(DateTime.now());
 
-    //! todo @high paginate
+    //! TODO @high paginate
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),

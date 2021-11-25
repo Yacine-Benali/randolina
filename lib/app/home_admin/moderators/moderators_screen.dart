@@ -97,7 +97,7 @@ class _ModeratorsScreenState extends State<ModeratorsScreen> {
                             );
                           }
                         } else if (snapshot.hasError) {
-                          // todo @low work on this screen
+                          // TODO @low work on this screen
                           return EmptyContent(
                             title: '',
                             message: snapshot.error.toString(),

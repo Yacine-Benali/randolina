@@ -55,7 +55,7 @@ class _AdminHomeState extends State<AdminHome> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: false,
         body: IndexedStack(index: index, children: screens),
-        bottomNavigationBar: FABBottomAppBar(
+        bottomNavigationBar: FABBottomAppBar( 
           buildCenterSpace: false,
           height: 55,
           iconSize: 32,
@@ -68,12 +68,11 @@ class _AdminHomeState extends State<AdminHome> {
             setState(() => this.index = index);
           },
           items: [
+            // TODO @high fix icons
             FABBottomAppBarItem(iconData: Icons.people, notification: 0),
+            FABBottomAppBarItem(iconData: Icons.gps_fixed, notification: 0),
             FABBottomAppBarItem(iconData: Icons.report, notification: 0),
-            FABBottomAppBarItem(
-                iconData: Icons.calendar_today, notification: 0),
-            FABBottomAppBarItem(
-                iconData: Icons.account_circle_outlined, notification: 0),
+            FABBottomAppBarItem(iconData: Icons.report, notification: 0),
             FABBottomAppBarItem(
                 iconData: Icons.account_circle_outlined, notification: 0),
           ],

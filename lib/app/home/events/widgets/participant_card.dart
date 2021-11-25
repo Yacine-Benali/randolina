@@ -42,7 +42,7 @@ class _ParticipantCardState extends State<ParticipantCard> {
 
   @override
   Widget build(BuildContext context) {
-    // todo @low will this look good on any device size ?
+    // TODO @low will this look good on any device size ?
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
