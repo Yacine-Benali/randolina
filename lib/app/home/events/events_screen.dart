@@ -10,8 +10,10 @@ import 'package:randolina/app/home/events/widgets/events_search.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/event.dart';
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -34,6 +36,7 @@ class _EventsScreenState extends State<EventsScreen>
   late final Stream<List<Event>> allEventsStream;
   final RefreshController _refreshController = RefreshController();
   late ValueNotifier<List<Event>> currentlyChosenEventsNotifier;
+  late Stream<Subscription?> subscriptionStream;
   late final Box userBox;
   String searchText = '';
   int searchWilaya = 0;
@@ -57,6 +60,8 @@ class _EventsScreenState extends State<EventsScreen>
       isClient = false;
       myEventsStream = eventsBloc.getClubMyEvents();
       allEventsStream = eventsBloc.getClubAllEvents();
+      subscriptionStream =
+          eventsBloc.getClubSubscription(context.read<User>().id);
     } else {
       isClient = true;
       myEventsStream = eventsBloc.getClientMyEvents();
@@ -183,32 +188,59 @@ class _EventsScreenState extends State<EventsScreen>
             ),
             if (isClient) ...[SizedBox(height: 36)],
             if (!isClient && _tabController.index == 0) ...[
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 30, bottom: 8.0, right: 8, left: 8),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => NewEventScreen(),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Ajouter',
-                        style:
-                            TextStyle(color: Color.fromRGBO(51, 77, 115, 0.78)),
-                      ),
-                      Icon(Icons.add, color: Color.fromRGBO(51, 77, 115, 0.78))
-                    ],
-                  ),
-                ),
-              ),
+              StreamBuilder<Subscription?>(
+                  stream: subscriptionStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      final Subscription subscription = snapshot.data!;
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            top: 30, bottom: 8.0, right: 8, left: 8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final bool isActive =
+                                eventsBloc.isSubscriptionActive(subscription);
+
+                            if (isActive) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => NewEventScreen(),
+                                ),
+                              );
+                            } else {
+                              PlatformAlertDialog(
+                                content:
+                                    "votre compte n'est pas actif veuillez contacter l'administrateur",
+                                title: 'Erreur',
+                              ).show(context);
+                            }
+                          },
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Ajouter',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(51, 77, 115, 0.78)),
+                              ),
+                              Icon(Icons.add,
+                                  color: Color.fromRGBO(51, 77, 115, 0.78))
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return EmptyContent(
+                        title: "Quelque chose s'est mal passé",
+                        message:
+                            "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  }),
             ],
             if (_tabController.index == 0) ...[buildEvents(isMyEvent: true)],
             if (_tabController.index == 1) ...[
