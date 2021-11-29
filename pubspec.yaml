@@ -67,6 +67,7 @@ dependencies:
   image_picker: ^0.8.2
   #!
   blur: ^3.0.0
+  flutter_hsvcolor_picker: ^1.2.1
   intl: ^0.17.0
   ndialog: ^4.1.0
   syncfusion_flutter_sliders: ^19.2.59
@@ -154,6 +155,9 @@ flutter:
     - family: Lato-Bloc
       fonts:
         - asset: assets/fonts/Lato-Bold.ttf
+    - family: Poppins-Light
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

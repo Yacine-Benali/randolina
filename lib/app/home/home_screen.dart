@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:randolina/app/home/create/camera_screen.dart';
 import 'package:randolina/app/home/events/events_screen.dart';
 import 'package:randolina/app/home/feed/feed_screen.dart';
+import 'package:randolina/app/home/marketplace/market_place_screen.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/fab_bottom_app_bar.dart';
@@ -35,8 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
         FirebaseMessagingService();
     firebaseMessagingService.configFirebaseNotification(user.id, database);
     screens = [
+      // FeedScreen(),
+      //  Container(color: backgroundColor),
+      MarketPlaceScreen(),
       FeedScreen(),
-      Container(color: backgroundColor),
       EventsScreen(),
       ProfileScreen(user: user),
     ];

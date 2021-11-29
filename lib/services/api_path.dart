@@ -40,6 +40,11 @@ class APIPath {
   static String savedEventDocument(String userId) =>
       'users/$userId/savedEvents/savedEvents';
 
+  static String productDocument(String productId) => 'products/$productId';
+  static String productsCollection() => 'products/';
+  static String savedProductDocument(String userId) =>
+      'users/$userId/savedProducts/savedProducts';
+
   static String sitesCollection() => 'sites/';
   static String sitesDocument(String siteId) => 'sites/$siteId';
   static String reportedPostsDocument() => 'reportedPosts/reportedPosts';
@@ -57,6 +62,10 @@ class APIPath {
 
   static String eventsFiles(String userId, String eventId, String photoId) =>
       'events/user_$userId/event_$eventId/$photoId';
+
+  static String productsFiles(
+          String userId, String productId, String photoId) =>
+      'products/user_$userId/product_$productId/$photoId';
 
   static String subscriptionsDocument(String subId) => 'subscriptions/$subId';
 }
