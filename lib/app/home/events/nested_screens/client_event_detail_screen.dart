@@ -9,6 +9,7 @@ import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/constants/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ClientEventDetailScreen extends StatefulWidget {
   const ClientEventDetailScreen({
@@ -95,6 +96,26 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
             style: TextStyle(color: Colors.black),
           ),
           iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            if (widget.event.site != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xFF334D73), shape: BoxShape.circle),
+                  child: IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        launch('http:${widget.event.site!.url}');
+                      },
+                      icon: Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.white,
+                        size: 20,
+                      )),
+                ),
+              )
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/home/events/widgets/events_search.dart';
+import 'package:randolina/app/home_admin/sites/site.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
@@ -26,6 +27,22 @@ class EventsBloc {
   SavedEvents? savedEvents;
   final testDate =
       Timestamp.fromDate(DateTime.now().subtract(Duration(days: 365)));
+
+  Future<List<Site>> getSites() => database.fetchCollection(
+        path: APIPath.sitesCollection(),
+        builder: (data, id) => Site.fromMap(data, id),
+      );
+
+  List<Site> getSitesSuggestion(List<Site> sites, String searchText) {
+    final List<Site> matchedSites = [];
+    for (final Site site in sites) {
+      if (site.title.toLowerCase().contains(searchText.toLowerCase())) {
+        matchedSites.add(site);
+      }
+    }
+
+    return matchedSites;
+  }
 
   Future<String> uploadEventProfileImage(File file, String eventId) async {
     return database.uploadFile(

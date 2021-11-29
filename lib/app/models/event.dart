@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:randolina/app/home_admin/sites/site.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/mini_user.dart';
 
@@ -22,6 +23,7 @@ class Event {
     required this.subscribers,
     required this.createdAt,
     required this.wilaya,
+    required this.site,
   });
   final String id;
   final List<String> images;
@@ -41,7 +43,7 @@ class Event {
   final List<MiniSubscriber> subscribers;
   final Timestamp createdAt;
   final int wilaya;
-
+  final Site? site;
   // ignore: avoid_unused_constructor_parameters
   factory Event.fromMap(Map<String, dynamic> data, String documentId) {
     final List<String> images =
@@ -71,6 +73,10 @@ class Event {
     final Timestamp createdAt =
         data['createdAt'] as Timestamp? ?? Timestamp.now();
     final int wilaya = data['wilaya'] as int;
+    Site? site;
+    if (data['site'] != null) {
+      site = Site.fromMap(data['site'] as Map<String, dynamic>, '');
+    }
 
     return Event(
       id: documentId,
@@ -91,6 +97,7 @@ class Event {
       subscribers: subscribers,
       createdAt: createdAt,
       wilaya: wilaya,
+      site: site,
     );
   }
 
@@ -113,6 +120,7 @@ class Event {
       'subscribers': subscribers.map((e) => e.toMap()).toList(),
       'createdAt': FieldValue.serverTimestamp(),
       'wilaya': wilaya,
+      'site': site?.toMap(),
     };
   }
 }

@@ -167,6 +167,7 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
         subscribersLength: widget.event!.subscribersLength,
         createdAt: widget.event!.createdAt,
         wilaya: widget.event!.wilaya,
+        site: widget.event!.site,
       );
       await widget.eventsBloc.saveEvent(event);
     } on Exception catch (e) {

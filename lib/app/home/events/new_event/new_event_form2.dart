@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:randolina/app/home/events/widgets/event_date_picker.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/home/events/widgets/event_field.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
+import 'package:randolina/app/home_admin/sites/site.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/event.dart';
@@ -28,12 +30,14 @@ class NewEventForm2 extends StatefulWidget {
     required this.eventsBloc,
     required this.onNextPressed,
     required this.profilePicture,
+    required this.sites,
     this.event,
   }) : super(key: key);
 
   final File? profilePicture;
   final EventsBloc eventsBloc;
   final Event? event;
+  final List<Site> sites;
   final void Function({
     required Event event,
     required List<File> images,
@@ -58,7 +62,8 @@ class _NewEventForm2State extends State<NewEventForm2> {
   int? difficulty = 1;
   String? instructions;
   int? availableSeats;
-
+  final TextEditingController _typeAheadController = TextEditingController();
+  Site? selectedSite;
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
@@ -137,6 +142,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
         subscribersLength: 0,
         createdAt: Timestamp.now(),
         wilaya: wilaya,
+        site: selectedSite,
       );
       widget.onNextPressed(
         event: event,
@@ -354,6 +360,80 @@ class _NewEventForm2State extends State<NewEventForm2> {
                 ),
               ),
             ],
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      'Localisation: ',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromRGBO(34, 50, 99, 1),
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10, 20),
+                    child: Material(
+                      type: MaterialType.button,
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Colors.white,
+                      elevation: 5.0,
+                      child: TypeAheadFormField<Site>(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        textFieldConfiguration: TextFieldConfiguration(
+                          controller: _typeAheadController,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 20),
+                            counterText: '',
+                            border: InputBorder.none,
+                            hintText: 'CapoRoussou...',
+                          ),
+                        ),
+                        suggestionsCallback: (pattern) {
+                          return widget.eventsBloc
+                              .getSitesSuggestion(widget.sites, pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return Material(
+                            type: MaterialType.button,
+                            color: Colors.white,
+                            elevation: 5.0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(10.0, 20.0, 10, 20),
+                              child: Text(suggestion.title),
+                            ),
+                          );
+                        },
+                        transitionBuilder:
+                            (context, suggestionsBox, controller) {
+                          return suggestionsBox;
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          _typeAheadController.text = suggestion.title;
+                          selectedSite = suggestion;
+                        },
+                        validator: (value) {
+                          if (value == null || value == '') {
+                          } else if (!widget.sites
+                              .map((e) => e.title)
+                              .contains(value)) {
+                            return "cette localisation n'existe pas";
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             EventField(
               initialValue: destination,
               title: 'Desination :',

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/nested_screens/client_event_detail_screen.dart';
-import 'package:randolina/app/home/events/widgets/event_more_info.dart';
+import 'package:randolina/app/home/events/nested_screens/club_event_detail_screen.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/user.dart';
@@ -46,7 +46,7 @@ class _ClubProfileEventCardState extends State<ClubProfileEventCard>
         } else {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => EventMoreInfo(event: widget.event),
+              builder: (context) => ClubEventDetailScreen(event: widget.event),
             ),
           );
         }

@@ -6,7 +6,10 @@ import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/new_event/new_event_form1.dart';
 import 'package:randolina/app/home/events/new_event/new_event_form2.dart';
 import 'package:randolina/app/home/events/new_event/new_events_form3.dart';
+import 'package:randolina/app/home_admin/sites/site.dart';
 import 'package:randolina/app/models/event.dart';
+import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -83,41 +86,58 @@ class _NewEventScreenState extends State<NewEventScreen> {
             ),
           ),
         ),
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          children: [
-            NewEventForm1(
-              profilePicture: widget.event?.profileImage,
-              onPictureChanged: (File? value) async {
-                profilePicture = value;
-                setState(() {});
-                swipePage(1);
-              },
-            ),
-            NewEventForm2(
-              event: widget.event,
-              profilePicture: profilePicture,
-              eventsBloc: eventsBloc,
-              onNextPressed: ({
-                required Event event,
-                required List<File> images,
-              }) {
-                this.event = event;
-                this.images = images;
-                setState(() {});
+        body: FutureBuilder<List<Site>>(
+            future: eventsBloc.getSites(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && (snapshot.data != null)) {
+                List<Site> sites = snapshot.data!;
+                return PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: [
+                    NewEventForm1(
+                      profilePicture: widget.event?.profileImage,
+                      onPictureChanged: (File? value) async {
+                        profilePicture = value;
+                        setState(() {});
+                        swipePage(1);
+                      },
+                    ),
+                    NewEventForm2(
+                      event: widget.event,
+                      profilePicture: profilePicture,
+                      eventsBloc: eventsBloc,
+                      sites: sites,
+                      onNextPressed: ({
+                        required Event event,
+                        required List<File> images,
+                      }) {
+                        this.event = event;
+                        this.images = images;
+                        setState(() {});
 
-                swipePage(2);
-              },
-            ),
-            NewEventsForm3(
-              images: images,
-              event: event,
-              profilePicture: profilePicture,
-              eventsBloc: eventsBloc,
-            ),
-          ],
-        ),
+                        swipePage(2);
+                      },
+                    ),
+                    NewEventsForm3(
+                      images: images,
+                      event: event,
+                      profilePicture: profilePicture,
+                      eventsBloc: eventsBloc,
+                    ),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                // TODO @low work on this screen
+                return Material(
+                  child: EmptyContent(
+                    title: '',
+                    message: snapshot.error.toString(),
+                  ),
+                );
+              }
+              return LoadingScreen(showAppBar: false);
+            }),
       ),
     );
   }
