@@ -242,15 +242,15 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             crossAxisCount:
                                 orientation == Orientation.portrait ? 3 : 6),
                         delegate: SliverChildListDelegate([
+                          buildCircelColor(
+                            Color(0xFFEBF0FF),
+                            Icon(Icons.add, color: Color(0xFF40BFFF)),
+                          ),
                           for (int i = 0; i < colors.length; i++)
                             buildCircelColor(
                               Color(int.parse(colors[i])),
                               null,
                             ),
-                          buildCircelColor(
-                            Color(0xFFEBF0FF),
-                            Icon(Icons.add, color: Color(0xFF40BFFF)),
-                          ),
                         ]),
                       ),
                     ],
@@ -283,15 +283,15 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             crossAxisCount:
                                 orientation == Orientation.portrait ? 3 : 6),
                         delegate: SliverChildListDelegate([
+                          buildCircelSized(
+                            '',
+                            true,
+                          ),
                           for (int i = 0; i < sizes.length; i++)
                             buildCircelSized(
                               sizes[i],
                               false,
                             ),
-                          buildCircelSized(
-                            '',
-                            true,
-                          ),
                         ]),
                       ),
                     ],
