@@ -7,6 +7,7 @@ import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/app/models/saved_events.dart';
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -45,10 +46,31 @@ class EventsBloc {
     return Future.wait(urls);
   }
 
+  bool isSubscriptionActive(Subscription subscription) {
+    if (subscription.isActive == true &&
+        subscription.isApproved == true &&
+        subscription.startsAt != null &&
+        subscription.endsAt != null) {
+      final DateTime today = DateTime.now();
+      final bool isAfter = today.isAfter(subscription.startsAt!.toDate());
+      final bool isBefore = today.isBefore(subscription.endsAt!.toDate());
+      return isAfter && isBefore;
+    } else {
+      return false;
+    }
+  }
+
   Future<void> saveEvent(Event event) async => database.setData(
         path: APIPath.eventDocument(event.id),
         data: event.toMap(),
       );
+
+  Stream<Subscription?> getClubSubscription(String clubId) {
+    return database.streamDocument(
+      path: APIPath.subscriptionsDocument(clubId),
+      builder: (data, documentId) => Subscription.fromMap(data, documentId),
+    );
+  }
 
   Stream<List<Event>> getClubMyEvents() {
     final enddate = Timestamp.fromDate(DateTime.now().add(Duration(days: 1)));

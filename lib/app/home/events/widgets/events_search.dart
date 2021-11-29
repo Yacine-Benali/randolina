@@ -69,7 +69,8 @@ class EventsSearchState extends State<EventsSearch>
         })
         .toSet()
         .toList();
-
+    options.addAll(['', '']);
+    logger.severe(options.length);
     options.insert(0, 'Depart');
     wilayaNumber = widget.searchWilayaInitValue;
     wilayaDropDown = options.elementAt(wilayaNumber);
