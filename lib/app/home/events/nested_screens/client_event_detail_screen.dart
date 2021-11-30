@@ -4,7 +4,6 @@ import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/widgets/client_event_card.dart';
 import 'package:randolina/app/home/events/widgets/events_detail_form.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
-import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/user.dart';
@@ -28,7 +27,7 @@ class ClientEventDetailScreen extends StatefulWidget {
 class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
   late String actionButtonText;
   late VoidCallback callback;
-  late final Client client;
+  late final User client;
 
   void setbuttonProperties(ActionButtonState actionButtonState) {
     switch (actionButtonState) {
@@ -76,7 +75,7 @@ class _ClientEventDetailScreenState extends State<ClientEventDetailScreen> {
 
   @override
   void initState() {
-    client = context.read<User>() as Client;
+    client = context.read<User>();
     setButtonState();
 
     super.initState();
