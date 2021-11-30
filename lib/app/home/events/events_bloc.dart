@@ -25,8 +25,6 @@ class EventsBloc {
   final AuthUser authUser;
   final Uuid uuid = Uuid();
   SavedEvents? savedEvents;
-  final testDate =
-      Timestamp.fromDate(DateTime.now().subtract(Duration(days: 365)));
 
   Future<List<Site>> getSites() => database.fetchCollection(
         path: APIPath.sitesCollection(),
@@ -90,7 +88,8 @@ class EventsBloc {
   }
 
   Stream<List<Event>> getClubMyEvents() {
-    final enddate = Timestamp.fromDate(DateTime.now().add(Duration(days: 1)));
+    final enddate =
+        Timestamp.fromDate(DateTime.now().subtract(Duration(days: 1)));
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
@@ -102,7 +101,7 @@ class EventsBloc {
   }
 
   Stream<List<Event>> getClubAllEvents() {
-    final enddate = Timestamp.fromDate(DateTime.now().add(Duration(days: 1)));
+    final enddate = Timestamp.fromDate(DateTime.now());
     //! TODO @high paginate, combine allevents
     //! only show myevents from all events
     return database
