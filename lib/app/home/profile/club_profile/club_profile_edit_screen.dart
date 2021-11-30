@@ -29,7 +29,7 @@ class ClubProfileEditScreen extends StatefulWidget {
 class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
   late final TextStyle titleStyle;
   String? bio;
-  late List<String> activities;
+  List<String>? activities;
   late User clubOrAgency;
   File? profileImage;
 
@@ -45,6 +45,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
     if (clubOrAgency is Club) {
       activities = (clubOrAgency as Club).activities;
     }
+
     super.initState();
   }
 
@@ -160,10 +161,11 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           if (clubOrAgency is Club) {
+                            if (activities == null) activities = [];
                             widget.bloc
                                 .saveClubProfile(
                                   bio,
-                                  activities,
+                                  activities!,
                                   profileImage,
                                 )
                                 .then((value) => Fluttertoast.showToast(
