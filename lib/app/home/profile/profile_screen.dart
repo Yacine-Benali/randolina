@@ -6,9 +6,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/profile/client_profile/client_profile_screen.dart';
 import 'package:randolina/app/home/profile/club_profile/club_profile_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
+import 'package:randolina/app/home/profile/store_profile/store_profile_screen.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
@@ -104,6 +106,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else if (otherUser is Agency) {
                   child = ClubProfileScreen(
                     clubOrAgency: otherUser,
+                    bloc: bloc,
+                    isFollowingOther: snapshot.data,
+                    showProfileAsOther: showProfileAsOther,
+                  );
+                } else if (otherUser is Store) {
+                  child = StoreProfileScreen(
+                    store: otherUser,
                     bloc: bloc,
                     isFollowingOther: snapshot.data,
                     showProfileAsOther: showProfileAsOther,

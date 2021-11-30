@@ -88,7 +88,7 @@ class ProfileBloc {
     }
   }
 
-  Future<void> saveAgencyProfile(
+  Future<void> saveAgencyStoreProfile(
     String? bio,
     File? profileImage,
   ) async {

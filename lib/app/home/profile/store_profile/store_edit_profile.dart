@@ -3,38 +3,32 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/app/home/profile/client_profile/client_header/client_header.dart';
-import 'package:randolina/app/home/profile/common/saved_posts_screen.dart';
+import 'package:randolina/app/home/profile/club_profile/club_header/club_header.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
-import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
-import 'package:randolina/common_widgets/custom_drop_down.dart';
 import 'package:randolina/common_widgets/custom_elevated_button.dart';
 import 'package:randolina/common_widgets/custom_scaffold.dart';
 import 'package:randolina/common_widgets/custom_text_field.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/constants/app_constants.dart';
-import 'package:randolina/constants/strings.dart';
 
-class ClientProfileEditScreen extends StatefulWidget {
-  const ClientProfileEditScreen({
+class StoreEditProfile extends StatefulWidget {
+  const StoreEditProfile({
     Key? key,
     required this.bloc,
   }) : super(key: key);
 
   final ProfileBloc bloc;
   @override
-  _ClientProfileEditScreenState createState() =>
-      _ClientProfileEditScreenState();
+  _StoreEditProfileState createState() => _StoreEditProfileState();
 }
 
-class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
+class _StoreEditProfileState extends State<StoreEditProfile> {
   late final TextStyle titleStyle;
   String? bio;
   late String activity;
   File? profileImage;
-  late Client currentClient;
+  late Store store;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -43,8 +37,8 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
       color: Colors.grey,
       fontSize: 14,
     );
-    currentClient = context.read<User>() as Client;
-    activity = currentClient.activity;
+
+    store = context.read<User>() as Store;
     super.initState();
   }
 
@@ -55,23 +49,19 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
         backgroundColor: backgroundColor,
         body: Column(
           children: [
-            ClientHeader(
-              client: currentClient,
-              isFollowingOther: false,
-              onEditPressed: () {},
+            ClubHeader(
+              clubOrAgency: store,
               showProfileAsOther: false,
+              bloc: widget.bloc,
+              onSavePressed: () {},
+              onEditPressed: () {},
               onImageChange: (f) {
                 profileImage = f;
                 setState(() {});
               },
               isImageChangable: true,
-              onSavePressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SavedPostsScreen(bloc: widget.bloc),
-                  ),
-                );
-              },
+              isFollowingOther: false,
+              onMoreInfoPressed: () {},
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -84,7 +74,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                       textInputType: TextInputType.multiline,
                       lines: 3,
                       maxLength: 100,
-                      initialValue: currentClient.bio,
+                      initialValue: store.bio,
                       title: 'Bio:',
                       titleStyle: titleStyle,
                       hintText: 'Bio...',
@@ -100,25 +90,6 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                         }
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: CustomDropDown(
-                        titleStyle: titleStyle,
-                        initialValue: currentClient.activity,
-                        validator: (String? value) {
-                          if (value == null) {
-                            return invalidActivityError;
-                          }
-                          return null;
-                        },
-                        title: 'Activité:',
-                        hint: 'a choisi...',
-                        options: clientActivities,
-                        onChanged: (String value) {
-                          activity = value;
-                        },
-                      ),
-                    ),
                     SizedBox(height: 70),
                     CustomElevatedButton(
                       buttonText: Text(
@@ -131,7 +102,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           widget.bloc
-                              .saveClientProfile(bio, activity, profileImage)
+                              .saveAgencyStoreProfile(bio, profileImage)
                               .then((value) => Fluttertoast.showToast(
                                   msg:
                                       'photo de profil mise a jour avec succès'));

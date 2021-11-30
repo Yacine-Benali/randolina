@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:randolina/app/home/profile/club_profile/club_header/club_profile_popup.dart';
 import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/profile_edit_pop_up.dart';
 import 'package:randolina/common_widgets/size_config.dart';
@@ -32,6 +33,9 @@ class ClubTopHeader extends StatelessWidget {
     } else if (clubOrAgency is Agency) {
       subtitle1 = 'Agence de Voyage';
       subtitle2 = (clubOrAgency as Agency).address;
+    } else if (clubOrAgency is Store) {
+      subtitle1 = 'magazin';
+      subtitle2 = (clubOrAgency as Store).address;
     }
     //logger.info(SizeConfig.screenWidth - 180);
     late final double textRowWidth;
