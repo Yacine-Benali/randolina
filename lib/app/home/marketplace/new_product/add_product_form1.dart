@@ -4,8 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
-
-import 'package:randolina/app/models/product.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -23,7 +21,7 @@ class AddProductForm1 extends StatefulWidget {
 
 class _AddProductForm1State extends State<AddProductForm1> {
   File? imageFile;
-  Product? product;
+  //Product? product;
   Future<void> pickImage() async {
     List<AssetEntity>? pickedAssets = <AssetEntity>[];
     pickedAssets = await AssetPicker.pickAssets(
@@ -119,9 +117,21 @@ class _AddProductForm1State extends State<AddProductForm1> {
       backgroundColor: backgroundColor,
       body: Stack(
         children: [
-          if (imageFile == null && product?.profileImage == null)
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Text(
+              "Image principale du produit\nVeuillez choisir une image horizontale ",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromRGBO(34, 50, 99, 1),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          if (imageFile == null && widget.profilePicture == null)
             Align(child: buildUploadButton()),
-          if (!(imageFile == null && product?.profileImage == null))
+          if (!(imageFile == null && widget.profilePicture == null))
             Align(child: buildPhoto()),
           Align(
             alignment: Alignment.bottomCenter,

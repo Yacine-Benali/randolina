@@ -46,6 +46,16 @@ class _AddProductForm2State extends State<AddProductForm2> {
   String? offer;
   int? price;
   String? specification;
+  @override
+  void initState() {
+    if (widget.product != null) {
+      offer = widget.product!.offer;
+      price = widget.product!.price;
+      specification = widget.product!.specification;
+    }
+
+    super.initState();
+  }
 
   Widget buildProfilePicture() {
     if (widget.profilePicture != null) {
@@ -137,19 +147,6 @@ class _AddProductForm2State extends State<AddProductForm2> {
         ).show(context);
         return;
       }
-
-      // final User user = context.read<User>();
-      // late int createdByType;
-      // late int wilaya;
-      // if (user is Club) {
-      //   createdByType = 1;
-      //   wilaya = user.wilaya;
-      // } else if (context.read<User>() is Agency) {
-      //   createdByType = 2;
-      //   wilaya = user.wilaya;
-      // } else {
-      //   throw PlatformException(code: 'INSUFFICIENT_PERMISSION');
-      // }
 
       final Product product = Product(
         id: widget.product?.id ?? '',

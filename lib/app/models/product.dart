@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:randolina/app/models/mini_user.dart';
 
 class Product {
@@ -21,8 +20,8 @@ class Product {
   final int price;
   final String specification;
   final String offer;
-  final List<String> colors;
-  final List<String> sizes;
+  final List<dynamic> colors;
+  final List<dynamic> sizes;
   final MiniUser createdBy;
   final Timestamp createdAt;
 
@@ -35,11 +34,10 @@ class Product {
     final int price = data['price'] as int;
     final String specification = data['specification'] as String;
     final String offer = data['offer'] as String;
-    final List<String> colors = data['colors'] as List<String>;
-    final List<String> sizes = data['sizes'] as List<String>;
+    final List<dynamic> colors = data['colors'] as List<dynamic>;
+    final List<dynamic> sizes = data['sizes'] as List<dynamic>;
     final MiniUser createdBy =
         MiniUser.fromMap(data['createdBy'] as Map<String, dynamic>);
-
     final Timestamp createdAt =
         data['createdAt'] as Timestamp? ?? Timestamp.now();
 

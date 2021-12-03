@@ -1,37 +1,35 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/home/marketplace/details_products/orders/order_form1.dart';
+import 'package:randolina/app/home/marketplace/details_products/orders/order_form2.dart';
+import 'package:randolina/app/home/marketplace/details_products/orders/order_form3.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
-import 'package:randolina/app/home/marketplace/new_product/add_product_form1.dart';
-import 'package:randolina/app/home/marketplace/new_product/add_product_form2.dart';
-import 'package:randolina/app/home/marketplace/new_product/add_product_form3.dart';
-import 'package:randolina/app/home/marketplace/new_product/add_product_form4.dart';
 import 'package:randolina/app/models/product.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({
+class OrderScreen extends StatefulWidget {
+  const OrderScreen({
     Key? key,
-    this.product,
+    required this.product,
   }) : super(key: key);
-  final Product? product;
+  final Product product;
+
   @override
-  _AddProductScreenState createState() => _AddProductScreenState();
+  _OrderScreenState createState() => _OrderScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
-  late final ProductsBloc productsBloc;
+class _OrderScreenState extends State<OrderScreen> {
   late final PageController _pageController;
+  late final ProductsBloc productsBloc;
 
   Product? product;
-  File? profilePicture;
-  List<File>? images;
-  List<dynamic>? sizes = [];
-  List<dynamic>? colors = [];
+  dynamic selectColor;
+  dynamic selectSize;
+  int quantity = 1;
+  late String commentaire;
+
   @override
   void initState() {
     _pageController = PageController();
@@ -41,6 +39,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       database: database,
       authUser: auth,
     );
+
     super.initState();
   }
 
@@ -77,7 +76,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.blueGrey),
           title: Text(
-            widget.product == null ? 'add an product' : 'edit product',
+            'Product Order',
             style: TextStyle(
               color: Color.fromRGBO(34, 50, 99, 1),
               fontWeight: FontWeight.w600,
@@ -88,50 +87,31 @@ class _AddProductScreenState extends State<AddProductScreen> {
           physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
           children: [
-            AddProductForm1(
-              profilePicture: widget.product?.profileImage,
-              onPictureChanged: (File? value) async {
-                profilePicture = value;
+            OrderForm1(
+              product: widget.product,
+              onNextPressed: ({
+                required dynamic selectColor,
+                required dynamic selectSize,
+                required int quantity,
+              }) {
+                this.selectColor = selectColor;
+                this.selectSize = selectSize;
+                this.quantity = quantity;
                 setState(() {});
                 swipePage(1);
               },
             ),
-            AddProductForm2(
-              profilePicture: profilePicture,
-              productsBloc: productsBloc,
-              product: widget.product,
+            OrderForm2(
               onNextPressed: ({
-                required Product product,
-                required List<File> images,
+                required String commentaire,
               }) {
-                this.product = product;
-                this.images = images;
+                this.commentaire = commentaire;
+
                 setState(() {});
                 swipePage(2);
               },
             ),
-            AddProductForm3(
-              colors: widget.product!.colors,
-              sizes: widget.product!.sizes,
-              onNextPressed: ({
-                required List<dynamic> colors,
-                required List<dynamic> sizes,
-              }) {
-                this.colors = colors;
-                this.sizes = sizes;
-                setState(() {});
-
-                swipePage(3);
-              },
-            ),
-            AddProductForm4(
-              images: images,
-              product: product,
-              profilePicture: profilePicture,
-              colors: colors!,
-              sizes: sizes!,
-              productsBloc: productsBloc,
-            ),
+            OrderForm3(),
           ],
         ),
       ),

@@ -26,8 +26,8 @@ class AddProductForm4 extends StatefulWidget {
   final Product? product;
   final File? profilePicture;
   final List<File>? images;
-  final List<String> sizes;
-  final List<String> colors;
+  final List<dynamic> sizes;
+  final List<dynamic> colors;
   final ProductsBloc productsBloc;
   @override
   _AddProductForm4State createState() => _AddProductForm4State();
@@ -231,8 +231,8 @@ class _AddProductForm4State extends State<AddProductForm4> {
                                     height: 35,
                                     margin: const EdgeInsets.only(right: 5),
                                     decoration: BoxDecoration(
-                                      color: Color(
-                                          int.parse(widget.colors[index])),
+                                      color: Color(int.parse(
+                                          widget.colors[index].toString())),
                                       shape: BoxShape.circle,
                                       // borderRadius: BorderRadius.circular(66),
                                       border: Border.all(
@@ -270,7 +270,8 @@ class _AddProductForm4State extends State<AddProductForm4> {
                                       ),
                                     ),
                                     child: Center(
-                                      child: Text(widget.sizes[index]),
+                                      child:
+                                          Text(widget.sizes[index].toString()),
                                     ),
                                   );
                                 }),

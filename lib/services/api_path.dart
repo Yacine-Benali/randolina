@@ -40,6 +40,8 @@ class APIPath {
   static String savedEventDocument(String userId) =>
       'users/$userId/savedEvents/savedEvents';
 
+  static String savedProductsCollection(String uid) =>
+      'users/$uid/savedProducts';
   static String productDocument(String productId) => 'products/$productId';
   static String productsCollection() => 'products/';
   static String savedProductDocument(String userId) =>

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:randolina/app/home/marketplace/widgets/pickers/rgb_picker_page.dart';
-import 'package:randolina/app/models/product.dart';
 
 class AddProductForm3 extends StatefulWidget {
   const AddProductForm3({
     Key? key,
+    required this.colors,
+    required this.sizes,
     required this.onNextPressed,
-    required this.product,
   }) : super(key: key);
-
-  final Product? product;
-
+  final List<dynamic> colors;
+  final List<dynamic> sizes;
   final void Function({
-    required List<String> colors,
-    required List<String> sizes,
+    required List<dynamic> colors,
+    required List<dynamic> sizes,
   }) onNextPressed;
 
   @override
@@ -27,8 +26,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
   late Color? color;
   late String? size;
   Orientation orientation = Orientation.portrait;
-  List<String> sizes = [];
-  List<String> colors = [];
+
   Widget buildTitle(String title) {
     return Container(
       margin: const EdgeInsets.only(bottom: 25),
@@ -59,7 +57,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
               );
               if (color != null) {
                 // ignore: parameter_assignments
-                colors.add(color!.value.toString());
+                widget.colors.add(color!.value.toString());
               }
               setState(() {});
             }
@@ -87,7 +85,8 @@ class _AddProductForm3State extends State<AddProductForm3> {
         if (icon == null)
           GestureDetector(
             onTap: () {
-              colors.remove(color!.value.toString());
+              // ignore: parameter_assignments
+              widget.colors.remove(color!.value.toString());
               setState(() {});
             },
             child: Align(
@@ -107,7 +106,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
           onTap: () async {
             if (select) {
               size = await selectSized();
-              if (size != null) sizes.add(size!);
+              if (size != null) widget.sizes.add(size);
 
               setState(() {});
             }
@@ -137,7 +136,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
         if (!select)
           GestureDetector(
             onTap: () {
-              sizes.remove(title);
+              widget.sizes.remove(title);
               setState(() {});
             },
             child: Align(
@@ -246,9 +245,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             Color(0xFFEBF0FF),
                             Icon(Icons.add, color: Color(0xFF40BFFF)),
                           ),
-                          for (int i = 0; i < colors.length; i++)
+                          for (int i = 0; i < widget.colors.length; i++)
                             buildCircelColor(
-                              Color(int.parse(colors[i])),
+                              Color(int.parse(widget.colors[i].toString())),
                               null,
                             ),
                         ]),
@@ -287,9 +286,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             '',
                             true,
                           ),
-                          for (int i = 0; i < sizes.length; i++)
+                          for (int i = 0; i < widget.sizes.length; i++)
                             buildCircelSized(
-                              sizes[i],
+                              widget.sizes[i].toString(),
                               false,
                             ),
                         ]),
@@ -306,8 +305,8 @@ class _AddProductForm3State extends State<AddProductForm3> {
           child: NextButton(
             onPressed: () {
               widget.onNextPressed(
-                colors: colors,
-                sizes: sizes,
+                colors: widget.colors,
+                sizes: widget.sizes,
               );
             },
           ),
