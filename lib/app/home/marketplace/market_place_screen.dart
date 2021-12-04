@@ -29,7 +29,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   late int tabIndex;
   late final bool isStores;
   final RefreshController _refreshController = RefreshController();
-  late ValueNotifier<List<Product>> currentlyChosenEventsNotifier;
+  late ValueNotifier<List<Product>> currentlyChosenProductsNotifier;
   late final Stream<List<Product>> allProductsStream;
   late final Stream<List<Product>> myProductsStream;
   late final ProductsBloc productsBloc;
@@ -37,7 +37,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   String searchText = '';
   @override
   void initState() {
-    currentlyChosenEventsNotifier = ValueNotifier([]);
+    currentlyChosenProductsNotifier = ValueNotifier([]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(() => setState(() {}));
     textstyle = TextStyle(
@@ -74,32 +74,36 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
         stream: isStore ? myProductsStream : allProductsStream,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            List<Product> products = snapshot.data!;
+            final List<Product> products = snapshot.data!;
             if (products.isNotEmpty) {
-              if (searchText == '') {
-                products = productsBloc.productsTextSearch(
-                  products,
-                  searchText,
-                );
-                Future.delayed(Duration(milliseconds: 500)).then(
-                    (value) => currentlyChosenEventsNotifier.value = products);
-              }
-              return GridView.builder(
-                itemCount: products.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 18,
-                  mainAxisSpacing: 10,
-                ),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCard(
-                      product: products[index],
-                      productsBloc: productsBloc,
-                      isStore: isStores);
-                },
+              final List<Product> matchedProducts =
+                  productsBloc.productsTextSearch(
+                products,
+                searchText,
               );
+              Future.delayed(Duration(milliseconds: 500)).then((value) =>
+                  currentlyChosenProductsNotifier.value = matchedProducts);
+
+              for (final Product product in matchedProducts) {
+                return GridView.builder(
+                  itemCount: searchText == ''
+                      ? products.length
+                      : matchedProducts.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 18,
+                    mainAxisSpacing: 10,
+                  ),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ProductCard(
+                        product: searchText == '' ? products[index] : product,
+                        productsBloc: productsBloc,
+                        isStore: isStores);
+                  },
+                );
+              }
             } else {
               return EmptyContent(
                 title: '',
@@ -127,10 +131,13 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
         onRefresh: _onRefresh,
         child: ListView(
           children: [
-            ProductsSearch(
-              onTextChanged: (t) {
-                setState(() => searchText = t);
-              },
+            ChangeNotifierProvider.value(
+              value: currentlyChosenProductsNotifier,
+              child: ProductsSearch(
+                onTextChanged: (t) {
+                  setState(() => searchText = t);
+                },
+              ),
             ),
             if (isStores)
               Padding(
