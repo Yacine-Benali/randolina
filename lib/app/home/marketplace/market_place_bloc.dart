@@ -1,9 +1,7 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:randolina/app/models/product.dart';
-import 'package:randolina/app/models/user.dart';
-import 'package:provider/provider.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -77,23 +75,25 @@ class ProductsBloc {
     );
   }
 
-  Stream<List<Product>> getAllProducts(BuildContext context) {
-    return database.streamCollection(
-      path: APIPath.productsCollection(),
-      builder: (data, documentId) => Product.fromMap(data, documentId),
-      sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
-    );
-  }
-
-  Stream<List<Product>> getMyProducts(BuildContext context) {
-    final createdBy = context.read<User>().toMiniUser();
-
+  Stream<List<Product>> getAllProducts() {
     return database.streamCollection(
       path: APIPath.productsCollection(),
       builder: (data, documentId) => Product.fromMap(data, documentId),
       queryBuilder: (query) => query.where(
         'createdBy.id',
-        isEqualTo: createdBy,
+        isNotEqualTo: authUser.uid,
+      ),
+      sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
+    );
+  }
+
+  Stream<List<Product>> getMyProducts() {
+    return database.streamCollection(
+      path: APIPath.productsCollection(),
+      builder: (data, documentId) => Product.fromMap(data, documentId),
+      queryBuilder: (query) => query.where(
+        'createdBy.id',
+        isEqualTo: authUser.uid,
       ),
       sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
     );

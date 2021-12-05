@@ -1,11 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/new_product/add_product_screen.dart';
 import 'package:randolina/app/home/marketplace/widgets/product_card.dart';
 import 'package:randolina/app/home/marketplace/widgets/products_search.dart';
 import 'package:randolina/app/models/product.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
@@ -13,7 +14,6 @@ import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
-import 'package:provider/provider.dart';
 
 class MarketPlaceScreen extends StatefulWidget {
   const MarketPlaceScreen({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   final RefreshController _refreshController = RefreshController();
   late ValueNotifier<List<Product>> currentlyChosenProductsNotifier;
   late final Stream<List<Product>> allProductsStream;
-  late final Stream<List<Product>> myProductsStream;
+  Stream<List<Product>>? myProductsStream;
   late final ProductsBloc productsBloc;
   late final AuthUser authUser;
   String searchText = '';
@@ -52,12 +52,11 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
     );
     if (context.read<User>() is Store) {
       isStores = true;
-      myProductsStream = productsBloc.getMyProducts(context);
-      allProductsStream = productsBloc.getAllProducts(context);
+      myProductsStream = productsBloc.getMyProducts();
+      allProductsStream = productsBloc.getAllProducts();
     } else {
       isStores = false;
-      myProductsStream = productsBloc.getMyProducts(context);
-      allProductsStream = productsBloc.getAllProducts(context);
+      allProductsStream = productsBloc.getAllProducts();
     }
     super.initState();
   }
@@ -98,9 +97,11 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
-                        product: searchText == '' ? products[index] : product,
-                        productsBloc: productsBloc,
-                        isStore: isStores);
+                      key: Key(products[index].id),
+                      product: searchText == '' ? products[index] : product,
+                      productsBloc: productsBloc,
+                      isStore: isStores,
+                    );
                   },
                 );
               }
