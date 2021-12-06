@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/marketplace/details_products/details_product.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
-
 import 'package:randolina/app/models/product.dart';
 
 class ProductCard extends StatefulWidget {
@@ -61,7 +60,7 @@ class _ProductCardState extends State<ProductCard> {
             image: NetworkImage(
               widget.product.profileImage,
             ),
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
           ),
           gradient: LinearGradient(
             colors: [
