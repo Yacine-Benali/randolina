@@ -83,28 +83,24 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
               Future.delayed(Duration(milliseconds: 500)).then((value) =>
                   currentlyChosenProductsNotifier.value = matchedProducts);
 
-              for (final Product product in matchedProducts) {
-                return GridView.builder(
-                  itemCount: searchText == ''
-                      ? products.length
-                      : matchedProducts.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 18,
-                    mainAxisSpacing: 10,
-                  ),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCard(
-                      key: Key(products[index].id),
-                      product: searchText == '' ? products[index] : product,
-                      productsBloc: productsBloc,
-                      isStore: isStores,
-                    );
-                  },
-                );
-              }
+              return GridView.builder(
+                itemCount: matchedProducts.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 18,
+                  mainAxisSpacing: 10,
+                ),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return ProductCard(
+                    key: Key(products[index].id),
+                    product: matchedProducts[index],
+                    productsBloc: productsBloc,
+                    isStore: isStores,
+                  );
+                },
+              );
             } else {
               return EmptyContent(
                 title: '',

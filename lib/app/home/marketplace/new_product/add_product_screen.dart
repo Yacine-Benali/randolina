@@ -30,6 +30,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   List<File>? images;
   List<dynamic>? sizes = [];
   List<dynamic>? colors = [];
+  
   @override
   void initState() {
     _pageController = PageController();
