@@ -9,8 +9,8 @@ class AddProductForm3 extends StatefulWidget {
     required this.sizes,
     required this.onNextPressed,
   }) : super(key: key);
-  final List<dynamic> colors;
-  final List<dynamic> sizes;
+  final List<dynamic>? colors;
+  final List<dynamic>? sizes;
   final void Function({
     required List<dynamic> colors,
     required List<dynamic> sizes,
@@ -26,6 +26,19 @@ class _AddProductForm3State extends State<AddProductForm3> {
   late Color? color;
   late String? size;
   Orientation orientation = Orientation.portrait;
+  late List<dynamic> colors = [];
+  late List<dynamic> sizes = [];
+
+  @override
+  void initState() {
+    if (widget.colors != null) {
+      colors = widget.colors!;
+    }
+    if (widget.sizes != null) {
+      sizes = widget.sizes!;
+    }
+    super.initState();
+  }
 
   Widget buildTitle(String title) {
     return Container(
@@ -57,7 +70,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
               );
               if (color != null) {
                 // ignore: parameter_assignments
-                widget.colors.add(color!.value.toString());
+                colors.add(color!.value.toString());
               }
               setState(() {});
             }
@@ -86,7 +99,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
           GestureDetector(
             onTap: () {
               // ignore: parameter_assignments
-              widget.colors.remove(color!.value.toString());
+              colors.remove(color!.value.toString());
               setState(() {});
             },
             child: Align(
@@ -106,7 +119,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
           onTap: () async {
             if (select) {
               size = await selectSized();
-              if (size != null) widget.sizes.add(size);
+              if (size != null) sizes.add(size);
 
               setState(() {});
             }
@@ -136,7 +149,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
         if (!select)
           GestureDetector(
             onTap: () {
-              widget.sizes.remove(title);
+              sizes.remove(title);
               setState(() {});
             },
             child: Align(
@@ -245,9 +258,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             Color(0xFFEBF0FF),
                             Icon(Icons.add, color: Color(0xFF40BFFF)),
                           ),
-                          for (int i = 0; i < widget.colors.length; i++)
+                          for (int i = 0; i < colors.length; i++)
                             buildCircelColor(
-                              Color(int.parse(widget.colors[i].toString())),
+                              Color(int.parse(colors[i].toString())),
                               null,
                             ),
                         ]),
@@ -286,9 +299,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             '',
                             true,
                           ),
-                          for (int i = 0; i < widget.sizes.length; i++)
+                          for (int i = 0; i < sizes.length; i++)
                             buildCircelSized(
-                              widget.sizes[i].toString(),
+                              sizes[i].toString(),
                               false,
                             ),
                         ]),
@@ -305,8 +318,8 @@ class _AddProductForm3State extends State<AddProductForm3> {
           child: NextButton(
             onPressed: () {
               widget.onNextPressed(
-                colors: widget.colors,
-                sizes: widget.sizes,
+                colors: colors,
+                sizes: sizes,
               );
             },
           ),

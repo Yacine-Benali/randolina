@@ -30,7 +30,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   List<File>? images;
   List<dynamic>? sizes = [];
   List<dynamic>? colors = [];
-  
+
   @override
   void initState() {
     _pageController = PageController();
@@ -110,8 +110,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
               },
             ),
             AddProductForm3(
-              colors: widget.product!.colors,
-              sizes: widget.product!.sizes,
+              colors: widget.product?.colors,
+              sizes: widget.product?.sizes,
               onNextPressed: ({
                 required List<dynamic> colors,
                 required List<dynamic> sizes,

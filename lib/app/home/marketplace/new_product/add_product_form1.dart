@@ -118,7 +118,7 @@ class _AddProductForm1State extends State<AddProductForm1> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20),
             child: Text(
               "Image principale du produit\nVeuillez choisir une image horizontale ",
               textAlign: TextAlign.center,

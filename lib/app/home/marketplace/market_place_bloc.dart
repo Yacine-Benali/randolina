@@ -53,7 +53,7 @@ class ProductsBloc {
 
   Future<void> saveProduct(Product product) async {
     await database.setData(
-      path: APIPath.productDocument(authUser.uid),
+      path: APIPath.productDocument(product.id),
       data: product.toMap(),
     );
   }

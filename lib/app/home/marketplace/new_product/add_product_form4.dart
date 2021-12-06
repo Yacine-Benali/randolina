@@ -281,15 +281,12 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     SizedBox(height: 25),
                     ...[
                       buildTitle("The offer :"),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 60.0, top: 8),
-                        child: Text(
-                          widget.product!.offer,
-                          style: TextStyle(
-                            color: Color(0xFF223263),
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                          ),
+                      Text(
+                        widget.product!.offer,
+                        style: TextStyle(
+                          color: Color(0xFF223263),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
