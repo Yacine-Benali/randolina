@@ -22,15 +22,48 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   Widget buildBottomPart(double price) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
-      child: Banner(
-        location: BannerLocation.bottomStart,
-        message: "${price.toInt()} DA",
-        color: Colors.white.withOpacity(0.5),
-        textStyle: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 12.0,
-          letterSpacing: 1.0,
+      padding: const EdgeInsets.only(
+        bottom: 17,
+        right: 2,
+      ),
+      child: Container(
+        width: 102,
+        height: 30,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(2),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(51, 77, 115, 0.3),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Center(
+          child: ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (rest) => LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[
+                Color(0xFF05090B),
+                Color(0xFF567181).withOpacity(0.6),
+              ],
+            ).createShader(rest),
+            child: AutoSizeText(
+              "$price DA",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'LondrinaSolid-Regular',
+                fontWeight: FontWeight.w800,
+                //  color: Color(0xFF05090B),
+                letterSpacing: -0.33,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ),
     );
@@ -53,7 +86,6 @@ class _ProductCardState extends State<ProductCard> {
       },
       child: Container(
         width: 153,
-        height: 192,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
@@ -61,16 +93,6 @@ class _ProductCardState extends State<ProductCard> {
               widget.product.profileImage,
             ),
             fit: BoxFit.cover,
-          ),
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF000000),
-              Color(0xFFC4C4C4),
-            ],
-            stops: [0.0, 0.2],
-            begin: FractionalOffset.topCenter,
-            end: FractionalOffset.bottomCenter,
-            tileMode: TileMode.repeated,
           ),
           boxShadow: [
             BoxShadow(
@@ -83,6 +105,21 @@ class _ProductCardState extends State<ProductCard> {
         ),
         child: Stack(
           children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF000000),
+                    Colors.transparent,
+                  ],
+                  stops: [0.0, 0.3],
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  tileMode: TileMode.repeated,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(

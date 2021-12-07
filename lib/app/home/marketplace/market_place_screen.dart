@@ -35,6 +35,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   late final ProductsBloc productsBloc;
   late final AuthUser authUser;
   String searchText = '';
+
   @override
   void initState() {
     currentlyChosenProductsNotifier = ValueNotifier([]);
@@ -67,8 +68,12 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   }
 
   Widget buildProducts({required bool isStore}) {
-    return SizedBox(
-      height: SizeConfig.screenHeight,
+    var size = MediaQuery.of(context).size;
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 3;
+    final double itemWidth = size.width / 2;
+    return SingleChildScrollView(
+      // height: SizeConfig.screenHeight,
       child: StreamBuilder<List<Product>>(
         stream: isStore ? myProductsStream : allProductsStream,
         builder: (context, snapshot) {
@@ -82,16 +87,16 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
               );
               Future.delayed(Duration(milliseconds: 500)).then((value) =>
                   currentlyChosenProductsNotifier.value = matchedProducts);
-
               return GridView.builder(
                 itemCount: matchedProducts.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 18,
                   mainAxisSpacing: 10,
+                  childAspectRatio: itemWidth / itemHeight,
                 ),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return ProductCard(
                     key: Key(products[index].id),
