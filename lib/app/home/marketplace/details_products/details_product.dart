@@ -5,6 +5,7 @@ import 'package:randolina/app/home/marketplace/new_product/add_product_screen.da
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:randolina/app/home/marketplace/widgets/product_detail_form.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
 
 class DetailsProduct extends StatefulWidget {
@@ -29,6 +30,18 @@ class _DetailsProductState extends State<DetailsProduct> {
     super.initState();
   }
 
+  Future<void> deleteProduct() async {
+    final bool? didRequestSignOut = await PlatformAlertDialog(
+      title: 'Confirmer',
+      content: 'Êtes-vous sûr de vouloir supprime ce produit ?',
+      cancelActionText: 'annuler',
+      defaultActionText: 'oui',
+    ).show(context);
+    if (didRequestSignOut == true) {
+      widget.productsBloc.deleteProduct(widget.product);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,6 +54,15 @@ class _DetailsProductState extends State<DetailsProduct> {
             style: TextStyle(color: Colors.black),
           ),
           iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            if (widget.isStore)
+              IconButton(
+                onPressed: () {
+                  deleteProduct().then((value) => Navigator.of(context).pop());
+                },
+                icon: Icon(Icons.delete),
+              ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
