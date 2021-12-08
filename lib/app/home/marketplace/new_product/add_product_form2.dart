@@ -10,6 +10,7 @@ import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:randolina/app/home/marketplace/widgets/product_field.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
@@ -157,6 +158,7 @@ class _AddProductForm2State extends State<AddProductForm2> {
         offer: offer!,
         colors: widget.product?.colors ?? [],
         sizes: widget.product?.sizes ?? [],
+        wilaya: context.read<User>().wilaya,
         createdBy: context.read<User>().toMiniUser(),
         createdAt: Timestamp.now(),
       );

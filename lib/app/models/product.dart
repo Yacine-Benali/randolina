@@ -11,6 +11,7 @@ class Product {
     required this.offer,
     required this.colors,
     required this.sizes,
+    required this.wilaya,
     required this.createdBy,
     required this.createdAt,
   });
@@ -22,6 +23,7 @@ class Product {
   final String offer;
   final List<dynamic> colors;
   final List<dynamic> sizes;
+  final int wilaya;
   final MiniUser createdBy;
   final Timestamp createdAt;
 
@@ -36,6 +38,7 @@ class Product {
     final String offer = data['offer'] as String;
     final List<dynamic> colors = data['colors'] as List<dynamic>;
     final List<dynamic> sizes = data['sizes'] as List<dynamic>;
+    final int wilaya = data['wilaya'] as int;
     final MiniUser createdBy =
         MiniUser.fromMap(data['createdBy'] as Map<String, dynamic>);
     final Timestamp createdAt =
@@ -50,6 +53,7 @@ class Product {
       offer: offer,
       colors: colors,
       sizes: sizes,
+      wilaya: wilaya,
       createdBy: createdBy,
       createdAt: createdAt,
     );
@@ -64,6 +68,7 @@ class Product {
       'offer': offer,
       'colors': colors,
       'sizes': sizes,
+      'wilaya': wilaya,
       'createdBy': createdBy.toMap(),
       'createdAt': FieldValue.serverTimestamp(),
     };

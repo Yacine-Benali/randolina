@@ -147,6 +147,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
         offer: widget.product!.offer,
         sizes: widget.sizes,
         colors: widget.colors,
+        wilaya: widget.product!.wilaya,
         createdBy: widget.product!.createdBy,
         createdAt: widget.product!.createdAt,
       );

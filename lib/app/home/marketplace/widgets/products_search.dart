@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
+import 'package:randolina/app/home/marketplace/search_product_screen.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -265,33 +266,10 @@ class ProductsSearchState extends State<ProductsSearch>
                 ),
                 IconButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) {
-                        return AlertDialog(
-                          content: StatefulBuilder(
-                              builder: (context, StateSetter setState) {
-                            return SizedBox(
-                              height: SizeConfig.screenHeight / 2.2,
-                              width: SizeConfig.screenWidth - 50,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //     buildTabBar(setState),
-                                  SizedBox(height: 16),
-                                  ...buildSlider(setState),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: buildDoneButton(context),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                        );
-                      },
-                    );
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return SearchProductScreen();
+                    }));
                   },
                   icon: Icon(
                     Icons.filter_alt_outlined,
