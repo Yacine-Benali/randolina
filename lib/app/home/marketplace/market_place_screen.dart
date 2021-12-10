@@ -69,7 +69,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   }
 
   Widget buildProducts({required bool isStore}) {
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 3;
     final double itemWidth = size.width / 2;

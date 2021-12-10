@@ -6,17 +6,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:randolina/app/home/marketplace/widgets/product_field.dart';
 import 'package:randolina/app/models/product.dart';
-import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:randolina/utils/logger.dart';
-import 'package:provider/provider.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class AddProductForm2 extends StatefulWidget {
   const AddProductForm2({

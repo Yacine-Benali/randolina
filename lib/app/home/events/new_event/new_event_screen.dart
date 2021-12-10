@@ -90,7 +90,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
             future: eventsBloc.getSites(),
             builder: (context, snapshot) {
               if (snapshot.hasData && (snapshot.data != null)) {
-                List<Site> sites = snapshot.data!;
+                final List<Site> sites = snapshot.data!;
                 return PageView(
                   physics: NeverScrollableScrollPhysics(),
                   controller: _pageController,

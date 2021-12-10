@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/event.dart';
-import 'package:randolina/app/models/message.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/saved_posts.dart';
 import 'package:randolina/app/models/user.dart';
