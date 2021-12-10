@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
@@ -7,8 +8,8 @@ import 'package:randolina/app/home/marketplace/new_product/add_product_form2.dar
 import 'package:randolina/app/home/marketplace/new_product/add_product_form3.dart';
 import 'package:randolina/app/home/marketplace/new_product/add_product_form4.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -34,11 +35,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   void initState() {
     _pageController = PageController();
-    final AuthUser auth = context.read<AuthUser>();
+    final User user = context.read<User>();
     final Database database = context.read<Database>();
     productsBloc = ProductsBloc(
       database: database,
-      authUser: auth,
+      currentUser: user,
     );
     super.initState();
   }

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:randolina/app/models/order.dart';
+import 'package:randolina/app/models/product.dart';
 
 class Message {
   Message({
@@ -8,13 +10,21 @@ class Message {
     required this.seen,
     required this.createdBy,
     required this.createdAt,
+    this.product,
+    this.order,
   });
   final String id;
+
+  /// 0 for text
+  /// 1 for photo
+  /// 2 for product
   final int type;
   final String content;
   bool seen;
   final String createdBy;
   final Timestamp createdAt;
+  final Product? product;
+  final Order? order;
 
   factory Message.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
@@ -25,6 +35,20 @@ class Message {
     final Timestamp createdAt =
         (data['createdAt'] as Timestamp?) ?? Timestamp.now();
 
+    Product? product;
+    if (data['product'] != null) {
+      Product.fromMap(data['product'] as Map<String, dynamic>, '');
+    } else {
+      product = null;
+    }
+
+    Order? order;
+    if (data['order'] != null) {
+      Order.fromMap(data['order'] as Map<String, dynamic>);
+    } else {
+      order = null;
+    }
+
     return Message(
       id: id,
       type: type,
@@ -32,6 +56,8 @@ class Message {
       seen: seen,
       createdBy: createdBy,
       createdAt: createdAt,
+      product: product,
+      order: order,
     );
   }
 
@@ -42,6 +68,8 @@ class Message {
       'seen': seen,
       'createdBy': createdBy,
       'createdAt': FieldValue.serverTimestamp(),
+      'product': product?.toMap(),
+      'order': order?.toMap(),
     };
   }
 

@@ -14,6 +14,7 @@ import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class MarketPlaceScreen extends StatefulWidget {
   const MarketPlaceScreen({Key? key}) : super(key: key);
@@ -45,11 +46,11 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
       color: darkBlue,
       fontWeight: FontWeight.w800,
     );
-    final AuthUser auth = context.read<AuthUser>();
+    final User currentUser = context.read<User>();
     final Database database = context.read<Database>();
     productsBloc = ProductsBloc(
       database: database,
-      authUser: auth,
+      currentUser: currentUser,
     );
     if (context.read<User>() is Store) {
       isStores = true;
@@ -113,6 +114,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
               );
             }
           } else if (snapshot.hasError) {
+            logger.severe(snapshot.error);
             return EmptyContent(
               title: "Quelque chose s'est mal passé",
               message:

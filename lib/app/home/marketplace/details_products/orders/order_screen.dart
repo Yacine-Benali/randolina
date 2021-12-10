@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/marketplace/details_products/orders/order_form1.dart';
 import 'package:randolina/app/home/marketplace/details_products/orders/order_form2.dart';
 import 'package:randolina/app/home/marketplace/details_products/orders/order_form3.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
+import 'package:randolina/app/models/order.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/constants/app_colors.dart';
-import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -24,7 +26,6 @@ class _OrderScreenState extends State<OrderScreen> {
   late final PageController _pageController;
   late final ProductsBloc productsBloc;
 
-  Product? product;
   dynamic selectColor;
   dynamic selectSize;
   int quantity = 1;
@@ -33,11 +34,11 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void initState() {
     _pageController = PageController();
-    final AuthUser auth = context.read<AuthUser>();
+    final User user = context.read<User>();
     final Database database = context.read<Database>();
     productsBloc = ProductsBloc(
       database: database,
-      authUser: auth,
+      currentUser: user,
     );
 
     super.initState();
@@ -51,6 +52,21 @@ class _OrderScreenState extends State<OrderScreen> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  Future<void> orderNow() async {
+    final Order order = Order(
+      quantity: quantity,
+      color: selectColor as String,
+      size: selectSize as String,
+      comment: commentaire,
+    );
+
+    await productsBloc.orderProduct(widget.product, order);
+    Fluttertoast.showToast(
+      msg: 'commande passée avec succès merci de vérifier vos messages privés',
+      toastLength: Toast.LENGTH_LONG,
+    );
   }
 
   @override
@@ -111,7 +127,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 swipePage(2);
               },
             ),
-            OrderForm3(),
+            OrderForm3(orderNow: orderNow),
           ],
         ),
       ),

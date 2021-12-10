@@ -154,6 +154,8 @@ class MessageTile extends StatelessWidget {
           ),
         ),
       );
+    } else if (message.type == 2) {
+      return Container(width: 200, height: 200, color: Colors.red);
     } else {
       return Container();
     }

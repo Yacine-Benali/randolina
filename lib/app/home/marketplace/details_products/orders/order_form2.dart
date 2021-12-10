@@ -14,7 +14,7 @@ class OrderForm2 extends StatefulWidget {
 }
 
 class _OrderForm2State extends State<OrderForm2> {
-  String commentaire = 'Commentaire vide';
+  String commentaire = 'pas de commentaire';
 
   @override
   Widget build(BuildContext context) {

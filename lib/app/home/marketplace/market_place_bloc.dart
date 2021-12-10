@@ -1,27 +1,57 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:randolina/app/models/conversation.dart';
+import 'package:randolina/app/models/message.dart';
+import 'package:randolina/app/models/order.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
-import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductsBloc {
   ProductsBloc({
     required this.database,
-    required this.authUser,
+    required this.currentUser,
   });
 
   final Database database;
-  final AuthUser authUser;
+  final User currentUser;
   final Uuid uuid = Uuid();
-  final testDate =
-      Timestamp.fromDate(DateTime.now().subtract(Duration(days: 365)));
+
+  Future<void> orderProduct(Product product, Order order) async {
+    final Conversation conversation =
+        createConversation(currentUser.toMiniUser(), product.createdBy);
+    final Message orderMessage = Message(
+      id: 'id',
+      type: 2,
+      content: '',
+      seen: false,
+      createdBy: currentUser.id,
+      createdAt: Timestamp.now(),
+      product: product,
+      order: order,
+    );
+    final batch = FirebaseFirestore.instance.batch();
+
+    batch.set(
+        FirebaseFirestore.instance
+            .doc(APIPath.conversationDocument(conversation.id)),
+        conversation.toMap());
+
+    batch.set(
+        FirebaseFirestore.instance
+            .doc(APIPath.messageDocument(conversation.id, uuid.v4())),
+        orderMessage.toMap());
+
+    await batch.commit();
+  }
 
   Future<String> uploadProductProfileImage(File file, String productId) async {
     return database.uploadFile(
-      path: APIPath.productsFiles(authUser.uid, productId, uuid.v4()),
+      path: APIPath.productsFiles(currentUser.id, productId, uuid.v4()),
       filePath: file.path,
     );
   }
@@ -30,7 +60,7 @@ class ProductsBloc {
     final List<Future<String>> urls = [];
     for (final File file in images) {
       final t = database.uploadFile(
-        path: APIPath.productsFiles(authUser.uid, '', uuid.v4()),
+        path: APIPath.productsFiles(currentUser.id, '', uuid.v4()),
         filePath: file.path,
       );
       urls.add(t);
@@ -67,8 +97,8 @@ class ProductsBloc {
       queryBuilder: (query) => query.where(
         'subscribers',
         arrayContainsAny: [
-          {'id': authUser.uid, 'isConfirmed': false},
-          {'id': authUser.uid, 'isConfirmed': true}
+          {'id': currentUser.id, 'isConfirmed': false},
+          {'id': currentUser.id, 'isConfirmed': true}
         ],
       ).where('endDateTime', isGreaterThan: enddate),
       sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
@@ -81,7 +111,7 @@ class ProductsBloc {
       builder: (data, documentId) => Product.fromMap(data, documentId),
       queryBuilder: (query) => query.where(
         'createdBy.id',
-        isNotEqualTo: authUser.uid,
+        isNotEqualTo: currentUser.id,
       ),
       sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
@@ -93,7 +123,7 @@ class ProductsBloc {
       builder: (data, documentId) => Product.fromMap(data, documentId),
       queryBuilder: (query) => query.where(
         'createdBy.id',
-        isEqualTo: authUser.uid,
+        isEqualTo: currentUser.id,
       ),
       sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
     );

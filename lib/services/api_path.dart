@@ -31,6 +31,8 @@ class APIPath {
   static String conversationsCollection() => 'conversations/';
   static String conversationDocument(String uid) => 'conversations/$uid';
   static String messagesCollection(String uid) => 'conversations/$uid/messages';
+  static String messageDocument(String conversationId, String messageId) =>
+      'conversations/$conversationId/messages/$messageId';
 
   static String chatPhotosCollection(String uid, String photoId) =>
       'conversations/$uid/messages/$photoId';

@@ -7,6 +7,26 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:randolina/app/models/conversation.dart';
+import 'package:randolina/app/models/message.dart';
+import 'package:randolina/app/models/mini_user.dart';
+
+Conversation createConversation(MiniUser currentUser, MiniUser otherUser) {
+  return Conversation(
+    id: calculateGroupeChatId(currentUser.id, otherUser.id),
+    latestMessage: Message(
+      id: '',
+      type: 0,
+      content: '',
+      seen: true,
+      createdBy: '',
+      createdAt: Timestamp.now(),
+    ),
+    user1: currentUser,
+    user2: otherUser,
+    usersIds: [currentUser.id, otherUser.id],
+  );
+}
 
 String calculateGroupeChatId(String user1, String user2) {
   String groupChatId;

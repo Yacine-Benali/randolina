@@ -27,6 +27,15 @@ class _OrderForm1State extends State<OrderForm1> {
   dynamic selectColor;
   dynamic selectSize;
   int quantity = 1;
+
+  @override
+  void initState() {
+    selectColor = widget.product.colors[0];
+    selectSize = widget.product.sizes[0];
+
+    super.initState();
+  }
+
   Widget buildTitle(String title) {
     return Text(
       title,
@@ -186,7 +195,8 @@ class _OrderForm1State extends State<OrderForm1> {
                                         color: Color(0xFFEBF0FF),
                                       ),
                                     ),
-                                    child: index == 0 && selectColor == null
+                                    child: selectColor ==
+                                            widget.product.colors[index]
                                         ? Center(
                                             child: Container(
                                               width: 10,
@@ -198,21 +208,7 @@ class _OrderForm1State extends State<OrderForm1> {
                                               ),
                                             ),
                                           )
-                                        : selectColor ==
-                                                widget.product.colors[index]
-                                            ? Center(
-                                                child: Container(
-                                                  width: 10,
-                                                  height: 10,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            22),
-                                                  ),
-                                                ),
-                                              )
-                                            : null,
+                                        : null,
                                   ),
                                 );
                               },
@@ -256,18 +252,14 @@ class _OrderForm1State extends State<OrderForm1> {
                                         color: Color(0xFFFFFFFF),
                                         //  borderRadius: BorderRadius.circular(66),
                                         shape: BoxShape.circle,
-                                        border: index == 0 && selectSize == null
+                                        border: selectSize ==
+                                                widget.product.sizes[index]
                                             ? Border.all(
                                                 color: Color(0xFF40BFFF),
                                               )
-                                            : selectSize ==
-                                                    widget.product.sizes[index]
-                                                ? Border.all(
-                                                    color: Color(0xFF40BFFF),
-                                                  )
-                                                : Border.all(
-                                                    color: Color(0xFFEBF0FF),
-                                                  ),
+                                            : Border.all(
+                                                color: Color(0xFFEBF0FF),
+                                              ),
                                       ),
                                       child: Center(
                                         child: Text(widget.product.sizes[index]

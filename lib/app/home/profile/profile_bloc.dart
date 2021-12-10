@@ -197,28 +197,18 @@ class ProfileBloc {
         {'followers': FieldValue.increment(1)});
 
     batch.set(
-        FirebaseFirestore.instance
-            .doc(APIPath.conversationDocument(_createConversation().id)),
-        _createConversation().toMap());
+        FirebaseFirestore.instance.doc(
+          APIPath.conversationDocument(createConversation(
+            currentUser.toMiniUser(),
+            otherUser.toMiniUser(),
+          ).id),
+        ),
+        createConversation(
+          currentUser.toMiniUser(),
+          otherUser.toMiniUser(),
+        ).toMap());
 
     await batch.commit();
-  }
-
-  Conversation _createConversation() {
-    return Conversation(
-      id: calculateGroupeChatId(currentUser.id, otherUser.id),
-      latestMessage: Message(
-        id: '',
-        type: 0,
-        content: '',
-        seen: true,
-        createdBy: '',
-        createdAt: Timestamp.now(),
-      ),
-      user1: currentUser.toMiniUser(),
-      user2: otherUser.toMiniUser(),
-      usersIds: [currentUser.id, otherUser.id],
-    );
   }
 
   // same as above

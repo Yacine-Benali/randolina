@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/app/base_screen.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderForm3 extends StatefulWidget {
   const OrderForm3({
     Key? key,
+    required this.orderNow,
   }) : super(key: key);
-
+  final VoidCallback orderNow;
   @override
   _OrderForm3State createState() => _OrderForm3State();
 }
@@ -87,10 +87,9 @@ class _OrderForm3State extends State<OrderForm3> {
               child: NextButton(
                 title: 'Confirme',
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: (context) {
-                    return BaseScreen();
-                  }));
+                  widget.orderNow();
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
               ),
             ),
