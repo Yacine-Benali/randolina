@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:randolina/app/home/marketplace/details_products/details_product.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/models/product.dart';
-
+import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/miniuser_to_profile.dart';
+import 'package:provider/provider.dart';
 class ProductCard extends StatefulWidget {
   const ProductCard({
     Key? key,
@@ -139,11 +141,25 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: AutoSizeText(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (context.read<User>().id !=
+                            widget.product.createdBy.id) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => MiniuserToProfile(
+                                miniUser: widget.product.createdBy,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: AutoSizeText(
                       widget.product.createdBy.username,
                       style: TextStyle(
                         color: Colors.white,
                       ),
+                    ),
                     ),
                   ),
                 ],

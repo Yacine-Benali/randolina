@@ -75,6 +75,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
     final double itemWidth = size.width / 2;
     return SingleChildScrollView(
       // height: SizeConfig.screenHeight,
+      padding: EdgeInsets.all(8),
       child: StreamBuilder<List<Product>>(
         stream: isStore ? myProductsStream : allProductsStream,
         builder: (context, snapshot) {
