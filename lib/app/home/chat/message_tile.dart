@@ -155,7 +155,126 @@ class MessageTile extends StatelessWidget {
         ),
       );
     } else if (message.type == 2) {
-      return Container(width: 200, height: 200, color: Colors.red);
+      return Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Informations de la commande',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Commentaire: ${message.order?.comment ?? 'Pas de commentaire'}',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: Colors.grey.withOpacity(0.5),
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: Image.network(
+                    "${message.product?.profileImage.toString()}",
+                  ),
+                ),
+                SizedBox(width: 7),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${message.product?.offer} ",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.grey.withOpacity(0.7),
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      "${message.order?.quantity} items",
+                      style: TextStyle(
+                        color: Colors.grey.withOpacity(0.7),
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      "Prix ${message.product?.price} DA",
+                      style: TextStyle(
+                        color: Colors.grey.withOpacity(0.7),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Text('Colors:'),
+                SizedBox(width: 7),
+                Container(
+                  width: 35,
+                  height: 35,
+                  margin: const EdgeInsets.only(right: 5),
+                  decoration: BoxDecoration(
+                    color: Color(int.parse("4290237159")),
+                    shape: BoxShape.circle,
+                    // borderRadius: BorderRadius.circular(66),
+                    border: Border.all(
+                      color: Color(0xFFEBF0FF),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Text('Size:'),
+                SizedBox(width: 7),
+                Container(
+                  width: 35,
+                  height: 35,
+                  margin: const EdgeInsets.only(right: 5),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    //  borderRadius: BorderRadius.circular(66),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Color(0xFFEBF0FF),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text("${message.order?.size.toString()}"),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
     } else {
       return Container();
     }
