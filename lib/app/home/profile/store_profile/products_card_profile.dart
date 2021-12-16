@@ -7,22 +7,21 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:provider/provider.dart';
 
-class ProductCard extends StatefulWidget {
-  const ProductCard({
+class ProductsCardProfile extends StatefulWidget {
+  final Product product;
+  final bool isStore;
+  final ProductsBloc bloc;
+  const ProductsCardProfile({
     Key? key,
     required this.product,
-    required this.productsBloc,
     required this.isStore,
+    required this.bloc,
   }) : super(key: key);
-
-  final Product product;
-  final ProductsBloc productsBloc;
-  final bool isStore;
   @override
-  _ProductCardState createState() => _ProductCardState();
+  _ProductsCardProfileState createState() => _ProductsCardProfileState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _ProductsCardProfileState extends State<ProductsCardProfile> {
   Widget buildBottomPart(double price) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -80,15 +79,17 @@ class _ProductCardState extends State<ProductCard> {
           MaterialPageRoute(
             builder: (context) {
               return DetailsProduct(
-                  product: widget.product,
-                  productsBloc: widget.productsBloc,
-                  isStore: widget.isStore);
+                product: widget.product,
+                productsBloc: widget.bloc,
+                isStore: widget.isStore,
+              );
             },
           ),
         );
       },
       child: Container(
-        width: 153,
+        width: 230,
+        margin: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
@@ -141,7 +142,7 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    //      flex: 2,
                     child: GestureDetector(
                       onTap: () {
                         if (context.read<User>().id !=

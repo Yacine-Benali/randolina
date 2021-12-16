@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/post.dart';
+import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/saved_posts.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/app/models/user_followers_posts.dart';
@@ -347,6 +348,18 @@ class ProfileBloc {
           .where('createdBy.id', isEqualTo: otherUser.id)
           .where('endDateTime', isGreaterThan: enddate),
       sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
+    );
+  }
+
+  Stream<List<Product>> getStoreAllProducts() {
+    return database.streamCollection(
+      path: APIPath.productsCollection(),
+      builder: (data, documentId) => Product.fromMap(data, documentId),
+      queryBuilder: (query) => query.where(
+        'createdBy.id',
+        isEqualTo: currentUser.id,
+      ),
+      sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
 }

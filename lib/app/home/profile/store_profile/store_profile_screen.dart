@@ -6,7 +6,9 @@ import 'package:randolina/app/home/profile/club_profile/club_header/club_header.
 import 'package:randolina/app/home/profile/common/profile_posts_tab_bar.dart';
 import 'package:randolina/app/home/profile/common/saved_posts_screen.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
+import 'package:randolina/app/home/profile/store_profile/see_all_products.dart';
 import 'package:randolina/app/home/profile/store_profile/store_edit_profile.dart';
+import 'package:randolina/app/home/profile/store_profile/store_profile_products_slider.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
@@ -72,9 +74,19 @@ class _StoreProfileScreenState extends State<StoreProfileScreen> {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return SeeAllProductsStore(
+                    profileBloc: widget.bloc,
+                  );
+                },
+              ),
+            );
+          },
           child: Text(
-            'Voir tous les événements',
+            'Voir tous les Produits',
             style: TextStyle(
               color: Colors.blue,
               fontSize: 16,
@@ -88,7 +100,7 @@ class _StoreProfileScreenState extends State<StoreProfileScreen> {
         padding: const EdgeInsets.only(left: 24.0),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Text('événements récents...'),
+          child: Text('Produits récents...'),
         ),
       ),
     ];
@@ -139,11 +151,9 @@ class _StoreProfileScreenState extends State<StoreProfileScreen> {
                   },
                   isFollowingOther: widget.isFollowingOther,
                 ),
-                // ...buildMiddleText(),
-                Container(
-                  color: Colors.purple,
-                  height: 150,
-                  width: SizeConfig.screenWidth,
+                ...buildMiddleText(),
+                StoreProfileProductsSlider(
+                  profileBloc: widget.bloc,
                 ),
                 ProfilePostsTabBar(
                   onTabChanged: (t) {
