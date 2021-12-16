@@ -37,18 +37,13 @@ class Message {
 
     Product? product;
     if (data['product'] != null) {
-      Product.fromMap(data['product'] as Map<String, dynamic>, '');
-    } else {
-      product = null;
+      product = Product.fromMap(data['product'] as Map<String, dynamic>, '');
     }
 
     Order? order;
     if (data['order'] != null) {
-      Order.fromMap(data['order'] as Map<String, dynamic>);
-    } else {
-      order = null;
+      order = Order.fromMap(data['order'] as Map<String, dynamic>);
     }
-
     return Message(
       id: id,
       type: type,

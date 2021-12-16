@@ -140,6 +140,11 @@ class _StoreProfileScreenState extends State<StoreProfileScreen> {
                   isFollowingOther: widget.isFollowingOther,
                 ),
                 // ...buildMiddleText(),
+                Container(
+                  color: Colors.purple,
+                  height: 150,
+                  width: SizeConfig.screenWidth,
+                ),
                 ProfilePostsTabBar(
                   onTabChanged: (t) {
                     type = t;

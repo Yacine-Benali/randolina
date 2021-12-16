@@ -4,6 +4,7 @@ import 'package:randolina/app/models/message.dart';
 import 'package:randolina/common_widgets/image_full_screen.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/size_config.dart';
+import 'package:randolina/utils/logger.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
@@ -154,7 +155,9 @@ class MessageTile extends StatelessWidget {
           ),
         ),
       );
-    } else if (message.type == 2) {
+    } else if (message.type == 2 &&
+        message.order != null &&
+        message.product != null) {
       return Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -176,7 +179,7 @@ class MessageTile extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Commentaire: ${message.order?.comment ?? 'Pas de commentaire'}',
+              'Commentaire: ${message.order!.comment}',
               textAlign: TextAlign.start,
               style: TextStyle(
                 color: Colors.grey.withOpacity(0.5),
@@ -191,16 +194,14 @@ class MessageTile extends StatelessWidget {
                 SizedBox(
                   width: 80,
                   height: 80,
-                  child: Image.network(
-                    "${message.product?.profileImage.toString()}",
-                  ),
+                  child: Image.network(message.product!.profileImage),
                 ),
                 SizedBox(width: 7),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${message.product?.offer} ",
+                      "${message.product!.offer} ",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.grey.withOpacity(0.7),
@@ -208,14 +209,14 @@ class MessageTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${message.order?.quantity} items",
+                      "${message.order!.quantity} items",
                       style: TextStyle(
                         color: Colors.grey.withOpacity(0.7),
                         fontSize: 14,
                       ),
                     ),
                     Text(
-                      "Prix ${message.product?.price} DA",
+                      "Prix ${message.product!.price} DA",
                       style: TextStyle(
                         color: Colors.grey.withOpacity(0.7),
                         fontSize: 14,
@@ -267,7 +268,7 @@ class MessageTile extends StatelessWidget {
                     ),
                   ),
                   child: Center(
-                    child: Text("${message.order?.size.toString()}"),
+                    child: Text(message.order!.size),
                   ),
                 ),
               ],
