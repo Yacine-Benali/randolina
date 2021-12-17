@@ -228,7 +228,7 @@ class MessageTile extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            if (message.order!.color != Colors.white.withOpacity(0.001))
+            if (message.order!.color != "1946157055")
               Row(
                 children: [
                   Text('Colors:'),
