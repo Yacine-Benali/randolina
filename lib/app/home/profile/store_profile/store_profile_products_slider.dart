@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:randolina/app/home/marketplace/details_products/details_product.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/profile/profile_bloc.dart';
 import 'package:randolina/app/home/profile/store_profile/products_card_profile.dart';
@@ -10,7 +8,6 @@ import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/store.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
-import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:randolina/services/database.dart';
 
 class StoreProfileProductsSlider extends StatefulWidget {
