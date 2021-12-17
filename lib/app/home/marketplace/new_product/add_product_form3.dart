@@ -33,9 +33,13 @@ class _AddProductForm3State extends State<AddProductForm3> {
   void initState() {
     if (widget.colors != null) {
       colors = widget.colors!;
+    } else {
+      colors = ['2335325234'];
     }
     if (widget.sizes != null) {
       sizes = widget.sizes!;
+    } else {
+      sizes = ['empty'];
     }
     super.initState();
   }
@@ -109,9 +113,15 @@ class _AddProductForm3State extends State<AddProductForm3> {
                 print(colors);
                 print('diohgr $color');
                 // ignore: parameter_assignments
-                if (!colors.contains(color!.value)) {
-                  // ignore: parameter_assignments
-                  colors.add(color!.value);
+                if (!colors.contains(color!.value.toString())) {
+                  if (colors[0] == '2335325234') {
+                    colors.remove('2335325234');
+                    // ignore: parameter_assignments
+                    colors.add(color!.value.toString());
+                  } else {
+                    // ignore: parameter_assignments
+                    colors.add(color!.value.toString());
+                  }
                 } else {
                   showErreur('Couleur deja choisie');
                 }
@@ -144,6 +154,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
             onTap: () {
               // ignore: parameter_assignments
               colors.remove(color!.value.toString());
+              if (colors.isEmpty) {
+                colors.add('2335325234');
+              }
               setState(() {});
             },
             child: Align(
@@ -165,7 +178,12 @@ class _AddProductForm3State extends State<AddProductForm3> {
               size = await selectSized();
               if (size != null) {
                 if (!sizes.contains(size)) {
-                  sizes.add(size);
+                  if (sizes[0] == 'empty') {
+                    sizes.remove('empty');
+                    sizes.add(size);
+                  } else {
+                    sizes.add(size);
+                  }
                 } else {
                   showErreur('Taille deja choisie');
                 }
@@ -200,6 +218,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
           GestureDetector(
             onTap: () {
               sizes.remove(title);
+              if (sizes.isEmpty) {
+                sizes.add('empty');
+              }
               setState(() {});
             },
             child: Align(
@@ -308,11 +329,12 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             Color(0xFFEBF0FF),
                             Icon(Icons.add, color: Color(0xFF40BFFF)),
                           ),
-                          for (int i = 0; i < colors.length; i++)
-                            buildCircelColor(
-                              Color(int.parse(colors[i].toString())),
-                              null,
-                            ),
+                          if (colors[0] != '2335325234')
+                            for (int i = 0; i < colors.length; i++)
+                              buildCircelColor(
+                                Color(int.parse(colors[i].toString())),
+                                null,
+                              ),
                         ]),
                       ),
                     ],
@@ -349,11 +371,12 @@ class _AddProductForm3State extends State<AddProductForm3> {
                             '',
                             true,
                           ),
-                          for (int i = 0; i < sizes.length; i++)
-                            buildCircelSized(
-                              sizes[i].toString(),
-                              false,
-                            ),
+                          if (sizes[0] != 'empty')
+                            for (int i = 0; i < sizes.length; i++)
+                              buildCircelSized(
+                                sizes[i].toString(),
+                                false,
+                              ),
                         ]),
                       ),
                     ],
@@ -368,7 +391,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
           child: NextButton(
             onPressed: () {
               print(colors);
-              if (colors.isEmpty) colors = ['1946157055'];
+              if (colors.isEmpty) colors = ['2335325234'];
               if (sizes.isEmpty) sizes = ['empty'];
               widget.onNextPressed(
                 colors: colors,

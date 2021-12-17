@@ -228,7 +228,7 @@ class MessageTile extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            if (message.order!.color != "1946157055")
+            if (message.order!.color != "2335325234")
               Row(
                 children: [
                   Text('Colors:'),
@@ -248,7 +248,7 @@ class MessageTile extends StatelessWidget {
                   ),
                 ],
               ),
-            if (message.order!.color != "1946157055")
+            if (message.order!.color != "2335325234")
               SizedBox(
                 height: 10,
               ),

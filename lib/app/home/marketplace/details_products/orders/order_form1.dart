@@ -34,7 +34,7 @@ class _OrderForm1State extends State<OrderForm1> {
         ? Colors.white.withOpacity(0.001)
         : widget.product.colors[0];
     selectSize =
-        widget.product.sizes[0] == 'empty' ? '1' : widget.product.sizes[0];
+        widget.product.sizes[0] == 'empty' ? 'empty' : widget.product.sizes[0];
 
     super.initState();
   }
@@ -158,21 +158,21 @@ class _OrderForm1State extends State<OrderForm1> {
                         ),
                       ),
                     ],
-                    if (widget.product.colors[0] != "1946157055")
+                    if (widget.product.colors[0] != "2335325234")
                       SizedBox(height: 20),
-                    if (widget.product.colors[0] != "1946157055")
+                    if (widget.product.colors[0] != "2335325234")
                       Divider(
                         thickness: thickness,
                         color: color,
                         indent: 0,
                         endIndent: 0,
                       ),
-                    if (widget.product.colors[0] != "1946157055")
+                    if (widget.product.colors[0] != "2335325234")
                       SizedBox(height: 23),
                     ...[
-                      if (widget.product.colors[0] != "1946157055")
+                      if (widget.product.colors[0] != "2335325234")
                         Center(child: buildTitle('Sélectionner une couleur')),
-                      if (widget.product.colors[0] != "1946157055")
+                      if (widget.product.colors[0] != "2335325234")
                         SizedBox(
                           height: 55,
                           child: Align(

@@ -216,9 +216,9 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     ],
                     SizedBox(height: 22),
                     ...[
-                      if (widget.colors[0] != "1946157055")
+                      if (widget.colors[0] != "2335325234")
                         buildTitle('Couleurs :'),
-                      if (widget.colors[0] != "1946157055")
+                      if (widget.colors[0] != "2335325234")
                         SizedBox(
                           height: 55,
                           child: Align(
