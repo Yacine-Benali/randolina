@@ -45,27 +45,16 @@ class _ProductCardState extends State<ProductCard> {
           ],
         ),
         child: Center(
-          child: ShaderMask(
-            blendMode: BlendMode.srcIn,
-            shaderCallback: (rest) => LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Color(0xFF05090B),
-                Color(0xFF567181).withOpacity(0.6),
-              ],
-            ).createShader(rest),
-            child: AutoSizeText(
-              "$price DA",
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'LondrinaSolid-Regular',
-                fontWeight: FontWeight.w800,
-                //  color: Color(0xFF05090B),
-                letterSpacing: -0.33,
-              ),
-              textAlign: TextAlign.center,
+          child: AutoSizeText(
+            "$price DA",
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'LondrinaSolid-Regular',
+              fontWeight: FontWeight.w400,
+              color: Colors.grey[800],
+              letterSpacing: -0.33,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

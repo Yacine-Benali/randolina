@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/marketplace/details_products/details_product.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
-import 'package:provider/provider.dart';
 
 class ProductsCardProfile extends StatefulWidget {
   final Product product;
@@ -44,27 +44,16 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
           ],
         ),
         child: Center(
-          child: ShaderMask(
-            blendMode: BlendMode.srcIn,
-            shaderCallback: (rest) => LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Color(0xFF05090B),
-                Color(0xFF567181).withOpacity(0.6),
-              ],
-            ).createShader(rest),
-            child: AutoSizeText(
-              "$price DA",
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'LondrinaSolid-Regular',
-                fontWeight: FontWeight.w800,
-                //  color: Color(0xFF05090B),
-                letterSpacing: -0.33,
-              ),
-              textAlign: TextAlign.center,
+          child: AutoSizeText(
+            "$price DA",
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'LondrinaSolid-Regular',
+              fontWeight: FontWeight.w400,
+              color: Colors.grey[800],
+              letterSpacing: -0.33,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
