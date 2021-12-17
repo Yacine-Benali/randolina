@@ -55,7 +55,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
     );
   }
 
-  showErreur(String title) {
+  Future showErreur(String title) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -108,7 +108,9 @@ class _AddProductForm3State extends State<AddProductForm3> {
               if (color != null) {
                 print(colors);
                 print('diohgr $color');
+                // ignore: parameter_assignments
                 if (!colors.contains(color!.value)) {
+                  // ignore: parameter_assignments
                   colors.add(color!.value);
                 } else {
                   showErreur('Couleur deja choisie');

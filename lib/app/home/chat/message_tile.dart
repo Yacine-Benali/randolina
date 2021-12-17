@@ -4,7 +4,6 @@ import 'package:randolina/app/models/message.dart';
 import 'package:randolina/common_widgets/image_full_screen.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:randolina/utils/logger.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({

@@ -6,7 +6,6 @@ import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:provider/provider.dart';
-import 'package:randolina/common_widgets/size_config.dart';
 
 class ProductsCardProfile extends StatefulWidget {
   final Product product;

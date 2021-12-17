@@ -137,6 +137,7 @@ class _EditPhotoScreenState extends State<EditPhotoScreen>
     final File? file =
         await FilteredImageConverter.convert(globalKey: _globalKey);
     if (file != null) {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop(file);
       // Navigator.of(_globalKey.currentContext!).push(
       //   MaterialPageRoute(

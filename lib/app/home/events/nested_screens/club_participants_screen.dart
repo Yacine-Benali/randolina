@@ -47,6 +47,7 @@ class _ClubParticipantScreenState extends State<ClubParticipantScreen> {
             onPressed: () async {
               await widget.eventsBloc
                   .saveParticipants(participants, widget.event);
+              // ignore: use_build_context_synchronously
               Navigator.of(context).pop();
             },
             icon: Icon(Icons.save_outlined),

@@ -88,6 +88,7 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
       );
       await bloc.saveClientInfo(client);
       pd.close();
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     } on Exception catch (e) {
       PlatformExceptionAlertDialog(exception: e).show(context);

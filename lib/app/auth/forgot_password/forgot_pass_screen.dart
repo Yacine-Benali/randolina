@@ -93,6 +93,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                     password = value;
                     logger.info(password);
                     final bool result = await bloc.magic(code, password);
+                    // ignore: use_build_context_synchronously
                     if (result == true) Navigator.of(context).pop();
                   } on Exception catch (e) {
                     logger.severe('Error in verifyPhoneNumber');

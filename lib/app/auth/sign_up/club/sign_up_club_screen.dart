@@ -95,6 +95,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
       );
       await bloc.saveClientInfo(club);
       pd.close();
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     } on Exception catch (e) {
       PlatformExceptionAlertDialog(exception: e).show(context);

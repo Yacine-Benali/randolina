@@ -27,6 +27,7 @@ class EventDatePicker extends StatelessWidget {
       firstDate: DateTime(1960),
       lastDate: DateTime(2100),
     );
+    // ignore: use_build_context_synchronously
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: const TimeOfDay(hour: 10, minute: 47),

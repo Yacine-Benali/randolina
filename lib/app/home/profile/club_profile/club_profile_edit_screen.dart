@@ -161,7 +161,7 @@ class _ClubProfileEditScreenState extends State<ClubProfileEditScreen> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           if (clubOrAgency is Club) {
-                            if (activities == null) activities = [];
+                            activities ??= [];
                             widget.bloc
                                 .saveClubProfile(
                                   bio,

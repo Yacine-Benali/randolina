@@ -406,6 +406,7 @@ class _CameraScreenState extends State<CameraScreen> {
           if (file != null) finalFiles.add(file);
         }
         if (finalFiles.isNotEmpty) {
+          // ignore: use_build_context_synchronously
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -440,6 +441,7 @@ class _CameraScreenState extends State<CameraScreen> {
           if (file != null) finalFiles.add(file);
         }
         if (finalFiles.isNotEmpty) {
+          // ignore: use_build_context_synchronously
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -532,6 +534,7 @@ class _CameraScreenState extends State<CameraScreen> {
         }
       }
       if (finalFiles.length == imagesPathsList.length) {
+        // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(

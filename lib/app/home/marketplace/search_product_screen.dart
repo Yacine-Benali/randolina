@@ -188,39 +188,6 @@ class _SearchProductScreenState extends State<SearchProductScreen>
 
   @override
   Widget build(BuildContext context) {
-    final Widget normalChildButton = Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        border: Border.all(color: Colors.grey),
-      ),
-      height: 40,
-      padding: const EdgeInsets.all(4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Flexible(
-            child: Text(
-              wilayaDropDown,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-            height: 20,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: Icon(
-                Icons.arrow_drop_down,
-                color: Colors.black,
-                size: 50,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(

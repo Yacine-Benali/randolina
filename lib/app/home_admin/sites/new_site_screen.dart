@@ -101,6 +101,7 @@ class _NewSiteScreenState extends State<NewSiteScreen> {
                     if (_formKey.currentState!.validate()) {
                       final Site site = Site(title: title, url: url, id: id);
                       await widget.sitesBloc.createSite(site);
+                      // ignore: use_build_context_synchronously
                       Navigator.of(context).pop();
                     }
                   },
