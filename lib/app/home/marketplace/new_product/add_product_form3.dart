@@ -55,6 +55,43 @@ class _AddProductForm3State extends State<AddProductForm3> {
     );
   }
 
+  showErreur(String title) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      child: Icon(Icons.close),
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    buildTitle('Erreur'),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(title),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   Widget buildCircelColor(Color? color, Icon? icon) {
     return Stack(
       children: [
@@ -69,8 +106,13 @@ class _AddProductForm3State extends State<AddProductForm3> {
                 ),
               );
               if (color != null) {
-                // ignore: parameter_assignments
-                colors.add(color!.value.toString());
+                print(colors);
+                print('diohgr $color');
+                if (!colors.contains(color!.value)) {
+                  colors.add(color!.value);
+                } else {
+                  showErreur('Couleur deja choisie');
+                }
               }
               setState(() {});
             }
@@ -119,7 +161,13 @@ class _AddProductForm3State extends State<AddProductForm3> {
           onTap: () async {
             if (select) {
               size = await selectSized();
-              if (size != null) sizes.add(size);
+              if (size != null) {
+                if (!sizes.contains(size)) {
+                  sizes.add(size);
+                } else {
+                  showErreur('Taille deja choisie');
+                }
+              }
 
               setState(() {});
             }
