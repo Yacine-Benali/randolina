@@ -8,7 +8,9 @@ import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductsBloc {
@@ -66,6 +68,28 @@ class ProductsBloc {
       urls.add(t);
     }
     return Future.wait(urls);
+  }
+
+  List<Product> productsFilter(
+    List<Product> products,
+    SfRangeValues priceRange,
+    int wilaya,
+  ) {
+    try {
+      final double start = double.parse(priceRange.start.toString());
+      final double end = double.parse(priceRange.end.toString());
+      final List<Product> matchedProducts = [];
+      for (final Product p in products) {
+        if (p.price >= start && p.price <= end && p.wilaya == wilaya) {
+          matchedProducts.add(p);
+        }
+      }
+      return matchedProducts;
+    } on Exception catch (e) {
+      logger.severe('productsFilter ERROR');
+      logger.severe(e);
+      return [];
+    }
   }
 
   List<Product> productsTextSearch(

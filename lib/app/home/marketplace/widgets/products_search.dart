@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
+import 'package:provider/provider.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/search_product_screen.dart';
+import 'package:randolina/app/models/product.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -11,8 +13,10 @@ class ProductsSearch extends StatefulWidget {
   const ProductsSearch({
     Key? key,
     required this.onTextChanged,
+    required this.bloc,
   }) : super(key: key);
   final ValueChanged<String> onTextChanged;
+  final ProductsBloc bloc;
 
   @override
   ProductsSearchState createState() => ProductsSearchState();
@@ -266,9 +270,14 @@ class ProductsSearchState extends State<ProductsSearch>
                 ),
                 IconButton(
                   onPressed: () {
+                    final notifiedProductList =
+                        context.read<ValueNotifier<List<Product>>>();
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return SearchProductScreen();
+                      return SearchProductScreen(
+                        products: notifiedProductList.value,
+                        bloc: widget.bloc,
+                      );
                     }));
                   },
                   icon: Icon(

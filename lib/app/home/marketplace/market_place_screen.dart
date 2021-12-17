@@ -36,9 +36,11 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   late final ProductsBloc productsBloc;
   late final AuthUser authUser;
   String searchText = '';
+  late List<Product> products;
 
   @override
   void initState() {
+    products = [];
     currentlyChosenProductsNotifier = ValueNotifier([]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(() => setState(() {}));
@@ -80,7 +82,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
         stream: isStore ? myProductsStream : allProductsStream,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            final List<Product> products = snapshot.data!;
+            products = snapshot.data!;
             if (products.isNotEmpty) {
               final List<Product> matchedProducts =
                   productsBloc.productsTextSearch(
@@ -139,6 +141,7 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
             ChangeNotifierProvider.value(
               value: currentlyChosenProductsNotifier,
               child: ProductsSearch(
+                bloc: productsBloc,
                 onTextChanged: (t) {
                   setState(() => searchText = t);
                 },

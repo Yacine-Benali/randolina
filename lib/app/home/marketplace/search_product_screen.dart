@@ -1,16 +1,25 @@
 import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
+import 'package:randolina/app/home/marketplace/filtered_products.dart';
+import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
+import 'package:randolina/app/models/product.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/algeria_cities.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/utils/logger.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class SearchProductScreen extends StatefulWidget {
-  const SearchProductScreen({Key? key}) : super(key: key);
+  const SearchProductScreen({
+    Key? key,
+    required this.products,
+    required this.bloc,
+  }) : super(key: key);
+  final List<Product> products;
+  final ProductsBloc bloc;
 
   @override
   _SearchProductScreenState createState() => _SearchProductScreenState();
@@ -32,6 +41,7 @@ class _SearchProductScreenState extends State<SearchProductScreen>
   bool navigateToPreviousScreenOnIOSBackPress = true;
   String selectedItem = '';
   String toIntToString(dynamic value) => (value as num).toInt().toString();
+
   @override
   void initState() {
     _tabController = TabController(vsync: this, length: 3);
@@ -47,7 +57,7 @@ class _SearchProductScreenState extends State<SearchProductScreen>
         })
         .toSet()
         .toList();
-    options.addAll(['', '']);
+
     logger.severe(options.length);
     options.insert(0, 'Wilaya');
     wilayaNumber = 0;
@@ -250,87 +260,44 @@ class _SearchProductScreenState extends State<SearchProductScreen>
                     SizedBox(height: 10),
                     ...buildSlider(setState),
                     SizedBox(height: 7),
-                    Row(
-                      children: [
-                        buildTitle('Item Location :'),
-                        Container(
-                          //    margin: const EdgeInsets.only(left: 10),
-                          width: 180,
-                          color: backgroundColor,
-                          child: AwesomeDropDown(
-                            isPanDown: isPanDown,
-                            dropDownList: options.toList(),
-                            isBackPressedOrTouchedOutSide:
-                                isBackPressedOrTouchedOutSide,
-                            selectedItem: wilayaDropDown,
-                            numOfListItemToShow: 6,
-                            onDropDownItemClick: (String? selectedItem) {
-                              if (selectedItem == null) {
-                              } else if (selectedItem == 'Wilaya') {
-                                wilayaDropDown = selectedItem;
-                                setState(() => wilayaNumber = 0);
-                                //  widget.onWilayaChanged(wilayaNumber);
-                              } else {
-                                final int? wilayaN = int.tryParse(
-                                    selectedItem[0] + selectedItem[1]);
-                                wilayaDropDown = selectedItem;
-                                setState(() => wilayaNumber = wilayaN!);
-                                // widget.onWilayaChanged(wilayaNumber);
-                              }
-                            },
-                            dropStateChanged: (bool isOpened) {
-                              isDropDownOpened = isOpened;
-                              if (!isOpened) {
-                                isBackPressedOrTouchedOutSide = false;
-                              }
-                            },
+                    SizedBox(
+                      width: SizeConfig.screenWidth - 50,
+                      child: Row(
+                        children: [
+                          buildTitle('Item Location :'),
+                          Expanded(
+                            child: Container(
+                              color: backgroundColor,
+                              child: AwesomeDropDown(
+                                isPanDown: isPanDown,
+                                dropDownList: options.toList(),
+                                isBackPressedOrTouchedOutSide:
+                                    isBackPressedOrTouchedOutSide,
+                                selectedItem: wilayaDropDown,
+                                numOfListItemToShow: 6,
+                                onDropDownItemClick: (String? selectedItem) {
+                                  if (selectedItem == null) {
+                                  } else if (selectedItem == 'Wilaya') {
+                                    wilayaDropDown = selectedItem;
+                                    setState(() => wilayaNumber = 0);
+                                  } else {
+                                    final int? wilayaN = int.tryParse(
+                                        selectedItem[0] + selectedItem[1]);
+                                    wilayaDropDown = selectedItem;
+                                    setState(() => wilayaNumber = wilayaN!);
+                                  }
+                                },
+                                dropStateChanged: (bool isOpened) {
+                                  isDropDownOpened = isOpened;
+                                  if (!isOpened) {
+                                    isBackPressedOrTouchedOutSide = false;
+                                  }
+                                },
+                              ),
+                            ),
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.only(left: 4),
-                          //   child: MenuButton<String>(
-                          //     items: options.toList(),
-                          //     scrollPhysics: AlwaysScrollableScrollPhysics(),
-                          //     crossTheEdge: true,
-                          //     menuButtonBackgroundColor: backgroundColor,
-                          //     edgeMargin: 12,
-                          //     selectedItem: wilayaDropDown,
-                          //     itemBuilder: (String value) {
-                          //       return Container(
-                          //         color: backgroundColor,
-                          //         height: 40,
-                          //         padding: const EdgeInsets.all(8),
-                          //         child: Text(
-                          //           value,
-                          //           overflow: TextOverflow.ellipsis,
-                          //           style: TextStyle(color: Colors.black),
-                          //         ),
-                          //       );
-                          //     },
-                          //     decoration: BoxDecoration(),
-                          //     toggledChild: normalChildButton,
-                          //     divider: Container(
-                          //       height: 0,
-                          //       color: Colors.white,
-                          //     ),
-                          //     onItemSelected: (String? newValue) {
-                          //       if (newValue == null) {
-                          //       } else if (newValue == 'Wilaya') {
-                          //         wilayaDropDown = newValue;
-                          //         setState(() => wilayaNumber = 0);
-                          //         //  widget.onWilayaChanged(wilayaNumber);
-                          //       } else {
-                          //         final int? wilayaN =
-                          //             int.tryParse(newValue[0] + newValue[1]);
-                          //         wilayaDropDown = newValue;
-                          //         setState(() => wilayaNumber = wilayaN!);
-                          //         // widget.onWilayaChanged(wilayaNumber);
-                          //       }
-                          //     },
-                          //     child: normalChildButton,
-                          //   ),
-                          // ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -338,7 +305,26 @@ class _SearchProductScreenState extends State<SearchProductScreen>
             ],
             Align(
               alignment: Alignment.bottomCenter,
-              child: NextButton(onPressed: () {}, title: 'Apply'),
+              child: NextButton(
+                title: 'Apply',
+                onPressed: () async {
+                  if (wilayaNumber != 0) {
+                    final List<Product> filteredProducts =
+                        widget.bloc.productsFilter(
+                      widget.products,
+                      _activeRangeSliderValue,
+                      wilayaNumber,
+                    );
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            FilteredProducts(products: filteredProducts),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
