@@ -44,8 +44,8 @@ class _OrderForm2State extends State<OrderForm2> {
                             'Laissez un commentaire avec votre commande...',
                         border: InputBorder.none,
                       ),
-                      onSaved: (value) {
-                        if (value!.trim().isNotEmpty) {
+                      onChanged: (value) {
+                        if (value.trim().isNotEmpty) {
                           commentaire = value.trim();
                         }
                       },

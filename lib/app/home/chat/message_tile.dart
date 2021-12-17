@@ -228,50 +228,53 @@ class MessageTile extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Text('Colors:'),
-                SizedBox(width: 7),
-                Container(
-                  width: 35,
-                  height: 35,
-                  margin: const EdgeInsets.only(right: 5),
-                  decoration: BoxDecoration(
-                    color: Color(int.parse("4290237159")),
-                    shape: BoxShape.circle,
-                    // borderRadius: BorderRadius.circular(66),
-                    border: Border.all(
-                      color: Color(0xFFEBF0FF),
+            if (message.order!.color != Colors.white.withOpacity(0.001))
+              Row(
+                children: [
+                  Text('Colors:'),
+                  SizedBox(width: 7),
+                  Container(
+                    width: 35,
+                    height: 35,
+                    margin: const EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                      color: Color(int.parse(message.order!.color)),
+                      shape: BoxShape.circle,
+                      // borderRadius: BorderRadius.circular(66),
+                      border: Border.all(
+                        color: Color(0xFFEBF0FF),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Text('Size:'),
-                SizedBox(width: 7),
-                Container(
-                  width: 35,
-                  height: 35,
-                  margin: const EdgeInsets.only(right: 5),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                    //  borderRadius: BorderRadius.circular(66),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Color(0xFFEBF0FF),
+                ],
+              ),
+            if (message.order!.color != 'empty')
+              SizedBox(
+                height: 10,
+              ),
+            if (message.order!.size != 'empty')
+              Row(
+                children: [
+                  Text('Size:'),
+                  SizedBox(width: 7),
+                  Container(
+                    width: 35,
+                    height: 35,
+                    margin: const EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFFFFFF),
+                      //  borderRadius: BorderRadius.circular(66),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Color(0xFFEBF0FF),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(message.order!.size),
                     ),
                   ),
-                  child: Center(
-                    child: Text(message.order!.size),
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
       );

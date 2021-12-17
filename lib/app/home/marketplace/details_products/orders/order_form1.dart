@@ -30,8 +30,11 @@ class _OrderForm1State extends State<OrderForm1> {
 
   @override
   void initState() {
-    selectColor = widget.product.colors[0];
-    selectSize = widget.product.sizes[0];
+    selectColor = widget.product.colors[0] == Colors.white.withOpacity(0.001)
+        ? Colors.white.withOpacity(0.001)
+        : widget.product.colors[0];
+    selectSize =
+        widget.product.sizes[0] == 'empty' ? '1' : widget.product.sizes[0];
 
     super.initState();
   }
@@ -155,19 +158,26 @@ class _OrderForm1State extends State<OrderForm1> {
                         ),
                       ),
                     ],
-                    if (widget.product.colors.isNotEmpty) SizedBox(height: 20),
-                    if (widget.product.colors.isNotEmpty)
+                    if (widget.product.colors[0] !=
+                        Colors.white.withOpacity(0.001))
+                      SizedBox(height: 20),
+                    if (widget.product.colors[0] !=
+                        Colors.white.withOpacity(0.001))
                       Divider(
                         thickness: thickness,
                         color: color,
                         indent: 0,
                         endIndent: 0,
                       ),
-                    if (widget.product.colors.isNotEmpty) SizedBox(height: 23),
+                    if (widget.product.colors[0] !=
+                        Colors.white.withOpacity(0.001))
+                      SizedBox(height: 23),
                     ...[
-                      if (widget.product.colors.isNotEmpty)
+                      if (widget.product.colors[0] !=
+                          Colors.white.withOpacity(0.001))
                         Center(child: buildTitle('Sélectionner une couleur')),
-                      if (widget.product.colors.isNotEmpty)
+                      if (widget.product.colors[0] !=
+                          Colors.white.withOpacity(0.001))
                         SizedBox(
                           height: 55,
                           child: Align(
@@ -181,6 +191,8 @@ class _OrderForm1State extends State<OrderForm1> {
                                     setState(() {
                                       selectColor =
                                           widget.product.colors[index];
+                                      print(
+                                          'rani dit had la valeur $selectColor');
                                     });
                                   },
                                   child: Container(
@@ -218,8 +230,9 @@ class _OrderForm1State extends State<OrderForm1> {
                           ),
                         ),
                     ],
-                    if (widget.product.sizes.isNotEmpty) SizedBox(height: 20),
-                    if (widget.product.sizes.isNotEmpty)
+                    if (widget.product.sizes[0] != 'empty')
+                      SizedBox(height: 20),
+                    if (widget.product.sizes[0] != 'empty')
                       Divider(
                         thickness: thickness,
                         color: color,
@@ -228,9 +241,9 @@ class _OrderForm1State extends State<OrderForm1> {
                       ),
                     SizedBox(height: 23),
                     ...[
-                      if (widget.product.sizes.isNotEmpty)
+                      if (widget.product.sizes[0] != 'empty')
                         Center(child: buildTitle('Sélectionner la Taille')),
-                      if (widget.product.sizes.isNotEmpty)
+                      if (widget.product.sizes[0] != 'empty')
                         SizedBox(
                           height: 55,
                           child: Align(
@@ -280,6 +293,8 @@ class _OrderForm1State extends State<OrderForm1> {
                       child: NextButton(
                         title: 'Commandez le produit maintenant',
                         onPressed: () {
+                          print('rani day had la valeur $selectColor');
+                          print('rani day had la valeur $selectSize');
                           widget.onNextPressed(
                             selectColor: selectColor,
                             selectSize: selectSize,

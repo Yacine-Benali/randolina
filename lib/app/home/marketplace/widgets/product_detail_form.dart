@@ -132,9 +132,11 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                   ],
                   SizedBox(height: 22),
                   ...[
-                    if (widget.product.colors.isNotEmpty)
+                    if (widget.product.colors[0] !=
+                        Colors.white.withOpacity(0.001))
                       buildTitle('Couleurs :'),
-                    if (widget.product.colors.isNotEmpty)
+                    if (widget.product.colors[0] !=
+                        Colors.white.withOpacity(0.001))
                       SizedBox(
                         height: 55,
                         child: Align(
@@ -163,11 +165,11 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                         ),
                       ),
                   ],
-                  if (widget.product.sizes.isNotEmpty) SizedBox(height: 22),
+                  if (widget.product.sizes[0] != 'empty') SizedBox(height: 22),
                   ...[
-                    if (widget.product.sizes.isNotEmpty)
+                    if (widget.product.sizes[0] != 'empty')
                       buildTitle('Tailles :'),
-                    if (widget.product.sizes.isNotEmpty)
+                    if (widget.product.sizes[0] != 'empty')
                       SizedBox(
                         height: 55,
                         child: Align(

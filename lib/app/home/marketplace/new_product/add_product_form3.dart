@@ -367,6 +367,8 @@ class _AddProductForm3State extends State<AddProductForm3> {
           padding: const EdgeInsets.only(right: 8, left: 8, bottom: 20),
           child: NextButton(
             onPressed: () {
+              if (colors.isEmpty) colors = [Colors.white.withOpacity(0.001)];
+              if (sizes.isEmpty) sizes = ['empty'];
               widget.onNextPressed(
                 colors: colors,
                 sizes: sizes,

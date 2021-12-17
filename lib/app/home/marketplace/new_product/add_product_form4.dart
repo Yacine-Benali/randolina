@@ -216,8 +216,9 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     ],
                     SizedBox(height: 22),
                     ...[
-                      if (widget.colors.isNotEmpty) buildTitle('Couleurs :'),
-                      if (widget.colors.isNotEmpty)
+                      if (widget.colors[0] != Colors.white.withOpacity(0.001))
+                        buildTitle('Couleurs :'),
+                      if (widget.colors[0] != Colors.white.withOpacity(0.001))
                         SizedBox(
                           height: 55,
                           child: Align(
@@ -245,10 +246,10 @@ class _AddProductForm4State extends State<AddProductForm4> {
                           ),
                         ),
                     ],
-                    if (widget.sizes.isNotEmpty) SizedBox(height: 22),
+                    if (widget.sizes[0] != 'empty') SizedBox(height: 22),
                     ...[
-                      if (widget.sizes.isNotEmpty) buildTitle('Tailles :'),
-                      if (widget.sizes.isNotEmpty)
+                      if (widget.sizes[0] != 'empty') buildTitle('Tailles :'),
+                      if (widget.sizes[0] != 'empty')
                         SizedBox(
                           height: 55,
                           child: Align(
