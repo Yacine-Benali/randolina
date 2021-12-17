@@ -112,33 +112,21 @@ class ProductsBloc {
     );
   }
 
-  Stream<List<Product>> getClientMyProducts() {
-    final enddate = Timestamp.fromDate(DateTime.now());
-
-    return database.streamCollection(
-      path: APIPath.productsCollection(),
-      builder: (data, documentId) => Product.fromMap(data, documentId),
-      queryBuilder: (query) => query.where(
-        'subscribers',
-        arrayContainsAny: [
-          {'id': currentUser.id, 'isConfirmed': false},
-          {'id': currentUser.id, 'isConfirmed': true}
-        ],
-      ).where('endDateTime', isGreaterThan: enddate),
-      sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
-    );
-  }
-
   Stream<List<Product>> getAllProducts() {
     return database.streamCollection(
-      path: APIPath.productsCollection(),
-      builder: (data, documentId) => Product.fromMap(data, documentId),
-      queryBuilder: (query) => query.where(
-        'createdBy.id',
-        isNotEqualTo: currentUser.id,
-      ),
-      sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
-    );
+        path: APIPath.productsCollection(),
+        builder: (data, documentId) => Product.fromMap(data, documentId),
+        queryBuilder: (query) => query.where(
+              'createdBy.id',
+              isNotEqualTo: currentUser.id,
+            ),
+        sort: (Product a, Product b) {
+          if (a.wilaya == currentUser.wilaya) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
   }
 
   Stream<List<Product>> getMyProducts() {

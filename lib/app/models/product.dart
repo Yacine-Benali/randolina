@@ -73,4 +73,6 @@ class Product {
       'createdAt': FieldValue.serverTimestamp(),
     };
   }
+
+  
 }
