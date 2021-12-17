@@ -4,6 +4,7 @@ import 'package:randolina/app/home/chat/chat_app_bar.dart';
 import 'package:randolina/app/home/chat/chat_bloc.dart';
 import 'package:randolina/app/home/chat/chat_input_bar.dart';
 import 'package:randolina/app/home/chat/chat_list.dart';
+import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
@@ -26,7 +27,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   late final ChatBloc chatBloc;
-
+  late ProductsBloc productsBloc;
+  late bool isStores;
   @override
   void initState() {
     chatBloc = ChatBloc(
@@ -34,6 +36,13 @@ class _ChatScreenState extends State<ChatScreen> {
       conversation: widget.conversation,
       database: context.read<Database>(),
     );
+
+    final Database database = context.read<Database>();
+    productsBloc = ProductsBloc(
+      database: database,
+      currentUser: widget.currentUser,
+    );
+
     super.initState();
   }
 
@@ -50,7 +59,10 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ChatList(bloc: chatBloc),
+            child: ChatList(
+              bloc: chatBloc,
+              productsBloc: productsBloc,
+            ),
           ),
           ChatInputBar(bloc: chatBloc),
         ],

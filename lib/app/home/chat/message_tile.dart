@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:randolina/app/home/marketplace/details_products/details_product.dart';
+import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/models/message.dart';
 import 'package:randolina/common_widgets/image_full_screen.dart';
 import 'package:randolina/common_widgets/image_profile.dart';
@@ -11,10 +13,12 @@ class MessageTile extends StatelessWidget {
     required this.message,
     required this.isSelf,
     required this.avatarUrl,
+    required this.productsBloc,
   }) : super(key: key);
   final Message message;
   final bool isSelf;
   final String? avatarUrl;
+  final ProductsBloc productsBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -157,125 +161,139 @@ class MessageTile extends StatelessWidget {
     } else if (message.type == 2 &&
         message.order != null &&
         message.product != null) {
-      return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Informations de la commande',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+      return GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return DetailsProduct(
+                    product: message.product!,
+                    productsBloc: productsBloc,
+                    isStore: !isSelf);
+              },
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Commentaire: ${message.order!.comment}',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.grey.withOpacity(0.5),
-                fontSize: 14,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 80,
-                  height: 80,
-                  child: Image.network(message.product!.profileImage),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Informations de la commande',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
-                SizedBox(width: 7),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Commentaire: ${message.order!.comment}',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.grey.withOpacity(0.5),
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: Image.network(message.product!.profileImage),
+                  ),
+                  SizedBox(width: 7),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${message.product!.offer} ",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.grey.withOpacity(0.7),
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        "${message.order!.quantity} items",
+                        style: TextStyle(
+                          color: Colors.grey.withOpacity(0.7),
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        "Prix ${message.product!.price} DA",
+                        style: TextStyle(
+                          color: Colors.grey.withOpacity(0.7),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              if (message.order!.color != "2335325234")
+                Row(
                   children: [
-                    Text(
-                      "${message.product!.offer} ",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.grey.withOpacity(0.7),
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      "${message.order!.quantity} items",
-                      style: TextStyle(
-                        color: Colors.grey.withOpacity(0.7),
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      "Prix ${message.product!.price} DA",
-                      style: TextStyle(
-                        color: Colors.grey.withOpacity(0.7),
-                        fontSize: 14,
+                    Text('Colors:'),
+                    SizedBox(width: 7),
+                    Container(
+                      width: 35,
+                      height: 35,
+                      margin: const EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                        color: Color(int.parse(message.order!.color)),
+                        shape: BoxShape.circle,
+                        // borderRadius: BorderRadius.circular(66),
+                        border: Border.all(
+                          color: Color(0xFFEBF0FF),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            if (message.order!.color != "2335325234")
-              Row(
-                children: [
-                  Text('Colors:'),
-                  SizedBox(width: 7),
-                  Container(
-                    width: 35,
-                    height: 35,
-                    margin: const EdgeInsets.only(right: 5),
-                    decoration: BoxDecoration(
-                      color: Color(int.parse(message.order!.color)),
-                      shape: BoxShape.circle,
-                      // borderRadius: BorderRadius.circular(66),
-                      border: Border.all(
-                        color: Color(0xFFEBF0FF),
+              if (message.order!.color != "2335325234")
+                SizedBox(
+                  height: 10,
+                ),
+              if (message.order!.size != 'empty')
+                Row(
+                  children: [
+                    Text('Size:'),
+                    SizedBox(width: 7),
+                    Container(
+                      width: 35,
+                      height: 35,
+                      margin: const EdgeInsets.only(right: 5),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFFFFF),
+                        //  borderRadius: BorderRadius.circular(66),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Color(0xFFEBF0FF),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(message.order!.size),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            if (message.order!.color != "2335325234")
-              SizedBox(
-                height: 10,
-              ),
-            if (message.order!.size != 'empty')
-              Row(
-                children: [
-                  Text('Size:'),
-                  SizedBox(width: 7),
-                  Container(
-                    width: 35,
-                    height: 35,
-                    margin: const EdgeInsets.only(right: 5),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFFFFFF),
-                      //  borderRadius: BorderRadius.circular(66),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Color(0xFFEBF0FF),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(message.order!.size),
-                    ),
-                  ),
-                ],
-              ),
-          ],
+                  ],
+                ),
+            ],
+          ),
         ),
       );
     } else {

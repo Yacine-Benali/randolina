@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/chat/chat_bloc.dart';
 import 'package:randolina/app/home/chat/message_tile.dart';
+import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/models/message.dart';
 import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 
 class ChatList extends StatefulWidget {
-  const ChatList({Key? key, required this.bloc}) : super(key: key);
+  const ChatList({
+    Key? key,
+    required this.bloc,
+    required this.productsBloc,
+  }) : super(key: key);
   final ChatBloc bloc;
+  final ProductsBloc productsBloc;
 
   @override
   _ChatListState createState() => _ChatListState();
@@ -92,6 +98,7 @@ class _ChatListState extends State<ChatList> {
                     message: messages[index],
                     isSelf: isSelf,
                     avatarUrl: showAvatar ? miniUser.profilePicture : null,
+                    productsBloc: widget.productsBloc,
                   );
                 }
               },
@@ -127,3 +134,5 @@ class _ChatListState extends State<ChatList> {
     super.dispose();
   }
 }
+
+mixin Store {}
