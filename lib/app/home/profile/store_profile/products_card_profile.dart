@@ -30,7 +30,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
         right: 2,
       ),
       child: Container(
-        width: 122,
+        width: 102,
         height: 30,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -89,7 +89,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
         );
       },
       child: Container(
-        width: SizeConfig.screenWidth,
+        width: 153,
         margin: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -143,7 +143,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
                     ),
                   ),
                   Expanded(
-                    //      flex: 2,
+                    flex: 2,
                     child: GestureDetector(
                       onTap: () {
                         if (context.read<User>().id !=
