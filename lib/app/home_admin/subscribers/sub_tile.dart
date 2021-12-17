@@ -228,7 +228,6 @@ class _SubTileState extends State<SubTile> {
                   : 'Pas de date',
               style: TextStyle(fontSize: 16),
             ).frosted(
-              blur: 5,
               padding: EdgeInsets.all(8),
             ),
           ),

@@ -43,7 +43,7 @@ class _AddProductForm1State extends State<AddProductForm1> {
             activeControlsWidgetColor: Colors.blue,
           ),
           sourcePath: file.path,
-          aspectRatio: CropAspectRatio(ratioX: 16.0, ratioY: 9.0),
+          aspectRatio: CropAspectRatio(ratioX: 3.0, ratioY: 4.0),
         );
         if (croppedImage != null) {
           imageFile = croppedImage;
