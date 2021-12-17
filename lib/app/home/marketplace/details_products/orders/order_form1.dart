@@ -158,11 +158,9 @@ class _OrderForm1State extends State<OrderForm1> {
                         ),
                       ),
                     ],
-                    if (widget.product.colors[0] !=
-                        Colors.white.withOpacity(0.001))
+                    if (widget.product.colors[0] != "1946157055")
                       SizedBox(height: 20),
-                    if (widget.product.colors[0] !=
-                        Colors.white.withOpacity(0.001))
+                    if (widget.product.colors[0] != "1946157055")
                       Divider(
                         thickness: thickness,
                         color: color,

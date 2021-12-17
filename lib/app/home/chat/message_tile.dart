@@ -248,7 +248,7 @@ class MessageTile extends StatelessWidget {
                   ),
                 ],
               ),
-            if (message.order!.color != 'empty')
+            if (message.order!.color != "1946157055")
               SizedBox(
                 height: 10,
               ),
