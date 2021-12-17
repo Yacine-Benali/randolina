@@ -135,7 +135,6 @@ class _SeeAllProductsStoreState extends State<SeeAllProductsStore> {
                 return GridView.builder(
                   itemCount: products.length,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 18,
