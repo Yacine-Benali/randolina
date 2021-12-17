@@ -1,6 +1,6 @@
+import 'package:awesome_dropdown/awesome_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
-import 'package:menu_button/menu_button.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/algeria_cities.dart';
@@ -26,6 +26,11 @@ class _SearchProductScreenState extends State<SearchProductScreen>
   late String wilayaDropDown;
   late int wilayaNumber;
   late List<String> options;
+  bool isBackPressedOrTouchedOutSide = false;
+  bool isDropDownOpened = false;
+  bool isPanDown = false;
+  bool navigateToPreviousScreenOnIOSBackPress = true;
+  String selectedItem = '';
   String toIntToString(dynamic value) => (value as num).toInt().toString();
   @override
   void initState() {
@@ -175,7 +180,6 @@ class _SearchProductScreenState extends State<SearchProductScreen>
   Widget build(BuildContext context) {
     final Widget normalChildButton = Container(
       decoration: BoxDecoration(
-        color: backgroundColor,
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
         border: Border.all(color: Colors.grey),
       ),
@@ -250,51 +254,81 @@ class _SearchProductScreenState extends State<SearchProductScreen>
                       children: [
                         buildTitle('Item Location :'),
                         Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          width: 140,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 4),
-                            child: MenuButton<String>(
-                              items: options.toList(),
-                              scrollPhysics: AlwaysScrollableScrollPhysics(),
-                              crossTheEdge: true,
-                              edgeMargin: 12,
-                              selectedItem: wilayaDropDown,
-                              itemBuilder: (String value) {
-                                return Container(
-                                  color: backgroundColor,
-                                  height: 40,
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text(
-                                    value,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                );
-                              },
-                              decoration: BoxDecoration(),
-                              toggledChild: normalChildButton,
-                              divider: Container(
-                                height: 0,
-                                color: Colors.white,
-                              ),
-                              onItemSelected: (String? newValue) {
-                                if (newValue == null) {
-                                } else if (newValue == 'Wilaya') {
-                                  wilayaDropDown = newValue;
-                                  setState(() => wilayaNumber = 0);
-                                  //  widget.onWilayaChanged(wilayaNumber);
-                                } else {
-                                  final int? wilayaN =
-                                      int.tryParse(newValue[0] + newValue[1]);
-                                  wilayaDropDown = newValue;
-                                  setState(() => wilayaNumber = wilayaN!);
-                                  // widget.onWilayaChanged(wilayaNumber);
-                                }
-                              },
-                              child: normalChildButton,
-                            ),
+                          //    margin: const EdgeInsets.only(left: 10),
+                          width: 180,
+                          color: backgroundColor,
+                          child: AwesomeDropDown(
+                            isPanDown: isPanDown,
+                            dropDownList: options.toList(),
+                            isBackPressedOrTouchedOutSide:
+                                isBackPressedOrTouchedOutSide,
+                            selectedItem: wilayaDropDown,
+                            numOfListItemToShow: 6,
+                            onDropDownItemClick: (String? selectedItem) {
+                              if (selectedItem == null) {
+                              } else if (selectedItem == 'Wilaya') {
+                                wilayaDropDown = selectedItem;
+                                setState(() => wilayaNumber = 0);
+                                //  widget.onWilayaChanged(wilayaNumber);
+                              } else {
+                                final int? wilayaN = int.tryParse(
+                                    selectedItem[0] + selectedItem[1]);
+                                wilayaDropDown = selectedItem;
+                                setState(() => wilayaNumber = wilayaN!);
+                                // widget.onWilayaChanged(wilayaNumber);
+                              }
+                            },
+                            dropStateChanged: (bool isOpened) {
+                              isDropDownOpened = isOpened;
+                              if (!isOpened) {
+                                isBackPressedOrTouchedOutSide = false;
+                              }
+                            },
                           ),
+                          // Padding(
+                          //   padding: EdgeInsets.only(left: 4),
+                          //   child: MenuButton<String>(
+                          //     items: options.toList(),
+                          //     scrollPhysics: AlwaysScrollableScrollPhysics(),
+                          //     crossTheEdge: true,
+                          //     menuButtonBackgroundColor: backgroundColor,
+                          //     edgeMargin: 12,
+                          //     selectedItem: wilayaDropDown,
+                          //     itemBuilder: (String value) {
+                          //       return Container(
+                          //         color: backgroundColor,
+                          //         height: 40,
+                          //         padding: const EdgeInsets.all(8),
+                          //         child: Text(
+                          //           value,
+                          //           overflow: TextOverflow.ellipsis,
+                          //           style: TextStyle(color: Colors.black),
+                          //         ),
+                          //       );
+                          //     },
+                          //     decoration: BoxDecoration(),
+                          //     toggledChild: normalChildButton,
+                          //     divider: Container(
+                          //       height: 0,
+                          //       color: Colors.white,
+                          //     ),
+                          //     onItemSelected: (String? newValue) {
+                          //       if (newValue == null) {
+                          //       } else if (newValue == 'Wilaya') {
+                          //         wilayaDropDown = newValue;
+                          //         setState(() => wilayaNumber = 0);
+                          //         //  widget.onWilayaChanged(wilayaNumber);
+                          //       } else {
+                          //         final int? wilayaN =
+                          //             int.tryParse(newValue[0] + newValue[1]);
+                          //         wilayaDropDown = newValue;
+                          //         setState(() => wilayaNumber = wilayaN!);
+                          //         // widget.onWilayaChanged(wilayaNumber);
+                          //       }
+                          //     },
+                          //     child: normalChildButton,
+                          //   ),
+                          // ),
                         ),
                       ],
                     ),

@@ -53,6 +53,7 @@ dependencies:
   path_provider: ^2.0.2
   image_gallery_saver: ^1.6.9
   dio: ^4.0.0
+  awesome_dropdown: ^0.0.4
   permission_handler: ^8.1.4+2
   fluttertoast: ^8.0.1-nullsafety.0
   story:
@@ -85,8 +86,6 @@ dependencies:
   menu_button: ^1.4.2+1
   hive: ^2.0.4
   hive_flutter: ^1.1.0
-
-
 
 
 
