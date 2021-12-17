@@ -6,6 +6,7 @@ import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
 class ProductsCardProfile extends StatefulWidget {
   final Product product;
@@ -29,7 +30,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
         right: 2,
       ),
       child: Container(
-        width: 102,
+        width: 122,
         height: 30,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -88,7 +89,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
         );
       },
       child: Container(
-        width: 230,
+        width: SizeConfig.screenWidth,
         margin: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -125,7 +126,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Row(
                 children: [
                   Expanded(
