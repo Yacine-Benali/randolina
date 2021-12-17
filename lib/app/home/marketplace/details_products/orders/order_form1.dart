@@ -81,7 +81,9 @@ class _OrderForm1State extends State<OrderForm1> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...[
-                      Center(child: buildTitle('The quantity you want to buy')),
+                      Center(
+                          child: buildTitle(
+                              'La quantité que vous voulez acheter')),
                       Center(
                         child: Container(
                           width: 150,
@@ -164,7 +166,7 @@ class _OrderForm1State extends State<OrderForm1> {
                     if (widget.product.colors.isNotEmpty) SizedBox(height: 23),
                     ...[
                       if (widget.product.colors.isNotEmpty)
-                        Center(child: buildTitle('Select Color')),
+                        Center(child: buildTitle('Sélectionner une couleur')),
                       if (widget.product.colors.isNotEmpty)
                         SizedBox(
                           height: 55,
@@ -227,7 +229,7 @@ class _OrderForm1State extends State<OrderForm1> {
                     SizedBox(height: 23),
                     ...[
                       if (widget.product.sizes.isNotEmpty)
-                        Center(child: buildTitle('Select Size')),
+                        Center(child: buildTitle('Sélectionner la Taille')),
                       if (widget.product.sizes.isNotEmpty)
                         SizedBox(
                           height: 55,
@@ -276,7 +278,7 @@ class _OrderForm1State extends State<OrderForm1> {
                       padding: const EdgeInsets.only(
                           bottom: 32.0, right: 8, left: 8),
                       child: NextButton(
-                        title: 'Order the product now',
+                        title: 'Commandez le produit maintenant',
                         onPressed: () {
                           widget.onNextPressed(
                             selectColor: selectColor,

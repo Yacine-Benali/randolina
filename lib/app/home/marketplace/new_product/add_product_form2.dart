@@ -116,7 +116,7 @@ class _AddProductForm2State extends State<AddProductForm2> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Add Picture',
+              'Ajouter une image',
               style: TextStyle(
                 color: Color.fromRGBO(51, 77, 115, 0.88),
                 fontSize: 18,
@@ -334,7 +334,7 @@ class _AddProductForm2State extends State<AddProductForm2> {
             ),
             ProductField(
               initialValue: offer,
-              title: 'The offer :',
+              title: 'Titre :',
               hint: '',
               textInputAction: TextInputAction.newline,
               textInputType: TextInputType.multiline,
@@ -344,13 +344,13 @@ class _AddProductForm2State extends State<AddProductForm2> {
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'veuillez entrer un offer';
+                  return 'veuillez entrer un titre';
                 }
               },
             ),
             ProductField(
               initialValue: specification,
-              title: 'Specification :',
+              title: 'Description :',
               hint: '',
               textInputAction: TextInputAction.newline,
               textInputType: TextInputType.multiline,
@@ -360,7 +360,7 @@ class _AddProductForm2State extends State<AddProductForm2> {
               },
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'veuillez entrer une specification';
+                  return 'veuillez entrer une description';
                 }
               },
             ),

@@ -187,7 +187,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      buildTitle('Enter size'),
+                      buildTitle('Entrer la taille'),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextFormField(
@@ -195,12 +195,12 @@ class _AddProductForm3State extends State<AddProductForm3> {
                           decoration: InputDecoration(
                             isDense: true,
                             contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                            hintText: 'Enter size',
+                            hintText: 'Entrer la taille',
                             border: InputBorder.none,
                           ),
                           validator: (value) {
                             if (value!.trim().isEmpty) {
-                              return 'Entre une valeur';
+                              return 'Entrer une valeur';
                             }
                             return null;
                           },
@@ -219,7 +219,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
                               Navigator.pop(context, size);
                             }
                           },
-                          child: Text("Submit"),
+                          child: Text("Soumettre"),
                         ),
                       )
                     ],
@@ -242,7 +242,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
             child: ListView(
               //  mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildTitle('Add color'),
+                buildTitle('Ajouter les couleurs'),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.80,
                   height: 200,
@@ -283,7 +283,7 @@ class _AddProductForm3State extends State<AddProductForm3> {
             child: ListView(
               //   mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildTitle('Add sized'),
+                buildTitle('Ajouter les tailles'),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.80,
                   height: 200,

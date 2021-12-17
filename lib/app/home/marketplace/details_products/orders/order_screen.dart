@@ -92,7 +92,7 @@ class _OrderScreenState extends State<OrderScreen> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.blueGrey),
           title: Text(
-            'Product Order',
+            'Commande de produit',
             style: TextStyle(
               color: Color.fromRGBO(34, 50, 99, 1),
               fontWeight: FontWeight.w600,

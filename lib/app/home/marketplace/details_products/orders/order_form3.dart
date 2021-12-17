@@ -32,9 +32,9 @@ class _OrderForm3State extends State<OrderForm3> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        'Your order has been successfully registered. You will be contacted by the seller shortly.\n\n'),
+                        'Votre commande a été enregistrée avec succès. Vous serez contacté par le vendeur sous peu.\n\n'),
                     Text(
-                        'Or you can contact the seller directly to speed up the purchase process:\n\n\n'),
+                        'Ou vous pouvez contacter directement le vendeur pour accélérer le processus d’achat:\n\n\n'),
                     GestureDetector(
                       onTap: () {
                         launch("tel:+213792140427");
@@ -60,7 +60,7 @@ class _OrderForm3State extends State<OrderForm3> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                  'Call the shop',
+                                  'appeler le magasin',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,

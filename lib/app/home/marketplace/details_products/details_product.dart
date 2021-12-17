@@ -50,7 +50,7 @@ class _DetailsProductState extends State<DetailsProduct> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Text(
-            widget.isStore ? 'Edit product ' : 'Products Info',
+            widget.isStore ? 'Modifier le produit' : 'Produit Info',
             style: TextStyle(color: Colors.black),
           ),
           iconTheme: IconThemeData(color: Colors.black),
@@ -92,7 +92,9 @@ class _DetailsProductState extends State<DetailsProduct> {
                       );
                     }
                   },
-                  title: widget.isStore ? 'Edit product ' : 'Buy this product',
+                  title: widget.isStore
+                      ? 'Modifier le produit'
+                      : 'Acheter ce produit',
                 ),
               )
             ],

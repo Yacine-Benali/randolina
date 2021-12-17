@@ -79,7 +79,7 @@ class _AddProductForm1State extends State<AddProductForm1> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Upload pictures',
+              'Télécharger des images',
               style: TextStyle(
                 color: Color.fromRGBO(51, 77, 115, 0.88),
                 fontSize: 16,

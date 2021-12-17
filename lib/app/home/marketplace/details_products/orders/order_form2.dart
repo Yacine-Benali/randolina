@@ -40,7 +40,8 @@ class _OrderForm2State extends State<OrderForm2> {
                       decoration: InputDecoration(
                         isDense: true,
                         contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 0),
-                        hintText: 'Leave a comment with your order...',
+                        hintText:
+                            'Laissez un commentaire avec votre commande...',
                         border: InputBorder.none,
                       ),
                       onSaved: (value) {
@@ -57,7 +58,7 @@ class _OrderForm2State extends State<OrderForm2> {
             Padding(
               padding: const EdgeInsets.only(bottom: 32.0, right: 8, left: 8),
               child: NextButton(
-                title: 'Finish',
+                title: 'Terminer',
                 onPressed: () {
                   widget.onNextPressed(
                     commentaire: commentaire,

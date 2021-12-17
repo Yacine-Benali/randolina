@@ -251,7 +251,7 @@ class ProductsSearchState extends State<ProductsSearch>
                             borderRadius: BorderRadius.circular(25.0)),
                         enabledBorder: border,
                         errorBorder: border,
-                        hintText: 'What are you looking for...',
+                        hintText: 'Que cherchez-vous...',
                         focusedBorder: border,
                         prefixIcon: Icon(Icons.search),
                         hintStyle: TextStyle(color: Colors.grey),

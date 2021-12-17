@@ -120,7 +120,7 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...[
-                    buildTitle('Spesification :'),
+                    buildTitle('Description :'),
                     Text(
                       widget.product.specification,
                       style: TextStyle(
@@ -133,7 +133,7 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                   SizedBox(height: 22),
                   ...[
                     if (widget.product.colors.isNotEmpty)
-                      buildTitle('Colors :'),
+                      buildTitle('Couleurs :'),
                     if (widget.product.colors.isNotEmpty)
                       SizedBox(
                         height: 55,
@@ -165,7 +165,8 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                   ],
                   if (widget.product.sizes.isNotEmpty) SizedBox(height: 22),
                   ...[
-                    if (widget.product.sizes.isNotEmpty) buildTitle('Sizes :'),
+                    if (widget.product.sizes.isNotEmpty)
+                      buildTitle('Tailles :'),
                     if (widget.product.sizes.isNotEmpty)
                       SizedBox(
                         height: 55,
@@ -199,7 +200,7 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                   ],
                   SizedBox(height: 25),
                   ...[
-                    buildTitle("The offer :"),
+                    buildTitle("Titre :"),
                     Text(
                       widget.product.offer,
                       style: TextStyle(

@@ -172,7 +172,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Product pictures...",
+                "Photos du produit...",
                 style: TextStyle(
                   color: Color(0xFF000000).withOpacity(0.52),
                   fontSize: 16,
@@ -204,7 +204,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...[
-                      buildTitle('Spesification :'),
+                      buildTitle('Description :'),
                       Text(
                         widget.product!.specification,
                         style: TextStyle(
@@ -216,7 +216,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     ],
                     SizedBox(height: 22),
                     ...[
-                      if (widget.colors.isNotEmpty) buildTitle('Colors :'),
+                      if (widget.colors.isNotEmpty) buildTitle('Couleurs :'),
                       if (widget.colors.isNotEmpty)
                         SizedBox(
                           height: 55,
@@ -247,7 +247,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     ],
                     if (widget.sizes.isNotEmpty) SizedBox(height: 22),
                     ...[
-                      if (widget.sizes.isNotEmpty) buildTitle('Sizes :'),
+                      if (widget.sizes.isNotEmpty) buildTitle('Tailles :'),
                       if (widget.sizes.isNotEmpty)
                         SizedBox(
                           height: 55,
@@ -281,7 +281,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     ],
                     SizedBox(height: 25),
                     ...[
-                      buildTitle("The offer :"),
+                      buildTitle("Titre :"),
                       Text(
                         widget.product!.offer,
                         style: TextStyle(
@@ -313,7 +313,7 @@ class _AddProductForm4State extends State<AddProductForm4> {
                       padding: const EdgeInsets.only(
                           bottom: 32.0, right: 8, left: 8),
                       child: NextButton(
-                        title: 'Finish',
+                        title: 'Terminer',
                         onPressed: finish,
                       ),
                     ),

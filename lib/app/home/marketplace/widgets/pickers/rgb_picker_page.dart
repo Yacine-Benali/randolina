@@ -16,7 +16,7 @@ class _RGBPickerPageState extends State<RGBPickerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Choose a color'),
+        title: Text('Choisir une couleur'),
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context, null);
@@ -91,7 +91,7 @@ class _RGBPickerPageState extends State<RGBPickerPage> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
-                      'Choose Color',
+                      'Couleur choisie',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,

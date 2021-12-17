@@ -226,7 +226,7 @@ class _SearchProductScreenState extends State<SearchProductScreen>
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Filter Search',
+          'Filtre de recherche',
           style: TextStyle(
             color: Color(0xFF223263),
             fontSize: 16,
@@ -250,7 +250,7 @@ class _SearchProductScreenState extends State<SearchProductScreen>
         child: Stack(
           children: [
             ...[
-              buildTitle('Price Range :'),
+              buildTitle('Budget :'),
               SizedBox(
                 height: SizeConfig.screenHeight / 2.2,
                 width: SizeConfig.screenWidth - 50,
@@ -264,7 +264,7 @@ class _SearchProductScreenState extends State<SearchProductScreen>
                       width: SizeConfig.screenWidth - 50,
                       child: Row(
                         children: [
-                          buildTitle('Item Location :'),
+                          buildTitle('Emplacement du magasin :'),
                           Expanded(
                             child: Container(
                               color: backgroundColor,
@@ -306,7 +306,7 @@ class _SearchProductScreenState extends State<SearchProductScreen>
             Align(
               alignment: Alignment.bottomCenter,
               child: NextButton(
-                title: 'Apply',
+                title: 'Appliquer',
                 onPressed: () async {
                   if (wilayaNumber != 0) {
                     final List<Product> filteredProducts =

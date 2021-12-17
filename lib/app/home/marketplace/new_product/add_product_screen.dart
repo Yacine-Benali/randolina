@@ -77,7 +77,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.blueGrey),
           title: Text(
-            widget.product == null ? 'add an product' : 'edit product',
+            widget.product == null
+                ? 'Ajouter un produit'
+                : 'Modifier le produit',
             style: TextStyle(
               color: Color.fromRGBO(34, 50, 99, 1),
               fontWeight: FontWeight.w600,
