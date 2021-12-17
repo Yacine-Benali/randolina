@@ -351,13 +351,13 @@ class ProfileBloc {
     );
   }
 
-  Stream<List<Product>> getStoreAllProducts() {
+  Stream<List<Product>> getStoreAllProducts(String idStore) {
     return database.streamCollection(
       path: APIPath.productsCollection(),
       builder: (data, documentId) => Product.fromMap(data, documentId),
       queryBuilder: (query) => query.where(
         'createdBy.id',
-        isEqualTo: currentUser.id,
+        isEqualTo: idStore,
       ),
       sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
     );

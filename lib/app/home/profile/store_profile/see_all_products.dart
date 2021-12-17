@@ -19,8 +19,10 @@ class SeeAllProductsStore extends StatefulWidget {
   const SeeAllProductsStore({
     Key? key,
     required this.profileBloc,
+    required this.store,
   }) : super(key: key);
   final ProfileBloc profileBloc;
+  final User store;
 
   @override
   _SeeAllProductsStoreState createState() => _SeeAllProductsStoreState();
@@ -128,7 +130,7 @@ class _SeeAllProductsStoreState extends State<SeeAllProductsStore> {
         height: SizeConfig.screenHeight,
         padding: EdgeInsets.all(7),
         child: StreamBuilder<List<Product>>(
-          stream: widget.profileBloc.getStoreAllProducts(),
+          stream: widget.profileBloc.getStoreAllProducts(widget.store.id),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               final List<Product> products = snapshot.data!;

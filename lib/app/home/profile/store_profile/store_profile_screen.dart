@@ -80,6 +80,7 @@ class _StoreProfileScreenState extends State<StoreProfileScreen> {
                 builder: (context) {
                   return SeeAllProductsStore(
                     profileBloc: widget.bloc,
+                    store: widget.store,
                   );
                 },
               ),
@@ -154,6 +155,7 @@ class _StoreProfileScreenState extends State<StoreProfileScreen> {
                 ...buildMiddleText(),
                 StoreProfileProductsSlider(
                   profileBloc: widget.bloc,
+                  store: widget.store,
                 ),
                 ProfilePostsTabBar(
                   onTabChanged: (t) {
