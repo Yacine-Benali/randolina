@@ -355,10 +355,12 @@ class ProfileBloc {
     return database.streamCollection(
       path: APIPath.productsCollection(),
       builder: (data, documentId) => Product.fromMap(data, documentId),
-      queryBuilder: (query) => query.where(
-        'createdBy.id',
-        isEqualTo: idStore,
-      ),
+      queryBuilder: (query) => query
+          .where(
+            'createdBy.id',
+            isEqualTo: idStore,
+          )
+          .limit(10),
       sort: (Product a, Product b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }

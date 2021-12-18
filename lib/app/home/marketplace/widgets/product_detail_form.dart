@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:randolina/app/models/product.dart';
-
 import 'package:randolina/common_widgets/image_full_screen.dart';
 
 class ProductDetailForm extends StatefulWidget {
@@ -53,27 +51,28 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
     items.clear();
 
     for (final String url in widget.product.images) {
-      final w = Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Center(
-          child: CachedNetworkImage(
-            imageBuilder: (_, imageProvider) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ImageFullScreen(
-                        imageProvider: imageProvider,
-                      ),
+      final w = Center(
+        child: CachedNetworkImage(
+          imageBuilder: (_, imageProvider) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ImageFullScreen(
+                      imageProvider: imageProvider,
                     ),
-                  );
-                },
-                child: Image(image: imageProvider, fit: BoxFit.contain),
-              );
-            },
-            imageUrl: url,
-          ),
+                  ),
+                );
+              },
+              child: Container(
+                  color: Colors.red,
+                  height: 200,
+                  width: 200,
+                  child: Image(image: imageProvider, fit: BoxFit.cover)),
+            );
+          },
+          imageUrl: url,
         ),
       );
       items.add(w);

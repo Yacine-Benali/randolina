@@ -5,7 +5,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
@@ -14,7 +13,6 @@ import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
-import 'package:randolina/utils/logger.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class AddProductForm2 extends StatefulWidget {
@@ -189,22 +187,22 @@ class _AddProductForm2State extends State<AddProductForm2> {
       if (imagesPathsList.isNotEmpty) {
         final List<File> finalFiles = [];
         for (final String imagePath in imagesPathsList) {
-          final File? croppedImage = await ImageCropper.cropImage(
-            androidUiSettings: AndroidUiSettings(
-              backgroundColor: Colors.black,
-              toolbarColor: Colors.white,
-              toolbarWidgetColor: Colors.black,
-              toolbarTitle: 'Recadrer la photo',
-              activeControlsWidgetColor: Colors.blue,
-            ),
-            sourcePath: imagePath,
-            aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-          );
-
-          if (croppedImage != null) {
-            finalFiles.add(croppedImage);
-            logger.info('edited images ${croppedImage.path}');
-          }
+          // final File? croppedImage = await ImageCropper.cropImage(
+          //   androidUiSettings: AndroidUiSettings(
+          //     backgroundColor: Colors.black,
+          //     toolbarColor: Colors.white,
+          //     toolbarWidgetColor: Colors.black,
+          //     toolbarTitle: 'Recadrer la photo',
+          //     activeControlsWidgetColor: Colors.blue,
+          //   ),
+          //   sourcePath: imagePath,
+          //   aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          // );
+          // if (croppedImage != null) {
+          //   finalFiles.add(croppedImage);
+          //   logger.info('edited images ${croppedImage.path}');
+          // }
+          finalFiles.add(File(imagePath));
         }
         if (finalFiles.length == imagesPathsList.length) {
           setState(() {

@@ -64,32 +64,14 @@ class _AddProductForm3State extends State<AddProductForm3> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Stack(
-              clipBehavior: Clip.none,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: Colors.red,
-                      child: Icon(Icons.close),
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    buildTitle('Erreur'),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(title),
-                    )
-                  ],
-                ),
+                buildTitle('Erreur'),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(title),
+                )
               ],
             ),
           );

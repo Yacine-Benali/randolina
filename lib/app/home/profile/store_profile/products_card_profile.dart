@@ -5,7 +5,6 @@ import 'package:randolina/app/home/marketplace/details_products/details_product.
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/user.dart';
-import 'package:randolina/common_widgets/miniuser_to_profile.dart';
 
 class ProductsCardProfile extends StatefulWidget {
   final Product product;
@@ -136,13 +135,13 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
                       onTap: () {
                         if (context.read<User>().id !=
                             widget.product.createdBy.id) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => MiniuserToProfile(
-                                miniUser: widget.product.createdBy,
-                              ),
-                            ),
-                          );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (_) => MiniuserToProfile(
+                          //       miniUser: widget.product.createdBy,
+                          //     ),
+                          //   ),
+                          // );
                         }
                       },
                       child: AutoSizeText(
