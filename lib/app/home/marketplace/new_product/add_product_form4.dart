@@ -204,13 +204,13 @@ class _AddProductForm4State extends State<AddProductForm4> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...[
-                      buildTitle('Description :'),
+                      buildTitle("Titre :"),
                       Text(
-                        widget.product!.specification,
+                        widget.product!.offer,
                         style: TextStyle(
-                          fontSize: 17,
                           color: Color(0xFF223263),
-                          fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -282,13 +282,13 @@ class _AddProductForm4State extends State<AddProductForm4> {
                     ],
                     SizedBox(height: 25),
                     ...[
-                      buildTitle("Titre :"),
+                      buildTitle('Description :'),
                       Text(
-                        widget.product!.offer,
+                        widget.product!.specification,
                         style: TextStyle(
-                          color: Color(0xFF223263),
                           fontSize: 17,
-                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF223263),
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:randolina/app/models/product.dart';
 import 'package:randolina/common_widgets/image_full_screen.dart';
+import 'package:randolina/common_widgets/size_config.dart';
 
 class ProductDetailForm extends StatefulWidget {
   const ProductDetailForm({
@@ -34,7 +35,7 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
       padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
       child: ClipRect(
         child: Container(
-          height: 200,
+          height: SizeConfig.screenHeight * 0.50,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
@@ -119,13 +120,13 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...[
-                    buildTitle('Description :'),
+                    buildTitle("Titre :"),
                     Text(
-                      widget.product.specification,
+                      widget.product.offer,
                       style: TextStyle(
-                        fontSize: 17,
                         color: Color(0xFF223263),
-                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -199,13 +200,13 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                   ],
                   SizedBox(height: 25),
                   ...[
-                    buildTitle("Titre :"),
+                    buildTitle('Description :'),
                     Text(
-                      widget.product.offer,
+                      widget.product.specification,
                       style: TextStyle(
-                        color: Color(0xFF223263),
                         fontSize: 17,
-                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF223263),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],

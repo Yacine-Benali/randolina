@@ -68,5 +68,4 @@ abstract class Database {
   // });
 
   Future<void> deleteDocument({required String path});
-
 }

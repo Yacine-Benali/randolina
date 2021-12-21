@@ -72,8 +72,16 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
 
   Widget buildProducts({required bool isStore}) {
     final size = MediaQuery.of(context).size;
+    print('gdliherpghreohgo ${size.height}');
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 3;
+    double itemHeight;
+    if (size.height <= 600) {
+      itemHeight = (size.height - kToolbarHeight - 24) / 2.3;
+    } else if (size.height <= 800) {
+      itemHeight = (size.height - kToolbarHeight - 24) / 2.68;
+    } else {
+      itemHeight = (size.height - kToolbarHeight - 24) / 3;
+    }
     final double itemWidth = size.width / 2;
     return SingleChildScrollView(
       // height: SizeConfig.screenHeight,
