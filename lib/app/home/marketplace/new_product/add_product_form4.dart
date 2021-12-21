@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randolina/app/home/marketplace/market_place_bloc.dart';
 import 'package:randolina/app/home/marketplace/widgets/new_button.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/common_widgets/image_full_screen.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/logger.dart';
@@ -57,8 +58,34 @@ class _AddProductForm4State extends State<AddProductForm4> {
       );
     } else if (widget.product != null) {
       w = CachedNetworkImage(
+        imageBuilder: (_, imageProvider) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageFullScreen(
+                    imageProvider: imageProvider,
+                  ),
+                ),
+              );
+            },
+            child: ClipRect(
+              child: Container(
+                height: SizeConfig.screenHeight * 0.50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(
+                        widget.product!.profileImage),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
         imageUrl: widget.product!.profileImage,
-        fit: BoxFit.contain,
       );
     } else {
       w = Container();

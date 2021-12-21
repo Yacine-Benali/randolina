@@ -33,17 +33,35 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
   Widget buildProfilePicture() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 2.0, right: 2, left: 2),
-      child: ClipRect(
-        child: Container(
-          height: SizeConfig.screenHeight * 0.50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(widget.product.profileImage),
-              fit: BoxFit.cover,
+      child: CachedNetworkImage(
+        imageBuilder: (_, imageProvider) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageFullScreen(
+                    imageProvider: imageProvider,
+                  ),
+                ),
+              );
+            },
+            child: ClipRect(
+              child: Container(
+                height: SizeConfig.screenHeight * 0.50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image:
+                        CachedNetworkImageProvider(widget.product.profileImage),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
+        imageUrl: widget.product.profileImage,
       ),
     );
   }
@@ -67,7 +85,6 @@ class _ProductDetailFormState extends State<ProductDetailForm> {
                 );
               },
               child: Container(
-                  color: Colors.red,
                   height: 200,
                   width: 200,
                   child: Image(image: imageProvider, fit: BoxFit.cover)),
