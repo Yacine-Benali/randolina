@@ -137,14 +137,14 @@ class EventsBloc {
   }
 
   Stream<List<Event>> getClientAllEvents() {
-    final enddate = Timestamp.fromDate(DateTime.now());
+    final dateNow = Timestamp.fromDate(DateTime.now());
 
     //! TODO @high paginate
     return database.streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) =>
-          query.where('endDateTime', isGreaterThan: enddate),
+          query.where('startDateTime', isGreaterThan: dateNow),
       sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
     );
   }
