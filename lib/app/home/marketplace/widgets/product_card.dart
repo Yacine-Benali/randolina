@@ -33,7 +33,7 @@ class _ProductCardState extends State<ProductCard> {
         width: 102,
         height: 30,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white.withOpacity(0.5),
           borderRadius: BorderRadius.circular(2),
           boxShadow: [
             BoxShadow(
@@ -49,9 +49,10 @@ class _ProductCardState extends State<ProductCard> {
             "$price DA",
             style: TextStyle(
               fontSize: 20,
-              fontFamily: 'LondrinaSolid-Regular',
-              fontWeight: FontWeight.w400,
-              color: Colors.grey[800],
+              //   fontFamily: 'LondrinaSolid-Regular',
+              //  fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
               letterSpacing: -0.33,
             ),
             textAlign: TextAlign.center,
