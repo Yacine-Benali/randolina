@@ -66,8 +66,9 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
       final ProgressDialog pd = ProgressDialog(context: context);
       pd.show(max: 100, msg: "Téléchargement d'images...");
 
+      final String path = bloc.getProfilePicturePath();
       final String profilePictureUrl =
-          await bloc.uploadProfilePicture(_imageFile);
+          await bloc.uploadProfilePicture(_imageFile, path);
       // creat store account
       final Store store = Store(
         id: '',
@@ -75,7 +76,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
         username: _username,
         ownerName: _fullname,
         profilePicture: profilePictureUrl,
-        profilePicturePath: bloc.getProfilePicturePath(),
+        profilePicturePath: path,
         bio: _bio,
         posts: 0,
         followers: 0,

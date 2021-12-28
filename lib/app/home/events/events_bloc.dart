@@ -13,6 +13,7 @@ import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 class EventsBloc {
@@ -42,23 +43,32 @@ class EventsBloc {
     return matchedSites;
   }
 
-  Future<String> uploadEventProfileImage(File file, String eventId) async {
+  String getEventImagePath(String eventId) =>
+      APIPath.eventsFiles(authUser.uid, eventId, uuid.v4());
+
+  Future<String> uploadEventProfileImage(
+      File file, String profileImagePath) async {
     return database.uploadFile(
-      path: APIPath.eventsFiles(authUser.uid, eventId, uuid.v4()),
+      path: profileImagePath,
       filePath: file.path,
     );
   }
 
-  Future<List<String>> uploadEventImages(List<File> images) async {
-    final List<Future<String>> urls = [];
+  Future<Tuple2<List<String>, List<String>>> uploadEventImages(
+      List<File> images, String eventId) async {
+    final List<Future<String>> urlsFuture = [];
+    final List<String> paths = [];
     for (final File file in images) {
+      final String path = getEventImagePath(eventId);
       final t = database.uploadFile(
-        path: APIPath.eventsFiles(authUser.uid, '', uuid.v4()),
+        path: path,
         filePath: file.path,
       );
-      urls.add(t);
+      paths.add(path);
+      urlsFuture.add(t);
     }
-    return Future.wait(urls);
+    final List<String> urls = await Future.wait(urlsFuture);
+    return Tuple2(urls, paths);
   }
 
   bool isSubscriptionActive(Subscription subscription) {

@@ -127,7 +127,9 @@ class _NewEventForm2State extends State<NewEventForm2> {
       final Event event = Event(
         id: widget.event?.id ?? '',
         images: widget.event?.images ?? [],
+        imagesPath: widget.event?.imagesPath ?? [],
         profileImage: widget.event?.profileImage ?? '',
+        profileImagePath: widget.event?.profileImagePath ?? '',
         destination: destination!,
         price: price!,
         description: description!,

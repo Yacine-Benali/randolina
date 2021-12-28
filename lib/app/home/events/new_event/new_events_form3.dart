@@ -126,32 +126,39 @@ class _NewEventsForm3State extends State<NewEventsForm3> {
 
     try {
       late String profilePictureUrl;
+      late String profilePicturePath;
       final List<String> imagesUrls = [];
+      final List<String> imagesPath = [];
 
       if (widget.event != null) {
         if (widget.event!.id != '') eventId = widget.event!.id;
 
         profilePictureUrl = widget.event!.profileImage;
+        profilePicturePath = widget.event!.profileImagePath;
         imagesUrls.addAll(widget.event!.images);
+        imagesPath.addAll(widget.event!.imagesPath);
       }
 
       if (widget.profilePicture != null) {
+        profilePicturePath = widget.eventsBloc.getEventImagePath(eventId);
         profilePictureUrl = await widget.eventsBloc.uploadEventProfileImage(
           widget.profilePicture!,
-          eventId,
+          profilePicturePath,
         );
       }
       if (widget.images != null) {
-        imagesUrls.addAll(
-          await widget.eventsBloc.uploadEventImages(
-            widget.images!,
-          ),
-        );
+        final tuple2 =
+            await widget.eventsBloc.uploadEventImages(widget.images!, eventId);
+
+        imagesUrls.addAll(tuple2.item1);
+        imagesPath.addAll(tuple2.item2);
       }
       final Event event = Event(
         id: eventId,
         images: imagesUrls,
+        imagesPath: imagesPath,
         profileImage: profilePictureUrl,
+        profileImagePath: profilePicturePath,
         destination: widget.event!.destination,
         price: widget.event!.price,
         description: widget.event!.description,

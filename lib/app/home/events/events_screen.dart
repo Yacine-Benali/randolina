@@ -17,6 +17,7 @@ import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({Key? key}) : super(key: key);
@@ -234,6 +235,7 @@ class _EventsScreenState extends State<EventsScreen>
                         ),
                       );
                     } else if (snapshot.hasError) {
+                      logger.severe(snapshot);
                       return EmptyContent(
                         title: "Quelque chose s'est mal passé",
                         message:

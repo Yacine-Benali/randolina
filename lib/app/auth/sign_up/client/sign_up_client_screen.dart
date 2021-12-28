@@ -64,16 +64,17 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
     try {
       final ProgressDialog pd = ProgressDialog(context: context);
       pd.show(max: 100, msg: "Téléchargement d'images...");
+      final String path = bloc.getProfilePicturePath();
 
       final String profilePictureUrl =
-          await bloc.uploadProfilePicture(_imageFile);
+          await bloc.uploadProfilePicture(_imageFile, path);
       final Client client = Client(
         id: 'id',
         type: 0,
         username: _username,
         name: _fullname,
         profilePicture: profilePictureUrl,
-        profilePicturePath: bloc.getProfilePicturePath(),
+        profilePicturePath: path,
         bio: _bio,
         posts: 0,
         followers: 0,

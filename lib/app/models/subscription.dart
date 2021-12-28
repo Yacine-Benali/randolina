@@ -16,7 +16,7 @@ class Subscription {
   String id;
   factory Subscription.fromMap(Map<String, dynamic> data, String documentId) {
     final bool isApproved = data['isApproved'] as bool;
-    final bool isActive = data['isActive'] as bool;
+    final bool isActive = data['isActive'] as bool? ?? false;
     final Timestamp? endsAt = data['endsAt'] as Timestamp?;
     final Timestamp? startsAt = data['startsAt'] as Timestamp?;
 

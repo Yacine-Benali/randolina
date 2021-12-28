@@ -101,34 +101,36 @@ class _CameraScreenState extends State<CameraScreen> {
     final mediaSize = MediaQuery.of(context).size;
     final scale = 1 / (controller!.value.aspectRatio * mediaSize.aspectRatio);
 
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          ClipRect(
-            clipper: _MediaSizeClipper(mediaSize),
-            child: Transform.scale(
-              scale: scale,
-              alignment: Alignment.topCenter,
-              child: CameraPreview(controller!),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: CircularIconButton(
-                splashColor: Colors.blue.withOpacity(0.8),
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 22,
-                ),
-                onTap: widget.backToHomeScreen,
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            ClipRect(
+              clipper: _MediaSizeClipper(mediaSize),
+              child: Transform.scale(
+                scale: scale,
+                alignment: Alignment.topCenter,
+                child: CameraPreview(controller!),
               ),
             ),
-          ),
-          buildCameraControllers(),
-        ],
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: CircularIconButton(
+                  splashColor: Colors.blue.withOpacity(0.8),
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 22,
+                  ),
+                  onTap: widget.backToHomeScreen,
+                ),
+              ),
+            ),
+            buildCameraControllers(),
+          ],
+        ),
       ),
     );
   }

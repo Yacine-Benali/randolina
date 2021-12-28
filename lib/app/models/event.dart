@@ -7,7 +7,9 @@ class Event {
   Event({
     required this.id,
     required this.images,
+    required this.imagesPath,
     required this.profileImage,
+    required this.profileImagePath,
     required this.destination,
     required this.price,
     required this.description,
@@ -27,7 +29,9 @@ class Event {
   });
   final String id;
   final List<String> images;
+  final List<String> imagesPath;
   final String profileImage;
+  final String profileImagePath;
   final String destination;
   final int price;
   final String description;
@@ -48,8 +52,11 @@ class Event {
   factory Event.fromMap(Map<String, dynamic> data, String documentId) {
     final List<String> images =
         (data['images'] as List<dynamic>).map((e) => e as String).toList();
+    final List<String> imagesPath =
+        (data['imagesPath'] as List<dynamic>).map((e) => e as String).toList();
 
     final String profileImage = data['profileImage'] as String;
+    final String profileImagePath = data['profileImagePath'] as String;
     final String destination = data['destination'] as String;
     final int price = data['price'] as int;
     final String description = data['description'] as String;
@@ -81,7 +88,9 @@ class Event {
     return Event(
       id: documentId,
       images: images,
+      imagesPath: imagesPath,
       profileImage: profileImage,
+      profileImagePath: profileImagePath,
       destination: destination,
       price: price,
       description: description,
@@ -104,7 +113,9 @@ class Event {
   Map<String, dynamic> toMap() {
     return {
       'images': images,
+      'imagesPath': imagesPath,
       'profileImage': profileImage,
+      'profileImagePath': profileImagePath,
       'destination': destination,
       'price': price,
       'description': description,

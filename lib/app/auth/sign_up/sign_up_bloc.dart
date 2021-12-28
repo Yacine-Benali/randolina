@@ -83,9 +83,9 @@ class SignUpBloc {
   String getProfilePicturePath() =>
       APIPath.userProfilePicture(_authUser.uid, uuid.v4());
 
-  Future<String> uploadProfilePicture(File file) async {
+  Future<String> uploadProfilePicture(File file, String path) async {
     return database.uploadFile(
-      path: getProfilePicturePath(),
+      path: path,
       filePath: file.path,
     );
   }

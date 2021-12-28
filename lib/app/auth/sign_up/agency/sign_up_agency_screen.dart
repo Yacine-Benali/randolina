@@ -68,9 +68,10 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
     try {
       final ProgressDialog pd = ProgressDialog(context: context);
       pd.show(max: 100, msg: 'Image uploading...');
+      final String path = bloc.getProfilePicturePath();
 
       final String profilePictureUrl =
-          await bloc.uploadProfilePicture(_imageFile);
+          await bloc.uploadProfilePicture(_imageFile, path);
       // creat club account
       final Agency agency = Agency(
         id: '',
@@ -78,7 +79,7 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
         username: _username,
         name: _agencyName,
         profilePicture: profilePictureUrl,
-        profilePicturePath: bloc.getProfilePicturePath(),
+        profilePicturePath: path,
         bio: _bio,
         posts: 0,
         followers: 0,
