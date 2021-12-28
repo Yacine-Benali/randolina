@@ -75,6 +75,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
         username: _username,
         ownerName: _fullname,
         profilePicture: profilePictureUrl,
+        profilePicturePath: bloc.getProfilePicturePath(),
         bio: _bio,
         posts: 0,
         followers: 0,

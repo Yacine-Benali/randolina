@@ -79,6 +79,7 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
         username: _username,
         name: _clubname,
         profilePicture: profilePictureUrl,
+        profilePicturePath: bloc.getProfilePicturePath(),
         bio: _bio,
         posts: 0,
         followers: 0,

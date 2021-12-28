@@ -9,6 +9,7 @@ class Admin extends User {
           username: 'username',
           name: 'name',
           profilePicture: 'profilePicture',
+          profilePicturePath: 'profilePicturePath',
           bio: 'bio',
           posts: 0,
           followers: 0,

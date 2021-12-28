@@ -8,6 +8,7 @@ class Client extends User {
     required String username,
     required String name,
     required String profilePicture,
+    required String profilePicturePath,
     required String? bio,
     required int posts,
     required int followers,
@@ -26,6 +27,7 @@ class Client extends User {
           username: username,
           name: name,
           profilePicture: profilePicture,
+          profilePicturePath: profilePicturePath,
           bio: bio,
           posts: posts,
           followers: followers,
@@ -43,6 +45,7 @@ class Client extends User {
     final String id = documentId;
     final int type = data['type'] as int;
     final String username = data['username'] as String;
+    final String profilePicturePath = data['profilePicturePath'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
     final String? bio = data['bio'] as String?;
@@ -63,6 +66,7 @@ class Client extends User {
       username: username,
       name: name,
       profilePicture: profilePicture,
+      profilePicturePath: profilePicturePath,
       bio: bio,
       posts: posts,
       followers: followers,

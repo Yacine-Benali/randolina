@@ -138,7 +138,7 @@ class ChatBloc {
     final Uuid uuid = Uuid();
 
     final String downloadUrl = await database.uploadFile(
-      path: APIPath.chatPhotosCollection(conversation.id, uuid.v4()),
+      path: APIPath.chatPhotosFile(conversation.id, uuid.v4()),
       filePath: file.path,
     );
 

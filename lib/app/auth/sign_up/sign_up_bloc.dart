@@ -80,9 +80,12 @@ class SignUpBloc {
     //! TODO @high if the user quits here he will be logged in without a profile
   }
 
+  String getProfilePicturePath() =>
+      APIPath.userProfilePicture(_authUser.uid, uuid.v4());
+
   Future<String> uploadProfilePicture(File file) async {
     return database.uploadFile(
-      path: APIPath.userProfilePicture(_authUser.uid, uuid.v4()),
+      path: getProfilePicturePath(),
       filePath: file.path,
     );
   }

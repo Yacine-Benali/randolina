@@ -7,6 +7,7 @@ class Store extends User {
     required String username,
     required String name,
     required String profilePicture,
+    required String profilePicturePath,
     required String? bio,
     required int posts,
     required int followers,
@@ -24,6 +25,7 @@ class Store extends User {
           username: username,
           name: name,
           profilePicture: profilePicture,
+          profilePicturePath: profilePicturePath,
           bio: bio,
           posts: posts,
           followers: followers,
@@ -43,6 +45,7 @@ class Store extends User {
     final String username = data['username'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
+    final String profilePicturePath = data['profilePicturePath'] as String;
     final String? bio = data['bio'] as String?;
     final int posts = data['posts'] as int;
     final int followers = data['followers'] as int;
@@ -61,6 +64,7 @@ class Store extends User {
       username: username,
       name: name,
       profilePicture: profilePicture,
+      profilePicturePath: profilePicturePath,
       bio: bio,
       posts: posts,
       followers: followers,

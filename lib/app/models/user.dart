@@ -11,6 +11,7 @@ class User {
     required this.username,
     required this.name,
     required this.profilePicture,
+    required this.profilePicturePath,
     required this.bio,
     required this.posts,
     required this.followers,
@@ -32,6 +33,7 @@ class User {
   final String phoneNumber;
   final bool isModerator;
   final int wilaya;
+  final String profilePicturePath;
 
   factory User.fromMap(Map<String, dynamic> data, String documentId) {
     final String id = documentId;
@@ -39,6 +41,7 @@ class User {
     final String username = data['username'] as String;
     final String name = data['name'] as String;
     final String profilePicture = data['profilePicture'] as String;
+    final String profilePicturePath = data['profilePicture'] as String;
     final String? bio = data['bio'] as String?;
     final int posts = data['posts'] as int;
     final int followers = data['followers'] as int;
@@ -53,6 +56,7 @@ class User {
       username: username,
       name: name,
       profilePicture: profilePicture,
+      profilePicturePath: profilePicturePath,
       bio: bio,
       posts: posts,
       followers: followers,
@@ -83,6 +87,7 @@ class User {
       'username': username,
       'name': name,
       'profilePicture': profilePicture,
+      'profilePicturePath': profilePicturePath,
       'bio': bio,
       'posts': posts,
       'followers': followers,

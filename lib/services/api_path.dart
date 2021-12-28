@@ -34,7 +34,7 @@ class APIPath {
   static String messageDocument(String conversationId, String messageId) =>
       'conversations/$conversationId/messages/$messageId';
 
-  static String chatPhotosCollection(String uid, String photoId) =>
+  static String chatPhotosFile(String uid, String photoId) =>
       'conversations/$uid/messages/$photoId';
 
   static String eventDocument(String eventId) => 'events/$eventId';
@@ -53,23 +53,22 @@ class APIPath {
   static String sitesDocument(String siteId) => 'sites/$siteId';
   static String reportedPostsDocument() => 'reportedPosts/reportedPosts';
 
+  static String subscriptionsDocument(String subId) => 'subscriptions/$subId';
+
   // files
-
   static String userProfilePicture(String uid, String photoId) =>
-      'users/$uid/profile_picutres/$photoId';
+      'profile_picutres/$photoId';
 
-  static String postFiles(String uid, String postId, String photoId) =>
-      'users/$uid/posts/$postId/$photoId';
+  static String postFiles(String uid, String postId, String mediaId) =>
+      'users/$uid/posts/$postId/$mediaId';
 
   static String storyFiles(String uid, String storyId) =>
       'users/$uid/stories/$storyId';
 
   static String eventsFiles(String userId, String eventId, String photoId) =>
-      'events/user_$userId/event_$eventId/$photoId';
+      'events/$eventId/$photoId';
 
   static String productsFiles(
           String userId, String productId, String photoId) =>
-      'products/user_$userId/product_$productId/$photoId';
-
-  static String subscriptionsDocument(String subId) => 'subscriptions/$subId';
+      'products/$productId/$photoId';
 }
