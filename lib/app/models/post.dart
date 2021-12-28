@@ -27,8 +27,8 @@ class Post {
     final String description = data['description'] as String;
     final List<String> content =
         (data['content'] as List<dynamic>).map((e) => e as String).toList();
-    final List<String> contentPath =
-        (data['contentPäth'] as List<dynamic>).map((e) => e as String).toList();
+    final List<String> contentPath =  
+        (data['contentPath'] as List<dynamic>).map((e) => e as String).toList();
 
     final Timestamp createdAt = data['createdAt'] as Timestamp;
     final int numberOfLikes = data['numberOfLikes'] as int;

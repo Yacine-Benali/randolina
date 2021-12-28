@@ -6,11 +6,13 @@ class Story {
     required this.createdBy,
     required this.createdAt,
     required this.content,
+    required this.contentPath,
   });
   int type;
   String createdBy;
   Timestamp createdAt;
   String content;
+  String contentPath;
 
   // ignore: avoid_unused_constructor_parameters
   factory Story.fromMap(Map<String, dynamic> data, String documentId) {
@@ -18,12 +20,14 @@ class Story {
     final String createdBy = data['createdBy'] as String;
     final Timestamp createdAt = data['createdAt'] as Timestamp;
     final String content = data['content'] as String;
+    final String contentPath = data['contentPath'] as String;
 
     return Story(
       type: type,
       createdBy: createdBy,
       createdAt: createdAt,
       content: content,
+      contentPath: contentPath,
     );
   }
 
@@ -33,6 +37,7 @@ class Story {
       'createdBy': createdBy,
       'createdAt': createdAt,
       'content': content,
+      'contentPath': contentPath,
     };
   }
 }

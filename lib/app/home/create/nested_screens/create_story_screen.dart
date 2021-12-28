@@ -68,61 +68,63 @@ class _CreateStoryScreenState extends State<CreateStoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: <Widget>[
-          if (widget.postContentType == PostContentType.image) ...[
-            Center(child: Image.file(widget.finalFile)),
-            if (_newFilterTitle)
-              // displays filter title once filtered changed
-              _displayStoryFilterTitle(),
-          ],
-          if (widget.postContentType == PostContentType.video) ...[
-            Center(child: BetterPlayer(controller: _betterPlayerController)),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(
+          children: <Widget>[
+            if (widget.postContentType == PostContentType.image) ...[
+              Center(child: Image.file(widget.finalFile)),
+              if (_newFilterTitle)
+                // displays filter title once filtered changed
+                _displayStoryFilterTitle(),
+            ],
+            if (widget.postContentType == PostContentType.video) ...[
+              Center(child: BetterPlayer(controller: _betterPlayerController)),
+            ],
 
-          // desplays circular indicator if posting story
-          if (_isLoading) Align(child: CircularProgressIndicator()),
-          Padding(
-            padding: const EdgeInsets.only(top: 32.0, right: 16),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: InkWell(
-                onTap: _createStory,
-                child: Container(
-                  width: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+            // desplays circular indicator if posting story
+            if (_isLoading) Align(child: CircularProgressIndicator()),
+            Padding(
+              padding: const EdgeInsets.only(top: 32.0, right: 16),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: InkWell(
+                  onTap: _createStory,
+                  child: Container(
+                    width: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
+                    ),
+                    child: Icon(
+                      Icons.east_outlined,
+                      size: 35,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: CircularIconButton(
+                  splashColor: Colors.blue.withOpacity(0.8),
+                  icon: Icon(
+                    Icons.close,
                     color: Colors.white,
+                    size: 22,
                   ),
-                  child: Icon(
-                    Icons.east_outlined,
-                    size: 35,
-                    color: Colors.black,
-                  ),
+                  onTap: Navigator.of(context).pop,
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: CircularIconButton(
-                splashColor: Colors.blue.withOpacity(0.8),
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 22,
-                ),
-                onTap: Navigator.of(context).pop,
-              ),
-            ),
-          ),
 
-          // displays post buttons on bottom of the screen
-        ],
+            // displays post buttons on bottom of the screen
+          ],
+        ),
       ),
     );
   }

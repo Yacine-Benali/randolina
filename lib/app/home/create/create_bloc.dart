@@ -19,9 +19,9 @@ class CreateBloc {
   Future<void> createStory(
       String imagePath, PostContentType postContentType) async {
     final String storyId = database.getUniqueId();
-
+    final String path = APIPath.storyFiles(currentUser.id, storyId);
     final String imageUrl = await database.uploadFile(
-      path: APIPath.storyFiles(currentUser.id, storyId),
+      path: path,
       filePath: imagePath,
     );
 
@@ -30,6 +30,7 @@ class CreateBloc {
       createdBy: currentUser.id,
       createdAt: Timestamp.now(),
       content: imageUrl,
+      contentPath: path,
     );
 
     await database.setData(
