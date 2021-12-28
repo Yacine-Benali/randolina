@@ -5,6 +5,7 @@ import 'package:randolina/app/models/conversation.dart';
 import 'package:randolina/app/models/message.dart';
 import 'package:randolina/app/models/order.dart';
 import 'package:randolina/app/models/product.dart';
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
@@ -14,6 +15,7 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
+// TODO @high verify store subscription
 class ProductsBloc {
   ProductsBloc({
     required this.database,
@@ -23,6 +25,13 @@ class ProductsBloc {
   final Database database;
   final User currentUser;
   final Uuid uuid = Uuid();
+
+  Stream<Subscription?> getClubSubscription(String clubId) {
+    return database.streamDocument(
+      path: APIPath.subscriptionsDocument(clubId),
+      builder: (data, documentId) => Subscription.fromMap(data, documentId),
+    );
+  }
 
   Future<void> orderProduct(Product product, Order order) async {
     final Conversation conversation =
@@ -50,6 +59,20 @@ class ProductsBloc {
         orderMessage.toMap());
 
     await batch.commit();
+  }
+
+  bool isSubscriptionActive(Subscription subscription) {
+    if (subscription.isActive == true &&
+        subscription.isApproved == true &&
+        subscription.startsAt != null &&
+        subscription.endsAt != null) {
+      final DateTime today = DateTime.now();
+      final bool isAfter = today.isAfter(subscription.startsAt!.toDate());
+      final bool isBefore = today.isBefore(subscription.endsAt!.toDate());
+      return isAfter && isBefore;
+    } else {
+      return false;
+    }
   }
 
   String getProductImagePath(String productId) =>

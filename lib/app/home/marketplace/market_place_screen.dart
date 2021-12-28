@@ -8,8 +8,10 @@ import 'package:randolina/app/home/marketplace/widgets/product_card.dart';
 import 'package:randolina/app/home/marketplace/widgets/products_search.dart';
 import 'package:randolina/app/models/product.dart';
 import 'package:randolina/app/models/store.dart';
+import 'package:randolina/app/models/subscription.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/auth.dart';
@@ -37,11 +39,13 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
   late final AuthUser authUser;
   String searchText = '';
   late List<Product> products;
+  late Stream<Subscription?> subscriptionStream;
 
   @override
   void initState() {
     products = [];
     currentlyChosenProductsNotifier = ValueNotifier([]);
+
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(() => setState(() {}));
     textstyle = TextStyle(
@@ -54,6 +58,8 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
       database: database,
       currentUser: currentUser,
     );
+    subscriptionStream =
+        productsBloc.getClubSubscription(context.read<User>().id);
     if (context.read<User>() is Store) {
       isStores = true;
       myProductsStream = productsBloc.getMyProducts();
@@ -258,32 +264,61 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
               ),
             if (!isStores) ...[SizedBox(height: 15)],
             if (isStores && _tabController.index == 1) ...[
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 30, bottom: 8.0, right: 8, left: 8),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AddProductScreen(),
-                      ),
-                    );
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Ajouter',
-                        style:
-                            TextStyle(color: Color.fromRGBO(51, 77, 115, 0.78)),
-                      ),
-                      Icon(Icons.add, color: Color.fromRGBO(51, 77, 115, 0.78))
-                    ],
-                  ),
-                ),
-              ),
+              StreamBuilder<Subscription?>(
+                  stream: subscriptionStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      final Subscription subscription = snapshot.data!;
+
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            top: 30, bottom: 8.0, right: 8, left: 8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final bool isActive =
+                                productsBloc.isSubscriptionActive(subscription);
+
+                            if (isActive) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => AddProductScreen(),
+                                ),
+                              );
+                            } else {
+                              PlatformAlertDialog(
+                                content:
+                                    "votre compte n'est pas actif veuillez contacter l'administrateur",
+                                title: 'Erreur',
+                              ).show(context);
+                            }
+                          },
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Ajouter',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(51, 77, 115, 0.78)),
+                              ),
+                              Icon(Icons.add,
+                                  color: Color.fromRGBO(51, 77, 115, 0.78))
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      logger.severe(snapshot);
+                      return EmptyContent(
+                        title: "Quelque chose s'est mal passé",
+                        message:
+                            "Impossible de charger les éléments pour le moment\n ${snapshot.error.toString()}",
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  }),
             ],
             if (_tabController.index == 1) ...[buildProducts(isStore: true)],
             if (_tabController.index == 0) ...[
