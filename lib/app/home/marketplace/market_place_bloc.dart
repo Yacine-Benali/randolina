@@ -11,6 +11,7 @@ import 'package:randolina/services/database.dart';
 import 'package:randolina/utils/logger.dart';
 import 'package:randolina/utils/utils.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductsBloc {
@@ -51,23 +52,32 @@ class ProductsBloc {
     await batch.commit();
   }
 
-  Future<String> uploadProductProfileImage(File file, String productId) async {
+  String getProductImagePath(String productId) =>
+      APIPath.productsFiles(currentUser.id, productId, uuid.v4());
+
+  Future<String> uploadProductProfileImage(
+      File file, String productPath) async {
     return database.uploadFile(
-      path: APIPath.productsFiles(currentUser.id, productId, uuid.v4()),
+      path: productPath,
       filePath: file.path,
     );
   }
 
-  Future<List<String>> uploadProductImages(List<File> images) async {
-    final List<Future<String>> urls = [];
+  Future<Tuple2<List<String>, List<String>>> uploadProductImages(
+      List<File> images, String productId) async {
+    final List<Future<String>> urlsFuture = [];
+    final List<String> paths = [];
     for (final File file in images) {
+      final String path = getProductImagePath(productId);
       final t = database.uploadFile(
-        path: APIPath.productsFiles(currentUser.id, '', uuid.v4()),
+        path: path,
         filePath: file.path,
       );
-      urls.add(t);
+      paths.add(path);
+      urlsFuture.add(t);
     }
-    return Future.wait(urls);
+    final List<String> urls = await Future.wait(urlsFuture);
+    return Tuple2(urls, paths);
   }
 
   List<Product> productsFilter(

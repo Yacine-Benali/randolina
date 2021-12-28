@@ -149,7 +149,9 @@ class _AddProductForm2State extends State<AddProductForm2> {
       final Product product = Product(
         id: widget.product?.id ?? '',
         images: widget.product?.images ?? [],
+        imagesPath: widget.product?.imagesPath ?? [],
         profileImage: widget.product?.profileImage ?? '',
+        profileImagePath: widget.product?.profileImagePath ?? '',
         price: price!,
         specification: specification!,
         offer: offer!,

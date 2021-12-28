@@ -143,32 +143,41 @@ class _AddProductForm4State extends State<AddProductForm4> {
 
     try {
       late String profilePictureUrl;
+      late String profilePicturePath;
       final List<String> imagesUrls = [];
+      final List<String> imagesPath = [];
 
       if (widget.product != null) {
         if (widget.product!.id != '') productId = widget.product!.id;
 
         profilePictureUrl = widget.product!.profileImage;
+        profilePicturePath = widget.product!.profileImagePath;
+
         imagesUrls.addAll(widget.product!.images);
+        imagesPath.addAll(widget.product!.imagesPath);
       }
 
       if (widget.profilePicture != null) {
+        profilePicturePath = widget.productsBloc.getProductImagePath(productId);
+
         profilePictureUrl = await widget.productsBloc.uploadProductProfileImage(
           widget.profilePicture!,
-          productId,
+          profilePicturePath,
         );
       }
       if (widget.images != null) {
-        imagesUrls.addAll(
-          await widget.productsBloc.uploadProductImages(
-            widget.images!,
-          ),
-        );
+        final tuple2 = await widget.productsBloc
+            .uploadProductImages(widget.images!, productId);
+
+        imagesUrls.addAll(tuple2.item1);
+        imagesPath.addAll(tuple2.item2);
       }
       final Product product = Product(
         id: productId,
         images: imagesUrls,
         profileImage: profilePictureUrl,
+        imagesPath: imagesPath,
+        profileImagePath: profilePicturePath,
         specification: widget.product!.specification,
         price: widget.product!.price,
         offer: widget.product!.offer,

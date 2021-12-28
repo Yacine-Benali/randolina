@@ -5,7 +5,9 @@ class Product {
   Product({
     required this.id,
     required this.images,
+    required this.imagesPath,
     required this.profileImage,
+    required this.profileImagePath,
     required this.price,
     required this.specification,
     required this.offer,
@@ -17,7 +19,9 @@ class Product {
   });
   final String id;
   final List<String> images;
+  final List<String> imagesPath;
   final String profileImage;
+  final String profileImagePath;
   final int price;
   final String specification;
   final String offer;
@@ -31,8 +35,11 @@ class Product {
   factory Product.fromMap(Map<String, dynamic> data, String documentId) {
     final List<String> images =
         (data['images'] as List<dynamic>).map((e) => e as String).toList();
+    final List<String> imagesPath =
+        (data['imagesPath'] as List<dynamic>).map((e) => e as String).toList();
 
     final String profileImage = data['profileImage'] as String;
+    final String profileImagePath = data['profileImagePath'] as String;
     final int price = data['price'] as int;
     final String specification = data['specification'] as String;
     final String offer = data['offer'] as String;
@@ -48,6 +55,8 @@ class Product {
       id: documentId,
       images: images,
       profileImage: profileImage,
+      imagesPath: imagesPath,
+      profileImagePath: profileImagePath,
       price: price,
       specification: specification,
       offer: offer,
@@ -63,6 +72,8 @@ class Product {
     return {
       'images': images,
       'profileImage': profileImage,
+      'imagesPath': imagesPath,
+      'profileImagePath': profileImagePath,
       'price': price,
       'specification': specification,
       'offer': offer,
@@ -73,6 +84,4 @@ class Product {
       'createdAt': FieldValue.serverTimestamp(),
     };
   }
-
-  
 }
