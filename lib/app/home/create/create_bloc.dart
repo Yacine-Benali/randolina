@@ -45,11 +45,15 @@ class CreateBloc {
   ) async {
     final String postId = database.getUniqueId();
     final List<Future<String>> futureUrls = [];
+    final List<String> contentPath = [];
     for (final File asset in finalFiles) {
+      final String path =
+          APIPath.postFiles(currentUser.id, postId, database.getUniqueId());
       final futureImageUrl = database.uploadFile(
-        path: APIPath.postFiles(currentUser.id, postId, database.getUniqueId()),
+        path: path,
         filePath: asset.path,
       );
+      contentPath.add(path);
       futureUrls.add(futureImageUrl);
     }
     final List<String> urls = await Future.wait(futureUrls);
@@ -59,6 +63,7 @@ class CreateBloc {
       type: postContentType.index,
       description: caption,
       content: urls,
+      contentPath: contentPath,
       createdAt: Timestamp.now(),
       numberOfLikes: 0,
       miniUser: currentUser.toMiniUser(),
@@ -78,6 +83,7 @@ class CreateBloc {
       type: PostContentType.youtube.index,
       description: caption,
       content: urls,
+      contentPath: [''],
       createdAt: Timestamp.now(),
       numberOfLikes: 0,
       miniUser: currentUser.toMiniUser(),

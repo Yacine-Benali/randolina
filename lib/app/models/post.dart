@@ -7,6 +7,7 @@ class Post {
     required this.type,
     required this.description,
     required this.content,
+    required this.contentPath,
     required this.createdAt,
     required this.numberOfLikes,
     required this.miniUser,
@@ -15,6 +16,7 @@ class Post {
   final int type;
   final String description;
   final List<String> content;
+  final List<String> contentPath;
   final Timestamp createdAt;
   final int numberOfLikes;
   final MiniUser miniUser;
@@ -25,6 +27,8 @@ class Post {
     final String description = data['description'] as String;
     final List<String> content =
         (data['content'] as List<dynamic>).map((e) => e as String).toList();
+    final List<String> contentPath =
+        (data['contentPäth'] as List<dynamic>).map((e) => e as String).toList();
 
     final Timestamp createdAt = data['createdAt'] as Timestamp;
     final int numberOfLikes = data['numberOfLikes'] as int;
@@ -35,6 +39,7 @@ class Post {
       type: type,
       description: description,
       content: content,
+      contentPath: contentPath,
       createdAt: createdAt,
       numberOfLikes: numberOfLikes,
       miniUser: miniUser,
@@ -46,6 +51,7 @@ class Post {
       'type': type,
       'description': description,
       'content': content,
+      'contentPath': contentPath,
       'createdAt': createdAt,
       'numberOfLikes': numberOfLikes,
       'miniUser': miniUser.toMap(),
