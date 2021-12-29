@@ -110,8 +110,8 @@ class ClubHeader extends StatelessWidget {
                   left: SizeConfig.blockSizeHorizontal * 30,
                   bottom: 0,
                   child: FollowersHeader(
-                    followers: 0,
-                    following: 0,
+                    followers: clubOrAgency.followers,
+                    following: clubOrAgency.following,
                   ),
                 ),
               ],
