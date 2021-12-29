@@ -16,6 +16,9 @@ class FirebaseMessagingService {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  String notificationTitle = '';
+  String notificationBody = '';
+
   Future<void> _configLocalNotification() async {
     final initializationSettingsAndroid =
         AndroidInitializationSettings('launcher_icon');
@@ -45,10 +48,8 @@ class FirebaseMessagingService {
     //logger.info('configuring FIREBASE MESSAGING');
     _configLocalNotification();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      logger.info('Got a message whilst in the foreground!');
-      logger.info('Message data: ${message.data}');
-
       if (message.notification != null) {
+        logger.info('Got a message whilst in the foreground!');
         _showNotification(message.notification);
       }
     });
@@ -69,6 +70,14 @@ class FirebaseMessagingService {
   }
 
   Future<void> _showNotification(RemoteNotification? message) async {
+    if (notificationTitle == message?.title &&
+        notificationBody == message?.body) {
+      logger.severe('repeated notif cancelling');
+      return;
+    } else {
+      notificationTitle = message?.title ?? '';
+      notificationBody = message?.body ?? '';
+    }
     final int id = Random().nextInt(1000);
     logger.info('showing local notification called');
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
