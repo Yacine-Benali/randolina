@@ -33,6 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     chatBloc = ChatBloc(
       currentUser: widget.currentUser,
+      otherUser: widget.otherUser,
       conversation: widget.conversation,
       database: context.read<Database>(),
     );

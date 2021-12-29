@@ -56,6 +56,7 @@ class _UserToChatState extends State<UserToChat> {
             content: '',
             seen: true,
             createdBy: '',
+            createdFor: '',
             createdAt: Timestamp.now(),
           ),
           user1: currentUser.toMiniUser(),
