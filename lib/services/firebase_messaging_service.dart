@@ -49,10 +49,6 @@ class FirebaseMessagingService {
       logger.info('Message data: ${message.data}');
 
       if (message.notification != null) {
-        logger.info(
-            'Message also contained a notification: ${message.notification}');
-        logger.info("onMessage: $message");
-
         _showNotification(message.notification);
       }
     });
@@ -74,7 +70,7 @@ class FirebaseMessagingService {
 
   Future<void> _showNotification(RemoteNotification? message) async {
     final int id = Random().nextInt(1000);
-    logger.info('showing notification called*****************');
+    logger.info('showing local notification called');
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       Platform.isAndroid ? 'com.merine.randolina' : 'com.merine.randolina',
       'Randolina',

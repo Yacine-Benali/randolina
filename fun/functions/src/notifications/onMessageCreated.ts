@@ -8,7 +8,7 @@ if (admin.apps.length === 0) {
 const db = admin.firestore();
 
 
-exports.onMessageCreated = functions.firestore
+export const onMessageCreated = functions.firestore
     .document("conversations/{conversationId}/messages/{messageId}")
     .onCreate(async (snap, context) => {
       const docData = snap.data();
@@ -16,28 +16,20 @@ exports.onMessageCreated = functions.firestore
       const senderUser = await db.collection("users").doc(docData.createdBy).get();
       const conversationDoc = await db.collection("conversations").doc(context.params.conversationId).get();
 
-      const conversationDocdata = conversationDoc.data();
+      // const conversationDocdata = conversationDoc.data();
       if (receiverUser?.data()?.pushToken != null) {
         const payload = {
           notification: {
             title: "Vous avez un nouveau message",
-            body: " ",
+            body: `${senderUser?.data()?.username}: ${docData.content}`,
 
           },
           data: {
             "click_action": "FLUTTER_NOTIFICATION_CLICK",
-            "groupeChatId": `${conversationDoc.id}`,
-            "latestMessagecontent": `${conversationDocdata.latestMessage.content}`,
-            "latestMessagereceiverId": `${conversationDocdata.latestMessage.receiverId}`,
-            "latestMessageseen": `${conversationDocdata.latestMessage.seen}`,
-            "latestMessagesenderId": `${conversationDocdata.latestMessage.senderId}`,
-            "latestMessagetimestamp": `${conversationDocdata.latestMessage.timestamp}`,
-            "studentId": `${conversationDocdata.student.id}`,
-            "studentName": `${conversationDocdata.student.name}`,
-            "teacherId": `${conversationDocdata.teacher.name}`,
-            "teacherName": `${conversationDocdata.teacher.id}`,
+            "conversationId": `${conversationDoc.id}`,
+            // "latestMessagecontent": `${conversationDocdata.latestMessage.content}`,
           },
-          token: receiverUser.data().pushToken,
+          token: receiverUser?.data()?.pushToken,
         };
         return admin.messaging().send(payload);
       } else {
