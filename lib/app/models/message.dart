@@ -9,6 +9,7 @@ class Message {
     required this.content,
     required this.seen,
     required this.createdBy,
+    required this.createdFor,
     required this.createdAt,
     this.product,
     this.order,
@@ -22,6 +23,7 @@ class Message {
   final String content;
   bool seen;
   final String createdBy;
+  final String createdFor;
   final Timestamp createdAt;
   final Product? product;
   final Order? order;
@@ -32,6 +34,7 @@ class Message {
     final String content = data['content'] as String;
     final bool seen = data['seen'] as bool;
     final String createdBy = data['createdBy'] as String;
+    final String createdFor = data['createdFor'] as String;
     final Timestamp createdAt =
         (data['createdAt'] as Timestamp?) ?? Timestamp.now();
 
@@ -50,6 +53,7 @@ class Message {
       content: content,
       seen: seen,
       createdBy: createdBy,
+      createdFor: createdFor,
       createdAt: createdAt,
       product: product,
       order: order,
@@ -62,6 +66,7 @@ class Message {
       'content': content,
       'seen': seen,
       'createdBy': createdBy,
+      'createdFor': createdFor,
       'createdAt': FieldValue.serverTimestamp(),
       'product': product?.toMap(),
       'order': order?.toMap(),

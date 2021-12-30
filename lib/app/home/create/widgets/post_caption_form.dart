@@ -95,9 +95,17 @@ class _PostCaptionFormState extends State<PostCaptionForm> {
           child: Padding(
             padding: const EdgeInsets.only(top: 10),
             child: TextFormField(
+              textInputAction: TextInputAction.newline,
+              keyboardType: TextInputType.multiline,
+              maxLines: 4,
+              maxLength: 100,
               onChanged: (value) => widget.onChanged(value),
               validator: (String? input) {
                 if (input != null) {
+                  final numLines = '\n'.allMatches(input).length + 1;
+                  if (numLines > 4) {
+                    return 'le nombre de lignes ne peut pas dépasser 3';
+                  }
                   if (input.trim().length > 150) {
                     return 'Veuillez saisir une légende de moins de 150 caractères';
                   }
@@ -106,7 +114,6 @@ class _PostCaptionFormState extends State<PostCaptionForm> {
                   }
                 }
               },
-              maxLength: 150,
               controller: widget.controller,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(

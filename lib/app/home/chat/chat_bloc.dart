@@ -14,11 +14,13 @@ import 'package:uuid/uuid.dart';
 class ChatBloc {
   ChatBloc({
     required this.currentUser,
+    required this.otherUser,
     required this.conversation,
     required this.database,
   });
   final Conversation conversation;
   final User currentUser;
+  final MiniUser otherUser;
   final Database database;
 
   List<Message> messagesList = [];
@@ -120,6 +122,7 @@ class ChatBloc {
       content: content,
       seen: false,
       createdBy: currentUser.id,
+      createdFor: otherUser.id,
       createdAt: Timestamp.now(),
     );
 

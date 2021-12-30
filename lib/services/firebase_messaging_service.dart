@@ -10,11 +10,17 @@ import 'package:randolina/utils/logger.dart';
 import 'api_path.dart';
 
 class FirebaseMessagingService {
-  FirebaseMessagingService();
+  final Database database;
+  final String uid;
+
+  FirebaseMessagingService({required this.database, required this.uid});
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
+  String notificationTitle = '';
+  String notificationBody = '';
 
   Future<void> _configLocalNotification() async {
     final initializationSettingsAndroid =
@@ -41,18 +47,12 @@ class FirebaseMessagingService {
     });
   }
 
-  Future<void> configFirebaseNotification(String uid, Database database) async {
+  Future<void> configFirebaseNotification() async {
     //logger.info('configuring FIREBASE MESSAGING');
     _configLocalNotification();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      logger.info('Got a message whilst in the foreground!');
-      logger.info('Message data: ${message.data}');
-
       if (message.notification != null) {
-        logger.info(
-            'Message also contained a notification: ${message.notification}');
-        logger.info("onMessage: $message");
-
+        logger.info('Got a message whilst in the foreground!');
         _showNotification(message.notification);
       }
     });
@@ -73,8 +73,16 @@ class FirebaseMessagingService {
   }
 
   Future<void> _showNotification(RemoteNotification? message) async {
+    if (notificationTitle == message?.title &&
+        notificationBody == message?.body) {
+      logger.severe('repeated notif cancelling');
+      return;
+    } else {
+      notificationTitle = message?.title ?? '';
+      notificationBody = message?.body ?? '';
+    }
     final int id = Random().nextInt(1000);
-    logger.info('showing notification called*****************');
+    logger.info('showing local notification called');
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       Platform.isAndroid ? 'com.merine.randolina' : 'com.merine.randolina',
       'Randolina',
@@ -89,6 +97,13 @@ class FirebaseMessagingService {
       message?.title,
       message?.body,
       platformChannelSpecifics,
+    );
+  }
+
+  Future<void> removeToken(String uid) async {
+    database.setData(
+      path: APIPath.userDocument(uid),
+      data: {'pushToken': ''},
     );
   }
 }

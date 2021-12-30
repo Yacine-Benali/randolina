@@ -20,6 +20,7 @@ Conversation createConversation(MiniUser currentUser, MiniUser otherUser) {
       content: '',
       seen: true,
       createdBy: '',
+      createdFor: '',
       createdAt: Timestamp.now(),
     ),
     user1: currentUser,

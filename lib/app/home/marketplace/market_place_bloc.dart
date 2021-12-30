@@ -42,6 +42,7 @@ class ProductsBloc {
       content: '',
       seen: false,
       createdBy: currentUser.id,
+      createdFor: product.createdBy.id,
       createdAt: Timestamp.now(),
       product: product,
       order: order,
