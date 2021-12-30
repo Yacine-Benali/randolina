@@ -13,28 +13,31 @@ export const newFollower = functions.firestore
     .onUpdate(async (snap, context) => {
       if (snap.before.data().followers.length > snap.after.data().followers.length ) {
         return null;
-      }
-      const docData = snap.after.data();
-      // const senderID = docData.followers[docData.followers.length-1];
-      const userThatWasFollowedId = context.params.userThatWasFollowedId;
-      const receiverUser = await db.collection("users").doc(userThatWasFollowedId).get();
-      const senderUser = await db.collection("users").doc(docData.followers[docData.followers.length-1]).get();
+      } else if (snap.before.data().followers.length < snap.after.data().followers.length ) {
+        const docData = snap.after.data();
+        // const senderID = docData.followers[docData.followers.length-1];
+        const userThatWasFollowedId = context.params.userThatWasFollowedId;
+        const receiverUser = await db.collection("users").doc(userThatWasFollowedId).get();
+        const senderUser = await db.collection("users").doc(docData.followers[docData.followers.length-1]).get();
 
 
-      // const conversationDocdata = conversationDoc.data();
-      if (receiverUser?.data()?.pushToken != null) {
-        const payload = {
-          notification: {
-            title: "nouveau abonné",
-            body: `@${senderUser?.data()?.username} vient de vous abonnez`,
+        // const conversationDocdata = conversationDoc.data();
+        if (receiverUser?.data()?.pushToken != null) {
+          const payload = {
+            notification: {
+              title: "nouveau abonné",
+              body: `@${senderUser?.data()?.username} vient de vous abonnez`,
 
-          },
-          data: {
+            },
+            data: {
 
-          },
-          token: receiverUser?.data()?.pushToken,
-        };
-        return admin.messaging().send(payload);
+            },
+            token: receiverUser?.data()?.pushToken,
+          };
+          return admin.messaging().send(payload);
+        } else {
+          return null;
+        }
       } else {
         return null;
       }

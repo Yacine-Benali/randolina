@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/auth.dart';
+import 'package:randolina/services/firebase_messaging_service.dart';
 
 enum Options {
   editprofile,
@@ -31,6 +33,8 @@ class _ProfileEditPopUpState extends State<ProfileEditPopUp> {
             widget.onEditPressed();
           } else if (selectedValue == Options.singout) {
             auth.signOut();
+            final User user = context.read<User>();
+            context.read<FirebaseMessagingService>().removeToken(user.id);
           }
         });
       },

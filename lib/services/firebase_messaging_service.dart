@@ -10,7 +10,10 @@ import 'package:randolina/utils/logger.dart';
 import 'api_path.dart';
 
 class FirebaseMessagingService {
-  FirebaseMessagingService();
+  final Database database;
+  final String uid;
+
+  FirebaseMessagingService({required this.database, required this.uid});
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -44,7 +47,7 @@ class FirebaseMessagingService {
     });
   }
 
-  Future<void> configFirebaseNotification(String uid, Database database) async {
+  Future<void> configFirebaseNotification() async {
     //logger.info('configuring FIREBASE MESSAGING');
     _configLocalNotification();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -94,6 +97,13 @@ class FirebaseMessagingService {
       message?.title,
       message?.body,
       platformChannelSpecifics,
+    );
+  }
+
+  Future<void> removeToken(String uid) async {
+    database.setData(
+      path: APIPath.userDocument(uid),
+      data: {'pushToken': ''},
     );
   }
 }

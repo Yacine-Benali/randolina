@@ -12,8 +12,8 @@ const db = admin.firestore();
 
 export const newEvent = functions.firestore
     .document("events/{eventId}")
-    .onUpdate(async (snap) => {
-      const docData = snap.after.data();
+    .onCreate(async (snap) => {
+      const docData = snap.data();
       const senderID = docData.createdBy.id;
       const senderUser = await db.collection("users").doc(senderID).get();
       const senderUserFollowerPosts = await db.collection("user_followers_posts").doc(senderID).get();

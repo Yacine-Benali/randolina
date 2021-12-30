@@ -26,15 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> screens;
   List<CameraDescription>? cameras;
   CameraConsumer cameraConsumer = CameraConsumer.post;
-
+  late final FirebaseMessagingService firebaseMessagingService;
   @override
   void initState() {
     user = context.read<User>();
     final Database database = context.read<Database>();
     super.initState();
-    final FirebaseMessagingService firebaseMessagingService =
-        FirebaseMessagingService();
-    firebaseMessagingService.configFirebaseNotification(user.id, database);
+    firebaseMessagingService = FirebaseMessagingService(
+      database: database,
+      uid: user.id,
+    );
+    firebaseMessagingService.configFirebaseNotification();
     screens = [
       FeedScreen(),
       //Container(color: backgroundColor),
@@ -56,63 +58,67 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return WillPopScope(
-      onWillPop: () async {
-        if (index == 0) {
-          return true;
-        } else {
-          setState(() {
-            index = 0;
-          });
-          return false;
-        }
-      },
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        resizeToAvoidBottomInset: false,
-        body: IndexedStack(index: index, children: screens),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: FloatingActionButton(
-            onPressed: () {
-              if (cameras != null) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CameraScreen(
-                      cameras: cameras!,
-                      backToHomeScreen: () => Navigator.of(context).pop(),
-                      cameraConsumer: cameraConsumer,
+    return Provider<FirebaseMessagingService>.value(
+      value: firebaseMessagingService,
+      child: WillPopScope(
+        onWillPop: () async {
+          if (index == 0) {
+            return true;
+          } else {
+            setState(() {
+              index = 0;
+            });
+            return false;
+          }
+        },
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          resizeToAvoidBottomInset: false,
+          body: IndexedStack(index: index, children: screens),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                if (cameras != null) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CameraScreen(
+                        cameras: cameras!,
+                        backToHomeScreen: () => Navigator.of(context).pop(),
+                        cameraConsumer: cameraConsumer,
+                      ),
                     ),
-                  ),
-                );
-              }
-            },
-            backgroundColor: darkBlue,
-            elevation: 2.0,
-            child: Icon(Icons.add),
+                  );
+                }
+              },
+              backgroundColor: darkBlue,
+              elevation: 2.0,
+              child: Icon(Icons.add),
+            ),
           ),
-        ),
-        bottomNavigationBar: FABBottomAppBar(
-          height: 55,
-          iconSize: 32,
-          centerItemText: '',
-          color: Colors.grey,
-          selectedColor: darkBlue,
-          notchedShape: CircularNotchedRectangle(),
-          selectedIndex: index,
-          onTabSelected: (int index) {
-            setState(() => this.index = index);
-          },
-          items: [
-            FABBottomAppBarItem(iconData: Icons.home, notification: 0),
-            FABBottomAppBarItem(iconData: Icons.store, notification: 0),
-            FABBottomAppBarItem(
-                iconData: Icons.calendar_today, notification: 0),
-            FABBottomAppBarItem(
-                iconData: Icons.account_circle_outlined, notification: 0),
-          ],
-          backgroundColor: Colors.white,
+          bottomNavigationBar: FABBottomAppBar(
+            height: 55,
+            iconSize: 32,
+            centerItemText: '',
+            color: Colors.grey,
+            selectedColor: darkBlue,
+            notchedShape: CircularNotchedRectangle(),
+            selectedIndex: index,
+            onTabSelected: (int index) {
+              setState(() => this.index = index);
+            },
+            items: [
+              FABBottomAppBarItem(iconData: Icons.home, notification: 0),
+              FABBottomAppBarItem(iconData: Icons.store, notification: 0),
+              FABBottomAppBarItem(
+                  iconData: Icons.calendar_today, notification: 0),
+              FABBottomAppBarItem(
+                  iconData: Icons.account_circle_outlined, notification: 0),
+            ],
+            backgroundColor: Colors.white,
+          ),
         ),
       ),
     );
