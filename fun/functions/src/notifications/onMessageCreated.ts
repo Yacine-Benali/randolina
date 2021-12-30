@@ -16,12 +16,19 @@ export const onMessageCreated = functions.firestore
       const senderUser = await db.collection("users").doc(docData.createdBy).get();
       const conversationDoc = await db.collection("conversations").doc(context.params.conversationId).get();
 
-      // const conversationDocdata = conversationDoc.data();
+      let body = "";
+      if (docData.type == 0) {
+        body = `@${senderUser?.data()?.username}: ${docData.content}`;
+      } else if (docData.type == 1) {
+        body = `@${senderUser?.data()?.username}: a envoyé une image`;
+      } else if (docData.type == 2) {
+        body = `@${senderUser?.data()?.username}: a envoyé une commande`;
+      }
       if (receiverUser?.data()?.pushToken != null) {
         const payload = {
           notification: {
             title: "Vous avez un nouveau message",
-            body: `${senderUser?.data()?.username}: ${docData.content}`,
+            body: body,
 
           },
           data: {
