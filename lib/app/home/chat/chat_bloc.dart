@@ -61,9 +61,7 @@ class ChatBloc {
           messagesListController.sink.add(messagesList);
           if (latestMessageList.elementAt(0).createdBy != currentUser.id &&
               latestMessageList.elementAt(0).seen == false) {
-            // logger.info(
-            //     'setting ${latestMessageList.elementAt(0).content} to seen true');
-            // setLatesttMessageToSeen(latestMessageList.elementAt(0));
+            setLatestMessageToSeen(latestMessageList.elementAt(0));
           }
         }
       } else {
@@ -149,7 +147,7 @@ class ChatBloc {
     return true;
   }
 
-  void setLatesttMessageToSeen(Message message) {
+  void setLatestMessageToSeen(Message message) {
     message.seen = true;
     logger.info('setting ${message.content} to true');
     database.updateData(
