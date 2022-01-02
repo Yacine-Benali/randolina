@@ -42,7 +42,7 @@ class _ProfileEditPopUpState extends State<ProfileEditPopUp> {
         PopupMenuItem(
           value: Options.editprofile,
           child: Text(
-            'Edit profil',
+            'Modifier le profil',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -61,7 +61,7 @@ class _ProfileEditPopUpState extends State<ProfileEditPopUp> {
         PopupMenuItem(
           value: Options.singout,
           child: Text(
-            'Sign out',
+            'déconnecter',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,

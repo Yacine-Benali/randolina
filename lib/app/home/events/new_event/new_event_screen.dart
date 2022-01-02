@@ -79,7 +79,7 @@ class _NewEventScreenState extends State<NewEventScreen> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.blueGrey),
           title: Text(
-            widget.event == null ? 'add an event' : 'edit event',
+            widget.event == null ? 'ajouter un événement' : 'modifier un événement',
             style: TextStyle(
               color: Color.fromRGBO(34, 50, 99, 1),
               fontWeight: FontWeight.w600,

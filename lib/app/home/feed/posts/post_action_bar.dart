@@ -104,7 +104,7 @@ class _PostActionBarState extends State<PostActionBar> {
                     logger.info('save this post ${widget.post.id}');
                     widget.postBloc.savePost(widget.post).then(
                           (value) => Fluttertoast.showToast(
-                            msg: 'Post saved successfully',
+                            msg: 'poste enregistré avec succès',
                             toastLength: Toast.LENGTH_SHORT,
                           ),
                         );

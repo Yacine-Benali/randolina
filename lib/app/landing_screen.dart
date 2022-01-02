@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/sign_in/sign_in_screen.dart';
 import 'package:randolina/app/base_screen.dart';
@@ -12,6 +13,7 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Auth auth = context.read<Auth>();
+    GetTimeAgo.setDefaultLocale('fr');
 
     return StreamBuilder<AuthUser?>(
       stream: auth.onAuthStateChanged,

@@ -65,7 +65,7 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Follow', style: TextStyle(color: darkBlue)),
+                      Text('abonné', style: TextStyle(color: darkBlue)),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: SizedBox(
@@ -80,7 +80,7 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Follow'),
+                      Text('abonné'),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: SizedBox(

@@ -26,7 +26,7 @@ class _CommentScreenState extends State<CommentScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text('comments', style: TextStyle(color: Colors.black)),
+        title: Text('commentaires', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
       ),
       body: Column(
