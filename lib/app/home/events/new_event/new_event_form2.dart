@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
 import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/events/events_bloc.dart';
@@ -20,6 +19,7 @@ import 'package:randolina/app/models/agency.dart';
 import 'package:randolina/app/models/club.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/user.dart';
+import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/logger.dart';
@@ -94,6 +94,7 @@ class _NewEventForm2State extends State<NewEventForm2> {
   Future<void> onSave() async {
     if (_formKey.currentState!.validate()) {
       if (images.isEmpty && (widget.event?.images.isEmpty ?? true)) {
+        // ignore: use_build_context_synchronously
         PlatformExceptionAlertDialog(
           exception: PlatformException(
             code: 'Erreur',
@@ -103,12 +104,20 @@ class _NewEventForm2State extends State<NewEventForm2> {
         return;
       }
       if (startDateTime == null || endDateTime == null) {
+        // ignore: use_build_context_synchronously
         PlatformExceptionAlertDialog(
           exception: PlatformException(
             code: 'Erreur',
             message: 'veuillez sélectionner la date de début et de fin',
           ),
         ).show(context);
+        return;
+      }
+      if (endDateTime!.toDate().isBefore(startDateTime!.toDate())) {
+        await PlatformAlertDialog(
+                title: 'Erreur',
+                content: "la date d'arrivée est avant la date de départ")
+            .show(context);
         return;
       }
       final User user = context.read<User>();

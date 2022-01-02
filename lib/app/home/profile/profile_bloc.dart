@@ -339,7 +339,8 @@ class ProfileBloc {
   }
 
   Stream<List<Event>> getClubAllEvents() {
-    final enddate = Timestamp.fromDate(DateTime.now());
+    final enddate =
+        Timestamp.fromDate(DateTime.now().subtract(Duration(days: 1)));
 
     return database.streamCollection(
       path: APIPath.eventsCollection(),
