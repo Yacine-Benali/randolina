@@ -94,7 +94,7 @@ class _ApprovedScreenState extends State<ApprovedScreen> {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: EmptyContent(
-            title: 'Aucun message ne suit les personnes pour commencer',
+            title: '',
             message: '',
           ),
         );
