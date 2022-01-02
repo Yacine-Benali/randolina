@@ -90,7 +90,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 posts = snapshot.data!;
-
+      
                 if (posts.isNotEmpty) {
                   return SmartRefresher(
                     controller: _refreshController,
@@ -122,7 +122,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
                     child: Column(
                       children: [
                         EmptyContent(
-                          title: "fil d'actualité est vide",
+                          title: "pas de poste reporter",
                           message: '',
                         ),
                       ],

@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ReportedPostsBloc {
@@ -22,6 +24,7 @@ class ReportedPostsBloc {
           .map((e) => e as String)
           .toList(),
     );
+
     if (data != null) postsIds = data;
   }
 
@@ -34,7 +37,7 @@ class ReportedPostsBloc {
 
   Future<bool> fetch10Posts() async {
     if (postsIds.isEmpty) await getPostsIds();
-
+    logger.warning(postsIds);
     if (postsIds.isEmpty && !postsListController.isClosed) {
       postsListController.sink.add([]);
       return true;
@@ -56,7 +59,7 @@ class ReportedPostsBloc {
     final List<Post> morePosts = await database.fetchCollection(
       path: APIPath.postsCollection(),
       queryBuilder: (query) => query.where(
-        'id',
+        FieldPath.documentId,
         whereIn: postIdsSublit,
       ),
       builder: (data, documentId) => Post.fromMap(data, documentId),
