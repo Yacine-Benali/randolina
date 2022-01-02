@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:randolina/app/home/events/widgets/participant_card.dart';
 import 'package:randolina/app/home/profile/profile_screen.dart';
+import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/utils/utils.dart';
@@ -112,14 +113,16 @@ class _ParticipantDetailScreenState extends State<ParticipantDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       buildText("nom : ", widget.participant.client.name),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: buildText(
-                          'date de naissance: ',
-                          particpantDateFormmater(
-                              widget.participant.client.dateOfBirth),
+                      if (widget.participant.client is Client)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: buildText(
+                            'date de naissance: ',
+                            particpantDateFormmater(
+                                (widget.participant.client as Client)
+                                    .dateOfBirth),
+                          ),
                         ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: buildText('Wilaya: ', 'Oran'),

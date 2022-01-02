@@ -9,6 +9,7 @@ import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/participant.dart';
 import 'package:randolina/app/models/saved_events.dart';
 import 'package:randolina/app/models/subscription.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/services/api_path.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/services/database.dart';
@@ -294,21 +295,21 @@ class EventsBloc {
   Future<List<Participant>> getEventParticipant(Event event) async {
     final List<String> userIds = event.subscribers.map((e) => e.id).toList();
 
-    final List<Future<Client?>> futures = [];
+    final List<Future<User?>> futures = [];
 
     for (final String id in userIds) {
-      final Future<Client?> futureClient = database.fetchDocument(
+      final Future<User?> futureClient = database.fetchDocument(
         path: APIPath.userDocument(id),
-        builder: (data, id) => Client.fromMap(data, id),
+        builder: (data, id) => User.fromMap2(data, id),
       );
       futures.add(futureClient);
     }
 
-    final List<Client?> dirtyClient = await Future.wait(futures);
+    final List<User?> dirtyClient = await Future.wait(futures);
 
     final List<Participant> participants = [];
     for (final MiniSubscriber miniSubscriber in event.subscribers) {
-      for (final Client? client in dirtyClient) {
+      for (final User? client in dirtyClient) {
         if (client != null) {
           if (miniSubscriber.id == client.id) {
             final p = Participant(

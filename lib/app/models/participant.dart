@@ -1,5 +1,5 @@
-import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
+import 'package:randolina/app/models/user.dart';
 
 class Participant {
   Participant({
@@ -7,9 +7,9 @@ class Participant {
     required this.isConfirmed,
   });
 
-  final Client client;
+  final User client;
   bool isConfirmed;
-  factory Participant.fromMap(Client client, {required bool isConfirmed}) {
+  factory Participant.fromMap(User client, {required bool isConfirmed}) {
     return Participant(
       client: client,
       isConfirmed: isConfirmed,
