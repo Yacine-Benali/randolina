@@ -106,20 +106,21 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                       setState(() {});
                     },
                   ),
-                  FutureBuilder(
-                    future: Future.delayed(Duration(milliseconds: 500)),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Column(
-                          children: buildList(),
-                        );
-                      } else {
-                        return CircularProgressIndicator(
-                          color: Colors.grey,
-                        );
-                      }
-                    },
+                  Column(
+                    children: buildList(),
                   ),
+                  // TODO @high remove this if its not needed
+                  // FutureBuilder(
+                  //   future: Future.delayed(Duration(milliseconds: 500)),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.done) {
+                  //     } else {
+                  //       return CircularProgressIndicator(
+                  //         color: Colors.grey,
+                  //       );
+                  //     }
+                  //   },
+                  // ),
                 ],
               ],
             ),
