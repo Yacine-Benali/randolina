@@ -110,7 +110,8 @@ class _PostActionBarState extends State<PostActionBar> {
                         );
 
                     isSaved = true;
-                  } else if (savedPost != null) {
+                  } else if (isSaved == true) {
+                    logger.warning('unsave post');
                     logger.info('unsave this post ${widget.post.id}');
                     widget.postBloc.unsavePost(savedPost!);
                     isSaved = false;
