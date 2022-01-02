@@ -33,7 +33,7 @@ class _ClubEventCardState extends State<ClubEventCard> {
   Future<void> deleteEvent() async {
     final bool? didRequestSignOut = await PlatformAlertDialog(
       title: 'Confirmer',
-      content: 'es-tu sûr want to delete this event',
+      content: 'es-tu sûr ?',
       cancelActionText: 'annuler',
       defaultActionText: 'oui',
     ).show(context);

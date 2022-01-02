@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/auth/forgot_password/forgot_pass_screen.dart';
@@ -10,6 +11,7 @@ import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/constants/strings.dart';
 import 'package:randolina/services/auth.dart';
 import 'package:randolina/utils/validators.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -58,16 +60,60 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (context) {
-                  return SignUpScreen();
-                },
-              ),
+          onPressed: () async {
+            final bool? isConfirmed = await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("termes et conditions"),
+                  content: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'acceptez-vous nos termes et conditions',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: ' détaillé ici',
+                          style: TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launch(
+                                  'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Text("non", style: TextStyle(color: Colors.black)),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text("oui", style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                );
+              },
             );
+            if (isConfirmed == true) {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) {
+                    return SignUpScreen();
+                  },
+                ),
+              );
+            }
           },
           child: Text(
             'Créer un compte maintenant',
