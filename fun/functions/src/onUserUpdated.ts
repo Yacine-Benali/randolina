@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-
+import algoliasearch from "algoliasearch";
 if (admin.apps.length === 0) {
   admin.initializeApp();
 }
@@ -75,6 +75,15 @@ export const onUserUpdated = functions.firestore
 
         querySnapshot5.docs.forEach((doc)=>{
           batch.update(doc.ref, {"miniUser": newMiniUser});
+        });
+
+        const appId = "62PH99K08I";
+        const adminAPIKEY = "d9f4c533907474f6eb98f86d049368a2";
+        const client = algoliasearch(appId, adminAPIKEY);
+        const index = client.initIndex("dev_users_search");
+        await index.partialUpdateObject({
+          profilePicture: newMiniUser.profilePicture,
+          objectID: userId,
         });
 
         return batch.commit();
