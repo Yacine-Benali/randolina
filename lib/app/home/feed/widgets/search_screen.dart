@@ -11,7 +11,8 @@ import 'package:randolina/services/algolia_service.dart';
 class DataSearch extends SearchDelegate<String> {
   final algoliaService = AlgoliaService.instance;
 
-
+  DataSearch({required String searchFieldLabel})
+      : super(searchFieldLabel: searchFieldLabel);
   @override
   List<Widget> buildActions(BuildContext context) {
     return [

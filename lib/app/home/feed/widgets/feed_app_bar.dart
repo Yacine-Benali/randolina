@@ -38,7 +38,7 @@ class FeedAppBar extends StatelessWidget {
               onPressed: () {
                 showSearch(
                   context: context,
-                  delegate: DataSearch(),
+                  delegate: DataSearch(searchFieldLabel: 'rechercher'),
                 );
               },
             ),

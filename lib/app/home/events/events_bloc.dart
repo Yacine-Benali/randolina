@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:randolina/app/home/events/widgets/events_search.dart';
 import 'package:randolina/app/home_admin/sites/site.dart';
-import 'package:randolina/app/models/client.dart';
 import 'package:randolina/app/models/event.dart';
 import 'package:randolina/app/models/mini_subscriber.dart';
 import 'package:randolina/app/models/participant.dart';
