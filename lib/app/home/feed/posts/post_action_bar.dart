@@ -102,21 +102,29 @@ class _PostActionBarState extends State<PostActionBar> {
                 onPressed: () async {
                   if (isSaved == false) {
                     logger.info('save this post ${widget.post.id}');
-                    widget.postBloc.savePost(widget.post).then(
+                    final newsavedpost =
+                        widget.postBloc.savePost(widget.post).then((value) {
+                      isSaved = true;
+                      savedPost = value;
+                      Fluttertoast.showToast(
+                        msg: 'poste enregistré avec succès',
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
+                      setState(() {});
+                    });
+                  } else if (isSaved == true) {
+                    logger.info('unsave this post ${widget.post.id}');
+                    widget.postBloc.unsavePost(savedPost!).then(
                           (value) => Fluttertoast.showToast(
-                            msg: 'poste enregistré avec succès',
+                            msg:
+                                'poste supprimer des enregistrement avec succès',
                             toastLength: Toast.LENGTH_SHORT,
                           ),
                         );
 
-                    isSaved = true;
-                  } else if (isSaved == true) {
-                    logger.warning('unsave post');
-                    logger.info('unsave this post ${widget.post.id}');
-                    widget.postBloc.unsavePost(savedPost!);
                     isSaved = false;
+                    setState(() {});
                   }
-                  setState(() {});
                 },
               ),
             ],
@@ -126,7 +134,7 @@ class _PostActionBarState extends State<PostActionBar> {
           padding: const EdgeInsets.only(left: 12.0, bottom: 8),
           alignment: Alignment.centerLeft,
           child: Text(
-            '$numberOfLikes likes',
+            "$numberOfLikes j'adore",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w500,

@@ -50,7 +50,7 @@ class FollowersHeader extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: ' Following',
+                    text: ' Abonnements',
                     style: TextStyle(
                       color: Colors.black,
                     ),
@@ -90,7 +90,7 @@ class FollowersHeader extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: ' Followers',
+                    text: ' Abonné',
                     style: TextStyle(
                       color: Colors.black,
                     ),

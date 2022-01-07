@@ -17,18 +17,21 @@ enum PopUpOptions {
   reportPost,
   downloadPhoto,
   deletePost,
+  removeReport,
 }
 
 Map<PopUpOptions, String> popOptionsText = {
   PopUpOptions.reportPost: 'signaler la publication',
   PopUpOptions.downloadPhoto: 'télécharger la photo',
   PopUpOptions.deletePost: 'Supprimer la publication',
+  PopUpOptions.removeReport: 'Annuler le signal',
 };
 
 Map<PopUpOptions, Icon> popOptionsIcon = {
   PopUpOptions.reportPost: Icon(Icons.report_gmailerrorred_outlined),
   PopUpOptions.downloadPhoto: Icon(Icons.download_outlined),
   PopUpOptions.deletePost: Icon(Icons.delete_outline),
+  PopUpOptions.removeReport: Icon(Icons.delete_outline),
 };
 
 //? should i stop passing values to widget and just use provider ?
@@ -78,9 +81,9 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  popOptionsText[value]!,
+                  popOptionsText[value] ?? '',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Colors.black.withOpacity(0.85),
                     fontFamily: 'Lato-Black',
@@ -158,7 +161,22 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
             widget.postBloc.deletePost(widget.post).then(
                   (value) => Fluttertoast.showToast(
                     msg:
-                        'message supprimé avec succès, actualisez la page pour voir les changements',
+                        'poste supprimé avec succès, actualisez la page pour voir les changements',
+                    toastLength: Toast.LENGTH_LONG,
+                  ),
+                );
+          }
+        } else if (selectedValue == PopUpOptions.removeReport) {
+          final bool? didRequestSignOut = await PlatformAlertDialog(
+            title: 'Confirmer',
+            content: 'es-tu sûr ?',
+            cancelActionText: 'annuler',
+            defaultActionText: 'oui',
+          ).show(context);
+          if (didRequestSignOut == true) {
+            widget.postBloc.unReportPost(widget.post).then(
+                  (value) => Fluttertoast.showToast(
+                    msg: 'signal annuler avec success',
                     toastLength: Toast.LENGTH_LONG,
                   ),
                 );
@@ -175,6 +193,10 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
           if (widget.post.type == 0) ...[buildTile(PopUpOptions.downloadPhoto)],
           if (widget.post.miniUser.id == currentUser.id ||
               widget.showDeleteOption) ...[buildTile(PopUpOptions.deletePost)],
+          if (widget.post.miniUser.id == currentUser.id ||
+              widget.showDeleteOption) ...[
+            buildTile(PopUpOptions.removeReport)
+          ],
         ];
       },
     );

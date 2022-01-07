@@ -90,7 +90,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 posts = snapshot.data!;
-      
+
                 if (posts.isNotEmpty) {
                   return SmartRefresher(
                     controller: _refreshController,
@@ -107,6 +107,7 @@ class _ReportedPostsScreenState extends State<ReportedPostsScreen> {
                           return _buildProgressIndicator();
                         } else {
                           return PostWidget(
+                            key: Key(posts[index - 1].id),
                             post: posts[index - 1],
                             postBloc: postBloc,
                             showDeleteOption: true,

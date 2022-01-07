@@ -33,6 +33,7 @@ class _CommentScreenState extends State<CommentScreen> {
         children: [
           Expanded(
             child: PaginateFirestore(
+              emptyDisplay: Center(child: Text('pas de commentaires')),
               itemBuilder: (index, context, documentSnapshot) {
                 final data = documentSnapshot.data();
                 if (data != null) {

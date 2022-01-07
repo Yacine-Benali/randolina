@@ -151,13 +151,19 @@ class EventsBloc {
     final dateNow = Timestamp.fromDate(DateTime.now());
 
     //! TODO @high paginate
-    return database.streamCollection(
+    return database
+        .streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) =>
           query.where('startDateTime', isGreaterThan: dateNow),
       sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
-    );
+    )
+        .map((events) {
+      return events.where((event) {
+        return event.availableSeats > event.subscribers.length;
+      }).toList();
+    });
   }
 
   Future<void> deleteEvent(Event event) async =>

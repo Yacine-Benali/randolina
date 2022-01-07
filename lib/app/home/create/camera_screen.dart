@@ -268,7 +268,6 @@ class _CameraScreenState extends State<CameraScreen> {
                             child: Icon(
                               Icons.photo_library_outlined,
                               color: Colors.grey[200],
-                              size: 25.0,
                             ),
                           ),
                         ),
@@ -284,7 +283,6 @@ class _CameraScreenState extends State<CameraScreen> {
                             child: Icon(
                               Icons.video_library_outlined,
                               color: Colors.grey[200],
-                              size: 25.0,
                             ),
                           ),
                         ),
@@ -297,11 +295,10 @@ class _CameraScreenState extends State<CameraScreen> {
                                 BorderRadius.all(Radius.circular(50.0)),
                             onTap: publishFromYoutube,
                             child: Container(
-                              padding: EdgeInsets.only(left: 8.0),
+                              padding: EdgeInsets.only(left: 8.0, right: 4),
                               child: Icon(
                                 Icons.smart_display_outlined,
                                 color: Colors.grey[200],
-                                size: 25.0,
                               ),
                             ),
                           ),

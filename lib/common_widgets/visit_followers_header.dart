@@ -137,7 +137,7 @@ class _VisitFollowersHeaderState extends State<VisitFollowersHeader> {
                     ),
                   ),
                   TextSpan(
-                    text: ' Followers',
+                    text: ' Abonné',
                     style: TextStyle(
                       color: Colors.black,
                     ),

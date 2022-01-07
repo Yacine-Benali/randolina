@@ -86,14 +86,17 @@ class PostBloc {
     );
   }
 
-  Future<void> savePost(Post post) async {
+  Future<SavedPost> savePost(Post post) async {
+    final time = Timestamp.now();
+    final savedpost = SavedPost(postId: post.id, savedAt: time);
     await database.setData(
       path: APIPath.savedPostsDocument(currentUser.id),
       data: {
-        'postsId': FieldValue.arrayUnion([post.id]),
-        'savedAt': FieldValue.arrayUnion([Timestamp.now()])
+        'postsId': FieldValue.arrayUnion([savedpost.postId]),
+        'savedAt': FieldValue.arrayUnion([savedpost.savedAt])
       },
     );
+    return savedpost;
   }
 
   Future<SavedPost?> isSaved(Post post) async {
@@ -133,6 +136,14 @@ class PostBloc {
       path: APIPath.reportedPostsDocument(),
       data: {
         'reportedPosts': FieldValue.arrayUnion([post.id])
+      },
+    );
+  }
+  Future<void> unReportPost(Post post) async {
+    database.setData(
+      path: APIPath.reportedPostsDocument(),
+      data: {
+        'reportedPosts': FieldValue.arrayRemove([post.id])
       },
     );
   }
