@@ -4,6 +4,7 @@ import 'package:randolina/app/home/conversation/conversation_bloc.dart';
 import 'package:randolina/app/home/conversation/conversation_search.dart';
 import 'package:randolina/app/home/conversation/conversation_tile.dart';
 import 'package:randolina/app/models/conversation.dart';
+import 'package:randolina/app/models/mini_user.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/empty_content.dart';
 import 'package:randolina/constants/app_colors.dart';
@@ -78,7 +79,25 @@ class _ConversationScreenState extends State<ConversationScreen> {
     if (snapshot.hasData && snapshot.data != null) {
       final List<Conversation> items = snapshot.data!;
       if (items.isNotEmpty) {
-        return _buildList(items);
+        return ListView.separated(
+          itemCount: items.length,
+          separatorBuilder: (context, index) => Divider(height: 0.5),
+          itemBuilder: (context, index) {
+            final MiniUser user1 = items[index].user1;
+            final MiniUser user2 = items[index].user2;
+            final MiniUser otherUser;
+            if (user1.id != currentUser.id) {
+              otherUser = user1;
+            } else {
+              otherUser = user2;
+            }
+            return ConversationTile(
+              key: Key(otherUser.profilePicture),
+              conversation: items[index],
+              currentUser: currentUser,
+            );
+          },
+        );
       } else {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -96,20 +115,5 @@ class _ConversationScreenState extends State<ConversationScreen> {
       );
     }
     return Center(child: CircularProgressIndicator());
-  }
-
-  Widget _buildList(List<Conversation> items) {
-    return ListView.separated(
-      itemCount: items.length,
-      separatorBuilder: (context, index) => Divider(height: 0.5),
-      itemBuilder: (context, index) {
-        //return Container();
-        return ConversationTile(
-          key: Key(items[index].id),
-          conversation: items[index],
-          currentUser: currentUser,
-        );
-      },
-    );
   }
 }

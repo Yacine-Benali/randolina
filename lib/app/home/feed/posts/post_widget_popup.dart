@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 import 'package:randolina/app/home/feed/posts/post_bloc.dart';
+import 'package:randolina/app/models/admin.dart';
 import 'package:randolina/app/models/post.dart';
 import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_alert_dialog.dart';
@@ -189,7 +190,9 @@ class _PostWidgetPopUpState extends State<PostWidgetPopUp> {
       ),
       itemBuilder: (_v) {
         return [
-          buildTile(PopUpOptions.reportPost),
+          if (context.read<User>() is! Admin) ...[
+            buildTile(PopUpOptions.reportPost)
+          ],
           if (widget.post.type == 0) ...[buildTile(PopUpOptions.downloadPhoto)],
           if (widget.post.miniUser.id == currentUser.id ||
               widget.showDeleteOption) ...[buildTile(PopUpOptions.deletePost)],

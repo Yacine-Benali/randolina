@@ -47,6 +47,7 @@ class _ConversationTileState extends State<ConversationTile> {
 
   @override
   Widget build(BuildContext context) {
+    // logger.warning(otherUser.profilePicture);
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ListTile(

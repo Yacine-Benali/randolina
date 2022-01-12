@@ -51,6 +51,17 @@ export const onUserUpdated = functions.firestore
         const querySnapshot5 =await db.collectionGroup("comments")
             .where("miniUser.id", "==", userId).get();
 
+        // if store
+        if (dataAfter.type == 3) {
+          const querySnapshot6 =await db.collectionGroup("products")
+              .where("createdBy.id", "==", userId).get();
+          querySnapshot6.docs.forEach((doc)=>{
+            batch.update(doc.ref, {"createdBy": newMiniUser});
+          });
+          console.log("updating store products");
+        }
+
+
         querySnapshot1.docs.forEach((doc)=>{
           batch.update(doc.ref, {"miniUser": newMiniUser});
         });
