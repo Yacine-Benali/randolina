@@ -6,20 +6,20 @@ enum Role {
 }
 
 const Map<Role, String> roleToText = {
-  Role.client: 'User',
+  Role.client: 'Utilisateur',
   Role.club: 'Club',
-  Role.agency: 'Agency',
+  Role.agency: 'Agence',
   Role.store: 'Store',
 };
 
 List<String> clientActivities = [
-  'Photographer',
-  'Vloger',
-  'Hikinger',
+  'Photographe',
+  'Vlogueur',
+  'Randonneur',
   'Video maker',
-  'Athlete',
-  'Tourist',
-  'Other'
+  'Athlète',
+  'Touriste',
+  'Autre'
 ];
 
 List<dynamic> clubActivities = [
@@ -28,7 +28,7 @@ List<dynamic> clubActivities = [
     'value': 'Kayak',
   },
   {
-    'display': 'Hiking',
+    'display': 'Randonée',
     'value': 'Hiking',
   },
   {
@@ -36,7 +36,7 @@ List<dynamic> clubActivities = [
     'value': 'Voyage OR',
   },
   {
-    'display': 'Bivouac',
+    'display': 'Camping',
     'value': 'Bivouac',
   },
   {
@@ -48,15 +48,15 @@ List<dynamic> clubActivities = [
     'value': 'Parachute',
   },
   {
-    'display': 'Diving',
+    'display': 'Plongée',
     'value': 'Diving',
   },
   {
-    'display': 'Mountaineering',
+    'display': 'Alpinisme',
     'value': 'Mountaineering',
   },
   {
-    'display': 'Others...',
+    'display': 'Autre...',
     'value': 'Others...',
   },
 ];

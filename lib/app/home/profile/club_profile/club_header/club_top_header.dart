@@ -34,7 +34,7 @@ class ClubTopHeader extends StatelessWidget {
       subtitle1 = 'Agence de Voyage';
       subtitle2 = (clubOrAgency as Agency).address;
     } else if (clubOrAgency is Store) {
-      subtitle1 = 'magazin';
+      subtitle1 = 'E-commerce';
       subtitle2 = (clubOrAgency as Store).address;
     }
     //logger.info(SizeConfig.screenWidth - 180);

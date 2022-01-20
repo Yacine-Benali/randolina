@@ -68,8 +68,8 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                     padding: padding,
                     child: CustomTextForm(
                       fillColor: Colors.white70,
-                      title: 'Full name:',
-                      hintText: 'Name...',
+                      title: "Type d'activité:",
+                      hintText: "Type d'activité...",
                       maxLength: 50,
                       textInputAction: TextInputAction.next,
                       onChanged: (var value) {

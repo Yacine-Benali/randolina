@@ -43,7 +43,11 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
       fontSize: 14,
     );
     currentClient = context.read<User>() as Client;
-    activity = currentClient.activity;
+    if (clientActivities.contains(currentClient.activity)) {
+      activity = currentClient.activity;
+    } else {
+      activity = clientActivities[0];
+    }
     super.initState();
   }
 
@@ -103,7 +107,7 @@ class _ClientProfileEditScreenState extends State<ClientProfileEditScreen> {
                       padding: const EdgeInsets.only(top: 16.0),
                       child: CustomDropDown(
                         titleStyle: titleStyle,
-                        initialValue: currentClient.activity,
+                        initialValue: activity,
                         validator: (String? value) {
                           if (value == null) {
                             return invalidActivityError;
