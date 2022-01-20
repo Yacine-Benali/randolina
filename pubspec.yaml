@@ -86,6 +86,7 @@ dependencies:
   menu_button: ^1.4.2+1
   hive: ^2.0.4
   hive_flutter: ^1.1.0
+  open_file: ^3.2.1
 
 
 

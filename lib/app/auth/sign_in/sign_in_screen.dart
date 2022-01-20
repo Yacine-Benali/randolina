@@ -77,9 +77,14 @@ class _SignInScreenState extends State<SignInScreen> {
                           text: ' détaillé ici',
                           style: TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              launch(
-                                  'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                            ..onTap = () async {
+                              const url =
+                                  'https://drive.google.com/file/d/1bMmaTmJiYTDIGyzVUkJ7WMeL2HskNBlL/view?fbclid=IwAR13U7e_IjP9Pl_BcXTFKZ5g7uU_rWlSy8-ePeH7-hB8aCFS1-mAjtv1rRU';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
                             },
                         ),
                       ],
