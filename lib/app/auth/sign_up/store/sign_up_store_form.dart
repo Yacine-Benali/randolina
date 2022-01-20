@@ -112,7 +112,7 @@ class _SignUpStoreFormState extends State<SignUpStoreForm> {
                         address = value;
                       },
                       validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
+                        if (!Validators.isValidAddress(value)) {
                           return invalidUsernameSignUpError;
                         }
                         return null;

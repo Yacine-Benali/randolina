@@ -130,7 +130,7 @@ class _SignUpClubFormState extends State<SignUpClubForm> {
                         address = value;
                       },
                       validator: (String? value) {
-                        if (!Validators.isValidName(value)) {
+                        if (!Validators.isValidAddress(value)) {
                           return invalidUsernameSignUpError;
                         }
                         return null;

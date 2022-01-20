@@ -7,6 +7,14 @@ class Validators {
     }
   }
 
+  static bool isValidAddress(String? value) {
+    if (value != null) {
+      return value.isNotEmpty;
+    } else {
+      return false;
+    }
+  }
+
   static bool isValidUsername(String? value) {
     if (value != null) {
       return RegExp(
