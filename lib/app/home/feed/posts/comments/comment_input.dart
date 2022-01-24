@@ -33,7 +33,7 @@ class _CommentInputState extends State<CommentInput> {
                 widget.onPressed(_commentController.text);
                 _commentController.clear();
               },
-        child: Text("Publication"),
+        child: Text("Publiée"),
       ),
     );
   }

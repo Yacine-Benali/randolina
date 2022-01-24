@@ -8,7 +8,6 @@ import 'package:randolina/app/home/events/events_bloc.dart';
 import 'package:randolina/app/home/events/widgets/event_difficulty_picker.dart';
 import 'package:randolina/app/home/events/widgets/next_button.dart';
 import 'package:randolina/app/models/event.dart';
-import 'package:randolina/common_widgets/platform_alert_dialog.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/utils/logger.dart';

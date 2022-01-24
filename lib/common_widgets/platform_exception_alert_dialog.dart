@@ -19,11 +19,13 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
     if (exception is PlatformException) {
       return _errors[exception.code] ?? exception.message ?? '';
     }
-    
+
     return 'Error unknown';
   }
 
   static final Map<String, String> _errors = {
+    'email-already-in-use': "nom d'utilisateur deja utilisée",
+
     ///  `ERROR_WEAK_PASSWORD` - If the password is not strong enough.
     ///  `ERROR_INVALID_CREDENTIAL` - If the email address is malformed.
   };

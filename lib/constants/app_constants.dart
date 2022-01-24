@@ -9,7 +9,7 @@ const Map<Role, String> roleToText = {
   Role.client: 'Utilisateur',
   Role.club: 'Club',
   Role.agency: 'Agence',
-  Role.store: 'Store',
+  Role.store: 'E-commerce',
 };
 
 List<String> clientActivities = [
