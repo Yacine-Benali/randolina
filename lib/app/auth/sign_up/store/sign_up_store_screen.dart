@@ -8,6 +8,7 @@ import 'package:randolina/app/auth/sign_up/store/sign_up_store_form.dart';
 import 'package:randolina/app/auth/sign_up/store/sign_up_store_form2.dart';
 import 'package:randolina/app/auth/sign_up/store/sign_up_store_form3.dart';
 import 'package:randolina/app/models/store.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/assets_constants.dart';
@@ -37,7 +38,7 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
   late String _password;
   late String _phoneNumber;
   late File _imageFile;
-  late String? _bio;
+  String? _bio;
   late int _wilaya;
 
   @override
@@ -157,10 +158,29 @@ class _SignUpStoreScreenState extends State<SignUpStoreScreen> {
             backgroundImagePath: storeBackgroundImage,
             onNextPressed: (String code) async {
               try {
+                User user = Store(
+                  id: '',
+                  type: 3,
+                  username: _username,
+                  ownerName: _fullname,
+                  profilePicture: '',
+                  profilePicturePath: '',
+                  bio: _bio,
+                  posts: 0,
+                  followers: 0,
+                  following: 0,
+                  phoneNumber: _phoneNumber,
+                  isModerator: false,
+                  address: _address,
+                  name: _storeName,
+                  email: _email,
+                  wilaya: _wilaya,
+                );
                 final bool isLoggedIn = await bloc.magic(
                   _username,
                   _password,
                   code,
+                  user,
                 );
                 if (isLoggedIn) {
                   swipePage(3);

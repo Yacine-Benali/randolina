@@ -43,6 +43,8 @@ class _BaseScreenState extends State<BaseScreen> {
     return StreamBuilder(
       stream: userstram,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        logger.severe(snapshot);
+
         if (snapshot.hasData && (snapshot.data != null)) {
           if (snapshot.data! is Admin) {
             final Admin admin = snapshot.data! as Admin;

@@ -339,17 +339,22 @@ class ProfileBloc {
   }
 
   Stream<List<Event>> getClubAllEvents() {
-    final enddate =
-        Timestamp.fromDate(DateTime.now().subtract(Duration(days: 1)));
+    final dateNow = Timestamp.fromDate(DateTime.now());
 
-    return database.streamCollection(
+    return database
+        .streamCollection(
       path: APIPath.eventsCollection(),
       builder: (data, documentId) => Event.fromMap(data, documentId),
       queryBuilder: (query) => query
           .where('createdBy.id', isEqualTo: otherUser.id)
-          .where('endDateTime', isGreaterThan: enddate),
+          .where('startDateTime', isGreaterThan: dateNow),
       sort: (Event a, Event b) => a.createdAt.compareTo(b.createdAt) * -1,
-    );
+    )
+        .map((events) {
+      return events.where((event) {
+        return event.availableSeats > event.subscribers.length;
+      }).toList();
+    });
   }
 
   Stream<List<Product>> getStoreAllProducts(String idStore) {

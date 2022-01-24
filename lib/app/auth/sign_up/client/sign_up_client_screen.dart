@@ -8,6 +8,7 @@ import 'package:randolina/app/auth/sign_up/client/sign_up_client_form2.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/client.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/assets_constants.dart';
@@ -149,10 +150,31 @@ class _SignUpClientScreenState extends State<SignUpClientScreen> {
               backgroundImagePath: clientBackgroundImage,
               onNextPressed: (String code) async {
                 try {
+                  User user = Client(
+                    id: 'id',
+                    type: 0,
+                    username: _username,
+                    name: _fullname,
+                    profilePicture: '',
+                    profilePicturePath: '',
+                    bio: _bio,
+                    posts: 0,
+                    followers: 0,
+                    following: 0,
+                    wilaya: _wilaya,
+                    phoneNumber: _phoneNumber,
+                    isModerator: false,
+                    activity: '',
+                    dateOfBirth: _dateOfBirth,
+
+                    // this field is left for future usage
+                    physicalCondition: '',
+                  );
                   final bool isLoggedIn = await bloc.magic(
                     _username,
                     _password,
                     code,
+                    user,
                   );
                   if (isLoggedIn) {
                     swipePage(2);

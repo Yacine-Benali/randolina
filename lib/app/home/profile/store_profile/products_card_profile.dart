@@ -126,6 +126,7 @@ class _ProductsCardProfileState extends State<ProductsCardProfile> {
                         image: DecorationImage(
                           image: NetworkImage(
                               widget.product.createdBy.profilePicture),
+                          fit: BoxFit.cover,
                         ),
                         shape: BoxShape.circle,
                       ),

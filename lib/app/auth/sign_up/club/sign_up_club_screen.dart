@@ -9,6 +9,7 @@ import 'package:randolina/app/auth/sign_up/club/sign_up_club_form3.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/club.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/assets_constants.dart';
@@ -168,10 +169,32 @@ class _SignUpClubScreenState extends State<SignUpClubScreen> {
             backgroundImagePath: clubBackgroundImage,
             onNextPressed: (String code) async {
               try {
+                User user = Club(
+                  id: '',
+                  type: 1,
+                  username: _username,
+                  name: _clubname,
+                  profilePicture: '',
+                  profilePicturePath: '',
+                  bio: _bio,
+                  posts: 0,
+                  followers: 0,
+                  following: 0,
+                  address: _address,
+                  phoneNumber: _phoneNumber,
+                  wilaya: _wilaya,
+                  isModerator: false,
+                  activities: [],
+                  presidentName: _fullname,
+                  creationDate: _creationDate,
+                  email: _email,
+                  members: _members,
+                );
                 final bool isLoggedIn = await bloc.magic(
                   _username,
                   _password,
                   code,
+                  user,
                 );
                 if (isLoggedIn) {
                   swipePage(3);

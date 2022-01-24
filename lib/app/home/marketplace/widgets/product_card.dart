@@ -124,7 +124,9 @@ class _ProductCardState extends State<ProductCard> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                              widget.product.createdBy.profilePicture),
+                            widget.product.createdBy.profilePicture,
+                          ),
+                          fit: BoxFit.cover,
                         ),
                         shape: BoxShape.circle,
                       ),

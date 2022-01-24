@@ -9,6 +9,7 @@ import 'package:randolina/app/auth/sign_up/agency/sign_up_agency_form3.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_bloc.dart';
 import 'package:randolina/app/auth/sign_up/sign_up_phone_confirmation.dart';
 import 'package:randolina/app/models/agency.dart';
+import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:randolina/common_widgets/size_config.dart';
 import 'package:randolina/constants/assets_constants.dart';
@@ -163,10 +164,30 @@ class _SignUpClubProfileScreenState extends State<SignUpClubProfileScreen> {
             backgroundImagePath: agencyBackgroundImage,
             onNextPressed: (String code) async {
               try {
+                User user = Agency(
+                  id: '',
+                  type: 2,
+                  username: _username,
+                  name: _agencyName,
+                  profilePicture: '',
+                  profilePicturePath: '',
+                  bio: _bio,
+                  posts: 0,
+                  followers: 0,
+                  following: 0,
+                  phoneNumber: _phoneNumber,
+                  isModerator: false,
+                  wilaya: _wilaya,
+                  address: _address,
+                  presidentName: _fullname,
+                  creationDate: _creationDate,
+                  email: _email,
+                );
                 final bool isLoggedIn = await bloc.magic(
                   _username,
                   _password,
                   code,
+                  user,
                 );
                 if (isLoggedIn) {
                   swipePage(3);

@@ -50,6 +50,7 @@ class SignUpBloc {
     String username,
     String password,
     String phoneCode,
+    User fullUser,
   ) async {
     // throws if the code has not been sent yet
     if (verificationId == null) {
@@ -75,9 +76,15 @@ class SignUpBloc {
       return false;
     } else {
       _authUser = user;
+      //! TODO @high if the user quits here he will be logged in without a profile
+      // save partially client info? more testing needed
+      await database.setData(
+        path: APIPath.userDocument(_authUser.uid),
+        data: fullUser.toMap(),
+        merge: false,
+      );
       return true;
     }
-    //! TODO @high if the user quits here he will be logged in without a profile
   }
 
   String getProfilePicturePath() =>

@@ -47,6 +47,7 @@ class _EventsScreenState extends State<EventsScreen>
     currentlyChosenEventsNotifier = ValueNotifier([]);
     _tabController = TabController(vsync: this, length: 2);
     _tabController.addListener(() => setState(() {}));
+    _tabController.index = 1;
     textstyle = TextStyle(
       color: darkBlue,
       fontWeight: FontWeight.w800,
