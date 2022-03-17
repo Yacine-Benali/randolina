@@ -146,7 +146,8 @@ class _SeeAllProductsStoreState extends State<SeeAllProductsStore> {
                       key: Key(products[index].id),
                       product: products[index],
                       productsBloc: productsBloc,
-                      isStore: isStore,
+                      isStore: products[index].createdBy.id ==
+                          context.read<User>().id,
                     );
                   },
                 );

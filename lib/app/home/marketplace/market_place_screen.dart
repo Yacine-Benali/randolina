@@ -120,7 +120,8 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen>
                     key: Key(products[index].id),
                     product: matchedProducts[index],
                     productsBloc: productsBloc,
-                    isStore: isStores,
+                    isStore:
+                        products[index].createdBy.id == context.read<User>().id,
                   );
                 },
               );

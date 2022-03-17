@@ -146,7 +146,7 @@ class _FilteredProductsState extends State<FilteredProducts> {
                     key: Key(widget.products[index].id),
                     product: widget.products[index],
                     productsBloc: productsBloc,
-                    isStore: isStore,
+                    isStore: widget.products[index].createdBy.id == context.read<User>().id,
                   );
                 },
               ),
