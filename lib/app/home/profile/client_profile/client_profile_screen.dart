@@ -62,7 +62,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
     postsWidget.clear();
     sortedPosts = widget.bloc.sortPost(posts, type);
     return sortedPosts.map((post) {
-      return PostWidget(post: post, postBloc: postBloc);
+      return PostWidget(key: UniqueKey(), post: post, postBloc: postBloc);
     }).toList();
   }
 
@@ -109,18 +109,6 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                   Column(
                     children: buildList(),
                   ),
-                  // TODO @high remove this if its not needed
-                  // FutureBuilder(
-                  //   future: Future.delayed(Duration(milliseconds: 500)),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.connectionState == ConnectionState.done) {
-                  //     } else {
-                  //       return CircularProgressIndicator(
-                  //         color: Colors.grey,
-                  //       );
-                  //     }
-                  //   },
-                  // ),
                 ],
               ],
             ),

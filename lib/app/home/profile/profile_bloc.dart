@@ -26,6 +26,10 @@ class ProfileBloc {
 
   //! TODO @average add a provider and refactor
   // after doing the agency/club profile
+  Stream<UserFollowersPosts?> getUserFollowersPost() => database.streamDocument(
+        path: APIPath.userFollowerPostsDocument(currentUser.id),
+        builder: (data, id) => UserFollowersPosts.fromMap(data, id),
+      );
 
   Future<void> saveClientProfile(
     String? bio,
@@ -138,7 +142,7 @@ class ProfileBloc {
     }
   }
 
-  // TODO @low this is bad for security and longterm use
+  // TODO @low this is not the best for security and longterm use
   Future<void> followOtherUser() async {
     // call an api that gets user_followers_posts document that is not full
     // and do the following operations on it

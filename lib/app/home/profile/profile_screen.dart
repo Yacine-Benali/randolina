@@ -15,6 +15,7 @@ import 'package:randolina/app/models/user.dart';
 import 'package:randolina/common_widgets/loading_screen.dart';
 import 'package:randolina/constants/app_colors.dart';
 import 'package:randolina/services/database.dart';
+import 'package:randolina/utils/logger.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key, required this.user}) : super(key: key);
@@ -77,61 +78,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
       otherUser = currentUser;
     }
 
-    return Provider<ProfileBloc>.value(
-      value: bloc,
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: SmartRefresher(
-          controller: _refreshController,
-          onRefresh: _onRefresh,
-          child: FutureBuilder<bool>(
-            future: isFollowingOther,
-            builder: (context, snapshot) {
-              if (snapshot.hasData || showProfileAsOther == false) {
-                late Widget child;
-                if (otherUser is Client) {
-                  child = ClientProfileScreen(
-                    client: otherUser as Client,
-                    bloc: bloc,
-                    isFollowingOther: snapshot.data,
-                    showProfileAsOther: showProfileAsOther,
-                  );
-                } else if (otherUser is Club) {
-                  child = ClubProfileScreen(
-                    clubOrAgency: otherUser,
-                    bloc: bloc,
-                    isFollowingOther: snapshot.data,
-                    showProfileAsOther: showProfileAsOther,
-                  );
-                } else if (otherUser is Agency) {
-                  child = ClubProfileScreen(
-                    clubOrAgency: otherUser,
-                    bloc: bloc,
-                    isFollowingOther: snapshot.data,
-                    showProfileAsOther: showProfileAsOther,
-                  );
-                } else if (otherUser is Store) {
-                  child = StoreProfileScreen(
-                    store: otherUser,
-                    bloc: bloc,
-                    isFollowingOther: snapshot.data,
-                    showProfileAsOther: showProfileAsOther,
-                  );
-                } else {
-                  child = Container(color: Colors.blue);
-                }
+    return StreamBuilder(
+        stream: bloc.getUserFollowersPost(),
+        builder: (context, snapshot) {
+          logger.severe('rebuilding profile');
 
-                return SafeArea(
-                  child: SingleChildScrollView(
-                    child: child,
-                  ),
-                );
-              }
-              return LoadingScreen(showAppBar: false);
-            },
-          ),
-        ),
-      ),
-    );
+          return Provider<ProfileBloc>.value(
+            value: bloc,
+            child: Scaffold(
+              backgroundColor: backgroundColor,
+              body: SmartRefresher(
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                child: FutureBuilder<bool>(
+                  future: isFollowingOther,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData || showProfileAsOther == false) {
+                      late Widget child;
+                      if (otherUser is Client) {
+                        child = ClientProfileScreen(
+                          client: otherUser as Client,
+                          bloc: bloc,
+                          isFollowingOther: snapshot.data,
+                          showProfileAsOther: showProfileAsOther,
+                        );
+                      } else if (otherUser is Club) {
+                        child = ClubProfileScreen(
+                          clubOrAgency: otherUser,
+                          bloc: bloc,
+                          isFollowingOther: snapshot.data,
+                          showProfileAsOther: showProfileAsOther,
+                        );
+                      } else if (otherUser is Agency) {
+                        child = ClubProfileScreen(
+                          clubOrAgency: otherUser,
+                          bloc: bloc,
+                          isFollowingOther: snapshot.data,
+                          showProfileAsOther: showProfileAsOther,
+                        );
+                      } else if (otherUser is Store) {
+                        child = StoreProfileScreen(
+                          store: otherUser,
+                          bloc: bloc,
+                          isFollowingOther: snapshot.data,
+                          showProfileAsOther: showProfileAsOther,
+                        );
+                      } else {
+                        child = Container(color: Colors.blue);
+                      }
+
+                      return SafeArea(
+                        child: SingleChildScrollView(
+                          child: child,
+                        ),
+                      );
+                    }
+                    return LoadingScreen(showAppBar: false);
+                  },
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
