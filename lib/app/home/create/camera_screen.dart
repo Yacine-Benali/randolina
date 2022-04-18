@@ -273,20 +273,20 @@ class _CameraScreenState extends State<CameraScreen> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                          onTap: getGalleryVideos,
-                          child: Container(
-                            padding: EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.video_library_outlined,
-                              color: Colors.grey[200],
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Material(
+                      //   color: Colors.transparent,
+                      //   child: InkWell(
+                      //     borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      //     onTap: getGalleryVideos,
+                      //     child: Container(
+                      //       padding: EdgeInsets.all(4.0),
+                      //       child: Icon(
+                      //         Icons.video_library_outlined,
+                      //         color: Colors.grey[200],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       if (_cameraConsumer == CameraConsumer.post)
                         Material(
                           color: Colors.transparent,
