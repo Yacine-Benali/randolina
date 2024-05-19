@@ -34,7 +34,7 @@ Randolina is a dynamic and interactive Flutter application designed to bring peo
 - View and manage the list of participants registered for events.
 - Send announcements or updates to all participants.
 - Monitor event engagement and feedback from participants.
-- 
+  
 ## Screenshots
 
 <p align="center">
